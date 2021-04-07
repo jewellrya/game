@@ -81,10 +81,11 @@ import '../../node_modules/simplex-noise/simplex-noise.js';
     window.requestAnimationFrame = requestAnimationFrame;
 });
 
+// This is just an animation cycle to see how its rendering
 function update() {
     requestAnimationFrame(update);
 
-    let canvas = document.getElementById("canvas");
+    let canvas = document.getElementById("map");
     let ctx = canvas.getContext("2d");
 
 	var simplex = new SimplexNoise(),

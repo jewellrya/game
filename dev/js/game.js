@@ -33,7 +33,7 @@ let app = new Application({
 });
 
 // Add the canvas that Pixi automatically created for you.
-document.body.appendChild(app.view);
+document.getElementById("game").appendChild(app.view);
 
 loader.shared
     .add('../../assets/sprites.json')
@@ -112,6 +112,7 @@ function setup() {
     id = PIXI.Loader.shared.resources['../../assets/sprites.json'].textures;
 
     gameScene = new Container();
+	gameScene.render.renderWebGL;
     app.stage.addChild(gameScene);
 
     gameOverScene = new Container();

@@ -1,2 +1,2 @@
-pug -w dev/pug --out dist/html &
-sass --watch dev/sass:dist/css
+pug -w dev/pug --out ./ &
+sass --watch dev/sass:css

@@ -1,0 +1,14 @@
+extends ../templates/_template.pug
+
+block game
+	#playerStats
+
+	p.mb-0
+		strong hold shift to sprint
+	p.mb-0
+		strong collect coins
+
+	.d-flex
+		#game
+		canvas#map( style="width: 400px; height: 400px;")
+		

@@ -38,9 +38,16 @@ html
 
 		//- game.js *change with practice files*
 		script( 
+		  src="../../dev/js/game.js"
+		  type='module'
+		  defer)
+
+		//- noise practice
+		script( 
 		  src="../../dev/js/map.js"
 		  type='module'
 		  defer)
 		
-	body 
-		block game
+	body
+		.container
+			block game
