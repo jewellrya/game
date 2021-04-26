@@ -38,15 +38,17 @@ function changeColorsToPerlin(data) {
 			e = e / xOctave;
 			e = Math.pow(e, xExp);
 			
+			// Another level to use later
 			let m = (yOctave * noise2( 1 * nx,  1 * ny));
 			m = m / yOctave;
 
 			// Need * 4 because each pixel is += 4
 			let coordFormula = y * (width * 4) + (x * 4);
-			data[coordFormula + 0] = e / m * 255; // r
-			data[coordFormula + 1] = e / m * 255; // g
-			data[coordFormula + 2] = e / m * 255; // b
-			data[coordFormula + 3] = 255; // b
+			
+			data[coordFormula + 0] = 0; // r
+			data[coordFormula + 1] = 255 * e; // g
+			data[coordFormula + 2] = 255 * (1 - e); // b
+			data[coordFormula + 3] = 255; // a
 		}
 	};
 }
