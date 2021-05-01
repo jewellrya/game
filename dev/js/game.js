@@ -8,7 +8,9 @@
 // TODO: Change position of sprites rendering
 
 import { hitTestRectangle } from './module/hit.js';
+import {randomInt, randomIntReverse} from "./module/random.js";
 import keyboard from './module/keyboard.js';
+import createEnemy from './module/enemy.js';
 
 // Aliases
 let Application = PIXI.Application,
@@ -194,20 +196,12 @@ function setup() {
     gold.play();
     gameScene.addChild(gold);
 
-    numberOfRats = 1;
+    numberOfRats = 2;
+    let ratContainer = new Container();
+    ratContainer.name = "rats";
+    gameScene.addChild(ratContainer);
     for (let i = 0; i < numberOfRats; i++) {
-        let ratContainer = new Container();
-        gameScene.addChild(ratContainer);
-
-        let rat = new AnimatedSprite(sheet.animations["rat"]);
-        rat.x = randomInt(bg.x, bg.x + bg.width - rat.width);
-        rat.y = randomInt(bg.y, bg.y + bg.height - rat.height);
-        rat.scale.set(2.5, 2.5);
-        rat.animationSpeed = .2;
-        rat.direction = randomIntReverse[randomInt(0, 1)];
-        rat.play();
-        rat.speed = 1;
-        rat.strength = .01;
+        let rat = createEnemy(bg, "rat");
         enemies.push(rat);
         ratContainer.addChild(rat);
     }
@@ -445,6 +439,9 @@ function gameLoop(delta) {
     }
 
     // Enemies
+    if (!enemies.length) {
+
+    }
     enemies.forEach(function (enemy) {
         enemy.cursor = 'hover';
         enemy.interactive = true;
@@ -502,11 +499,31 @@ function play(delta) {
         messageGold.text = 'Gold: ' + inventory.gold;
     }
 
-    enemies.forEach(function (enemy) {
+    let ratCage = gameScene.getChildByName("rats");
+    for (let i = 0; i < numberOfRats - enemies.length; i++) {
+        let rat = createEnemy(bg, "rat");
+        enemies.push(rat);
+        ratCage.addChild(rat);
+    }
+    enemies.forEach(function (enemy, index) {
         if (hitTestRectangle(enemy, player)) {
             if (playerStats.health > 0) {
                 playerStats.health -= enemy.strength;
                 resourceHealthInner.width = playerStats.health * 2 - resourceBarInnerOffset * 2;
+            }
+
+            if (click['mouse']) {
+              if (enemy.health > 0) {
+                  enemy.health -= playerStats.strength;
+                  console.log("enemy.health", enemy.health);
+                  //resourceHealthInner.width = playerStats.health * 2 - resourceBarInnerOffset * 2;
+              }
+              if (enemy.health <= 0) {
+                  enemies.splice(index, 1);
+                  enemy.visible = false
+                  console.log("enemies", enemies);
+              }
+
             }
         }
     })
@@ -521,8 +538,3 @@ function end() {
     gameOverScene.visible = true;
 }
 
-function randomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-let randomIntReverse = [-1, 1];
