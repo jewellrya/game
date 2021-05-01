@@ -54,8 +54,118 @@ function changeColorsToPerlin(data) {
 }
 
 changeColorsToPerlin(imgdata.data);
-
 ctx.putImageData(imgdata, 0, 0);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+let canvas2 = document.getElementById("mapTest");
+let ctx2 = canvas2.getContext("2d");
+
+let preload = function(imageArray, callback) {
+
+	let imagesLoaded = 0;
+	let loadedImages = [];
+
+	for (let i = 0; i < imageArray.length; i++) {
+
+		let imgObj = new Image();
+		imgObj.src = imageArray[i].src;
+		
+		loadedImages.push(imgObj);
+
+		imgObj.onload = function() {
+			imagesLoaded++
+			if(imagesLoaded === imageArray.length) {
+				callback(loadedImages);
+			}
+		};
+	}
+}
+
+function replicatePerlin(loadedImages, perlinImageData) {
+
+	canvas2.width = canvas.width * loadedImages[0].width;
+	canvas2.height = canvas.height * loadedImages[0].height;
+
+	for( let i = 0; i < perlinImageData.length; i+=4) {
+        let g = perlinImageData[i + 1];
+
+		let x = (i / 4) % canvas.width;
+		let y = Math.floor((i / 4) / canvas.width);
+
+		if (g >= 150) {
+			ctx2.drawImage(loadedImages[0], x * loadedImages[0].width, y * loadedImages[0].height);
+        } else {
+			ctx2.drawImage(loadedImages[1], x * loadedImages[1].width, y * loadedImages[1].height);
+		}
+	}
+}
+
+function drawTexture(imageArray) {
+	preload(imageArray, function(loadedImages){
+
+		// for (let i = 0; i < imageArray.length; i++) {
+		// 	ctx2.drawImage(loadedImages[i], imageArray[i].x, imageArray[i].y);
+		// }
+
+		replicatePerlin(loadedImages, imgdata.data);
+
+		let img = canvas2.toDataURL("image/png");
+		let charGenComponent = '<img id="img_texture" src="' + img + '"/>';
+
+		document.getElementById('genMap').innerHTML = charGenComponent;
+
+		ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
+		
+	});
+}
+
+let array = [
+	{
+		src: '../../assets/grassTest.png',
+		width: 20,
+		height: 20
+	},
+	{
+		src: '../../assets/waterTest.png',
+		width: 20,
+		height: 20
+	},
+]
+
+drawTexture(array);
+
+
+// function genMapTextures(data) {
+// 	for( let i = 0; i < data.length; i+=4) {
+// 		let r = data[i + 0];
+//         let g = data[i + 1];
+//         let b = data[i + 2];
+//         let a = data[i + 3];
+
+// 		if (r === rgbFind[0] && g === rgbFind[1] && b === rgbFind[2] && a === 255) {
+// 			data[i + 0] = rgbReplace[0];
+//             data[i + 1] = rgbReplace[1];
+//             data[i + 2] = rgbReplace[2];
+//         }
+// 	}
+// }
 
 // This is just an animation cycle to see how its rendering
 function update() {
