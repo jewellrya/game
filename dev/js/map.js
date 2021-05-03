@@ -7,7 +7,9 @@ import '../../node_modules/simplex-noise/simplex-noise.js';
     window.requestAnimationFrame = requestAnimationFrame;
 });
 
-let canvas = document.getElementById("map");
+let canvas = document.getElementById("simplexMapRender");
+canvas.width = 200;
+canvas.height = 200;
 let ctx = canvas.getContext("2d");
 
 let gen1 = new SimplexNoise();
@@ -26,7 +28,7 @@ function changeColorsToPerlin(data) {
 	let width = canvas.width;
 	let height = canvas.height;
 	let xOctave = 1;
-	let xExp = 1.25;
+	let xExp = 1;
 	let yOctave = 1;
 	
 	for (let x = 0; x < width; x++) {
@@ -53,9 +55,32 @@ function changeColorsToPerlin(data) {
 	};
 }
 
+// function derp() {
+	// let dx = 0, dy = 0;
+
+	// save state of canvas and restore() state later for orthogonal reference. (easier for collision detection etc later on )
+	// ctx.save();
+
+	// change projection to isometric view
+	// ctx.translate(canvas.x, canvas.y);
+	// ctx.scale(1, 0.5);
+	// ctx.rotate(45 * Math.PI /180);
+
+	// for (var y = 0; y < 10; y++) {
+	//     for (var x = 0; x < 10; x++) {
+	//         ctx.strokeRect(dx, dy, 40, 40);
+	//         dx += 40;
+	//     }
+	//     dx = 0;
+	//     dy += 40;
+	// }
+// }
+// window.derp = derp;
+
 changeColorsToPerlin(imgdata.data);
 ctx.putImageData(imgdata, 0, 0);
 
+ctx.strokeRect(0, 0, 50, 50);
 
 
 
@@ -65,16 +90,7 @@ ctx.putImageData(imgdata, 0, 0);
 
 
 
-
-
-
-
-
-
-
-
-
-let canvas2 = document.getElementById("mapTest");
+let canvas2 = document.getElementById("textureMapRender");
 let ctx2 = canvas2.getContext("2d");
 
 let preload = function(imageArray, callback) {
@@ -98,7 +114,7 @@ let preload = function(imageArray, callback) {
 	}
 }
 
-function replicatePerlin(loadedImages, perlinImageData) {
+function texturizePerlin(loadedImages, perlinImageData) {
 
 	canvas2.width = canvas.width * loadedImages[0].width;
 	canvas2.height = canvas.height * loadedImages[0].height;
@@ -124,12 +140,12 @@ function drawTexture(imageArray) {
 		// 	ctx2.drawImage(loadedImages[i], imageArray[i].x, imageArray[i].y);
 		// }
 
-		replicatePerlin(loadedImages, imgdata.data);
+		texturizePerlin(loadedImages, imgdata.data);
 
 		let img = canvas2.toDataURL("image/png");
 		let charGenComponent = '<img id="img_texture" src="' + img + '"/>';
 
-		document.getElementById('genMap').innerHTML = charGenComponent;
+		document.getElementById('textureMapImage').innerHTML = charGenComponent;
 
 		ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
 		
