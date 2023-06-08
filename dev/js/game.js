@@ -51,7 +51,7 @@ let sheet_icons;
 let player, bg, gold;
 let enemies = [];
 let numberOfRats;
-let bag, char;
+let bagIcon, characterIcon, bagUi, characterUi;
 let playerContainer, playerStats, inventory, messageGold, messageGameOver;
 
 let resourceMeters = {
@@ -222,15 +222,15 @@ function setup() {
     gold.play();
     gameScene.addChild(gold);
 
-    numberOfRats = 2;
-    let ratContainer = new Container();
-    ratContainer.name = "rats";
-    gameScene.addChild(ratContainer);
-    for (let i = 0; i < numberOfRats; i++) {
-        let rat = createEnemy(bg, "rat");
-        enemies.push(rat);
-        ratContainer.addChild(rat);
-    }
+    // numberOfRats = 2;
+    // let ratContainer = new Container();
+    // ratContainer.name = "rats";
+    // gameScene.addChild(ratContainer);
+    // for (let i = 0; i < numberOfRats; i++) {
+    //     let rat = createEnemy(bg, "rat");
+    //     enemies.push(rat);
+    //     ratContainer.addChild(rat);
+    // }
 
     let fontStyle = new TextStyle({
         fontFamily: 'Visitor',
@@ -301,21 +301,62 @@ function setup() {
         }
     })
 
-    let bagScale = 1.75;
-    let bagMargin = 15;
-    bag = new Sprite(sheet_icons['iconBag.png']);
-    bag.scale.set(bagScale, bagScale);
-    bag.x = app.view.width - bag.width - bagMargin;
-    bag.y = app.view.height - bag.height - bagMargin;
-    gameScene.addChild(bag);
+    // bagIcon UI Button
+    let bagIconScale = 1.75;
+    let bagIconMargin = 15;
+    bagIcon = new Sprite(sheet_icons['iconBag.png']);
+    bagIcon.scale.set(bagIconScale, bagIconScale);
+    bagIcon.x = app.view.width - bagIcon.width - bagIconMargin;
+    bagIcon.y = app.view.height - bagIcon.height - bagIconMargin;
+    bagIcon.interactive = true;
+    gameScene.addChild(bagIcon);
 
-    let charScale = 1.5;
-    let charMargin = 12;
-    char = new Sprite(sheet_icons['iconCharacter.png']);
-    char.scale.set(charScale, charScale);
-    char.x = charMargin;
-    char.y = app.view.height - char.height - charMargin;
-    gameScene.addChild(char);
+    // Bag UI Window
+    bagUi = new Graphics();
+    bagUi.beginFill('0x000000', .5);
+    bagUi.drawRect(0, 0, 200, 200);
+    bagUi.x = app.view.width - bagUi.width - 10;
+    bagUi.y = app.view.height - bagUi.height - 60;
+
+    let bagUiOpen = false;
+    bagIcon.on('click', function () {
+        if (!bagUiOpen) {
+            gameScene.addChild(bagUi);
+            bagUiOpen = true;
+        } else {
+            gameScene.removeChild(bagUi);
+            bagUiOpen = false;
+        }
+    })
+
+    // characterIcon UI Button
+    let characterIconScale = 1.5;
+    let characterIconMargin = 12;
+    characterIcon = new Sprite(sheet_icons['iconCharacter.png']);
+    characterIcon.scale.set(characterIconScale, characterIconScale);
+    characterIcon.x = characterIconMargin;
+    characterIcon.y = app.view.height - characterIcon.height - characterIconMargin;
+    characterIcon.interactive = true;
+    gameScene.addChild(characterIcon);
+
+    // Character UI Window
+    characterUi = new Graphics();
+    characterUi.beginFill('0x000000', .5);
+    characterUi.drawRect(0, 0, 200, 200);
+    characterUi.x = 10;
+    characterUi.y = app.view.height - characterUi.height - 60;
+
+    let characterUiOpen = false;
+    characterIcon.on('click', function () {
+        console.log('character ui');
+        if (!characterUiOpen) {
+            gameScene.addChild(characterUi);
+            characterUiOpen = true;
+        } else {
+            gameScene.removeChild(characterUi);
+            characterUiOpen = false;
+        }
+    })
 
     state = play;
     createPlayerSheet();
@@ -493,7 +534,7 @@ function gameLoop(delta) {
         fontSize: 64,
         fill: 'white'
     });
-    messageGameOver = new Text("RIP in Pieces", gameOverStyle);
+    messageGameOver = new Text("You died.", gameOverStyle);
     messageGameOver.x = app.view.width / 2 - messageGameOver.width / 2;
     messageGameOver.y = app.view.height / 2 - messageGameOver.height / 2;
     gameOverScene.addChild(messageGameOver);
