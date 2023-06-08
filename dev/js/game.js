@@ -51,8 +51,9 @@ let sheet_icons;
 let player, bg, gold;
 let enemies = [];
 let numberOfRats;
-let bagIcon, characterIcon, bagUi, characterUi;
-let playerContainer, playerStats, inventory, messageGold, messageGameOver;
+let fontStyle, bagIcon, characterIcon, bagUi, characterUi, uiMargin, bagUiBg, bagUiGoldIcon, bagUiGold;
+let playerContainer, playerStats, inventory, messageGameOver;
+let derppp;
 
 let resourceMeters = {
     types: {
@@ -164,6 +165,12 @@ function setup() {
         }
     }
 
+    fontStyle = new TextStyle({
+        fontFamily: 'Visitor',
+        fontSize: 20,
+        fill: 'white'
+    })
+
     inventory = {
         gold: 0
     }
@@ -232,16 +239,6 @@ function setup() {
     //     ratContainer.addChild(rat);
     // }
 
-    let fontStyle = new TextStyle({
-        fontFamily: 'Visitor',
-        fontSize: 24,
-        fill: 'black'
-    })
-
-    messageGold = new Text("Gold: " + inventory.gold, fontStyle);
-    messageGold.position.set(32, 32);
-    gameScene.addChild(messageGold);
-
     resourceMeters.y = 16;
     resourceMeters.margin = 4;
     resourceMeters.height = 5;
@@ -301,6 +298,8 @@ function setup() {
         }
     })
 
+    uiMargin = 10;
+
     // bagIcon UI Button
     let bagIconScale = 1.75;
     let bagIconMargin = 15;
@@ -312,11 +311,25 @@ function setup() {
     gameScene.addChild(bagIcon);
 
     // Bag UI Window
-    bagUi = new Graphics();
-    bagUi.beginFill('0x000000', .5);
-    bagUi.drawRect(0, 0, 200, 200);
-    bagUi.x = app.view.width - bagUi.width - 10;
-    bagUi.y = app.view.height - bagUi.height - 60;
+    bagUi = new Container();
+    bagUiBg = new Graphics();
+    bagUiBg.beginFill('0x000000', .5);
+    bagUiBg.drawRect(0, 0, 200, 200);
+    bagUiBg.x = app.view.width - bagUiBg.width - 10;
+    bagUiBg.y = app.view.height - bagUiBg.height - 60;
+    bagUi.addChild(bagUiBg);
+
+    // Gold Icon in Bag UI
+    bagUiGoldIcon = new Sprite(sheet_icons['iconGold.png']);
+    bagUiGoldIcon.x = bagUiBg.x + uiMargin;
+    bagUiGoldIcon.y = bagUiBg.y + bagUiBg.height - bagUiGoldIcon.height - uiMargin;
+    bagUi.addChild(bagUiGoldIcon);
+
+    // Amount of Gold listed in bag
+    bagUiGold = new Text(inventory.gold, fontStyle);
+    bagUiGold.x = bagUiGoldIcon.x + 18;
+    bagUiGold.y = bagUiGoldIcon.y - 1;
+    bagUi.addChild(bagUiGold);
 
     let bagUiOpen = false;
     bagIcon.on('click', function () {
@@ -548,7 +561,7 @@ function play(delta) {
         ++inventory.gold;
         gold.x = randomInt(bg.x, bg.x + bg.width - gold.width);
         gold.y = randomInt(bg.y, bg.y + bg.height - gold.height);
-        messageGold.text = 'Gold: ' + inventory.gold;
+        bagUiGold.text = inventory.gold;
     }
 
     let ratCage = gameScene.getChildByName("rats");
