@@ -1,0 +1,92 @@
+{"frames": {
+
+"iconBag.png":
+{
+	"frame": {"x":0,"y":0,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16}
+},
+"iconCharacter.png":
+{
+	"frame": {"x":16,"y":0,"w":13,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":13,"h":15},
+	"sourceSize": {"w":13,"h":15}
+},
+"iconClothChest.png":
+{
+	"frame": {"x":29,"y":0,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16}
+},
+"iconClothFeet.png":
+{
+	"frame": {"x":45,"y":0,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16}
+},
+"iconClothHands.png":
+{
+	"frame": {"x":61,"y":0,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16}
+},
+"iconClothHead.png":
+{
+	"frame": {"x":77,"y":0,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16}
+},
+"iconClothLegs.png":
+{
+	"frame": {"x":93,"y":0,"w":14,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":14,"h":16},
+	"sourceSize": {"w":14,"h":16}
+},
+"iconClothShoulders.png":
+{
+	"frame": {"x":107,"y":0,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16}
+},
+"iconGold.png":
+{
+	"frame": {"x":123,"y":0,"w":11,"h":13},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":11,"h":13},
+	"sourceSize": {"w":11,"h":13}
+},
+"iconSword1h1.png":
+{
+	"frame": {"x":134,"y":0,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.1",
+	"image": "icons.png",
+	"format": "RGBA8888",
+	"size": {"w":150,"h":16},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:a5b6442f9f5cfb9b2fb67980c2bc05d8:7d868fe07cbf896dc11c2ade8356c994:b5c5bd7252d2048fecbb1bda1760f9ef$"
+}
+}
