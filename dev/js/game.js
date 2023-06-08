@@ -51,9 +51,8 @@ let sheet_icons;
 let player, bg, gold;
 let enemies = [];
 let numberOfRats;
-let fontStyle, bagIcon, characterIcon, bagUi, characterUi, uiMargin, bagUiBg, bagUiGoldIcon, bagUiGold;
+let fontStyle, bagIcon, characterIcon, bagUi, characterUi, uiMargin, bagUiBg, bagUiGoldIcon, bagUiGold, characterUiBg;
 let playerContainer, playerStats, inventory, messageGameOver;
-let derppp;
 
 let resourceMeters = {
     types: {
@@ -172,7 +171,28 @@ function setup() {
     })
 
     inventory = {
-        gold: 0
+        gold: 0,
+        armor: {
+            clothChest: {
+                bagUiArmorIcon: {}
+            },
+            clothFeet: {
+                bagUiArmorIcon: {}
+            },
+            clothHands: {
+                bagUiArmorIcon: {}
+            },
+            clothHead: {
+                bagUiArmorIcon: {}
+            },
+            clothLegs: {
+                bagUiArmorIcon: {}
+            },
+            clothShoulders: {
+                bagUiArmorIcon: {}
+            },
+        },
+        equipment: ['shield1', 'sword1h1'],
     }
 
     function createPlayerSheet() {
@@ -331,6 +351,17 @@ function setup() {
     bagUiGold.y = bagUiGoldIcon.y - 1;
     bagUi.addChild(bagUiGold);
 
+    // Armor Icons in Bag UI
+    let bagUiArmorScale = 1.5;
+    Object.keys(inventory.armor).map(function (item, i) { // ** Need a better system for this (designated spots that are filled)
+        let sprite = inventory.armor[item].bagUiArmorIcon;
+        sprite = new Sprite(sheet_icons['icon' + item.charAt(0).toUpperCase() + item.slice(1) + '.png']);
+        sprite.scale.set(bagUiArmorScale, bagUiArmorScale);
+        sprite.x = bagUiBg.x + 10 + (i > 4 ? 0 : (39 * i));
+        sprite.y = bagUiBg.y + 10 + (i > 4 ? 40 : 0);
+        bagUi.addChild(sprite);
+    })
+
     let bagUiOpen = false;
     bagIcon.on('click', function () {
         if (!bagUiOpen) {
@@ -353,15 +384,25 @@ function setup() {
     gameScene.addChild(characterIcon);
 
     // Character UI Window
-    characterUi = new Graphics();
-    characterUi.beginFill('0x000000', .5);
-    characterUi.drawRect(0, 0, 200, 200);
-    characterUi.x = 10;
-    characterUi.y = app.view.height - characterUi.height - 60;
+    characterUi = new Container();
+    characterUiBg = new Graphics();
+    characterUiBg.beginFill('0x000000', .5);
+    characterUiBg.drawRect(0, 0, 200, 200);
+    characterUiBg.x = 10;
+    characterUiBg.y = app.view.height - characterUiBg.height - 60;
+    characterUi.addChild(characterUiBg);
+
+    Object.keys(playerStats).map(function (stat, i) {
+        if (i <= 6) {
+            let text = new Text(stat + ': ' + playerStats[stat], fontStyle);
+            text.x = characterUiBg.x + 10;
+            text.y = characterUiBg.y + 10 + (20 * i);
+            characterUi.addChild(text);
+        }
+    })
 
     let characterUiOpen = false;
     characterIcon.on('click', function () {
-        console.log('character ui');
         if (!characterUiOpen) {
             gameScene.addChild(characterUi);
             characterUiOpen = true;
