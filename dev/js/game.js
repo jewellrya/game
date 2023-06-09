@@ -456,7 +456,10 @@ function setup() {
 
             // Equip
             menuItems[0].container.children[0].on('click', function () {
-                // push object to equipped
+                let sprite = cubby.children[1]._texture.textureCacheIds[0];
+                let itemString = sprite.replace('icon', '').replace('.png', '').replace(/^(.)/, s => s.toLowerCase());
+                equipped.push(itemString);
+                console.log(equipped);
                 // remove from bags
                 itemMenuOpen = false;
                 gameScene.removeChild(popupMenu);
