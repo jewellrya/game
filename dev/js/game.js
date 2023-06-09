@@ -44,15 +44,17 @@ loader.shared
     .load(setup);
 
 // Define variables in more than one function
-let gameScene, gameOverScene;
+let gameScene, gameOverScene, messageGameOver;
 let id, state, sheet;
 let sheet_humanMale_noArmorNaked;
 let sheet_icons;
 let player, bg, gold;
 let enemies = [];
 let numberOfRats;
-let fontStyle, bagIcon, characterIcon, bagUi, characterUi, uiMargin, bagUiBg, bagUiGoldIcon, bagUiGold, characterUiBg;
-let playerContainer, playerStats, inventory, messageGameOver;
+let fontStyle, bagUi, characterUi, bagUiGoldText, bagUiSilverText, bagUiCopperText;
+let playerContainer, playerStats, inventory;
+
+let bagCubbies = [];
 
 let resourceMeters = {
     types: {
@@ -171,28 +173,12 @@ function setup() {
     })
 
     inventory = {
-        gold: 0,
-        armor: {
-            clothChest: {
-                bagUiArmorIcon: {}
-            },
-            clothFeet: {
-                bagUiArmorIcon: {}
-            },
-            clothHands: {
-                bagUiArmorIcon: {}
-            },
-            clothHead: {
-                bagUiArmorIcon: {}
-            },
-            clothLegs: {
-                bagUiArmorIcon: {}
-            },
-            clothShoulders: {
-                bagUiArmorIcon: {}
-            },
+        currency: {
+            gold: 0,
+            silver: 0,
+            copper: 0,
         },
-        equipment: ['shield1', 'sword1h1'],
+        items: ['clothChest', 'clothFeet', 'clothHands', 'clothHead', 'clothLegs', 'clothShoulders', 'sword1h1'],
     }
 
     function createPlayerSheet() {
@@ -318,12 +304,14 @@ function setup() {
         }
     })
 
-    uiMargin = 10;
+    // UIs
+    let uiMargin = 10;
+    let currencyMargin = 20;
 
     // bagIcon UI Button
     let bagIconScale = 1.75;
     let bagIconMargin = 15;
-    bagIcon = new Sprite(sheet_icons['iconBag.png']);
+    let bagIcon = new Sprite(sheet_icons['iconBag.png']);
     bagIcon.scale.set(bagIconScale, bagIconScale);
     bagIcon.x = app.view.width - bagIcon.width - bagIconMargin;
     bagIcon.y = app.view.height - bagIcon.height - bagIconMargin;
@@ -332,51 +320,125 @@ function setup() {
 
     // Bag UI Window
     bagUi = new Container();
-    bagUiBg = new Graphics();
-    bagUiBg.beginFill('0x000000', .5);
-    bagUiBg.drawRect(0, 0, 200, 200);
+    let bagUiBg = new Graphics();
+    bagUiBg.lineStyle(4, 0x000000, .5, 0);
+    bagUiBg.beginFill('0x000000', .3);
+    bagUiBg.drawRect(0, 0, 168, 270);
     bagUiBg.x = app.view.width - bagUiBg.width - 10;
     bagUiBg.y = app.view.height - bagUiBg.height - 60;
     bagUi.addChild(bagUiBg);
 
-    // Gold Icon in Bag UI
-    bagUiGoldIcon = new Sprite(sheet_icons['iconGold.png']);
-    bagUiGoldIcon.x = bagUiBg.x + uiMargin;
-    bagUiGoldIcon.y = bagUiBg.y + bagUiBg.height - bagUiGoldIcon.height - uiMargin;
-    bagUi.addChild(bagUiGoldIcon);
+    let bagUiCurrency = new Container();
+    bagUiCurrency.x = bagUiBg.x + 10;
+    bagUiCurrency.y = bagUiBg.y + bagUiBg.height - 22;
 
-    // Amount of Gold listed in bag
-    bagUiGold = new Text(inventory.gold, fontStyle);
-    bagUiGold.x = bagUiGoldIcon.x + 18;
-    bagUiGold.y = bagUiGoldIcon.y - 1;
-    bagUi.addChild(bagUiGold);
+    // Gold Container for Icon & Amount
+    let bagUiCurrencyGold = new Container();
+    let bagUiGoldIcon = new Sprite(sheet_icons['iconGold.png']);
+    bagUiGoldIcon.scale.set(.75, .75);
+    bagUiCurrencyGold.addChild(bagUiGoldIcon);
+    bagUiGoldText = new Text(inventory.currency.gold, fontStyle);
+    bagUiGoldText.x = bagUiGoldIcon.x + 14;
+    bagUiGoldText.y = bagUiGoldIcon.y - 10;
+    bagUiCurrencyGold.addChild(bagUiGoldText);
+    bagUiCurrency.addChild(bagUiCurrencyGold);
+
+    // Silver Container for Icon & Amount - Try PIXI.BitmapText to use bagUiCurrencyGold.width.
+    let bagUiCurrencySilver = new Container();
+    bagUiCurrencySilver.x = 35;
+    let bagUiSilverIcon = new Sprite(sheet_icons['iconSilver.png']);
+    bagUiSilverIcon.scale.set(.75, .75);
+    bagUiCurrencySilver.addChild(bagUiSilverIcon);
+    bagUiSilverText = new Text(inventory.currency.silver, fontStyle);
+    bagUiSilverText.x = bagUiSilverIcon.x + 14;
+    bagUiSilverText.y = bagUiSilverIcon.y - 10;
+    bagUiCurrencySilver.addChild(bagUiSilverText);
+    bagUiCurrency.addChild(bagUiCurrencySilver);
+
+    // Copper Container for Icon & Amount
+    let bagUiCurrencyCopper = new Container();
+    bagUiCurrencyCopper.x = 70;
+    let bagUiCopperIcon = new Sprite(sheet_icons['iconCopper.png']);
+    bagUiCopperIcon.scale.set(.75, .75);
+    bagUiCurrencyCopper.addChild(bagUiCopperIcon);
+    bagUiCopperText = new Text(inventory.currency.copper, fontStyle);
+    bagUiCopperText.x = bagUiCopperIcon.x + 14;
+    bagUiCopperText.y = bagUiCopperIcon.y - 10;
+    bagUiCurrencyCopper.addChild(bagUiCopperText);
+    bagUiCurrency.addChild(bagUiCurrencyCopper);
+
+    bagUi.addChild(bagUiCurrency);
+
+    // Bag UI Inventory Cubbies for Sprites.
+    let bagUiMargin = 3;
+    let cubbySize = 36;
+    let cubbyRowCount = Math.floor(bagUiBg.height / cubbySize) - 1;
+    let cubbiesPerRow = Math.floor(bagUiBg.width / cubbySize);
+
+    for (let i = 0; i < cubbyRowCount; i++) {
+        bagCubbies[i] = new Container();
+        let bagCubbyRow = bagCubbies[i];
+        bagCubbyRow.x = bagUiBg.x + bagUiMargin + bagUiBg.line.width;
+        bagCubbyRow.y = bagUiBg.y + bagUiMargin + bagUiBg.line.width;
+        bagCubbyRow.width = bagUiBg.width - (bagUiMargin * 2) - (bagUiBg.line.width * 2);
+        bagUi.addChild(bagCubbyRow);
+    }
+
+    bagCubbies.forEach(function (row, i) {
+        for (let j = 0; j < cubbiesPerRow; j++) {
+            let bagCubby = new Container();
+            bagCubby.x = (bagUiMargin * j) + (cubbySize * j);
+            bagCubby.y = (bagUiMargin * i) + (cubbySize * i);
+            let bagCubbyBg = new Graphics();
+            bagCubbyBg.beginFill('0x000000', .5);
+            bagCubbyBg.drawRect(0, 0, cubbySize, cubbySize);
+            bagCubby.addChild(bagCubbyBg);
+            row.addChild(bagCubby);
+        }
+    })
+
+    let bagUiItemScale = 1.5;
+    inventory.items.forEach(function (item, i) {
+        let bagCubby = bagCubbies[Math.floor(i / cubbiesPerRow)].children[i % cubbiesPerRow];
+        let itemIcon = new Sprite(sheet_icons['icon' + item.charAt(0).toUpperCase() + item.slice(1) + '.png']);
+        itemIcon.scale.set(bagUiItemScale);
+        itemIcon.x = (cubbySize - itemIcon.width) / 2;
+        itemIcon.y = (cubbySize - itemIcon.height) / 2;
+        bagCubby.addChild(itemIcon);
+    })
 
     // Armor Icons in Bag UI
-    let bagUiArmorScale = 1.5;
-    Object.keys(inventory.armor).map(function (item, i) { // ** Need a better system for this (designated spots that are filled)
-        let sprite = inventory.armor[item].bagUiArmorIcon;
-        sprite = new Sprite(sheet_icons['icon' + item.charAt(0).toUpperCase() + item.slice(1) + '.png']);
-        sprite.scale.set(bagUiArmorScale, bagUiArmorScale);
-        sprite.x = bagUiBg.x + 10 + (i > 4 ? 0 : (39 * i));
-        sprite.y = bagUiBg.y + 10 + (i > 4 ? 40 : 0);
-        bagUi.addChild(sprite);
-    })
+    // let bagUiArmorScale = 1.5;
+    // Object.keys(inventory.armor).map(function (item, i) { // ** Need a better system for this (designated spots that are filled)
+    //     let sprite = inventory.armor[item].bagUiArmorIcon;
+    //     sprite = new Sprite(sheet_icons['icon' + item.charAt(0).toUpperCase() + item.slice(1) + '.png']);
+    //     sprite.scale.set(bagUiArmorScale, bagUiArmorScale);
+    //     sprite.x = bagUiBg.x + 10 + (i > 4 ? 0 : (39 * i));
+    //     sprite.y = bagUiBg.y + 10 + (i > 4 ? 40 : 0);
+    //     bagUi.addChild(sprite);
+    // })
 
     let bagUiOpen = false;
     bagIcon.on('click', function () {
         if (!bagUiOpen) {
+            bagIcon.texture = sheet_icons['iconBagSelected.png'];
+            bagIcon.x -= bagIconScale;
+            bagIcon.y -= bagIconScale;
             gameScene.addChild(bagUi);
             bagUiOpen = true;
         } else {
+            bagIcon.texture = sheet_icons['iconBag.png'];
+            bagIcon.x += bagIconScale;
+            bagIcon.y += bagIconScale;
             gameScene.removeChild(bagUi);
             bagUiOpen = false;
         }
     })
 
     // characterIcon UI Button
-    let characterIconScale = 1.5;
-    let characterIconMargin = 12;
-    characterIcon = new Sprite(sheet_icons['iconCharacter.png']);
+    let characterIconScale = 1.75;
+    let characterIconMargin = 15;
+    let characterIcon = new Sprite(sheet_icons['iconCharacter.png']);
     characterIcon.scale.set(characterIconScale, characterIconScale);
     characterIcon.x = characterIconMargin;
     characterIcon.y = app.view.height - characterIcon.height - characterIconMargin;
@@ -385,7 +447,7 @@ function setup() {
 
     // Character UI Window
     characterUi = new Container();
-    characterUiBg = new Graphics();
+    let characterUiBg = new Graphics();
     characterUiBg.beginFill('0x000000', .5);
     characterUiBg.drawRect(0, 0, 200, 200);
     characterUiBg.x = 10;
@@ -404,9 +466,15 @@ function setup() {
     let characterUiOpen = false;
     characterIcon.on('click', function () {
         if (!characterUiOpen) {
+            characterIcon.texture = sheet_icons['iconCharacterSelected.png'];
+            characterIcon.x -= characterIconScale;
+            characterIcon.y -= characterIconScale;
             gameScene.addChild(characterUi);
             characterUiOpen = true;
         } else {
+            characterIcon.texture = sheet_icons['iconCharacter.png'];
+            characterIcon.x += characterIconScale;
+            characterIcon.y += characterIconScale;
             gameScene.removeChild(characterUi);
             characterUiOpen = false;
         }
@@ -421,9 +489,6 @@ function setup() {
 }
 
 function gameLoop(delta) {
-
-    let secondaryStats = { endurance: playerStats.endurance, dexterity: playerStats.dexterity, speed: playerStats.speed(), fatigueRegen: Math.round(playerStats.fatigueRegen * 100), fatigueCost: Math.round(playerStats.fatigueCost * 50) };
-    document.getElementById("playerStats").innerHTML = JSON.stringify(secondaryStats);
 
     // Create an array of objects that will move with the environment
     let environment = [bg, gold].concat(enemies);
@@ -583,12 +648,7 @@ function gameLoop(delta) {
     // })
 
     // Game Over Scene
-    let gameOverStyle = new TextStyle({
-        fontFamily: 'Visitor',
-        fontSize: 64,
-        fill: 'white'
-    });
-    messageGameOver = new Text("You died.", gameOverStyle);
+    messageGameOver = new Text("You died.", fontStyle);
     messageGameOver.x = app.view.width / 2 - messageGameOver.width / 2;
     messageGameOver.y = app.view.height / 2 - messageGameOver.height / 2;
     gameOverScene.addChild(messageGameOver);
@@ -599,10 +659,10 @@ function gameLoop(delta) {
 function play(delta) {
 
     if (hitTestRectangle(gold, player)) {
-        ++inventory.gold;
+        ++inventory.currency.gold;
         gold.x = randomInt(bg.x, bg.x + bg.width - gold.width);
         gold.y = randomInt(bg.y, bg.y + bg.height - gold.height);
-        bagUiGold.text = inventory.gold;
+        bagUiGoldText.text = inventory.currency.gold;
     }
 
     let ratCage = gameScene.getChildByName("rats");

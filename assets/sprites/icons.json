@@ -8,17 +8,33 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
 	"sourceSize": {"w":16,"h":16}
 },
-"iconCharacter.png":
+"iconBagSelected.png":
 {
-	"frame": {"x":16,"y":0,"w":13,"h":15},
+	"frame": {"x":16,"y":0,"w":18,"h":18},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":13,"h":15},
-	"sourceSize": {"w":13,"h":15}
+	"spriteSourceSize": {"x":0,"y":0,"w":18,"h":18},
+	"sourceSize": {"w":18,"h":18}
+},
+"iconCharacter.png":
+{
+	"frame": {"x":34,"y":0,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16}
+},
+"iconCharacterSelected.png":
+{
+	"frame": {"x":50,"y":0,"w":18,"h":18},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":18,"h":18},
+	"sourceSize": {"w":18,"h":18}
 },
 "iconClothChest.png":
 {
-	"frame": {"x":29,"y":0,"w":16,"h":16},
+	"frame": {"x":68,"y":0,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -26,7 +42,7 @@
 },
 "iconClothFeet.png":
 {
-	"frame": {"x":45,"y":0,"w":16,"h":16},
+	"frame": {"x":84,"y":0,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -34,7 +50,7 @@
 },
 "iconClothHands.png":
 {
-	"frame": {"x":61,"y":0,"w":16,"h":16},
+	"frame": {"x":100,"y":0,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -42,7 +58,7 @@
 },
 "iconClothHead.png":
 {
-	"frame": {"x":77,"y":0,"w":16,"h":16},
+	"frame": {"x":116,"y":0,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -50,7 +66,7 @@
 },
 "iconClothLegs.png":
 {
-	"frame": {"x":93,"y":0,"w":14,"h":16},
+	"frame": {"x":132,"y":0,"w":14,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":14,"h":16},
@@ -58,15 +74,31 @@
 },
 "iconClothShoulders.png":
 {
-	"frame": {"x":107,"y":0,"w":16,"h":16},
+	"frame": {"x":146,"y":0,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
 	"sourceSize": {"w":16,"h":16}
 },
+"iconCopper.png":
+{
+	"frame": {"x":162,"y":0,"w":11,"h":13},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":11,"h":13},
+	"sourceSize": {"w":11,"h":13}
+},
 "iconGold.png":
 {
-	"frame": {"x":123,"y":0,"w":11,"h":13},
+	"frame": {"x":173,"y":0,"w":11,"h":13},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":11,"h":13},
+	"sourceSize": {"w":11,"h":13}
+},
+"iconSilver.png":
+{
+	"frame": {"x":184,"y":0,"w":11,"h":13},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":11,"h":13},
@@ -74,7 +106,7 @@
 },
 "iconSword1h1.png":
 {
-	"frame": {"x":134,"y":0,"w":16,"h":16},
+	"frame": {"x":195,"y":0,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -85,8 +117,8 @@
 	"version": "1.1",
 	"image": "icons.png",
 	"format": "RGBA8888",
-	"size": {"w":150,"h":16},
+	"size": {"w":211,"h":18},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:a5b6442f9f5cfb9b2fb67980c2bc05d8:7d868fe07cbf896dc11c2ade8356c994:b5c5bd7252d2048fecbb1bda1760f9ef$"
+	"smartupdate": "$TexturePacker:SmartUpdate:c79c6853bde51c9a686dddaa1df70d99:3537894fd73af278fb6e521c07ad93cb:b5c5bd7252d2048fecbb1bda1760f9ef$"
 }
 }
