@@ -51,10 +51,10 @@ let sheet_icons;
 let player, bg, gold;
 let enemies = [];
 let numberOfRats;
-let fontStyle, bagUi, characterUi, bagUiGoldText, bagUiSilverText, bagUiCopperText;
+let fontStyle, bagUi, characterUi, bagUiGoldText, bagUiSilverText, bagUiCopperText, popupMenus;
 let playerContainer, playerStats, inventory;
-
 let bagCubbies = [];
+let equipped = [];
 
 let resourceMeters = {
     types: {
@@ -245,6 +245,8 @@ function setup() {
     //     ratContainer.addChild(rat);
     // }
 
+    // Health, Fatigue, Soul -----------------------------------------------------------------------
+
     resourceMeters.y = 16;
     resourceMeters.margin = 4;
     resourceMeters.height = 5;
@@ -304,9 +306,9 @@ function setup() {
         }
     })
 
-    // UIs
-    let uiMargin = 10;
-    let currencyMargin = 20;
+    // UIs -----------------------------------------------------------------------
+
+    popupMenus = new Container();
 
     // bagIcon UI Button
     let bagIconScale = 1.75;
@@ -392,6 +394,7 @@ function setup() {
             let bagCubbyBg = new Graphics();
             bagCubbyBg.beginFill('0x000000', .5);
             bagCubbyBg.drawRect(0, 0, cubbySize, cubbySize);
+            bagCubbyBg.interactive = true;
             bagCubby.addChild(bagCubbyBg);
             row.addChild(bagCubby);
         }
@@ -407,16 +410,107 @@ function setup() {
         bagCubby.addChild(itemIcon);
     })
 
-    // Armor Icons in Bag UI
-    // let bagUiArmorScale = 1.5;
-    // Object.keys(inventory.armor).map(function (item, i) { // ** Need a better system for this (designated spots that are filled)
-    //     let sprite = inventory.armor[item].bagUiArmorIcon;
-    //     sprite = new Sprite(sheet_icons['icon' + item.charAt(0).toUpperCase() + item.slice(1) + '.png']);
-    //     sprite.scale.set(bagUiArmorScale, bagUiArmorScale);
-    //     sprite.x = bagUiBg.x + 10 + (i > 4 ? 0 : (39 * i));
-    //     sprite.y = bagUiBg.y + 10 + (i > 4 ? 40 : 0);
-    //     bagUi.addChild(sprite);
-    // })
+    let itemMenuWidth = 150;
+    let itemMenuHeight = 30;
+    bagCubbies.forEach(function (row) {
+        row.children.forEach(function (cubby) {
+            let itemMenuOpen = false;
+            let popupMenu = new Container();
+            popupMenu.x = bagUiBg.x + cubby.x + (bagUiMargin * 2) + (cubbySize / 2) - itemMenuWidth;
+            popupMenu.y = bagUiBg.y + cubby.y + cubbySize + (bagUiMargin * 2) + 1;
+
+            let menuItems = [
+                {
+                    label: 'equip',
+                    container: {},
+                },
+                {
+                    label: 'destroy',
+                    container: {},
+                }
+            ]
+
+            menuItems.forEach(function (item, i) {
+                item.container = new Container();
+                item.container.y = (itemMenuHeight * i);
+                let itemBg = new Graphics();
+                let itemText = new Text(item.label, fontStyle);
+                itemText.x = 10;
+                itemBg.beginFill('0x000000');
+                itemBg.drawRect(0, 0, itemMenuWidth, itemMenuHeight);
+                itemBg.interactive = true;
+                itemBg.on('mouseover', function () {
+                    itemBg.clear();
+                    itemBg.beginFill('0x7a7a7a');
+                    itemBg.drawRect(0, 0, itemMenuWidth, itemMenuHeight);
+                })
+                itemBg.on('mouseout', function () {
+                    itemBg.clear();
+                    itemBg.beginFill('0x000000');
+                    itemBg.drawRect(0, 0, itemMenuWidth, itemMenuHeight);
+                })
+                item.container.addChild(itemBg);
+                item.container.addChild(itemText);
+                popupMenu.addChild(item.container);
+            })
+
+            // Equip
+            menuItems[0].container.children[0].on('click', function () {
+                // push object to equipped
+                // remove from bags
+                itemMenuOpen = false;
+                gameScene.removeChild(popupMenu);
+            })
+
+            // Destroy
+            menuItems[1].container.children[0].on('click', function () {
+                // remove from bags
+                itemMenuOpen = false;
+                gameScene.removeChild(popupMenu);
+            })
+
+            let cubbyBg = cubby.children[0];
+
+            if (cubby.children.length > 1) {
+                cubbyBg.on('mouseover', function () {
+                    if (!itemMenuOpen) {
+                        cubbyBg.clear();
+                        cubbyBg.beginFill('0x7a7a7a');
+                        cubbyBg.drawRect(0, 0, cubbySize, cubbySize);
+                    }
+                });
+                cubbyBg.on('mouseout', function () {
+                    if (!itemMenuOpen) {
+                        cubbyBg.clear();
+                        cubbyBg.beginFill('0x000000', .5);
+                        cubbyBg.drawRect(0, 0, cubbySize, cubbySize);
+                    }
+                })
+
+                // Figure out click outside of 
+                cubbyBg.on('click', function () {
+                    if (!itemMenuOpen) {
+                        itemMenuOpen = true;
+                        cubbyBg.clear();
+                        cubbyBg.beginFill('0x00d9ff');
+                        cubbyBg.drawRect(0, 0, cubbySize, cubbySize);
+                        // popupMenus.children.forEach(function (child) {
+                        //     popupMenus.removeChild(child);
+                        // });
+                        // popupMenus.addChild(popupMenu);
+                        gameScene.addChild(popupMenu);
+                    } else {
+                        itemMenuOpen = false;
+                        cubbyBg.clear();
+                        cubbyBg.beginFill('0x7a7a7a');
+                        cubbyBg.drawRect(0, 0, cubbySize, cubbySize);
+                        // popupMenus.removeChild(popupMenu)
+                        gameScene.removeChild(popupMenu);
+                    }
+                })
+            }
+        })
+    })
 
     let bagUiOpen = false;
     bagIcon.on('click', function () {
@@ -487,6 +581,8 @@ function setup() {
 
     app.ticker.add(delta => gameLoop(delta));
 }
+
+// Game Loop -----------------------------------------------------------------------
 
 function gameLoop(delta) {
 
@@ -657,6 +753,8 @@ function gameLoop(delta) {
 }
 
 function play(delta) {
+
+
 
     if (hitTestRectangle(gold, player)) {
         ++inventory.currency.gold;
