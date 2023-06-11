@@ -40,15 +40,19 @@ loader.shared
     .add('../../assets/sprites.json')
     .add('../../assets/sprites/humanMale/main/humanMale_noArmorNaked.json')
     .add('../../assets/sprites/humanMale/armor/humanMale_clothChest.json')
+    .add('../../assets/sprites/humanMale/armor/humanMale_clothFeet.json')
+    .add('../../assets/sprites/humanMale/armor/humanMale_clothHands.json')
+    .add('../../assets/sprites/humanMale/armor/humanMale_clothHead.json')
+    .add('../../assets/sprites/humanMale/armor/humanMale_clothLegs.json')
+    .add('../../assets/sprites/humanMale/armor/humanMale_clothShoulders.json')
     .add('../../assets/sprites/icons.json')
     .load(setup);
 
 // Define variables in more than one function
 let gameScene, gameOverScene, messageGameOver;
 let id, state, sheet;
-let sheet_humanMale_noArmorNaked, sheet_humanMale_clothChest;
-let sheet_icons;
-let player, playerBase, playerChest, bg, gold;
+let playerSheets, sheet_icons;
+let player, playerBase, bg, gold;
 let enemies = [];
 let numberOfRats;
 let itemsMap;
@@ -66,7 +70,7 @@ let resourceMeters = {
 };
 
 let playerSheet = {};
-let playerIdleTexture, playerChestIdleTexture;
+let playerIdleTexture;
 
 // Cursor
 const defaultIcon = "url('../../assets/cursor.png'),auto";
@@ -136,8 +140,15 @@ function setup() {
     id = PIXI.Loader.shared.resources['../../assets/sprites.json'].textures;
 
     // Player Spritesheets
-    sheet_humanMale_noArmorNaked = PIXI.Loader.shared.resources["../../assets/sprites/humanMale/main/humanMale_noArmorNaked.json"].spritesheet;
-    sheet_humanMale_clothChest = PIXI.Loader.shared.resources["../../assets/sprites/humanMale/armor/humanMale_clothChest.json"].spritesheet;
+    playerSheets = {
+        sheet_humanMale_noArmorNaked: PIXI.Loader.shared.resources["../../assets/sprites/humanMale/main/humanMale_noArmorNaked.json"].spritesheet,
+        sheet_humanMale_clothChest: PIXI.Loader.shared.resources["../../assets/sprites/humanMale/armor/humanMale_clothChest.json"].spritesheet,
+        sheet_humanMale_clothFeet: PIXI.Loader.shared.resources["../../assets/sprites/humanMale/armor/humanMale_clothFeet.json"].spritesheet,
+        sheet_humanMale_clothHands: PIXI.Loader.shared.resources["../../assets/sprites/humanMale/armor/humanMale_clothHands.json"].spritesheet,
+        sheet_humanMale_clothHead: PIXI.Loader.shared.resources["../../assets/sprites/humanMale/armor/humanMale_clothHead.json"].spritesheet,
+        sheet_humanMale_clothLegs: PIXI.Loader.shared.resources["../../assets/sprites/humanMale/armor/humanMale_clothLegs.json"].spritesheet,
+        sheet_humanMale_clothShoulders: PIXI.Loader.shared.resources["../../assets/sprites/humanMale/armor/humanMale_clothShoulders.json"].spritesheet,
+    }
 
     // Icon Spritesheets
     sheet_icons = PIXI.Loader.shared.resources['../../assets/sprites/icons.json'].textures;
@@ -189,6 +200,7 @@ function setup() {
     itemsMap = {
         clothChest: {
             icon: sheet_icons['iconClothChest.png'],
+            spriteSheet: playerSheet.idle_clothChest_DR,
             type: 'armor',
             equipable: true,
             slot: 'chest',
@@ -263,11 +275,31 @@ function setup() {
 
     equipped = {
         head: null,
-        shoulders: null,
-        chest: 'clothChest',
-        hands: null,
-        legs: null,
-        feet: null,
+        feet: {
+            item: 'clothFeet',
+            animatedSprite: null,
+            idleTexture: null,
+        },
+        legs: {
+            item: 'clothLegs',
+            animatedSprite: null,
+            idleTexture: null,
+        },
+        chest: {
+            item: 'clothChest',
+            animatedSprite: null,
+            idleTexture: null,
+        },
+        shoulders: {
+            item: 'clothShoulders',
+            animatedSprite: null,
+            idleTexture: null,
+        },
+        hands: {
+            item: 'clothHands',
+            animatedSprite: null,
+            idleTexture: null,
+        },
         neck: null,
         ring1: null,
         ring2: null,
@@ -276,23 +308,25 @@ function setup() {
         resourceItem: null,
     }
 
-    function createPlayerSheet() {
+    function createPlayerSheet(raceGender, spritesheetId) {
         // Populate playerSheet array with spritesheet animations
-        function anim(name, direction) {
-            playerSheet[name + '_noArmorNaked_' + direction] = sheet_humanMale_noArmorNaked.animations[name + '-noArmorNaked-' + direction];
-            playerSheet[name + '_clothChest_' + direction] = sheet_humanMale_clothChest.animations[name + '-clothChest-' + direction];
+        function anim(animation, spritesheetId, direction) {
+            playerSheet[animation + '_' + spritesheetId + '_' + direction] = playerSheets['sheet_' + raceGender + '_' + spritesheetId].animations[animation + '-' + spritesheetId + '-' + direction];
         }
 
         let directions = ['R', 'DR', 'D', 'DL', 'L', 'UL', 'U', 'UR'];
+        let animations = ['idle', 'walking', 'running'];
+
         directions.forEach(function (direction) {
-            anim('idle', direction);
-            anim('walking', direction);
-            anim('running', direction);
+            animations.forEach(function (animation) {
+                anim(animation, spritesheetId, direction);
+            })
         })
     }
 
+    let playerSpriteScale = 2;
     function createPlayer() {
-        let playerSpriteScale = 2;
+        playerIdleTexture = playerSheet.idle_noArmorNaked_DR;
         playerContainer = new Container();
         gameScene.addChild(playerContainer);
 
@@ -302,13 +336,6 @@ function setup() {
         player.scale.set(playerSpriteScale);
         player.animationSpeed = .1;
         player.loop = false;
-
-        playerChest = new AnimatedSprite(playerSheet.idle_clothChest_DR);
-        playerChest.x = player.x;
-        playerChest.y = player.y;
-        playerChest.scale.set(playerSpriteScale);
-        playerChest.animationSpeed = player.animationSpeed;
-        playerChest.loop = false;
 
         let blurFilter = new PIXI.filters.BlurFilter(10);
         playerBase = new Graphics();
@@ -321,12 +348,29 @@ function setup() {
 
         playerContainer.addChild(playerBase);
         playerContainer.addChild(player);
-        playerContainer.addChild(playerChest);
+
         player.play();
-        playerChest.play();
     }
 
     // Player Armor
+    function createPlayerArmor() {
+        Object.keys(equipped).map(slot => {
+            let equippedItem = equipped[slot];
+            if (equippedItem) {
+                createPlayerSheet('humanMale', equippedItem.item);
+                equippedItem.animatedSprite = new AnimatedSprite(playerSheet['idle_' + equippedItem.item + '_DR']);
+                equippedItem.animatedSprite.x = player.x;
+                equippedItem.animatedSprite.y = player.y;
+                equippedItem.animatedSprite.scale.set(playerSpriteScale);
+                equippedItem.animatedSprite.animationSpeed = player.animationSpeed;
+                equippedItem.animatedSprite.loop = false;
+                equippedItem.idleTexture = playerSheet['idle_' + equippedItem.item + '_DR'];
+                playerContainer.addChild(equippedItem.animatedSprite);
+                equippedItem.animatedSprite.play();
+            }
+
+        })
+    }
 
     bg = new Sprite(id['environment.png']);
     gameScene.addChild(bg);
@@ -515,7 +559,7 @@ function setup() {
 
     // Add Sprites from Inventory to each Cubby Container.
     inventory.items.forEach(function (item, i) {
-        let bagUiItemScale = 1.5;
+        let bagUiItemScale = 1.75;
         bagCubbies[i].item = item;
         let itemIcon = new Sprite(itemsMap[item].icon);
         itemIcon.scale.set(bagUiItemScale);
@@ -579,7 +623,7 @@ function setup() {
             // equip item
             // delete from bags
             let itemSlotType = itemsMap[cubbyItem].slot;
-            equipped[itemSlotType] = cubbyItem;
+            equipped[itemSlotType].item = cubbyItem;
             console.log(equipped);
             itemMenuOpen = false;
             cubbyBg.clear();
@@ -699,10 +743,9 @@ function setup() {
     })
 
     state = play;
-    createPlayerSheet();
-    playerIdleTexture = playerSheet.idle_noArmorNaked_DR;
-    playerChestIdleTexture = playerSheet.idle_clothChest_DR;
+    createPlayerSheet('humanMale', 'noArmorNaked');
     createPlayer();
+    createPlayerArmor();
 
     app.ticker.add(delta => gameLoop(delta));
 }
@@ -730,19 +773,65 @@ function gameLoop(delta) {
         }
     })
 
+    function equippedItemLoopTexture(animation, textureDirection) {
+        Object.keys(equipped).map(slot => {
+            let equippedItem = equipped[slot];
+            if (equippedItem) {
+                equippedItem.animatedSprite.textures = playerSheet[animation + '_' + equippedItem.item + '_' + textureDirection];
+            }
+        })
+    }
+
+    function equippedItemLoopIdleTexture(textureDirection) {
+        Object.keys(equipped).map(slot => {
+            let equippedItem = equipped[slot];
+            if (equippedItem) {
+                equippedItem.idleTexture = playerSheet['idle_' + equippedItem.item + '_' + textureDirection];
+            }
+        })
+    }
+
+    function equippedItemLoopPlay() {
+        Object.keys(equipped).map(slot => {
+            let equippedItem = equipped[slot];
+            if (equippedItem) {
+                equippedItem.animatedSprite.play();
+            }
+        })
+    }
+
+    function equippedItemLoopAnimationSpeed(speed) {
+        Object.keys(equipped).map(slot => {
+            let equippedItem = equipped[slot];
+            if (equippedItem) {
+                equippedItem.animatedSprite.animationSpeed = speed;
+            }
+        })
+    }
+
+    function equippedItemLoopChangeIdle() {
+        Object.keys(equipped).map(slot => {
+            let equippedItem = equipped[slot];
+            if (equippedItem) {
+                equippedItem.animatedSprite.textures = equippedItem.idleTexture;
+                equippedItem.animatedSprite.play();
+            }
+        })
+    }
+
     function movementPlayerTexture(textureDirection) {
         playerIdleTexture = playerSheet['idle_noArmorNaked_' + textureDirection];
-        playerChestIdleTexture = playerSheet['idle_clothChest_' + textureDirection];
+        equippedItemLoopIdleTexture(textureDirection);
         if (!player.playing) {
             if (controls.ShiftLeft) {
                 player.textures = playerSheet['running_noArmorNaked_' + textureDirection];
-                playerChest.textures = playerSheet['running_clothChest_' + textureDirection]
+                equippedItemLoopTexture('running', textureDirection);
             } else {
                 player.textures = playerSheet['walking_noArmorNaked_' + textureDirection];
-                playerChest.textures = playerSheet['walking_clothChest_' + textureDirection]
+                equippedItemLoopTexture('walking', textureDirection);
             }
             player.play();
-            playerChest.play();
+            equippedItemLoopPlay();
         }
     }
 
@@ -751,18 +840,18 @@ function gameLoop(delta) {
             if (controls.ShiftLeft) {
                 // Running
                 player.animationSpeed = playerStats.dexterity / 20;
-                playerChest.animationSpeed = playerStats.dexterity / 20;
+                equippedItemLoopAnimationSpeed(playerStats.dexterity / 20);
             } else {
                 // Walking
                 player.animationSpeed = playerStats.dexterity / 20;
-                playerChest.animationSpeed = playerStats.dexterity / 20;
+                equippedItemLoopAnimationSpeed(playerStats.dexterity / 20);
             }
         } else {
             // Idle
             player.animationSpeed = .6;
-            playerChest.animationSpeed = .6;
             player.play();
-            playerChest.play();
+            equippedItemLoopAnimationSpeed(.6);
+            equippedItemLoopPlay();
         }
     }
 
@@ -820,9 +909,8 @@ function gameLoop(delta) {
     if (!controls.KeyW && !controls.KeyA && !controls.KeyS && !controls.KeyD) {
         if (!player.playing) {
             player.textures = playerIdleTexture;
-            playerChest.textures = playerChestIdleTexture;
             player.play();
-            playerChest.play();
+            equippedItemLoopChangeIdle();
         }
     }
 
