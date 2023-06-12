@@ -59,6 +59,7 @@ let itemsMap;
 let fontStyle, bagUi, characterUi, bagUiGoldText, bagUiSilverText, bagUiCopperText, popupMenus;
 let playerContainer, playerStats, inventory;
 let bagCubbies = [];
+let equippedCubbies;
 let equipped;
 
 let resourceMeters = {
@@ -120,6 +121,10 @@ function mouseMove(e) {
     cursor.x = e.offsetX;
     cursor.y = e.offsetY;
 }
+
+let playerName = 'characterName';
+let playerRace = 'Celton Human';
+let playerGender = 'Male';
 
 playerStats = {
 
@@ -300,9 +305,18 @@ function setup() {
             animatedSprite: null,
             idleTexture: null,
         },
-        neck: null,
-        ring1: null,
-        ring2: null,
+        rightHand: null,
+        leftHand: null,
+        resourceItem: null,
+    }
+
+    equippedCubbies = {
+        head: null,
+        feet: null,
+        legs: null,
+        chest: null,
+        shoulders: null,
+        hands: null,
         rightHand: null,
         leftHand: null,
         resourceItem: null,
@@ -375,13 +389,13 @@ function setup() {
     bg = new Sprite(id['environment.png']);
     gameScene.addChild(bg);
 
-    gold = new PIXI.AnimatedSprite(sheet.animations["gold"]);
-    gold.scale.set(0.5, 0.5);
-    gold.x = randomInt(bg.x, bg.x + bg.width - gold.width);
-    gold.y = randomInt(bg.y, bg.y + bg.height - gold.height);
-    gold.animationSpeed = 0.1;
-    gold.play();
-    gameScene.addChild(gold);
+    // gold = new PIXI.AnimatedSprite(sheet.animations["gold"]);
+    // gold.scale.set(0.5, 0.5);
+    // gold.x = randomInt(bg.x, bg.x + bg.width - gold.width);
+    // gold.y = randomInt(bg.y, bg.y + bg.height - gold.height);
+    // gold.animationSpeed = 0.1;
+    // gold.play();
+    // gameScene.addChild(gold);
 
     // numberOfRats = 2;
     // let ratContainer = new Container();
@@ -468,14 +482,17 @@ function setup() {
     bagIcon.interactive = true;
     gameScene.addChild(bagIcon);
 
+    let uiWindowHeight = 270;
+    let uiWindowY = app.view.height - uiWindowHeight - 60;
+
     // Bag UI Window
     bagUi = new Container();
     let bagUiBg = new Graphics();
     bagUiBg.lineStyle(4, 0x000000, .5, 0);
     bagUiBg.beginFill('0x000000', .3);
-    bagUiBg.drawRect(0, 0, 168, 270);
+    bagUiBg.drawRect(0, 0, 168, uiWindowHeight);
     bagUiBg.x = app.view.width - bagUiBg.width - 10;
-    bagUiBg.y = app.view.height - bagUiBg.height - 60;
+    bagUiBg.y = uiWindowY;
     bagUi.addChild(bagUiBg);
 
     let bagUiCurrency = new Container();
@@ -622,9 +639,9 @@ function setup() {
             console.log(cubbyItem);
             // equip item
             // delete from bags
-            let itemSlotType = itemsMap[cubbyItem].slot;
-            equipped[itemSlotType].item = cubbyItem;
-            console.log(equipped);
+            // let itemSlotType = itemsMap[cubbyItem].slot;
+            // equipped[itemSlotType].item = cubbyItem;
+            // console.log(equipped);
             itemMenuOpen = false;
             cubbyBg.clear();
             cubbyBg.beginFill('0x000000', .5);
@@ -707,24 +724,110 @@ function setup() {
     characterIcon.interactive = true;
     gameScene.addChild(characterIcon);
 
+    let characterUiMargin = 3;
+
     // Character UI Window
     characterUi = new Container();
     let characterUiBg = new Graphics();
-    characterUiBg.beginFill('0x000000', .5);
-    characterUiBg.drawRect(0, 0, 200, 200);
+    characterUiBg.lineStyle(4, 0x000000, .5, 0);
+    characterUiBg.beginFill('0x000000', .3);
+    characterUiBg.drawRect(0, 0, 250, uiWindowHeight);
     characterUiBg.x = 10;
-    characterUiBg.y = app.view.height - characterUiBg.height - 60;
+    characterUiBg.y = uiWindowY;
     characterUi.addChild(characterUiBg);
 
+    // Charater Name plate at the top of the Character UI
+    let characterUiNamePlate = new Container();
+    characterUiNamePlate.x = characterUiBg.x;
+    characterUiNamePlate.y = characterUiBg.y;
+    let characterUiNamePlateBg = new Graphics();
+    characterUiNamePlateBg.beginFill('0x000000');
+    characterUiNamePlateBg.drawRect(0, 0, characterUiBg.width, 30);
+    characterUiNamePlate.addChild(characterUiNamePlateBg);
+    let characterUiNamePlateText = new Text(playerName, fontStyle);
+    characterUiNamePlateText.x = 10;
+    characterUiNamePlateText.y = 1;
+    characterUiNamePlate.addChild(characterUiNamePlateText);
+    characterUi.addChild(characterUiNamePlate);
+
+    // Section that shows player stats
+    let characterUiStats = new Container();
+    characterUiStats.x = characterUiBg.x + 7;
+    characterUiStats.y = characterUiBg.y + characterUiNamePlateBg.height + characterUiMargin;
+    let characterUiStatsBg = new Graphics();
+    characterUiStatsBg.beginFill('0x000000', .5);
+    characterUiStatsBg.drawRect(0, 0, 85, 175);
+    characterUiStats.addChild(characterUiStatsBg);
     Object.keys(playerStats).map(function (stat, i) {
         if (i <= 6) {
-            let text = new Text(stat + ': ' + playerStats[stat], fontStyle);
-            text.x = characterUiBg.x + 10;
-            text.y = characterUiBg.y + 10 + (20 * i);
-            characterUi.addChild(text);
+            let statCount = new Container();
+            statCount.x = 10;
+            statCount.y = (characterUiStatsBg.height / 7) + (15 * i);
+            let label = new Text(stat.slice(0, 3), fontStyle);
+            statCount.addChild(label);
+            let amount = new Text(playerStats[stat], fontStyle);
+            amount.x = 40;
+            statCount.addChild(amount);
+            characterUiStats.addChild(statCount);
+        }
+    })
+    characterUi.addChild(characterUiStats);
+    let characterUiArmor = new Container();
+    characterUiArmor.x = characterUiStats.x + characterUiStatsBg.width + characterUiMargin;
+    characterUiArmor.y = characterUiStats.y;
+
+    // Generate Cubbies for Equipped Items
+    function createEquippedCubby(item, defaultSprite, x, y) {
+        equippedCubbies[item] = new Container();
+        let cubby = equippedCubbies[item];
+        cubby.x = x + ((characterUiBg.width - characterUiStatsBg.width - (characterUiBg.line.width * 2) - ((cubbySize * 2) + (characterUiMargin * 4))) / 2);
+        cubby.y = y + characterUiStatsBg.height - (characterUiBg.line.width * 2) - (((cubbySize * 4) + (characterUiMargin * 4)));
+        let cubbyBg = new Graphics();
+        cubbyBg.beginFill('0x000000', .5);
+        cubbyBg.drawRect(0, 0, cubbySize, cubbySize);
+        cubby.addChild(cubbyBg);
+        let cubbyDefaultIcon = new Sprite(sheet_icons[defaultSprite]);
+        cubbyDefaultIcon.scale.set(1.5, 1.5);
+        cubbyDefaultIcon.x = ((cubby.width - cubbyDefaultIcon.width) / 2);
+        cubbyDefaultIcon.y = ((cubby.height - cubbyDefaultIcon.height) / 2);
+        cubby.addChild(cubbyDefaultIcon);
+        characterUiArmor.addChild(cubby);
+    }
+
+    createEquippedCubby('head', 'iconHead.png', 0, 0);
+    createEquippedCubby('shoulders', 'iconShoulders.png', cubbySize + characterUiMargin, 0);
+    createEquippedCubby('chest', 'iconChest.png', 0, cubbySize + characterUiMargin);
+    createEquippedCubby('hands', 'iconHands.png', cubbySize + characterUiMargin, cubbySize + characterUiMargin);
+    createEquippedCubby('legs', 'iconLegs.png', 0, (cubbySize + 3) * 2);
+    createEquippedCubby('feet', 'iconFeet.png', cubbySize + characterUiMargin, (cubbySize + characterUiMargin) * 2);
+    createEquippedCubby('rightHand', 'iconWeapon.png', (-cubbySize / 2), (cubbySize + characterUiMargin) * 3);
+    createEquippedCubby('leftHand', 'iconShield.png', (-cubbySize / 2) + cubbySize + characterUiMargin, (cubbySize + characterUiMargin) * 3);
+    createEquippedCubby('resourceItem', 'iconArrow.png', (-cubbySize / 2) + ((cubbySize + characterUiMargin) * 2), (cubbySize + characterUiMargin) * 3);
+    characterUi.addChild(characterUiArmor);
+
+    let characterUiExtra = new Container();
+    characterUiExtra.x = characterUiStats.x;
+    characterUiExtra.y = (characterUiStats.y + characterUiStatsBg.height + characterUiMargin);
+    let characterUiExtraBg = new Graphics();
+    characterUiExtraBg.beginFill('0x000000', .5);
+    characterUiExtraBg.drawRect(0, 0, characterUiBg.width - (characterUiMargin * 2) - (characterUiBg.line.width * 2), characterUiBg.height - characterUiStatsBg.height - characterUiNamePlateBg.height - (characterUiMargin * 2) - (characterUiBg.line.width * 2));
+    characterUiExtra.addChild(characterUiExtraBg);
+    characterUi.addChild(characterUiExtra);
+
+    // Populate Equipped Items Cubbies
+    Object.keys(equipped).map(function (item) {
+        let cubby = equippedCubbies[item];
+        if (equipped[item]) {
+            cubby.removeChild(cubby.children[1]);
+            let sprite = new Sprite(sheet_icons['icon' + equipped[item].item.replace(/^(.)/, s => s.toUpperCase()) + '.png']);
+            sprite.scale.set(bagIconScale, bagIconScale);
+            sprite.x = ((cubby.width - sprite.width) / 2);
+            sprite.y = ((cubby.height - sprite.height) / 2);
+            cubby.addChild(sprite);
         }
     })
 
+    // Opening and Closing Character UI
     let characterUiOpen = false;
     characterIcon.on('click', function () {
         if (!characterUiOpen) {
@@ -755,7 +858,7 @@ function setup() {
 function gameLoop(delta) {
 
     // Create an array of objects that will move with the environment
-    let environment = [bg, gold].concat(enemies);
+    let environment = [bg].concat(enemies);
 
     function moveEnvironment(x, y) {
         environment.forEach(function (item) {
@@ -978,40 +1081,38 @@ function gameLoop(delta) {
 
 function play(delta) {
 
+    // if (hitTestRectangle(gold, player)) {
+    //     ++inventory.currency.gold;
+    //     gold.x = randomInt(bg.x, bg.x + bg.width - gold.width);
+    //     gold.y = randomInt(bg.y, bg.y + bg.height - gold.height);
+    //     bagUiGoldText.text = inventory.currency.gold;
+    // }
 
+    // let ratCage = gameScene.getChildByName("rats");
+    // for (let i = 0; i < numberOfRats - enemies.length; i++) {
+    //     let rat = createEnemy(bg, "rat");
+    //     enemies.push(rat);
+    //     ratCage.addChild(rat);
+    // }
+    // enemies.forEach(function (enemy, index) {
+    //     if (hitTestRectangle(enemy, player)) {
+    //         if (playerStats.health > 0) {
+    //             playerStats.health -= enemy.strength;
+    //             resourceMeters.types.health.inner.width = playerStats.health * 2 - resourceMeters.innerOffset * 2;
+    //         }
 
-    if (hitTestRectangle(gold, player)) {
-        ++inventory.currency.gold;
-        gold.x = randomInt(bg.x, bg.x + bg.width - gold.width);
-        gold.y = randomInt(bg.y, bg.y + bg.height - gold.height);
-        bagUiGoldText.text = inventory.currency.gold;
-    }
+    //         if (click['mouse']) {
+    //             if (enemy.health > 0) {
+    //                 enemy.health -= playerStats.strength;
+    //             }
+    //             if (enemy.health <= 0) {
+    //                 enemies.splice(index, 1);
+    //                 enemy.visible = false
+    //             }
 
-    let ratCage = gameScene.getChildByName("rats");
-    for (let i = 0; i < numberOfRats - enemies.length; i++) {
-        let rat = createEnemy(bg, "rat");
-        enemies.push(rat);
-        ratCage.addChild(rat);
-    }
-    enemies.forEach(function (enemy, index) {
-        if (hitTestRectangle(enemy, player)) {
-            if (playerStats.health > 0) {
-                playerStats.health -= enemy.strength;
-                resourceMeters.types.health.inner.width = playerStats.health * 2 - resourceMeters.innerOffset * 2;
-            }
-
-            if (click['mouse']) {
-                if (enemy.health > 0) {
-                    enemy.health -= playerStats.strength;
-                }
-                if (enemy.health <= 0) {
-                    enemies.splice(index, 1);
-                    enemy.visible = false
-                }
-
-            }
-        }
-    })
+    //         }
+    //     }
+    // })
 
     if (playerStats.health <= 0) {
         state = end;

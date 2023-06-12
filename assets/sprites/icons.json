@@ -1,8 +1,16 @@
 {"frames": {
 
+"iconArrow.png":
+{
+	"frame": {"x":7,"y":8,"w":9,"h":9},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":9,"h":9},
+	"sourceSize": {"w":9,"h":9}
+},
 "iconBag.png":
 {
-	"frame": {"x":0,"y":14,"w":16,"h":16},
+	"frame": {"x":16,"y":21,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -10,7 +18,7 @@
 },
 "iconBagSelected.png":
 {
-	"frame": {"x":16,"y":46,"w":18,"h":18},
+	"frame": {"x":28,"y":53,"w":18,"h":18},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":18,"h":18},
@@ -18,7 +26,7 @@
 },
 "iconCharacter.png":
 {
-	"frame": {"x":16,"y":14,"w":16,"h":16},
+	"frame": {"x":32,"y":21,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -26,15 +34,23 @@
 },
 "iconCharacterSelected.png":
 {
-	"frame": {"x":34,"y":46,"w":18,"h":18},
+	"frame": {"x":46,"y":53,"w":18,"h":18},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":18,"h":18},
 	"sourceSize": {"w":18,"h":18}
 },
+"iconChest.png":
+{
+	"frame": {"x":36,"y":0,"w":9,"h":8},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":9,"h":8},
+	"sourceSize": {"w":9,"h":8}
+},
 "iconClothChest.png":
 {
-	"frame": {"x":32,"y":14,"w":16,"h":16},
+	"frame": {"x":48,"y":21,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -42,7 +58,7 @@
 },
 "iconClothFeet.png":
 {
-	"frame": {"x":48,"y":14,"w":16,"h":16},
+	"frame": {"x":0,"y":37,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -50,7 +66,7 @@
 },
 "iconClothHands.png":
 {
-	"frame": {"x":0,"y":30,"w":16,"h":16},
+	"frame": {"x":16,"y":37,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -58,7 +74,7 @@
 },
 "iconClothHead.png":
 {
-	"frame": {"x":16,"y":30,"w":16,"h":16},
+	"frame": {"x":32,"y":37,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -66,7 +82,7 @@
 },
 "iconClothLegs.png":
 {
-	"frame": {"x":32,"y":30,"w":14,"h":16},
+	"frame": {"x":48,"y":37,"w":14,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":14,"h":16},
@@ -74,7 +90,7 @@
 },
 "iconClothShoulders.png":
 {
-	"frame": {"x":33,"y":0,"w":16,"h":14},
+	"frame": {"x":0,"y":21,"w":16,"h":14},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":14},
@@ -82,31 +98,79 @@
 },
 "iconCopper.png":
 {
-	"frame": {"x":0,"y":0,"w":11,"h":13},
+	"frame": {"x":25,"y":8,"w":11,"h":13},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":11,"h":13},
 	"sourceSize": {"w":11,"h":13}
+},
+"iconFeet.png":
+{
+	"frame": {"x":12,"y":0,"w":12,"h":6},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":6},
+	"sourceSize": {"w":12,"h":6}
 },
 "iconGold.png":
 {
-	"frame": {"x":11,"y":0,"w":11,"h":13},
+	"frame": {"x":36,"y":8,"w":11,"h":13},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":11,"h":13},
 	"sourceSize": {"w":11,"h":13}
 },
+"iconHands.png":
+{
+	"frame": {"x":24,"y":0,"w":12,"h":7},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":7},
+	"sourceSize": {"w":12,"h":7}
+},
+"iconHead.png":
+{
+	"frame": {"x":45,"y":0,"w":7,"h":8},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":7,"h":8},
+	"sourceSize": {"w":7,"h":8}
+},
+"iconLegs.png":
+{
+	"frame": {"x":52,"y":0,"w":7,"h":8},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":7,"h":8},
+	"sourceSize": {"w":7,"h":8}
+},
+"iconShield.png":
+{
+	"frame": {"x":0,"y":8,"w":7,"h":8},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":7,"h":8},
+	"sourceSize": {"w":7,"h":8}
+},
 "iconShield1.png":
 {
-	"frame": {"x":46,"y":30,"w":12,"h":16},
+	"frame": {"x":0,"y":53,"w":12,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":16},
 	"sourceSize": {"w":12,"h":16}
 },
+"iconShoulders.png":
+{
+	"frame": {"x":0,"y":0,"w":12,"h":4},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":12,"h":4},
+	"sourceSize": {"w":12,"h":4}
+},
 "iconSilver.png":
 {
-	"frame": {"x":22,"y":0,"w":11,"h":13},
+	"frame": {"x":47,"y":8,"w":11,"h":13},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":11,"h":13},
@@ -114,19 +178,27 @@
 },
 "iconSword1h1.png":
 {
-	"frame": {"x":0,"y":46,"w":16,"h":16},
+	"frame": {"x":12,"y":53,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
 	"sourceSize": {"w":16,"h":16}
+},
+"iconWeapon.png":
+{
+	"frame": {"x":16,"y":8,"w":9,"h":9},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":9,"h":9},
+	"sourceSize": {"w":9,"h":9}
 }},
 "meta": {
 	"app": "https://www.codeandweb.com/texturepacker",
 	"version": "1.1",
 	"image": "icons.png",
 	"format": "RGBA8888",
-	"size": {"w":64,"h":64},
+	"size": {"w":64,"h":71},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:5f0a9c12ebb77a971a013420f5a3fed7:cad87485dc8c5d5503f5258b40ca5614:b5c5bd7252d2048fecbb1bda1760f9ef$"
+	"smartupdate": "$TexturePacker:SmartUpdate:098ebf8d1b59e51950bad0cd9d35efcf:f0aa8e0506bd6087ab438be318869fd5:b5c5bd7252d2048fecbb1bda1760f9ef$"
 }
 }
