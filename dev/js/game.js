@@ -15,7 +15,7 @@ import createEnemy from './module/enemy.js';
 // Aliases
 let Application = PIXI.Application,
     loader = PIXI.Loader,
-    TextureCache = PIXI.utils.TextureCache,
+    settings = PIXI.settings,
     resources = PIXI.Loader.shared.resources,
     Sprite = PIXI.Sprite,
     AnimatedSprite = PIXI.AnimatedSprite,
@@ -26,7 +26,7 @@ let Application = PIXI.Application,
     u = new SpriteUtilities(PIXI);
 
 // Create a Pixi Application
-PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
+settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 
 let app = new Application({
     width: 600,
@@ -36,31 +36,38 @@ let app = new Application({
 // Add the canvas that Pixi automatically created for you.
 document.getElementById("game").appendChild(app.view);
 
+loader.shared.onProgress.add(loadProgressHandler)
 loader.shared
-    .add('../../assets/sprites.json')
-    .add('../../assets/sprites/humanMale/main/humanMale_noArmorNaked.json')
-    .add('../../assets/sprites/humanMale/armor/humanMale_clothChest.json')
-    .add('../../assets/sprites/humanMale/armor/humanMale_clothFeet.json')
-    .add('../../assets/sprites/humanMale/armor/humanMale_clothHands.json')
-    .add('../../assets/sprites/humanMale/armor/humanMale_clothHead.json')
-    .add('../../assets/sprites/humanMale/armor/humanMale_clothLegs.json')
-    .add('../../assets/sprites/humanMale/armor/humanMale_clothShoulders.json')
-    .add('../../assets/sprites/icons.json')
-    .load(setup);
+    .add([
+        '../../assets/sprites.json',
+        '../../assets/sprites/icons.json',
+        '../../assets/sprites/misc.json',
+        '../../assets/sprites/humanMale/main/humanMale_noArmorNaked.json',
+        '../../assets/sprites/humanMale/armor/humanMale_clothChest.json',
+        '../../assets/sprites/humanMale/armor/humanMale_clothFeet.json',
+        '../../assets/sprites/humanMale/armor/humanMale_clothHands.json',
+        '../../assets/sprites/humanMale/armor/humanMale_clothHead.json',
+        '../../assets/sprites/humanMale/armor/humanMale_clothLegs.json',
+        '../../assets/sprites/humanMale/armor/humanMale_clothShoulders.json',
+    ]).load(setup);
+
+function loadProgressHandler(loader, resource) {
+    // Basis for a loading progress bar.
+    console.log('loading:', resource.url);
+    console.log('progress:', loader.progress + '%');
+}
 
 // Define variables in more than one function
 let gameScene, gameOverScene, messageGameOver;
 let id, state, sheet;
-let playerSheets, sheet_icons;
+let playerSheets, sheet_icons, sheet_misc;
 let player, playerBase, bg, gold;
 let enemies = [];
 let numberOfRats;
 let itemsMap;
 let fontStyle, bagUi, characterUi, bagUiGoldText, bagUiSilverText, bagUiCopperText, popupMenus;
-let playerContainer, playerStats, inventory;
-let bagCubbies = [];
-let equippedCubbies;
-let equipped;
+let bagUiBg, bagUiMargin, cubbySize;
+let playerContainer, playerStats, inventory, equipped;
 
 let resourceMeters = {
     types: {
@@ -74,14 +81,12 @@ let playerSheet = {};
 let playerIdleTexture;
 
 // Cursor
-const defaultIcon = "url('../../assets/cursor.png'),auto";
-const hoverIcon = "url('../../assets/cursorAttack.png'),auto";
-app.renderer.plugins.interaction.cursorStyles.default = defaultIcon;
-app.renderer.plugins.interaction.cursorStyles.hover = hoverIcon;
+const defaultCursor = "url('../../assets/cursor.png'),auto";
+const attackCursor = "url('../../assets/cursorAttack.png'),auto";
+app.renderer.plugins.interaction.cursorStyles.default = defaultCursor;
+app.renderer.plugins.interaction.cursorStyles.hover = attackCursor;
 
-// keyboard event handlers
-window.addEventListener("keydown", keysDown);
-window.addEventListener("keyup", keysUp);
+// mouse event handlers
 window.addEventListener('mousedown', mouseDown);
 window.addEventListener('mouseup', mouseUp);
 window.addEventListener('mousemove', mouseMove);
@@ -94,19 +99,10 @@ let controls = {
     ShiftLeft: false,
 };
 
-let keys = {};
 let click = {};
 let cursor = {
     x: 0,
     y: 0
-}
-
-function keysDown(e) {
-    keys[e.keyCode] = true;
-}
-
-function keysUp(e) {
-    keys[e.keyCode] = false;
 }
 
 function mouseDown(e) {
@@ -139,24 +135,28 @@ playerStats = {
 }
 
 function setup() {
+    console.log('All files loaded.');
 
     // Other texturesheets to move over.
-    sheet = PIXI.Loader.shared.resources["../../assets/sprites.json"].spritesheet;
-    id = PIXI.Loader.shared.resources['../../assets/sprites.json'].textures;
+    sheet = resources["../../assets/sprites.json"].spritesheet;
+    id = resources['../../assets/sprites.json'].textures;
 
     // Player Spritesheets
     playerSheets = {
-        sheet_humanMale_noArmorNaked: PIXI.Loader.shared.resources["../../assets/sprites/humanMale/main/humanMale_noArmorNaked.json"].spritesheet,
-        sheet_humanMale_clothChest: PIXI.Loader.shared.resources["../../assets/sprites/humanMale/armor/humanMale_clothChest.json"].spritesheet,
-        sheet_humanMale_clothFeet: PIXI.Loader.shared.resources["../../assets/sprites/humanMale/armor/humanMale_clothFeet.json"].spritesheet,
-        sheet_humanMale_clothHands: PIXI.Loader.shared.resources["../../assets/sprites/humanMale/armor/humanMale_clothHands.json"].spritesheet,
-        sheet_humanMale_clothHead: PIXI.Loader.shared.resources["../../assets/sprites/humanMale/armor/humanMale_clothHead.json"].spritesheet,
-        sheet_humanMale_clothLegs: PIXI.Loader.shared.resources["../../assets/sprites/humanMale/armor/humanMale_clothLegs.json"].spritesheet,
-        sheet_humanMale_clothShoulders: PIXI.Loader.shared.resources["../../assets/sprites/humanMale/armor/humanMale_clothShoulders.json"].spritesheet,
+        sheet_humanMale_noArmorNaked: resources["../../assets/sprites/humanMale/main/humanMale_noArmorNaked.json"].spritesheet,
+        sheet_humanMale_clothChest: resources["../../assets/sprites/humanMale/armor/humanMale_clothChest.json"].spritesheet,
+        sheet_humanMale_clothFeet: resources["../../assets/sprites/humanMale/armor/humanMale_clothFeet.json"].spritesheet,
+        sheet_humanMale_clothHands: resources["../../assets/sprites/humanMale/armor/humanMale_clothHands.json"].spritesheet,
+        sheet_humanMale_clothHead: resources["../../assets/sprites/humanMale/armor/humanMale_clothHead.json"].spritesheet,
+        sheet_humanMale_clothLegs: resources["../../assets/sprites/humanMale/armor/humanMale_clothLegs.json"].spritesheet,
+        sheet_humanMale_clothShoulders: resources["../../assets/sprites/humanMale/armor/humanMale_clothShoulders.json"].spritesheet,
     }
 
     // Icon Spritesheets
-    sheet_icons = PIXI.Loader.shared.resources['../../assets/sprites/icons.json'].textures;
+    sheet_icons = resources['../../assets/sprites/icons.json'].textures;
+
+    // Misc Spritesheets
+    sheet_misc = resources['../../assets/sprites/misc.json'].textures;
 
     // Main Game Scene
     gameScene = new Container();
@@ -275,51 +275,64 @@ function setup() {
             silver: 0,
             copper: 0,
         },
-        items: ['clothFeet', 'clothHands', 'clothHead', 'clothLegs', 'clothShoulders', 'sword1h1'],
+        items: [],
     }
 
     equipped = {
-        head: null,
+        head: {
+            item: null,
+            cubby: null,
+            animatedSprites: null,
+            idleTexture: null,
+        },
         feet: {
             item: 'clothFeet',
+            cubby: null,
             animatedSprite: null,
             idleTexture: null,
         },
         legs: {
             item: 'clothLegs',
+            cubby: null,
             animatedSprite: null,
             idleTexture: null,
         },
         chest: {
             item: 'clothChest',
+            cubby: null,
             animatedSprite: null,
             idleTexture: null,
         },
         shoulders: {
             item: 'clothShoulders',
+            cubby: null,
             animatedSprite: null,
             idleTexture: null,
         },
         hands: {
             item: 'clothHands',
+            cubby: null,
             animatedSprite: null,
             idleTexture: null,
         },
-        rightHand: null,
-        leftHand: null,
-        resourceItem: null,
-    }
-
-    equippedCubbies = {
-        head: null,
-        feet: null,
-        legs: null,
-        chest: null,
-        shoulders: null,
-        hands: null,
-        rightHand: null,
-        leftHand: null,
-        resourceItem: null,
+        rightHand: {
+            item: null,
+            cubby: null,
+            animatedSprites: null,
+            idleTexture: null,
+        },
+        leftHand: {
+            item: null,
+            cubby: null,
+            animatedSprites: null,
+            idleTexture: null,
+        },
+        resourceItem: {
+            item: null,
+            cubby: null,
+            animatedSprites: null,
+            idleTexture: null,
+        },
     }
 
     function createPlayerSheet(raceGender, spritesheetId) {
@@ -351,14 +364,10 @@ function setup() {
         player.animationSpeed = .1;
         player.loop = false;
 
-        let blurFilter = new PIXI.filters.BlurFilter(10);
-        playerBase = new Graphics();
-        playerBase.beginFill('0x000000', .2);
-        playerBase.drawCircle(0, 0, 30);
-        playerBase.scale.set(1, .75);
-        playerBase.filters = [blurFilter];
-        playerBase.x = player.x + (player.width / 2) + 5;
-        playerBase.y = player.y + player.height - 65;
+        playerBase = new Sprite(sheet_misc['dropShadow.png']);
+        playerBase.scale.set(playerSpriteScale * 1.5, playerSpriteScale * 1.5);
+        playerBase.x = player.x + (player.width / 2) - 15;
+        playerBase.y = player.y + player.height - 80;
 
         playerContainer.addChild(playerBase);
         playerContainer.addChild(player);
@@ -370,7 +379,7 @@ function setup() {
     function createPlayerArmor() {
         Object.keys(equipped).map(slot => {
             let equippedItem = equipped[slot];
-            if (equippedItem) {
+            if (equippedItem.item) {
                 createPlayerSheet('humanMale', equippedItem.item);
                 equippedItem.animatedSprite = new AnimatedSprite(playerSheet['idle_' + equippedItem.item + '_DR']);
                 equippedItem.animatedSprite.x = player.x;
@@ -487,7 +496,7 @@ function setup() {
 
     // Bag UI Window
     bagUi = new Container();
-    let bagUiBg = new Graphics();
+    bagUiBg = new Graphics();
     bagUiBg.lineStyle(4, 0x000000, .5, 0);
     bagUiBg.beginFill('0x000000', .3);
     bagUiBg.drawRect(0, 0, 168, uiWindowHeight);
@@ -506,7 +515,7 @@ function setup() {
     bagUiCurrencyGold.addChild(bagUiGoldIcon);
     bagUiGoldText = new Text(inventory.currency.gold, fontStyle);
     bagUiGoldText.x = bagUiGoldIcon.x + 14;
-    bagUiGoldText.y = bagUiGoldIcon.y - 10;
+    bagUiGoldText.y = bagUiGoldIcon.y - 3;
     bagUiCurrencyGold.addChild(bagUiGoldText);
     bagUiCurrency.addChild(bagUiCurrencyGold);
 
@@ -518,7 +527,7 @@ function setup() {
     bagUiCurrencySilver.addChild(bagUiSilverIcon);
     bagUiSilverText = new Text(inventory.currency.silver, fontStyle);
     bagUiSilverText.x = bagUiSilverIcon.x + 14;
-    bagUiSilverText.y = bagUiSilverIcon.y - 10;
+    bagUiSilverText.y = bagUiSilverIcon.y - 3;
     bagUiCurrencySilver.addChild(bagUiSilverText);
     bagUiCurrency.addChild(bagUiCurrencySilver);
 
@@ -530,15 +539,15 @@ function setup() {
     bagUiCurrencyCopper.addChild(bagUiCopperIcon);
     bagUiCopperText = new Text(inventory.currency.copper, fontStyle);
     bagUiCopperText.x = bagUiCopperIcon.x + 14;
-    bagUiCopperText.y = bagUiCopperIcon.y - 10;
+    bagUiCopperText.y = bagUiCopperIcon.y - 3;
     bagUiCurrencyCopper.addChild(bagUiCopperText);
     bagUiCurrency.addChild(bagUiCurrencyCopper);
 
     bagUi.addChild(bagUiCurrency);
 
     // Bag UI Inventory Cubbies.
-    let bagUiMargin = 3;
-    let cubbySize = 36;
+    bagUiMargin = 3;
+    cubbySize = 36;
     let cubbyRowCount = Math.floor(bagUiBg.height / cubbySize) - 1;
     let cubbiesPerRow = Math.floor(bagUiBg.width / cubbySize);
 
@@ -565,38 +574,60 @@ function setup() {
             bagCubbyBg.interactive = true;
             bagCubby.addChild(bagCubbyBg);
             row.addChild(bagCubby);
-            bagCubbies.push(
+            inventory.items.push(
                 {
-                    cubby: bagCubby,
                     item: null,
+                    cubby: bagCubby,
                 }
             );
         }
     })
 
+    // Add items to cubbies.
+    inventory.items[1].item = 'sword1h1';
+    inventory.items[14].item = 'clothHead';
+
     // Add Sprites from Inventory to each Cubby Container.
-    inventory.items.forEach(function (item, i) {
+    inventory.items.forEach(function (cubby, i) {
         let bagUiItemScale = 1.75;
-        bagCubbies[i].item = item;
-        let itemIcon = new Sprite(itemsMap[item].icon);
-        itemIcon.scale.set(bagUiItemScale);
-        itemIcon.x = (cubbySize - itemIcon.width) / 2;
-        itemIcon.y = (cubbySize - itemIcon.height) / 2;
-        bagCubbies[i].cubby.addChild(itemIcon);
+        if (inventory.items[i].item) {
+            inventory.items[i].icon = new Sprite(itemsMap[cubby.item].icon)
+            let itemIcon = inventory.items[i].icon;
+            itemIcon.scale.set(bagUiItemScale);
+            itemIcon.x = (cubbySize - itemIcon.width) / 2;
+            itemIcon.y = (cubbySize - itemIcon.height) / 2;
+            inventory.items[i].cubby.addChild(itemIcon);
+        }
+    })
+
+    let bagUiOpen = false;
+    bagIcon.on('click', function () {
+        if (!bagUiOpen) {
+            bagIcon.texture = sheet_icons['iconBagSelected.png'];
+            bagIcon.x -= bagIconScale;
+            bagIcon.y -= bagIconScale;
+            gameScene.addChild(bagUi);
+            bagUiOpen = true;
+        } else {
+            bagIcon.texture = sheet_icons['iconBag.png'];
+            bagIcon.x += bagIconScale;
+            bagIcon.y += bagIconScale;
+            gameScene.removeChild(bagUi);
+            bagUiOpen = false;
+        }
     })
 
     let itemMenuWidth = 150;
     let itemMenuHeight = 30;
-    bagCubbies.forEach(function (cubbyObject) {
+    inventory.items.forEach(function (cubbyObject) {
         let cubby = cubbyObject.cubby;
-        let cubbyItem = cubbyObject.item;
-        let cubbyBg = cubby.children[0];
 
         // Generate Cubby Menu
-        let itemMenuOpen = false;
         let popupMenu = new Container();
         popupMenu.x = bagUiBg.x + cubby.x + (bagUiMargin * 2) + (cubbySize / 2) - itemMenuWidth;
         popupMenu.y = bagUiBg.y + cubby.y + cubbySize + (bagUiMargin * 2) + 1;
+        popupMenu.visible = false;
+        popupMenus.addChild(popupMenu);
 
         let menuItems = [
             {
@@ -619,99 +650,10 @@ function setup() {
             itemBg.beginFill('0x000000');
             itemBg.drawRect(0, 0, itemMenuWidth, itemMenuHeight);
             itemBg.interactive = true;
-            itemBg.on('mouseover', function () {
-                itemBg.clear();
-                itemBg.beginFill('0x7a7a7a');
-                itemBg.drawRect(0, 0, itemMenuWidth, itemMenuHeight);
-            })
-            itemBg.on('mouseout', function () {
-                itemBg.clear();
-                itemBg.beginFill('0x000000');
-                itemBg.drawRect(0, 0, itemMenuWidth, itemMenuHeight);
-            })
             item.menuItem.addChild(itemBg);
             item.menuItem.addChild(itemText);
             popupMenu.addChild(item.menuItem);
         })
-
-        // Equip
-        menuItems[0].menuItem.children[0].on('click', function () {
-            console.log(cubbyItem);
-            // equip item
-            // delete from bags
-            // let itemSlotType = itemsMap[cubbyItem].slot;
-            // equipped[itemSlotType].item = cubbyItem;
-            // console.log(equipped);
-            itemMenuOpen = false;
-            cubbyBg.clear();
-            cubbyBg.beginFill('0x000000', .5);
-            cubbyBg.drawRect(0, 0, cubbySize, cubbySize);
-            gameScene.removeChild(popupMenu);
-        })
-
-        // Destroy
-        menuItems[1].menuItem.children[0].on('click', function () {
-            // delete from bags ----- NEED UPDATE() ?
-            // cubbyItem = null;
-            // inventory.items.pop();
-            // cubby.removeChild(cubby.children[1]);
-            itemMenuOpen = false;
-            cubbyBg.clear();
-            cubbyBg.beginFill('0x000000', .5);
-            cubbyBg.drawRect(0, 0, cubbySize, cubbySize);
-            gameScene.removeChild(popupMenu);
-        })
-
-        if (cubbyItem) {
-            cubbyBg.on('mouseover', function () {
-                if (!itemMenuOpen) {
-                    cubbyBg.clear();
-                    cubbyBg.beginFill('0x7a7a7a');
-                    cubbyBg.drawRect(0, 0, cubbySize, cubbySize);
-                }
-            });
-            cubbyBg.on('mouseout', function () {
-                if (!itemMenuOpen) {
-                    cubbyBg.clear();
-                    cubbyBg.beginFill('0x000000', .5);
-                    cubbyBg.drawRect(0, 0, cubbySize, cubbySize);
-                }
-            })
-
-            // Figure out click outside of 
-            cubbyBg.on('click', function () {
-                if (!itemMenuOpen) {
-                    itemMenuOpen = true;
-                    cubbyBg.clear();
-                    cubbyBg.beginFill('0x00d9ff');
-                    cubbyBg.drawRect(0, 0, cubbySize, cubbySize);
-                    gameScene.addChild(popupMenu);
-                } else {
-                    itemMenuOpen = false;
-                    cubbyBg.clear();
-                    cubbyBg.beginFill('0x7a7a7a');
-                    cubbyBg.drawRect(0, 0, cubbySize, cubbySize);
-                    gameScene.removeChild(popupMenu);
-                }
-            })
-        }
-    })
-
-    let bagUiOpen = false;
-    bagIcon.on('click', function () {
-        if (!bagUiOpen) {
-            bagIcon.texture = sheet_icons['iconBagSelected.png'];
-            bagIcon.x -= bagIconScale;
-            bagIcon.y -= bagIconScale;
-            gameScene.addChild(bagUi);
-            bagUiOpen = true;
-        } else {
-            bagIcon.texture = sheet_icons['iconBag.png'];
-            bagIcon.x += bagIconScale;
-            bagIcon.y += bagIconScale;
-            gameScene.removeChild(bagUi);
-            bagUiOpen = false;
-        }
     })
 
     // characterIcon UI Button
@@ -746,7 +688,7 @@ function setup() {
     characterUiNamePlate.addChild(characterUiNamePlateBg);
     let characterUiNamePlateText = new Text(playerName, fontStyle);
     characterUiNamePlateText.x = 10;
-    characterUiNamePlateText.y = 1;
+    characterUiNamePlateText.y = 7;
     characterUiNamePlate.addChild(characterUiNamePlateText);
     characterUi.addChild(characterUiNamePlate);
 
@@ -762,7 +704,7 @@ function setup() {
         if (i <= 6) {
             let statCount = new Container();
             statCount.x = 10;
-            statCount.y = (characterUiStatsBg.height / 7) + (15 * i);
+            statCount.y = (characterUiStatsBg.height / 6) + (15 * i);
             let label = new Text(stat.slice(0, 3), fontStyle);
             statCount.addChild(label);
             let amount = new Text(playerStats[stat], fontStyle);
@@ -778,8 +720,8 @@ function setup() {
 
     // Generate Cubbies for Equipped Items
     function createEquippedCubby(item, defaultSprite, x, y) {
-        equippedCubbies[item] = new Container();
-        let cubby = equippedCubbies[item];
+        equipped[item].cubby = new Container();
+        let cubby = equipped[item].cubby;
         cubby.x = x + ((characterUiBg.width - characterUiStatsBg.width - (characterUiBg.line.width * 2) - ((cubbySize * 2) + (characterUiMargin * 4))) / 2);
         cubby.y = y + characterUiStatsBg.height - (characterUiBg.line.width * 2) - (((cubbySize * 4) + (characterUiMargin * 4)));
         let cubbyBg = new Graphics();
@@ -815,11 +757,12 @@ function setup() {
     characterUi.addChild(characterUiExtra);
 
     // Populate Equipped Items Cubbies
-    Object.keys(equipped).map(function (item) {
-        let cubby = equippedCubbies[item];
-        if (equipped[item]) {
+    Object.keys(equipped).map(function (itemObject) {
+        if (equipped[itemObject].item) {
+            let cubby = equipped[itemObject].cubby;
+            console.log(equipped[itemObject].item);
             cubby.removeChild(cubby.children[1]);
-            let sprite = new Sprite(sheet_icons['icon' + equipped[item].item.replace(/^(.)/, s => s.toUpperCase()) + '.png']);
+            let sprite = new Sprite(sheet_icons['icon' + equipped[itemObject].item.replace(/^(.)/, s => s.toUpperCase()) + '.png']);
             sprite.scale.set(bagIconScale, bagIconScale);
             sprite.x = ((cubby.width - sprite.width) / 2);
             sprite.y = ((cubby.height - sprite.height) / 2);
@@ -845,18 +788,28 @@ function setup() {
         }
     })
 
-    state = play;
     createPlayerSheet('humanMale', 'noArmorNaked');
     createPlayer();
     createPlayerArmor();
+    gameScene.addChild(popupMenus);
 
+    // Render the Stage
+    app.renderer.render(app.stage);
+
+    // Set the game state
+    state = play;
+
+    // Start the game loop
     app.ticker.add(delta => gameLoop(delta));
 }
 
 // Game Loop -----------------------------------------------------------------------
-
 function gameLoop(delta) {
+    // update the current game state:
+    state(delta);
+}
 
+function play() {
     // Create an array of objects that will move with the environment
     let environment = [bg].concat(enemies);
 
@@ -879,7 +832,7 @@ function gameLoop(delta) {
     function equippedItemLoopTexture(animation, textureDirection) {
         Object.keys(equipped).map(slot => {
             let equippedItem = equipped[slot];
-            if (equippedItem) {
+            if (equippedItem.item) {
                 equippedItem.animatedSprite.textures = playerSheet[animation + '_' + equippedItem.item + '_' + textureDirection];
             }
         })
@@ -888,7 +841,7 @@ function gameLoop(delta) {
     function equippedItemLoopIdleTexture(textureDirection) {
         Object.keys(equipped).map(slot => {
             let equippedItem = equipped[slot];
-            if (equippedItem) {
+            if (equippedItem.item) {
                 equippedItem.idleTexture = playerSheet['idle_' + equippedItem.item + '_' + textureDirection];
             }
         })
@@ -897,7 +850,7 @@ function gameLoop(delta) {
     function equippedItemLoopPlay() {
         Object.keys(equipped).map(slot => {
             let equippedItem = equipped[slot];
-            if (equippedItem) {
+            if (equippedItem.item) {
                 equippedItem.animatedSprite.play();
             }
         })
@@ -906,7 +859,7 @@ function gameLoop(delta) {
     function equippedItemLoopAnimationSpeed(speed) {
         Object.keys(equipped).map(slot => {
             let equippedItem = equipped[slot];
-            if (equippedItem) {
+            if (equippedItem.item) {
                 equippedItem.animatedSprite.animationSpeed = speed;
             }
         })
@@ -915,7 +868,7 @@ function gameLoop(delta) {
     function equippedItemLoopChangeIdle() {
         Object.keys(equipped).map(slot => {
             let equippedItem = equipped[slot];
-            if (equippedItem) {
+            if (equippedItem.item) {
                 equippedItem.animatedSprite.textures = equippedItem.idleTexture;
                 equippedItem.animatedSprite.play();
             }
@@ -1070,17 +1023,6 @@ function gameLoop(delta) {
     //     }
     // })
 
-    // Game Over Scene
-    messageGameOver = new Text("You died.", fontStyle);
-    messageGameOver.x = app.view.width / 2 - messageGameOver.width / 2;
-    messageGameOver.y = app.view.height / 2 - messageGameOver.height / 2;
-    gameOverScene.addChild(messageGameOver);
-
-    state(delta);
-}
-
-function play(delta) {
-
     // if (hitTestRectangle(gold, player)) {
     //     ++inventory.currency.gold;
     //     gold.x = randomInt(bg.x, bg.x + bg.width - gold.width);
@@ -1113,14 +1055,18 @@ function play(delta) {
     //         }
     //     }
     // })
-
     if (playerStats.health <= 0) {
         state = end;
     }
 }
 
 function end() {
+    // Game Over Scene
+    messageGameOver = new Text("You died.", fontStyle);
+    messageGameOver.x = app.view.width / 2 - messageGameOver.width / 2;
+    messageGameOver.y = app.view.height / 2 - messageGameOver.height / 2;
+    gameOverScene.addChild(messageGameOver);
+
     gameScene.visible = false;
     gameOverScene.visible = true;
 }
-
