@@ -12,6 +12,7 @@ import { defaultCursor, attackCursor } from './controls/mouse.js';
 import { resourceMeters_setup } from './ui/resourceMeters.js';
 import { playerMovement } from './playerMovement.js';
 import { getBg, setBg } from './background.js';
+import { createPlayer, getPlayerContainer, setPlayerContainer, playerSpriteScale, getPlayer } from './player.js';
 
 // Aliases
 export let Application = PIXI.Application,
@@ -71,7 +72,6 @@ export let enemies = [];
 let numberOfRats;
 let bagUi, characterUi, bagUiGoldText, bagUiSilverText, bagUiCopperText, popupMenus;
 let bagUiBg, bagUiMargin, cubbySize;
-let playerContainer;
 
 let textStyle = {
     fontName: 'Visitor',
@@ -103,33 +103,11 @@ function setup() {
     gameOverScene.visible = false;
     app.stage.addChild(gameOverScene);
 
-    let playerSpriteScale = 2;
-    function createPlayer() {
-        setIdleTexture(playerSheets.idle_noArmorNaked_DR);
-        playerContainer = new Container();
-        gameScene.addChild(playerContainer);
-
-        player = new AnimatedSprite(playerSheets.idle_noArmorNaked_DR);
-        player.x = (app.view.width - (player.width * playerSpriteScale)) / 2;
-        player.y = (app.view.height - (player.height * playerSpriteScale)) / 2;
-        player.scale.set(playerSpriteScale);
-        player.animationSpeed = .1;
-        player.loop = false;
-
-        playerBase = new Sprite(getMiscSheet()['dropShadow.png']);
-        playerBase.scale.set(playerSpriteScale * 1.5, playerSpriteScale * 1.5);
-        playerBase.x = player.x + (player.width / 2) - 15;
-        playerBase.y = player.y + player.height - 80;
-
-        playerContainer.addChild(playerBase);
-        playerContainer.addChild(player);
-
-        player.play();
-    }
-
     // Player Armor
     function createPlayerArmor() {
         Object.keys(getEquipped()).map(slot => {
+            let player = getPlayer();
+            let playerContainer = getPlayerContainer();
             let equippedItem = getEquippedSlot(slot);
             if (equippedItem.item) {
                 createPlayerSheet('humanMale', equippedItem.item);
@@ -140,10 +118,10 @@ function setup() {
                 equippedItem.animatedSprite.animationSpeed = player.animationSpeed;
                 equippedItem.animatedSprite.loop = false;
                 equippedItem.idleTexture = playerSheets['idle_' + equippedItem.item + '_DR'];
-                playerContainer.addChild(equippedItem.animatedSprite);
                 equippedItem.animatedSprite.play();
+                playerContainer.addChild(equippedItem.animatedSprite);
+                console.log(getPlayerContainer());
             }
-
         })
     }
 
@@ -175,10 +153,10 @@ function setup() {
     // Reset player animation with keysDown
     Object.keys(keysDown).map(key => {
         keyboard(key).press = () => {
-            player.gotoAndStop(0);
+            getPlayer().gotoAndStop(0);
         }
         keyboard(key).release = () => {
-            player.gotoAndStop(0);
+            getPlayer().gotoAndStop(0);
         }
     })
 
@@ -493,7 +471,8 @@ function setup() {
     })
 
     createPlayerSheet('humanMale', 'noArmorNaked');
-    createPlayer();
+    let player = createPlayer();
+    gameScene.addChild(player);
     createPlayerArmor();
     gameScene.addChild(popupMenus);
 

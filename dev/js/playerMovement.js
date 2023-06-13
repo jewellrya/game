@@ -1,5 +1,5 @@
 import { keyboard, keysDown } from './controls/keyboard.js';
-import { player } from './_game.js';
+import { getPlayer } from './player.js';
 import { playerStats, getEquipped, getEquippedSlot, setEquippedAnimatedSprites, setEquippedIdleTexture } from './playerData.js';
 import { playerSheets, getIdleTexture, setIdleTexture } from './sheets/playerSheets.js';
 import { getBg, setBgX, setBgY } from './background.js';
@@ -19,6 +19,9 @@ function moveEnvironment(x, y) {
 }
 
 export function playerMovement() {
+    let player = getPlayer();
+    let playerPlaying = player.playing;
+
     Object.keys(keysDown).map(key => {
         keyboard(key).press = () => {
             keysDown[key] = true;
@@ -77,7 +80,7 @@ export function playerMovement() {
     function movementPlayerTexture(textureDirection) {
         setIdleTexture(playerSheets['idle_noArmorNaked_' + textureDirection]);
         equippedItemLoopIdleTexture(textureDirection);
-        if (!player.playing) {
+        if (!playerPlaying) {
             if (keysDown.ShiftLeft) {
                 player.textures = playerSheets['running_noArmorNaked_' + textureDirection];
                 equippedItemLoopTexture('running', textureDirection);
@@ -91,7 +94,7 @@ export function playerMovement() {
     }
 
     function setPlayerSpeed() {
-        if (player.playing) {
+        if (playerPlaying) {
             if (keysDown.ShiftLeft) {
                 // Running
                 player.animationSpeed = playerStats.dexterity / 20;
@@ -162,7 +165,7 @@ export function playerMovement() {
 
     // Idle animation if no keys are true
     if (!keysDown.KeyW && !keysDown.KeyA && !keysDown.KeyS && !keysDown.KeyD) {
-        if (!player.playing) {
+        if (!playerPlaying) {
             player.textures = getIdleTexture();
             player.play();
             equippedItemLoopChangeIdle();
