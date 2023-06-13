@@ -17,6 +17,7 @@
   "author": "Ryan Jewell",
   "license": "ISC",
   "dependencies": {
+    "fontfaceobserver": "^2.3.0",
     "g": "^2.0.1",
     "jquery": "^3.5.1",
     "live-server": "^1.1.0",

@@ -1,5 +1,5 @@
 // Keyboard Function
-export default function keyboard(value) {
+export function keyboard(value) {
     let code = {};
     code.value = value;
     code.isDown = false;
@@ -45,3 +45,12 @@ export default function keyboard(value) {
 
     return code;
 }
+
+// Used to capture multiple keys down at once:
+export let keysDown = {
+    KeyW: false,
+    KeyA: false,
+    KeyS: false,
+    KeyD: false,
+    ShiftLeft: false,
+};
