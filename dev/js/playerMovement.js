@@ -13,6 +13,9 @@ import { getResourceMeters, setFatigue } from './ui/resourceMeters.js';
 //     })
 // }
 
+let playerDirection = 'DR';
+export let getPlayerDirection = () => playerDirection;
+
 function moveEnvironment(x, y) {
     setBgX(getBg().x += x);
     setBgY(getBg().y += y);
@@ -80,6 +83,7 @@ export function playerMovement() {
     function movementPlayerTexture(textureDirection) {
         setIdleTexture(playerSheets['idle_noArmorNaked_' + textureDirection]);
         equippedItemLoopIdleTexture(textureDirection);
+        playerDirection = textureDirection;
         if (!player.playing) {
             if (keysDown.ShiftLeft) {
                 player.textures = playerSheets['running_noArmorNaked_' + textureDirection];

@@ -3,6 +3,7 @@ import { playerSheets, setIdleTexture } from './sheets/playerSheets.js';
 import { getMiscSheet } from './sheets/miscSheet.js';
 import { getEquipped, getEquippedSlot } from './playerData.js';
 import { createPlayerSheet, getIdleTexture } from './sheets/playerSheets.js';
+import { getPlayerDirection } from './playerMovement.js';
 
 export let playerSpriteScale = 2;
 
@@ -53,10 +54,27 @@ export function createPlayerArmor() {
             equippedItem.animatedSprite.y = player.y;
             equippedItem.animatedSprite.scale.set(playerSpriteScale);
             equippedItem.animatedSprite.animationSpeed = player.animationSpeed;
-            equippedItem.animatedSprite.loop = true;
+            equippedItem.animatedSprite.loop = false;
             equippedItem.idleTexture = playerSheets['idle_' + equippedItem.item + '_DR'];
             equippedItem.animatedSprite.play();
             playerContainer.addChild(equippedItem.animatedSprite);
         }
     })
+}
+
+export function createNewPlayerArmor(slot) {
+    // call after "equipped" is updated
+    let player = getPlayer();
+    let playerContainer = getPlayerContainer();
+    let equippedItem = getEquippedSlot(slot);
+    createPlayerSheet('humanMale', equippedItem.item);
+    equippedItem.animatedSprite = new AnimatedSprite(playerSheets['idle_' + equippedItem.item + '_' + getPlayerDirection()]);
+    equippedItem.animatedSprite.x = player.x;
+    equippedItem.animatedSprite.y = player.y;
+    equippedItem.animatedSprite.scale.set(playerSpriteScale);
+    equippedItem.animatedSprite.animationSpeed = player.animationSpeed;
+    equippedItem.animatedSprite.loop = false;
+    equippedItem.idleTexture = playerSheets['idle_' + equippedItem.item + '_' + getPlayerDirection()];
+    equippedItem.animatedSprite.play();
+    playerContainer.addChild(equippedItem.animatedSprite);
 }

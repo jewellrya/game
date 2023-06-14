@@ -4,7 +4,8 @@ import { getIconSheet } from '../sheets/iconSheet.js';
 import { textStyle } from './textStyle.js';
 import { itemsMap } from '../itemMap.js';
 import { getPopupMenus } from './popupMenus.js';
-// import { click } from '../controls/mouse.js';
+import { playerSheets } from '../sheets/playerSheets.js';
+import { createNewPlayerArmor } from '../player.js';
 
 let bagIconScale = 1.75;
 let bagIconMargin = 15;
@@ -281,6 +282,8 @@ export function inventoryCubbyMenuFunctions() {
             newIcon.y = (cubbySize - newIcon.height) / 2;
             equippedSlot.cubby.addChild(newIcon);
 
+            createNewPlayerArmor(itemSlot);
+
             let oldIcon = getInventoryItems()[i].icon;
             setInventoryItem(i, null);
             oldIcon.destroy();
@@ -291,9 +294,6 @@ export function inventoryCubbyMenuFunctions() {
             cubbyBg.clear();
             cubbyBg.beginFill('0x000000', .5);
             cubbyBg.drawRect(0, 0, cubbySize, cubbySize);
-
-            // Set Textures onto player
-
         })
 
         let destroy = popupMenu.children[1].children[0];

@@ -277,8 +277,6 @@ function setup() {
         }
     })
 
-
-
     let player = createPlayer();
 
     // Reset player animation with keysDown
