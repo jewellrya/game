@@ -80,7 +80,7 @@ export function playerMovement() {
     function movementPlayerTexture(textureDirection) {
         setIdleTexture(playerSheets['idle_noArmorNaked_' + textureDirection]);
         equippedItemLoopIdleTexture(textureDirection);
-        if (!playerPlaying) {
+        if (!player.playing) {
             if (keysDown.ShiftLeft) {
                 player.textures = playerSheets['running_noArmorNaked_' + textureDirection];
                 equippedItemLoopTexture('running', textureDirection);
@@ -129,8 +129,7 @@ export function playerMovement() {
     if (keysDown.KeyA) {
         if (keysDown.KeyW) {
             movementPlayerTexture('UL');
-        }
-        else if (keysDown.KeyS) {
+        } else if (keysDown.KeyS) {
             movementPlayerTexture('DL');
         } else {
             movementPlayerTexture('L');

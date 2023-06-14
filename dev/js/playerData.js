@@ -72,7 +72,7 @@ let equipped = {
         idleTexture: null,
     },
     chest: {
-        item: 'clothChest',
+        item: null,
         cubby: null,
         animatedSprite: null,
         idleTexture: null,
@@ -84,7 +84,7 @@ let equipped = {
         idleTexture: null,
     },
     hands: {
-        item: 'clothHands',
+        item: null,
         cubby: null,
         animatedSprite: null,
         idleTexture: null,

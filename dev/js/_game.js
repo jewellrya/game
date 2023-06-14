@@ -2,17 +2,30 @@
 // import { randomInt, randomIntReverse } from "./module/random.js";
 // import createEnemy from './module/enemy.js';
 
-import { playerName, playerStats, getInventory, setInventoryCopper, getInventoryItems, setInventoryItem, getEquipped, getEquippedSlot, setEquippedSlot, getEquippedCubby, setEquippedCubby } from './playerData.js';
-import { itemsMap, itemsMap_setup } from './itemMap.js';
-import { playerSheets, playerSheets_setup, createPlayerSheet, setIdleTexture } from './sheets/playerSheets.js';
-import { getIconSheet, setIconSheet } from './sheets/iconSheet.js';
-import { getMiscSheet, setMiscSheet } from './sheets/miscSheet.js';
-import { keyboard, keysDown } from './controls/keyboard.js';
-import { defaultCursor, attackCursor } from './controls/mouse.js';
-import { resourceMeters_setup } from './ui/resourceMeters.js';
+// Player
+import { playerName, playerStats, getEquipped, getEquippedSlot, getEquippedCubby, setEquippedCubby } from './playerData.js';
+import { createPlayer, createPlayerArmor, getPlayer } from './player.js';
 import { playerMovement } from './playerMovement.js';
+
+// Sheets
+import { playerSheets_setup, createPlayerSheet } from './sheets/playerSheets.js';
+import { getIconSheet, setIconSheet } from './sheets/iconSheet.js';
+import { setMiscSheet } from './sheets/miscSheet.js';
+
+// UI
+import { resourceMeters_setup } from './ui/resourceMeters.js';
+import { bagButton_setup, bag_setup, inventoryCubbyMenus, inventoryCubbyMenuFunctions, inventoryOccupiedCubbies } from './ui/bag.js';
+import { textStyle } from './ui/textStyle.js';
+import { getPopupMenus, popupMenus_setup } from './ui/popupMenus.js';
+
+// Controls
+import { defaultCursor, attackCursor } from './controls/mouse.js';
+import { keysDown, keyboard } from './controls/keyboard.js';
+
+// Misc
+import { itemsMap_setup } from './itemMap.js';
 import { getBg, setBg } from './background.js';
-import { createPlayer, getPlayerContainer, setPlayerContainer, playerSpriteScale, getPlayer } from './player.js';
+
 
 // Aliases
 export let Application = PIXI.Application,
@@ -67,16 +80,9 @@ function loadProgressHandler(loader) {
 // Define variables in more than one function
 let gameScene, gameOverScene, messageGameOver;
 let id, state;
-export let player, playerBase, gold;
 export let enemies = [];
 let numberOfRats;
-let bagUi, characterUi, bagUiGoldText, bagUiSilverText, bagUiCopperText, popupMenus;
-let bagUiBg, bagUiMargin, cubbySize;
-
-let textStyle = {
-    fontName: 'Visitor',
-    fontSize: 24,
-}
+let characterUi;
 
 function setup() {
     console.log('All files loaded.');
@@ -103,42 +109,14 @@ function setup() {
     gameOverScene.visible = false;
     app.stage.addChild(gameOverScene);
 
-    // Player Armor
-    function createPlayerArmor() {
-        Object.keys(getEquipped()).map(slot => {
-            let player = getPlayer();
-            let playerContainer = getPlayerContainer();
-            let equippedItem = getEquippedSlot(slot);
-            if (equippedItem.item) {
-                createPlayerSheet('humanMale', equippedItem.item);
-                equippedItem.animatedSprite = new AnimatedSprite(playerSheets['idle_' + equippedItem.item + '_DR']);
-                equippedItem.animatedSprite.x = player.x;
-                equippedItem.animatedSprite.y = player.y;
-                equippedItem.animatedSprite.scale.set(playerSpriteScale);
-                equippedItem.animatedSprite.animationSpeed = player.animationSpeed;
-                equippedItem.animatedSprite.loop = false;
-                equippedItem.idleTexture = playerSheets['idle_' + equippedItem.item + '_DR'];
-                equippedItem.animatedSprite.play();
-                playerContainer.addChild(equippedItem.animatedSprite);
-                console.log(getPlayerContainer());
-            }
-        })
-    }
-
     setBg(new Sprite(id['environment.png']));
     let bg = getBg();
     gameScene.addChild(bg);
 
+    popupMenus_setup();
+
     let resourceMeters = resourceMeters_setup();
     gameScene.addChild(resourceMeters);
-
-    // gold = new PIXI.AnimatedSprite(sheet.animations["gold"]);
-    // gold.scale.set(0.5, 0.5);
-    // gold.x = randomInt(bg.x, bg.x + bg.width - gold.width);
-    // gold.y = randomInt(bg.y, bg.y + bg.height - gold.height);
-    // gold.animationSpeed = 0.1;
-    // gold.play();
-    // gameScene.addChild(gold);
 
     // numberOfRats = 2;
     // let ratContainer = new Container();
@@ -150,194 +128,20 @@ function setup() {
     //     ratContainer.addChild(rat);
     // }
 
-    // Reset player animation with keysDown
-    Object.keys(keysDown).map(key => {
-        keyboard(key).press = () => {
-            getPlayer().gotoAndStop(0);
-        }
-        keyboard(key).release = () => {
-            getPlayer().gotoAndStop(0);
-        }
-    })
-
     // UIs -----------------------------------------------------------------------
 
-    popupMenus = new Container();
-
-    // bagIcon UI Button
-    let bagIconScale = 1.75;
-    let bagIconMargin = 15;
-    let bagIcon = new Sprite(getIconSheet()['iconBag.png']);
-    bagIcon.scale.set(bagIconScale, bagIconScale);
-    bagIcon.x = app.view.width - bagIcon.width - bagIconMargin;
-    bagIcon.y = app.view.height - bagIcon.height - bagIconMargin;
-    bagIcon.interactive = true;
-    gameScene.addChild(bagIcon);
+    let bagButton = bagButton_setup();
+    gameScene.addChild(bagButton);
+    let bag = bag_setup();
+    gameScene.addChild(bag);
+    inventoryCubbyMenus();
+    inventoryOccupiedCubbies();
+    inventoryCubbyMenuFunctions();
 
     let uiWindowHeight = 270;
     let uiWindowY = app.view.height - uiWindowHeight - 60;
-
-    // Bag UI Window
-    bagUi = new Container();
-    bagUiBg = new Graphics();
-    bagUiBg.lineStyle(4, 0x000000, .5, 0);
-    bagUiBg.beginFill('0x000000', .3);
-    bagUiBg.drawRect(0, 0, 168, uiWindowHeight);
-    bagUiBg.x = app.view.width - bagUiBg.width - 10;
-    bagUiBg.y = uiWindowY;
-    bagUi.addChild(bagUiBg);
-
-    let bagUiCurrency = new Container();
-    bagUiCurrency.x = bagUiBg.x + 10;
-    bagUiCurrency.y = bagUiBg.y + bagUiBg.height - 22;
-
-    // Gold Container for Icon & Amount
-    let bagUiCurrencyGold = new Container();
-    let bagUiGoldIcon = new Sprite(getIconSheet()['iconGold.png']);
-    bagUiGoldIcon.scale.set(.75, .75);
-    bagUiCurrencyGold.addChild(bagUiGoldIcon);
-    bagUiGoldText = new BitmapText(getInventory().currency.gold.toString(), textStyle);
-    bagUiGoldText.x = bagUiGoldIcon.x + 14;
-    bagUiGoldText.y = bagUiGoldIcon.y - 3;
-    bagUiCurrencyGold.addChild(bagUiGoldText);
-    bagUiCurrency.addChild(bagUiCurrencyGold);
-
-    // Silver Container for Icon & Amount - Try PIXI.BitmapText to use bagUiCurrencyGold.width.
-    let bagUiCurrencySilver = new Container();
-    bagUiCurrencySilver.x = 35;
-    let bagUiSilverIcon = new Sprite(getIconSheet()['iconSilver.png']);
-    bagUiSilverIcon.scale.set(.75, .75);
-    bagUiCurrencySilver.addChild(bagUiSilverIcon);
-    bagUiSilverText = new BitmapText(getInventory().currency.silver.toString(), textStyle);
-    bagUiSilverText.x = bagUiSilverIcon.x + 14;
-    bagUiSilverText.y = bagUiSilverIcon.y - 3;
-    bagUiCurrencySilver.addChild(bagUiSilverText);
-    bagUiCurrency.addChild(bagUiCurrencySilver);
-
-    // Copper Container for Icon & Amount
-    let bagUiCurrencyCopper = new Container();
-    bagUiCurrencyCopper.x = 70;
-    let bagUiCopperIcon = new Sprite(getIconSheet()['iconCopper.png']);
-    bagUiCopperIcon.scale.set(.75, .75);
-    bagUiCurrencyCopper.addChild(bagUiCopperIcon);
-    bagUiCopperText = new BitmapText(getInventory().currency.copper.toString(), textStyle);
-    bagUiCopperText.x = bagUiCopperIcon.x + 14;
-    bagUiCopperText.y = bagUiCopperIcon.y - 3;
-    bagUiCurrencyCopper.addChild(bagUiCopperText);
-    bagUiCurrency.addChild(bagUiCurrencyCopper);
-
-    bagUi.addChild(bagUiCurrency);
-
-    // Bag UI Inventory Cubbies.
-    bagUiMargin = 3;
-    cubbySize = 36;
-    let cubbyRowCount = Math.floor(bagUiBg.height / cubbySize) - 1;
-    let cubbiesPerRow = Math.floor(bagUiBg.width / cubbySize);
-
-    // Cubby Row
-    let bagCubbyRows = [];
-    for (let i = 0; i < cubbyRowCount; i++) {
-        bagCubbyRows[i] = new Container();
-        let bagCubbyRow = bagCubbyRows[i];
-        bagCubbyRow.x = bagUiBg.x + bagUiMargin + bagUiBg.line.width;
-        bagCubbyRow.y = bagUiBg.y + bagUiMargin + bagUiBg.line.width;
-        bagCubbyRow.width = bagUiBg.width - (bagUiMargin * 2) - (bagUiBg.line.width * 2);
-        bagUi.addChild(bagCubbyRow);
-    }
-
-    // Individual Cubby
-    bagCubbyRows.forEach(function (row, i) {
-        for (let j = 0; j < cubbiesPerRow; j++) {
-            let bagCubby = new Container();
-            bagCubby.x = (bagUiMargin * j) + (cubbySize * j);
-            bagCubby.y = (bagUiMargin * i) + (cubbySize * i);
-            let bagCubbyBg = new Graphics();
-            bagCubbyBg.beginFill('0x000000', .5);
-            bagCubbyBg.drawRect(0, 0, cubbySize, cubbySize);
-            bagCubbyBg.interactive = true;
-            bagCubby.addChild(bagCubbyBg);
-            row.addChild(bagCubby);
-            getInventoryItems(getInventory().items.push(
-                {
-                    item: null,
-                    cubby: bagCubby,
-                }
-            ))
-        }
-    })
-
-    // Add items to cubbies.
-    setInventoryItem(1, 'sword1h1');
-    setInventoryItem(14, 'clothHead');
-
-    // Add Sprites from Inventory to each Cubby Container.
-    getInventoryItems().forEach(function (inventoryItem) {
-        let bagUiItemScale = 1.75;
-        if (inventoryItem.item) {
-            inventoryItem.icon = new Sprite(itemsMap[inventoryItem.item].icon)
-            let itemIcon = inventoryItem.icon;
-            itemIcon.scale.set(bagUiItemScale);
-            itemIcon.x = (cubbySize - itemIcon.width) / 2;
-            itemIcon.y = (cubbySize - itemIcon.height) / 2;
-            inventoryItem.cubby.addChild(itemIcon);
-        }
-    })
-
-    let bagUiOpen = false;
-    bagIcon.on('click', function () {
-        if (!bagUiOpen) {
-            bagIcon.texture = getIconSheet()['iconBagSelected.png'];
-            bagIcon.x -= bagIconScale;
-            bagIcon.y -= bagIconScale;
-            gameScene.addChild(bagUi);
-            bagUiOpen = true;
-        } else {
-            bagIcon.texture = getIconSheet()['iconBag.png'];
-            bagIcon.x += bagIconScale;
-            bagIcon.y += bagIconScale;
-            gameScene.removeChild(bagUi);
-            bagUiOpen = false;
-        }
-    })
-
-    let itemMenuWidth = 150;
-    let itemMenuHeight = 30;
-    getInventoryItems().forEach(function (inventoryItem) {
-        let cubby = inventoryItem.cubby;
-
-        // Generate Cubby Menu
-        let popupMenu = new Container();
-        popupMenu.x = bagUiBg.x + cubby.x + (bagUiMargin * 2) + (cubbySize / 2) - itemMenuWidth;
-        popupMenu.y = bagUiBg.y + cubby.y + cubbySize + (bagUiMargin * 2) + 1;
-        popupMenu.visible = false;
-        popupMenus.addChild(popupMenu);
-
-        let menuItems = [
-            {
-                label: 'equip',
-                menuItem: {},
-            },
-            {
-                label: 'destroy',
-                menuItem: {},
-            }
-        ]
-
-        // Generate Cubby Menu Items
-        menuItems.forEach(function (item, i) {
-            item.menuItem = new Container();
-            item.menuItem.y = (itemMenuHeight * i);
-            let itemBg = new Graphics();
-            let itemText = new BitmapText(item.label, textStyle);
-            itemText.x = 10;
-            itemBg.beginFill('0x000000');
-            itemBg.drawRect(0, 0, itemMenuWidth, itemMenuHeight);
-            itemBg.interactive = true;
-            item.menuItem.addChild(itemBg);
-            item.menuItem.addChild(itemText);
-            popupMenu.addChild(item.menuItem);
-        })
-    })
+    let bagIconScale = 1.75;
+    let cubbySize = 35;
 
     // characterIcon UI Button
     let characterIconScale = 1.75;
@@ -405,6 +209,7 @@ function setup() {
     function createEquippedCubby(slot, defaultSprite, x, y) {
         setEquippedCubby(slot, new Container());
         let cubby = getEquippedCubby(slot);
+
         cubby.x = x + ((characterUiBg.width - characterUiStatsBg.width - (characterUiBg.line.width * 2) - ((cubbySize * 2) + (characterUiMargin * 4))) / 2);
         cubby.y = y + characterUiStatsBg.height - (characterUiBg.line.width * 2) - (((cubbySize * 4) + (characterUiMargin * 4)));
         let cubbyBg = new Graphics();
@@ -428,6 +233,7 @@ function setup() {
     createEquippedCubby('rightHand', 'iconWeapon.png', (-cubbySize / 2), (cubbySize + characterUiMargin) * 3);
     createEquippedCubby('leftHand', 'iconShield.png', (-cubbySize / 2) + cubbySize + characterUiMargin, (cubbySize + characterUiMargin) * 3);
     createEquippedCubby('resourceItem', 'iconArrow.png', (-cubbySize / 2) + ((cubbySize + characterUiMargin) * 2), (cubbySize + characterUiMargin) * 3);
+
     characterUi.addChild(characterUiArmor);
 
     let characterUiExtra = new Container();
@@ -441,8 +247,9 @@ function setup() {
 
     // Populate Equipped Items Cubbies
     Object.keys(getEquipped()).map(function (slot) {
-        if (getEquippedSlot(slot).item) {
-            let cubby = getEquippedSlot(slot).cubby;
+        let equippedObject = getEquippedSlot(slot);
+        let cubby = getEquippedCubby(slot);
+        if (equippedObject.item) {
             cubby.removeChild(cubby.children[1]);
             let sprite = new Sprite(getIconSheet()['icon' + getEquippedSlot(slot).item.replace(/^(.)/, s => s.toUpperCase()) + '.png']);
             sprite.scale.set(bagIconScale, bagIconScale);
@@ -470,10 +277,25 @@ function setup() {
         }
     })
 
-    createPlayerSheet('humanMale', 'noArmorNaked');
+
+
     let player = createPlayer();
+
+    // Reset player animation with keysDown
+    Object.keys(keysDown).map(key => {
+        keyboard(key).press = () => {
+            getPlayer().gotoAndStop(0);
+        }
+        keyboard(key).release = () => {
+            getPlayer().gotoAndStop(0);
+        }
+    })
+
     gameScene.addChild(player);
     createPlayerArmor();
+
+    // Create PopupMenus Container;
+    let popupMenus = getPopupMenus();
     gameScene.addChild(popupMenus);
 
     // Render the Stage
