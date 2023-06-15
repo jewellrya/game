@@ -1,5 +1,6 @@
 import { Container, Graphics, app } from '../_game.js';
 import { playerStats } from '../playerData.js';
+import { uiStyle } from './uiDesign.js';
 
 let resourceMeters = {
     types: {
@@ -36,9 +37,9 @@ export function resourceMeters_setup() {
         resourceMetersContainer.addChild(meter.inner);
     }
 
-    drawResourceMeter('soul', '0x00d9ff');
-    drawResourceMeter('fatigue', '0xffff00');
-    drawResourceMeter('health', '0xff0000');
+    drawResourceMeter('soul', uiStyle.colors.cyan);
+    drawResourceMeter('fatigue', uiStyle.colors.yellow);
+    drawResourceMeter('health', uiStyle.colors.red);
 
     resourceMeters.types.soul.outer.y = app.view.height - resourceMeters.types.soul.outer.height - resourceMeters.y;
     resourceMeters.types.soul.inner.y = resourceMeters.types.soul.outer.y + resourceMeters.innerOffset;

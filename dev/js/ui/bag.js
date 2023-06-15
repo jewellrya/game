@@ -6,7 +6,8 @@ import { itemsMap } from '../itemMap.js';
 import { getPopupMenus } from './popupMenus.js';
 import { createNewPlayerArmor } from '../player.js';
 import { getTooltips } from './tooltips.js';
-import { uiData } from './ui.js';
+import { uiLayout, uiStyle } from './uiDesign.js';
+import { cubbyState } from './cubby.js';
 
 let bagIcon;
 let bagUiBg;
@@ -16,9 +17,9 @@ let tooltips;
 export function bagButton_setup() {
     // bagIcon UI Button
     bagIcon = new Sprite(getIconSheet()['iconBag.png']);
-    bagIcon.scale.set(uiData.uiButton.scale, uiData.uiButton.scale);
-    bagIcon.x = app.view.width - bagIcon.width - uiData.uiButton.margin;
-    bagIcon.y = app.view.height - bagIcon.height - uiData.uiButton.margin;
+    bagIcon.scale.set(uiLayout.uiButton.scale, uiLayout.uiButton.scale);
+    bagIcon.x = app.view.width - bagIcon.width - uiLayout.uiButton.margin;
+    bagIcon.y = app.view.height - bagIcon.height - uiLayout.uiButton.margin;
     bagIcon.interactive = true;
     return bagIcon;
 }
@@ -32,10 +33,10 @@ export function bag_setup() {
     bagUi.visible = false;
     bagUiBg = new Graphics();
     bagUiBg.lineStyle(4, 0x000000, .5, 0);
-    bagUiBg.beginFill('0x000000', .3);
-    bagUiBg.drawRect(0, 0, 168, uiData.uiWindow.height);
+    bagUiBg.beginFill(uiStyle.colors.black, .3);
+    bagUiBg.drawRect(0, 0, 168, uiLayout.uiWindow.height);
     bagUiBg.x = app.view.width - bagUiBg.width - 10;
-    bagUiBg.y = uiData.uiWindow.y;
+    bagUiBg.y = uiLayout.uiWindow.y;
     bagUi.addChild(bagUiBg);
 
     let bagUiCurrency = new Container();
@@ -80,37 +81,36 @@ export function bag_setup() {
     bagUi.addChild(bagUiCurrency);
 
     // Bag UI Inventory Cubbies.
-    let cubbyRowCount = Math.floor(bagUiBg.height / uiData.cubby.size) - 1;
-    let cubbiesPerRow = Math.floor(bagUiBg.width / uiData.cubby.size);
+    let cubbyRowCount = Math.floor(bagUiBg.height / uiLayout.cubby.size) - 1;
+    let cubbiesPerRow = Math.floor(bagUiBg.width / uiLayout.cubby.size);
 
     // Cubby Row
     let bagCubbyRows = [];
     for (let i = 0; i < cubbyRowCount; i++) {
         bagCubbyRows[i] = new Container();
         let bagCubbyRow = bagCubbyRows[i];
-        bagCubbyRow.x = bagUiBg.x + uiData.uiWindow.margin + bagUiBg.line.width;
-        bagCubbyRow.y = bagUiBg.y + uiData.uiWindow.margin + bagUiBg.line.width;
-        bagCubbyRow.width = bagUiBg.width - (uiData.uiWindow.margin * 2) - (bagUiBg.line.width * 2);
+        bagCubbyRow.x = bagUiBg.x + uiLayout.uiWindow.margin + bagUiBg.line.width;
+        bagCubbyRow.y = bagUiBg.y + uiLayout.uiWindow.margin + bagUiBg.line.width;
+        bagCubbyRow.width = bagUiBg.width - (uiLayout.uiWindow.margin * 2) - (bagUiBg.line.width * 2);
         bagUi.addChild(bagCubbyRow);
     }
 
     // Individual Cubby
     bagCubbyRows.forEach(function (row, i) {
         for (let j = 0; j < cubbiesPerRow; j++) {
-            let bagCubby = new Container();
-            bagCubby.interactive = true;
-            bagCubby.x = (uiData.uiWindow.margin * j) + (uiData.cubby.size * j);
-            bagCubby.y = (uiData.uiWindow.margin * i) + (uiData.cubby.size * i);
-            let bagCubbyBg = new Graphics();
-            bagCubbyBg.beginFill('0x000000', .5);
-            bagCubbyBg.drawRect(0, 0, uiData.cubby.size, uiData.cubby.size);
-            bagCubbyBg.interactive = true;
-            bagCubby.addChild(bagCubbyBg);
-            row.addChild(bagCubby);
+            let cubby = new Container();
+            cubby.interactive = true;
+            cubby.x = (uiLayout.uiWindow.margin * j) + (uiLayout.cubby.size * j);
+            cubby.y = (uiLayout.uiWindow.margin * i) + (uiLayout.cubby.size * i);
+            let cubbyBg = new Graphics();
+            cubbyState(cubbyBg);
+            cubbyBg.interactive = true;
+            cubby.addChild(cubbyBg);
+            row.addChild(cubby);
             getInventoryItems(getInventory().items.push(
                 {
                     item: null,
-                    cubby: bagCubby,
+                    cubby: cubby,
                     icon: null,
                 }
             ))
@@ -128,9 +128,9 @@ export function bag_setup() {
         if (inventoryItem.item) {
             inventoryItem.icon = new Sprite(itemsMap[inventoryItem.item].icon)
             let itemIcon = inventoryItem.icon;
-            itemIcon.scale.set(uiData.cubby.itemScale);
-            itemIcon.x = (uiData.cubby.size - itemIcon.width) / 2;
-            itemIcon.y = (uiData.cubby.size - itemIcon.height) / 2;
+            itemIcon.scale.set(uiLayout.cubby.itemScale);
+            itemIcon.x = (uiLayout.cubby.size - itemIcon.width) / 2;
+            itemIcon.y = (uiLayout.cubby.size - itemIcon.height) / 2;
             inventoryItem.cubby.addChild(itemIcon);
         }
     })
@@ -139,14 +139,14 @@ export function bag_setup() {
     bagIcon.on('click', function () {
         if (!bagUiOpen) {
             bagIcon.texture = getIconSheet()['iconBagSelected.png'];
-            bagIcon.x -= uiData.uiButton.scale;
-            bagIcon.y -= uiData.uiButton.scale;
+            bagIcon.x -= uiLayout.uiButton.scale;
+            bagIcon.y -= uiLayout.uiButton.scale;
             bagUi.visible = true;
             bagUiOpen = true;
         } else {
             bagIcon.texture = getIconSheet()['iconBag.png'];
-            bagIcon.x += uiData.uiButton.scale;
-            bagIcon.y += uiData.uiButton.scale;
+            bagIcon.x += uiLayout.uiButton.scale;
+            bagIcon.y += uiLayout.uiButton.scale;
             bagUi.visible = false;
             bagUiOpen = false;
         }
@@ -162,8 +162,8 @@ export function bagPopupMenus_setup() {
         // Generate Cubby Menu
         let popupMenu = new Container();
         popupMenu.visible = false;
-        popupMenu.x = bagUiBg.x + cubby.x + (uiData.uiWindow.margin * 2) + (uiData.cubby.size / 2) - uiData.popupMenu.width;
-        popupMenu.y = bagUiBg.y + cubby.y + uiData.cubby.size + (uiData.uiWindow.margin * 2) + 1;
+        popupMenu.x = bagUiBg.x + cubby.x + (uiLayout.uiWindow.margin * 2) + (uiLayout.cubby.size / 2) - uiLayout.popupMenu.width;
+        popupMenu.y = bagUiBg.y + cubby.y + uiLayout.cubby.size + (uiLayout.uiWindow.margin * 2) + 1;
         popupMenusBag.addChild(popupMenu);
 
         let menuItems = [
@@ -180,10 +180,10 @@ export function bagPopupMenus_setup() {
         // Generate Cubby Menu Items
         menuItems.forEach(function (item, i) {
             item.menuItem = new Container();
-            item.menuItem.y = (uiData.popupMenu.height * i);
+            item.menuItem.y = (uiLayout.popupMenu.height * i);
             let itemBg = new Graphics();
-            itemBg.beginFill('0x000000');
-            itemBg.drawRect(0, 0, uiData.popupMenu.width, uiData.popupMenu.height);
+            itemBg.beginFill(uiStyle.colors.black);
+            itemBg.drawRect(0, 0, uiLayout.popupMenu.width, uiLayout.popupMenu.height);
             itemBg.interactive = true;
             let itemText = new BitmapText(item.label, textStyle);
             itemText.x = 10;
@@ -193,13 +193,13 @@ export function bagPopupMenus_setup() {
             popupMenu.addChild(item.menuItem);
             itemBg.on('mouseover', function () {
                 itemBg.clear();
-                itemBg.beginFill('0x707070');
-                itemBg.drawRect(0, 0, uiData.popupMenu.width, uiData.popupMenu.height);
+                itemBg.beginFill(uiStyle.colors.gray);
+                itemBg.drawRect(0, 0, uiLayout.popupMenu.width, uiLayout.popupMenu.height);
             })
             itemBg.on('mouseout', function () {
                 itemBg.clear();
-                itemBg.beginFill('0x000000');
-                itemBg.drawRect(0, 0, uiData.popupMenu.width, uiData.popupMenu.height);
+                itemBg.beginFill(uiStyle.colors.black);
+                itemBg.drawRect(0, 0, uiLayout.popupMenu.width, uiLayout.popupMenu.height);
             })
         })
     })
@@ -214,22 +214,22 @@ export function bagTooltips_setup() {
 
         let tooltip = new Container();
         tooltip.visible = false;
-        tooltip.x = bagUiBg.x + cubby.x + bagUiBg.line.width + uiData.uiWindow.margin - uiData.tooltip.width + (uiData.cubby.size / 2);
-        tooltip.y = bagUiBg.y + cubby.y + uiData.cubby.size + bagUiBg.line.width + uiData.uiWindow.margin;
+        tooltip.x = bagUiBg.x + cubby.x + bagUiBg.line.width + uiLayout.uiWindow.margin - uiLayout.tooltip.width + (uiLayout.cubby.size / 2);
+        tooltip.y = bagUiBg.y + cubby.y + uiLayout.cubby.size + bagUiBg.line.width + uiLayout.uiWindow.margin;
         if (inventoryItem.item) {
 
             // Name plate for Inventory Item
             let tooltipName = new Container();
             let tooltipNameBg = new Graphics();
-            tooltipNameBg.beginFill('0x000000', .75);
-            tooltipNameBg.drawRect(0, 0, uiData.tooltip.width, uiData.tooltip.height);
+            tooltipNameBg.beginFill(uiStyle.colors.black, .75);
+            tooltipNameBg.drawRect(0, 0, uiLayout.tooltip.width, uiLayout.tooltip.height);
             tooltipName.addChild(tooltipNameBg);
 
             let itemName = itemsMap[inventoryItem.item].name;
             let tooltipNameText = new BitmapText(itemName, textStyle);
             tooltipNameText.x = 10;
             tooltipNameText.y = 7;
-            tooltipNameText.tint = '0x52fc03';
+            tooltipNameText.tint = uiStyle.colors.green;
             tooltipName.addChild(tooltipNameText);
 
             tooltip.addChild(tooltipName);
@@ -244,10 +244,10 @@ export function bagTooltips_setup() {
             })
             itemStatsArray.forEach(function (statString, i) {
                 let tooltipStat = new Container();
-                tooltipStat.y = uiData.tooltip.height + ((uiData.tooltip.height / 1.2) * i);
+                tooltipStat.y = uiLayout.tooltip.height + ((uiLayout.tooltip.height / 1.2) * i);
                 let tooltipStatBg = new Graphics();
-                tooltipStatBg.beginFill('0x000000', .75);
-                tooltipStatBg.drawRect(0, 0, uiData.tooltip.width, uiData.tooltip.height / 1.2);
+                tooltipStatBg.beginFill(uiStyle.colors.black, .75);
+                tooltipStatBg.drawRect(0, 0, uiLayout.tooltip.width, uiLayout.tooltip.height / 1.2);
                 tooltipStat.addChild(tooltipStatBg);
 
                 let tooltipStatText = new BitmapText(statString, textStyle);
@@ -303,36 +303,32 @@ export function bagPopulateCubbies() {
                     getInventoryItems().forEach(function (inventoryItem) {
                         let otherCubbyBg = inventoryItem.cubby.children[0];
                         otherCubbyBg.clear();
-                        otherCubbyBg.beginFill('0x000000', .5);
-                        otherCubbyBg.drawRect(0, 0, uiData.cubby.size, uiData.cubby.size);
+                        otherCubbyBg.beginFill(uiStyle.colors.black, .5);
+                        otherCubbyBg.drawRect(0, 0, uiLayout.cubby.size, uiLayout.cubby.size);
                     })
                     popupMenu.visible = true;
                     popupMenus.bagUi.visible = true;
                     cubbyBg.clear();
-                    cubbyBg.beginFill('0x00d9ff');
-                    cubbyBg.drawRect(0, 0, uiData.cubby.size, uiData.cubby.size);
+                    cubbyState(cubbyBg, 'selected');
                 } else {
                     popupMenu.visible = false;
                     popupMenus.bagUi.visible = false;
                     cubbyBg.clear();
-                    cubbyBg.beginFill('0x707070');
-                    cubbyBg.drawRect(0, 0, uiData.cubby.size, uiData.cubby.size);
+                    cubbyState(cubbyBg, 'hover');
                 }
             });
 
             cubby.on('mouseover', function () {
                 if (!popupMenu.visible) {
                     cubbyBg.clear();
-                    cubbyBg.beginFill('0x707070');
-                    cubbyBg.drawRect(0, 0, uiData.cubby.size, uiData.cubby.size);
+                    cubbyState(cubbyBg, 'hover');
                 }
             })
 
             cubby.on('mouseout', function () {
                 if (!popupMenu.visible) {
                     cubbyBg.clear();
-                    cubbyBg.beginFill('0x000000', .5);
-                    cubbyBg.drawRect(0, 0, uiData.cubby.size, uiData.cubby.size);
+                    cubbyState(cubbyBg);
                 }
             })
         }
@@ -352,9 +348,9 @@ export function bagPopupMenuInteraction() {
             equippedSlot.item = itemName;
 
             let newIcon = new Sprite(itemsMap[itemName].icon);
-            newIcon.scale.set(uiData.cubby.itemScale);
-            newIcon.x = (uiData.cubby.size - newIcon.width) / 2;
-            newIcon.y = (uiData.cubby.size - newIcon.height) / 2;
+            newIcon.scale.set(uiLayout.cubby.itemScale);
+            newIcon.x = (uiLayout.cubby.size - newIcon.width) / 2;
+            newIcon.y = (uiLayout.cubby.size - newIcon.height) / 2;
             equippedSlot.cubby.addChild(newIcon);
 
             createNewPlayerArmor(itemSlot);
@@ -367,8 +363,7 @@ export function bagPopupMenuInteraction() {
 
             let cubbyBg = cubby.children[0];
             cubbyBg.clear();
-            cubbyBg.beginFill('0x000000', .5);
-            cubbyBg.drawRect(0, 0, uiData.cubby.size, uiData.cubby.size);
+            cubbyState(cubbyBg);;
         })
 
         let destroy = popupMenu.children[1].children[0];
@@ -381,8 +376,7 @@ export function bagPopupMenuInteraction() {
 
             let cubbyBg = cubby.children[0];
             cubbyBg.clear();
-            cubbyBg.beginFill('0x000000', .5);
-            cubbyBg.drawRect(0, 0, uiData.cubby.size, uiData.cubby.size);
+            cubbyState(cubbyBg, 'hover');
         })
     });
 }

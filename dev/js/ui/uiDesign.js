@@ -1,10 +1,25 @@
 import { app } from '../_game.js';
 
-export let uiData;
+export let uiLayout;
+export let uiStyle;
 
 let windowHeight = 270;
 export function uiData_setup() {
-    uiData = {
+    uiStyle = {
+        colors: {
+            black: '0x000000',
+            gray: '0x707070',
+            red: '0xff0000',
+            orange: '0xff9d00',
+            yellow: '0xffff00',
+            green: '0x52fc03',
+            cyan: '0x00d9ff',
+            blue: '0x0004ff',
+            violet: '0x8c00ff',
+        }
+    };
+
+    uiLayout = {
         uiWindow: {
             height: windowHeight,
             y: app.view.height - windowHeight - 60,
@@ -26,5 +41,5 @@ export function uiData_setup() {
             width: 250,
             height: 30,
         }
-    }
+    };
 };

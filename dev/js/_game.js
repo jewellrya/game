@@ -18,7 +18,7 @@ import { bagButton_setup, bag_setup, bagPopupMenus_setup, bagPopupMenuInteractio
 import { textStyle } from './ui/textStyle.js';
 import { tooltips_setup, getTooltips } from './ui/tooltips.js';
 import { character_setup, characterButton_setup } from './ui/character.js';
-import { uiData_setup } from './ui/ui.js';
+import { uiData_setup } from './ui/uiDesign.js';
 
 // Controls
 import { defaultCursor, attackCursor } from './controls/mouse.js';
@@ -114,10 +114,6 @@ function setup() {
     let bg = getBg();
     gameScene.addChild(bg);
 
-    tooltips_setup();
-
-    let resourceMeters = resourceMeters_setup();
-    gameScene.addChild(resourceMeters);
 
     // numberOfRats = 2;
     // let ratContainer = new Container();
@@ -131,6 +127,11 @@ function setup() {
 
     // UIs
     uiData_setup();
+
+    tooltips_setup();
+
+    let resourceMeters = resourceMeters_setup();
+    gameScene.addChild(resourceMeters);
 
     let bagButton = bagButton_setup();
     gameScene.addChild(bagButton);
