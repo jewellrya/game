@@ -8,15 +8,16 @@ import { createPlayer, createPlayerArmor, getPlayer } from './player.js';
 import { playerMovement } from './playerMovement.js';
 
 // Sheets
-import { playerSheets_setup, createPlayerSheet } from './sheets/playerSheets.js';
+import { playerSheets_setup } from './sheets/playerSheets.js';
 import { getIconSheet, setIconSheet } from './sheets/iconSheet.js';
 import { setMiscSheet } from './sheets/miscSheet.js';
 
 // UI
 import { resourceMeters_setup } from './ui/resourceMeters.js';
-import { bagButton_setup, bag_setup, inventoryCubbyMenus, inventoryCubbyMenuFunctions, inventoryOccupiedCubbies } from './ui/bag.js';
+import { bagButton_setup, bag_setup, inventoryCubbyMenus, inventoryCubbyMenuFunctions, inventoryOccupiedCubbies, inventoryCubbyTooltips } from './ui/bag.js';
 import { textStyle } from './ui/textStyle.js';
 import { getPopupMenus, popupMenus_setup } from './ui/popupMenus.js';
+import { tooltips_setup, getTooltips } from './ui/tooltips.js';
 
 // Controls
 import { defaultCursor, attackCursor } from './controls/mouse.js';
@@ -114,6 +115,7 @@ function setup() {
     gameScene.addChild(bg);
 
     popupMenus_setup();
+    tooltips_setup();
 
     let resourceMeters = resourceMeters_setup();
     gameScene.addChild(resourceMeters);
@@ -137,6 +139,7 @@ function setup() {
     inventoryCubbyMenus();
     inventoryOccupiedCubbies();
     inventoryCubbyMenuFunctions();
+    inventoryCubbyTooltips();
 
     let uiWindowHeight = 270;
     let uiWindowY = app.view.height - uiWindowHeight - 60;
@@ -295,6 +298,10 @@ function setup() {
     // Create PopupMenus Container;
     let popupMenus = getPopupMenus();
     gameScene.addChild(popupMenus);
+
+    // Create Tooltips Container;
+    let tooltips = getTooltips();
+    gameScene.addChild(tooltips);
 
     // Render the Stage
     app.renderer.render(app.stage);

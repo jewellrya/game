@@ -60,7 +60,7 @@ let equipped = {
         idleTexture: null,
     },
     feet: {
-        item: 'clothFeet',
+        item: null,
         cubby: null,
         animatedSprite: null,
         idleTexture: null,

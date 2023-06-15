@@ -4,8 +4,8 @@ import { getIconSheet } from '../sheets/iconSheet.js';
 import { textStyle } from './textStyle.js';
 import { itemsMap } from '../itemMap.js';
 import { getPopupMenus } from './popupMenus.js';
-import { playerSheets } from '../sheets/playerSheets.js';
 import { createNewPlayerArmor } from '../player.js';
+import { getTooltips } from './tooltips.js';
 
 let bagIconScale = 1.75;
 let bagIconMargin = 15;
@@ -15,6 +15,7 @@ let bagUiBg;
 let bagUiMargin = 3;
 let cubbySize = 36;
 let popupMenus;
+let tooltips;
 let itemMenuWidth = 150;
 let itemMenuHeight = 30;
 let bagUiItemScale = 1.75;
@@ -34,6 +35,7 @@ export function bag_setup() {
     let uiWindowY = app.view.height - uiWindowHeight - 60;
 
     popupMenus = getPopupMenus();
+    tooltips = getTooltips();
 
     // Bag UI Window
     let bagUi = new Container();
@@ -106,6 +108,7 @@ export function bag_setup() {
     bagCubbyRows.forEach(function (row, i) {
         for (let j = 0; j < cubbiesPerRow; j++) {
             let bagCubby = new Container();
+            bagCubby.interactive = true;
             bagCubby.x = (bagUiMargin * j) + (cubbySize * j);
             bagCubby.y = (bagUiMargin * i) + (cubbySize * i);
             let bagCubbyBg = new Graphics();
@@ -127,6 +130,8 @@ export function bag_setup() {
     // Add items to cubbies.
     setInventoryItem(14, 'clothChest');
     setInventoryItem(1, 'clothHands');
+    setInventoryItem(20, 'clothShoulders');
+    setInventoryItem(3, 'clothFeet');
 
     // Add Sprites from Inventory to each Cubby Container.
     getInventoryItems().forEach(function (inventoryItem) {
@@ -163,7 +168,6 @@ export function bag_setup() {
 export function inventoryCubbyMenus() {
     getInventoryItems().forEach(function (inventoryItem, i) {
         let cubby = inventoryItem.cubby;
-        cubby.interactive = true;
 
         // Generate Cubby Menu
         let popupMenu = new Container();
@@ -207,6 +211,86 @@ export function inventoryCubbyMenus() {
                 itemBg.beginFill('0x000000');
                 itemBg.drawRect(0, 0, itemMenuWidth, itemMenuHeight);
             })
+        })
+    })
+}
+
+export function inventoryCubbyTooltips() {
+    getInventoryItems().forEach(function (inventoryItem, i) {
+        let cubby = inventoryItem.cubby;
+        let tooltipWidth = 250;
+        let tooltipHeight = 30;
+
+        let tooltip = new Container();
+        tooltip.visible = false;
+        tooltip.x = bagUiBg.x + cubby.x + bagUiBg.line.width + bagUiMargin - tooltipWidth + (cubbySize / 2);
+        tooltip.y = bagUiBg.y + cubby.y + cubbySize + bagUiBg.line.width + bagUiMargin;
+        if (inventoryItem.item) {
+
+            // Name plate for Inventory Item
+            let tooltipName = new Container();
+            let tooltipNameBg = new Graphics();
+            tooltipNameBg.beginFill('0x000000', .75);
+            tooltipNameBg.drawRect(0, 0, tooltipWidth, tooltipHeight);
+            tooltipName.addChild(tooltipNameBg);
+
+            let itemName = itemsMap[inventoryItem.item].name;
+            let tooltipNameText = new BitmapText(itemName, textStyle);
+            tooltipNameText.x = 10;
+            tooltipNameText.y = 7;
+            tooltipNameText.tint = '0x52fc03';
+            tooltipName.addChild(tooltipNameText);
+
+            tooltip.addChild(tooltipName);
+
+            // Stat Plates for Each Stat with a value;
+            let itemStats = itemsMap[inventoryItem.item].stats;
+            let itemStatsArray = [];
+            Object.keys(itemStats).map(function (stat, i) {
+                if (itemStats[stat] > 0) {
+                    itemStatsArray.push(stat + ' ' + itemStats[stat]);
+                }
+            })
+            itemStatsArray.forEach(function (statString, i) {
+                let tooltipStat = new Container();
+                tooltipStat.y = tooltipHeight + ((tooltipHeight / 1.2) * i);
+                let tooltipStatBg = new Graphics();
+                tooltipStatBg.beginFill('0x000000', .75);
+                tooltipStatBg.drawRect(0, 0, tooltipWidth, tooltipHeight / 1.2);
+                tooltipStat.addChild(tooltipStatBg);
+
+                let tooltipStatText = new BitmapText(statString, textStyle);
+                tooltipStatText.x = tooltipNameText.x;
+                tooltipStatText.y = 3;
+                tooltipStat.addChild(tooltipStatText);
+                tooltip.addChild(tooltipStat);
+            })
+        }
+
+        tooltips.addChild(tooltip);
+
+        cubby.on('mouseover', function () {
+            if (inventoryItem.item && !popupMenus.children[i].visible) {
+                tooltips.visible = true;
+                tooltips.children[i].visible = true;
+            }
+        })
+        cubby.on('mouseout', function () {
+            if (inventoryItem.item) {
+                tooltips.visible = false;
+                tooltips.children[i].visible = false;
+            }
+        })
+        cubby.on('click', function () {
+            if (inventoryItem.item) {
+                if (tooltips.children[i].visible) {
+                    tooltips.visible = false;
+                    tooltips.children[i].visible = false;
+                } else {
+                    tooltips.visible = true;
+                    tooltips.children[i].visible = true;
+                }
+            }
         })
     })
 }
