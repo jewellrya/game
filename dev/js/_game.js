@@ -3,21 +3,22 @@
 // import createEnemy from './module/enemy.js';
 
 // Player
-import { playerName, playerStats, getEquipped, getEquippedSlot, getEquippedCubby, setEquippedCubby } from './playerData.js';
+import { playerStats } from './playerData.js';
 import { createPlayer, createPlayerArmor, getPlayer } from './player.js';
 import { playerMovement } from './playerMovement.js';
 
 // Sheets
 import { playerSheets_setup } from './sheets/playerSheets.js';
-import { getIconSheet, setIconSheet } from './sheets/iconSheet.js';
+import { setIconSheet } from './sheets/iconSheet.js';
 import { setMiscSheet } from './sheets/miscSheet.js';
 
 // UI
 import { resourceMeters_setup } from './ui/resourceMeters.js';
-import { bagButton_setup, bag_setup, inventoryCubbyMenus, inventoryCubbyMenuFunctions, inventoryOccupiedCubbies, inventoryCubbyTooltips } from './ui/bag.js';
+import { bagButton_setup, bag_setup, bagPopupMenus_setup, bagPopupMenuInteraction, bagPopulateCubbies, bagTooltips_setup } from './ui/bag.js';
 import { textStyle } from './ui/textStyle.js';
-import { getPopupMenus, popupMenus_setup } from './ui/popupMenus.js';
 import { tooltips_setup, getTooltips } from './ui/tooltips.js';
+import { character_setup, characterButton_setup } from './ui/character.js';
+import { uiData_setup } from './ui/ui.js';
 
 // Controls
 import { defaultCursor, attackCursor } from './controls/mouse.js';
@@ -83,7 +84,6 @@ let gameScene, gameOverScene, messageGameOver;
 let id, state;
 export let enemies = [];
 let numberOfRats;
-let characterUi;
 
 function setup() {
     console.log('All files loaded.');
@@ -114,7 +114,6 @@ function setup() {
     let bg = getBg();
     gameScene.addChild(bg);
 
-    popupMenus_setup();
     tooltips_setup();
 
     let resourceMeters = resourceMeters_setup();
@@ -130,155 +129,19 @@ function setup() {
     //     ratContainer.addChild(rat);
     // }
 
-    // UIs -----------------------------------------------------------------------
+    // UIs
+    uiData_setup();
 
     let bagButton = bagButton_setup();
     gameScene.addChild(bagButton);
     let bag = bag_setup();
     gameScene.addChild(bag);
-    inventoryCubbyMenus();
-    inventoryOccupiedCubbies();
-    inventoryCubbyMenuFunctions();
-    inventoryCubbyTooltips();
+    bagTooltips_setup();
 
-    let uiWindowHeight = 270;
-    let uiWindowY = app.view.height - uiWindowHeight - 60;
-    let bagIconScale = 1.75;
-    let cubbySize = 35;
-
-    // characterIcon UI Button
-    let characterIconScale = 1.75;
-    let characterIconMargin = 15;
-    let characterIcon = new Sprite(getIconSheet()['iconCharacter.png']);
-    characterIcon.scale.set(characterIconScale, characterIconScale);
-    characterIcon.x = characterIconMargin;
-    characterIcon.y = app.view.height - characterIcon.height - characterIconMargin;
-    characterIcon.interactive = true;
-    gameScene.addChild(characterIcon);
-
-    let characterUiMargin = 3;
-
-    // Character UI Window
-    characterUi = new Container();
-    let characterUiBg = new Graphics();
-    characterUiBg.lineStyle(4, 0x000000, .5, 0);
-    characterUiBg.beginFill('0x000000', .3);
-    characterUiBg.drawRect(0, 0, 250, uiWindowHeight);
-    characterUiBg.x = 10;
-    characterUiBg.y = uiWindowY;
-    characterUi.addChild(characterUiBg);
-
-    // Charater Name plate at the top of the Character UI
-    let characterUiNamePlate = new Container();
-    characterUiNamePlate.x = characterUiBg.x;
-    characterUiNamePlate.y = characterUiBg.y;
-    let characterUiNamePlateBg = new Graphics();
-    characterUiNamePlateBg.beginFill('0x000000');
-    characterUiNamePlateBg.drawRect(0, 0, characterUiBg.width, 30);
-    characterUiNamePlate.addChild(characterUiNamePlateBg);
-    let characterUiNamePlateText = new BitmapText(playerName, textStyle);
-    characterUiNamePlateText.x = 10;
-    characterUiNamePlateText.y = 7;
-    characterUiNamePlate.addChild(characterUiNamePlateText);
-    characterUi.addChild(characterUiNamePlate);
-
-    // Section that shows player stats
-    let characterUiStats = new Container();
-    characterUiStats.x = characterUiBg.x + 7;
-    characterUiStats.y = characterUiBg.y + characterUiNamePlateBg.height + characterUiMargin;
-    let characterUiStatsBg = new Graphics();
-    characterUiStatsBg.beginFill('0x000000', .5);
-    characterUiStatsBg.drawRect(0, 0, 85, 175);
-    characterUiStats.addChild(characterUiStatsBg);
-    Object.keys(playerStats).map(function (stat, i) {
-        if (i <= 6) {
-            let statCount = new Container();
-            statCount.x = 10;
-            statCount.y = (characterUiStatsBg.height / 6) + (15 * i);
-            let label = new BitmapText(stat.slice(0, 3), textStyle);
-            statCount.addChild(label);
-            let amount = new BitmapText(playerStats[stat].toString(), textStyle);
-            amount.x = 40;
-            statCount.addChild(amount);
-            characterUiStats.addChild(statCount);
-        }
-    })
-    characterUi.addChild(characterUiStats);
-    let characterUiArmor = new Container();
-    characterUiArmor.x = characterUiStats.x + characterUiStatsBg.width + characterUiMargin;
-    characterUiArmor.y = characterUiStats.y;
-
-    // Generate Cubbies for Equipped Items
-    function createEquippedCubby(slot, defaultSprite, x, y) {
-        setEquippedCubby(slot, new Container());
-        let cubby = getEquippedCubby(slot);
-
-        cubby.x = x + ((characterUiBg.width - characterUiStatsBg.width - (characterUiBg.line.width * 2) - ((cubbySize * 2) + (characterUiMargin * 4))) / 2);
-        cubby.y = y + characterUiStatsBg.height - (characterUiBg.line.width * 2) - (((cubbySize * 4) + (characterUiMargin * 4)));
-        let cubbyBg = new Graphics();
-        cubbyBg.beginFill('0x000000', .5);
-        cubbyBg.drawRect(0, 0, cubbySize, cubbySize);
-        cubby.addChild(cubbyBg);
-        let cubbyDefaultIcon = new Sprite(getIconSheet()[defaultSprite]);
-        cubbyDefaultIcon.scale.set(1.5, 1.5);
-        cubbyDefaultIcon.x = ((cubby.width - cubbyDefaultIcon.width) / 2);
-        cubbyDefaultIcon.y = ((cubby.height - cubbyDefaultIcon.height) / 2);
-        cubby.addChild(cubbyDefaultIcon);
-        characterUiArmor.addChild(cubby);
-    }
-
-    createEquippedCubby('head', 'iconHead.png', 0, 0);
-    createEquippedCubby('shoulders', 'iconShoulders.png', cubbySize + characterUiMargin, 0);
-    createEquippedCubby('chest', 'iconChest.png', 0, cubbySize + characterUiMargin);
-    createEquippedCubby('hands', 'iconHands.png', cubbySize + characterUiMargin, cubbySize + characterUiMargin);
-    createEquippedCubby('legs', 'iconLegs.png', 0, (cubbySize + 3) * 2);
-    createEquippedCubby('feet', 'iconFeet.png', cubbySize + characterUiMargin, (cubbySize + characterUiMargin) * 2);
-    createEquippedCubby('rightHand', 'iconWeapon.png', (-cubbySize / 2), (cubbySize + characterUiMargin) * 3);
-    createEquippedCubby('leftHand', 'iconShield.png', (-cubbySize / 2) + cubbySize + characterUiMargin, (cubbySize + characterUiMargin) * 3);
-    createEquippedCubby('resourceItem', 'iconArrow.png', (-cubbySize / 2) + ((cubbySize + characterUiMargin) * 2), (cubbySize + characterUiMargin) * 3);
-
-    characterUi.addChild(characterUiArmor);
-
-    let characterUiExtra = new Container();
-    characterUiExtra.x = characterUiStats.x;
-    characterUiExtra.y = (characterUiStats.y + characterUiStatsBg.height + characterUiMargin);
-    let characterUiExtraBg = new Graphics();
-    characterUiExtraBg.beginFill('0x000000', .5);
-    characterUiExtraBg.drawRect(0, 0, characterUiBg.width - (characterUiMargin * 2) - (characterUiBg.line.width * 2), characterUiBg.height - characterUiStatsBg.height - characterUiNamePlateBg.height - (characterUiMargin * 2) - (characterUiBg.line.width * 2));
-    characterUiExtra.addChild(characterUiExtraBg);
-    characterUi.addChild(characterUiExtra);
-
-    // Populate Equipped Items Cubbies
-    Object.keys(getEquipped()).map(function (slot) {
-        let equippedObject = getEquippedSlot(slot);
-        let cubby = getEquippedCubby(slot);
-        if (equippedObject.item) {
-            cubby.removeChild(cubby.children[1]);
-            let sprite = new Sprite(getIconSheet()['icon' + getEquippedSlot(slot).item.replace(/^(.)/, s => s.toUpperCase()) + '.png']);
-            sprite.scale.set(bagIconScale, bagIconScale);
-            sprite.x = ((cubby.width - sprite.width) / 2);
-            sprite.y = ((cubby.height - sprite.height) / 2);
-            cubby.addChild(sprite);
-        }
-    })
-
-    // Opening and Closing Character UI
-    let characterUiOpen = false;
-    characterIcon.on('click', function () {
-        if (!characterUiOpen) {
-            characterIcon.texture = getIconSheet()['iconCharacterSelected.png'];
-            characterIcon.x -= characterIconScale;
-            characterIcon.y -= characterIconScale;
-            gameScene.addChild(characterUi);
-            characterUiOpen = true;
-        } else {
-            characterIcon.texture = getIconSheet()['iconCharacter.png'];
-            characterIcon.x += characterIconScale;
-            characterIcon.y += characterIconScale;
-            gameScene.removeChild(characterUi);
-            characterUiOpen = false;
-        }
-    })
+    let characterButton = characterButton_setup();
+    gameScene.addChild(characterButton);
+    let character = character_setup();
+    gameScene.addChild(character);
 
     let player = createPlayer();
 
@@ -295,9 +158,11 @@ function setup() {
     gameScene.addChild(player);
     createPlayerArmor();
 
-    // Create PopupMenus Container;
-    let popupMenus = getPopupMenus();
-    gameScene.addChild(popupMenus);
+    // Create Popup Menu's Containers;
+    let bagPopupMenus = bagPopupMenus_setup();
+    gameScene.addChild(bagPopupMenus);
+    bagPopulateCubbies();
+    bagPopupMenuInteraction();
 
     // Create Tooltips Container;
     let tooltips = getTooltips();
@@ -320,8 +185,6 @@ function gameLoop(delta) {
 }
 
 function play() {
-    // Create an array of objects that will move with the environment
-
     playerMovement();
 
     // Enemies (disable for now)
