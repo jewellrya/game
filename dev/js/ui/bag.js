@@ -8,7 +8,6 @@ import { equippedPopulateNewItem } from './character.js';
 import { cubbyState } from './cubby.js';
 import { itemsMap } from '../itemMap.js';
 
-
 let bagIcon;
 let bagUiBg;
 let popupMenus;
@@ -335,8 +334,8 @@ function tooltipsEvents(inventoryItem, i) {
             tooltips.bagUi.children[i].visible = false;
         }
     })
-    cubby.on('click', function () {
-        if (inventoryItem.item) {
+    if (inventoryItem.item) {
+        cubby.on('click', function () {
             if (tooltips.bagUi.children[i].visible) {
                 tooltips.bagUi.visible = false;
                 tooltips.bagUi.children[i].visible = false;
@@ -344,8 +343,8 @@ function tooltipsEvents(inventoryItem, i) {
                 tooltips.bagUi.visible = true;
                 tooltips.bagUi.children[i].visible = true;
             }
-        }
-    })
+        })
+    }
 }
 
 export function bagTooltips_setup() {
@@ -414,6 +413,8 @@ export function inventoryPopulateNewItem(itemName) {
     let tooltip = tooltips.bagUi.children[i];
     let tooltipNameText = tooltip.children[0].children[1];
     tooltipNameText.text = itemsMap[itemName].name;
+    if (tooltips.bagUi.children[i].children.length <= 1) {
+        tooltipStats(tooltip, itemName);
+    }
     tooltipsEvents(firstEmptySlot, i);
-    tooltipStats(tooltip, itemName);
 };

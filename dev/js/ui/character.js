@@ -253,8 +253,8 @@ function tooltipsEvents(equippedItem, i) {
             tooltips.characterUi.children[i].visible = false;
         }
     })
-    cubby.on('click', function () {
-        if (getEquippedSlot(equippedItem).item) {
+    if (getEquippedSlot(equippedItem).item) {
+        cubby.on('click', function () {
             if (tooltips.characterUi.children[i].visible) {
                 tooltips.characterUi.visible = false;
                 tooltips.characterUi.children[i].visible = false;
@@ -262,8 +262,8 @@ function tooltipsEvents(equippedItem, i) {
                 tooltips.characterUi.visible = true;
                 tooltips.characterUi.children[i].visible = true;
             }
-        }
-    })
+        })
+    }
 }
 
 export function characterTooltips_setup() {
@@ -434,7 +434,9 @@ export function equippedPopulateNewItem(itemName) {
     let tooltip = tooltips.characterUi.children[i];
     let tooltipNameText = tooltip.children[0].children[1];
     tooltipNameText.text = itemsMap[itemName].name;
+    if (tooltips.characterUi.children[i].children.length <= 1) {
+        tooltipStats(tooltip, itemName);
+    }
     tooltipsEvents(itemSlot, i);
-    tooltipStats(tooltip, itemName);
     createNewPlayerArmor(itemSlot);
 }
