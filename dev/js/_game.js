@@ -28,7 +28,7 @@ import { uiData_setup } from './ui/uiDesign.js';
 
 // Controls
 import { defaultCursor, attackCursor } from './controls/mouse.js';
-import { keysDown, keyboard } from './controls/keyboard.js';
+import { keysDown, keyboard, initiateKeyboard } from './controls/keyboard.js';
 
 // Misc
 import { itemsMap_setup } from './itemMap.js';
@@ -71,13 +71,27 @@ loader.shared
         '../../assets/sprites.json',
         '../../assets/sprites/icons.json',
         '../../assets/sprites/misc.json',
-        '../../assets/sprites/humanMale/main/humanMale_noArmorNaked.json',
-        '../../assets/sprites/humanMale/armor/humanMale_clothChest.json',
-        '../../assets/sprites/humanMale/armor/humanMale_clothFeet.json',
-        '../../assets/sprites/humanMale/armor/humanMale_clothHands.json',
-        '../../assets/sprites/humanMale/armor/humanMale_clothHead.json',
-        '../../assets/sprites/humanMale/armor/humanMale_clothLegs.json',
-        '../../assets/sprites/humanMale/armor/humanMale_clothShoulders.json',
+        '../../assets/sprites/humanMale/main/humanMale_idle_noArmorNaked.json',
+        '../../assets/sprites/humanMale/main/humanMale_walking_noArmorNaked.json',
+        '../../assets/sprites/humanMale/main/humanMale_running_noArmorNaked.json',
+        '../../assets/sprites/humanMale/armor/humanMale_idle_clothChest.json',
+        '../../assets/sprites/humanMale/armor/humanMale_idle_clothFeet.json',
+        '../../assets/sprites/humanMale/armor/humanMale_idle_clothHands.json',
+        '../../assets/sprites/humanMale/armor/humanMale_idle_clothHead.json',
+        '../../assets/sprites/humanMale/armor/humanMale_idle_clothLegs.json',
+        '../../assets/sprites/humanMale/armor/humanMale_idle_clothShoulders.json',
+        '../../assets/sprites/humanMale/armor/humanMale_walking_clothChest.json',
+        '../../assets/sprites/humanMale/armor/humanMale_walking_clothFeet.json',
+        '../../assets/sprites/humanMale/armor/humanMale_walking_clothHands.json',
+        '../../assets/sprites/humanMale/armor/humanMale_walking_clothHead.json',
+        '../../assets/sprites/humanMale/armor/humanMale_walking_clothLegs.json',
+        '../../assets/sprites/humanMale/armor/humanMale_walking_clothShoulders.json',
+        '../../assets/sprites/humanMale/armor/humanMale_running_clothChest.json',
+        '../../assets/sprites/humanMale/armor/humanMale_running_clothFeet.json',
+        '../../assets/sprites/humanMale/armor/humanMale_running_clothHands.json',
+        '../../assets/sprites/humanMale/armor/humanMale_running_clothHead.json',
+        '../../assets/sprites/humanMale/armor/humanMale_running_clothLegs.json',
+        '../../assets/sprites/humanMale/armor/humanMale_running_clothShoulders.json',
     ]).load(setup);
 
 function loadProgressHandler(loader) {
@@ -92,6 +106,8 @@ let id, state;
 export let enemies = [];
 function setup() {
     console.log('All files loaded.');
+
+    initiateKeyboard();
 
     // Other texturesheets to move over.
     let id = resources['../../assets/sprites.json'].textures;

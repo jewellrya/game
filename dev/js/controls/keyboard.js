@@ -54,3 +54,15 @@ export let keysDown = {
     KeyD: false,
     ShiftLeft: false,
 };
+
+// Initiate event listeners.
+export function initiateKeyboard() {
+    Object.keys(keysDown).map(key => {
+        keyboard(key).press = () => {
+            keysDown[key] = true;
+        }
+        keyboard(key).release = () => {
+            keysDown[key] = false;
+        }
+    })
+}

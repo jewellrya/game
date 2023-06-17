@@ -1,4 +1,4 @@
-import { keyboard, keysDown } from './controls/keyboard.js';
+import { keysDown } from './controls/keyboard.js';
 import { getPlayer } from './player.js';
 import { playerStats, getEquipped, getEquippedSlot, setEquippedAnimatedSprites, setEquippedIdleTexture } from './playerData.js';
 import { playerSheets, getIdleTexture, setIdleTexture } from './sheets/playerSheets.js';
@@ -24,15 +24,6 @@ function moveEnvironment(x, y) {
 export function playerMovement() {
     let player = getPlayer();
     let playerPlaying = player.playing;
-
-    Object.keys(keysDown).map(key => {
-        keyboard(key).press = () => {
-            keysDown[key] = true;
-        }
-        keyboard(key).release = () => {
-            keysDown[key] = false;
-        }
-    })
 
     function equippedItemLoopTexture(animation, textureDirection) {
         Object.keys(getEquipped()).map(slot => {
