@@ -1,14 +1,13 @@
 import { app, Container, Graphics, BitmapText, Sprite } from '../_game.js';
-import { getInventory, getInventoryItems, setInventoryItem, getInventorySlot, getEquippedSlot } from '../playerData.js';
-import { getIconSheet } from '../sheets/iconSheet.js';
-import { textStyle } from './textStyle.js';
-import { itemsMap } from '../itemMap.js';
-import { getPopupMenus } from './popupMenus.js';
-import { createNewPlayerArmor } from '../player.js';
-import { getTooltips } from './tooltips.js';
 import { uiLayout, uiStyle } from './uiDesign.js';
-import { cubbyState } from './cubby.js';
+import { getInventory, getInventoryItems, setInventoryItem } from '../playerData.js';
+import { getIconSheet } from '../sheets/iconSheet.js';
+import { getPopupMenus } from './popupMenus.js';
+import { getTooltips } from './tooltips.js';
 import { equippedPopulateNewItem } from './character.js';
+import { cubbyState } from './cubby.js';
+import { itemsMap } from '../itemMap.js';
+
 
 let bagIcon;
 let bagUiBg;
@@ -49,7 +48,7 @@ export function bag_setup() {
     let bagUiGoldIcon = new Sprite(getIconSheet()['iconGold.png']);
     bagUiGoldIcon.scale.set(.75, .75);
     bagUiCurrencyGold.addChild(bagUiGoldIcon);
-    let bagUiGoldText = new BitmapText(getInventory().currency.gold.toString(), textStyle);
+    let bagUiGoldText = new BitmapText(getInventory().currency.gold.toString(), uiStyle.text);
     bagUiGoldText.x = bagUiGoldIcon.x + 14;
     bagUiGoldText.y = bagUiGoldIcon.y - 3;
     bagUiCurrencyGold.addChild(bagUiGoldText);
@@ -61,7 +60,7 @@ export function bag_setup() {
     let bagUiSilverIcon = new Sprite(getIconSheet()['iconSilver.png']);
     bagUiSilverIcon.scale.set(.75, .75);
     bagUiCurrencySilver.addChild(bagUiSilverIcon);
-    let bagUiSilverText = new BitmapText(getInventory().currency.silver.toString(), textStyle);
+    let bagUiSilverText = new BitmapText(getInventory().currency.silver.toString(), uiStyle.text);
     bagUiSilverText.x = bagUiSilverIcon.x + 14;
     bagUiSilverText.y = bagUiSilverIcon.y - 3;
     bagUiCurrencySilver.addChild(bagUiSilverText);
@@ -73,7 +72,7 @@ export function bag_setup() {
     let bagUiCopperIcon = new Sprite(getIconSheet()['iconCopper.png']);
     bagUiCopperIcon.scale.set(.75, .75);
     bagUiCurrencyCopper.addChild(bagUiCopperIcon);
-    let bagUiCopperText = new BitmapText(getInventory().currency.copper.toString(), textStyle);
+    let bagUiCopperText = new BitmapText(getInventory().currency.copper.toString(), uiStyle.text);
     bagUiCopperText.x = bagUiCopperIcon.x + 14;
     bagUiCopperText.y = bagUiCopperIcon.y - 3;
     bagUiCurrencyCopper.addChild(bagUiCopperText);
@@ -186,7 +185,7 @@ export function bagPopupMenus_setup() {
             itemBg.beginFill(uiStyle.colors.black);
             itemBg.drawRect(0, 0, uiLayout.popupMenu.width, uiLayout.popupMenu.height);
             itemBg.interactive = true;
-            let itemText = new BitmapText(item.label, textStyle);
+            let itemText = new BitmapText(item.label, uiStyle.text);
             itemText.x = 10;
             itemText.y = 8;
             item.menuItem.addChild(itemBg);
@@ -314,7 +313,7 @@ function tooltipStats(tooltip, itemName) {
         tooltipStatBg.drawRect(0, 0, uiLayout.tooltip.width, uiLayout.tooltip.height / 1.2);
         tooltipStat.addChild(tooltipStatBg);
 
-        let tooltipStatText = new BitmapText(statString, textStyle);
+        let tooltipStatText = new BitmapText(statString, uiStyle.text);
         tooltipStatText.x = 10;
         tooltipStatText.y = 3;
         tooltipStat.addChild(tooltipStatText);
@@ -367,7 +366,7 @@ export function bagTooltips_setup() {
         tooltipName.addChild(tooltipNameBg);
 
         let itemName = inventoryItem.item ? itemsMap[inventoryItem.item].name : 'No Item';
-        let tooltipNameText = new BitmapText(itemName, textStyle);
+        let tooltipNameText = new BitmapText(itemName, uiStyle.text);
         tooltipNameText.x = 10;
         tooltipNameText.y = 7;
         tooltipNameText.tint = uiStyle.colors.green;
@@ -417,6 +416,4 @@ export function inventoryPopulateNewItem(itemName) {
     tooltipNameText.text = itemsMap[itemName].name;
     tooltipsEvents(firstEmptySlot, i);
     tooltipStats(tooltip, itemName);
-
-    // After 3rd "Equip", tooltips lose visible toggle.
 };

@@ -14,9 +14,16 @@ import { setMiscSheet } from './sheets/miscSheet.js';
 
 // UI
 import { resourceMeters_setup } from './ui/resourceMeters.js';
-import { bagButton_setup, bag_setup, bagPopupMenus_setup, bagPopupMenuInteraction, bagPopulateMenus, bagTooltips_setup } from './ui/bag.js';
-import { textStyle } from './ui/textStyle.js';
-import { character_setup, characterButton_setup, characterPopupMenus_setup, characterPopupMenuInteraction, characterPopulateMenus, characterTooltips_setup } from './ui/character.js';
+import {
+    bag_setup, bagButton_setup,
+    bagPopupMenus_setup, bagPopulateMenus, bagPopupMenuInteraction,
+    bagTooltips_setup,
+} from './ui/bag.js';
+import {
+    character_setup, characterButton_setup,
+    characterPopupMenus_setup, characterPopulateMenus, characterPopupMenuInteraction,
+    characterTooltips_setup
+} from './ui/character.js';
 import { uiData_setup } from './ui/uiDesign.js';
 
 // Controls
@@ -81,15 +88,13 @@ function loadProgressHandler(loader) {
 // Define variables in more than one function
 let gameScene, gameOverScene, messageGameOver;
 let id, state;
-export let enemies = [];
-let numberOfRats;
 
+export let enemies = [];
 function setup() {
     console.log('All files loaded.');
 
     // Other texturesheets to move over.
     let id = resources['../../assets/sprites.json'].textures;
-
     setIconSheet(resources['../../assets/sprites/icons.json'].textures);
     setMiscSheet(resources['../../assets/sprites/misc.json'].textures);
 
@@ -112,17 +117,6 @@ function setup() {
     setBg(new Sprite(id['environment.png']));
     let bg = getBg();
     gameScene.addChild(bg);
-
-
-    // numberOfRats = 2;
-    // let ratContainer = new Container();
-    // ratContainer.name = "rats";
-    // gameScene.addChild(ratContainer);
-    // for (let i = 0; i < numberOfRats; i++) {
-    //     let rat = createEnemy(bg, "rat");
-    //     enemies.push(rat);
-    //     ratContainer.addChild(rat);
-    // }
 
     // UIs
     uiData_setup();
@@ -189,72 +183,6 @@ function gameLoop(delta) {
 function play() {
     playerMovement();
 
-    // Enemies (disable for now)
-
-    // enemies.forEach(function (enemy) {
-    //     enemy.cursor = 'hover';
-    //     enemy.interactive = true;
-    //     var range = 100;
-
-    //     // If enemy is within range of player's base
-    //     if (enemy.x + enemy.width >= player.x - range
-    //         && enemy.x <= player.x + player.width + range
-    //         && enemy.y + enemy.height >= player.y - range
-    //         && enemy.y <= player.y + player.height + range
-    //     ) {
-    //         if (enemy.x + (enemy.width / 2) < player.x + (player.width / 2)) {
-    //             enemy.x += enemy.speed;
-    //         }
-    //         if (enemy.x + (enemy.width / 2) > player.x + (player.width / 2)) {
-    //             enemy.x += -enemy.speed;
-    //         }
-    //         if (enemy.y + (enemy.height / 2) < player.y + (player.height / 2)) {
-    //             enemy.y += enemy.speed;
-    //         }
-    //         if (enemy.y + (enemy.height / 2) > player.y + (player.height / 2)) {
-    //             enemy.y += -enemy.speed;
-    //         }
-    //     } else {
-    //         enemy.x += enemy.speed * enemy.direction;
-    //         if (enemy.x >= bg.x + bg.width - enemy.width ||
-    //             enemy.x <= bg.x) {
-    //             enemy.direction *= -1;
-    //         }
-    //     }
-    // })
-
-    // if (hitTestRectangle(gold, player)) {
-    //     ++inventory.currency.gold;
-    //     gold.x = randomInt(bg.x, bg.x + bg.width - gold.width);
-    //     gold.y = randomInt(bg.y, bg.y + bg.height - gold.height);
-    //     bagUiGoldText.text = inventory.currency.gold;
-    // }
-
-    // let ratCage = gameScene.getChildByName("rats");
-    // for (let i = 0; i < numberOfRats - enemies.length; i++) {
-    //     let rat = createEnemy(bg, "rat");
-    //     enemies.push(rat);
-    //     ratCage.addChild(rat);
-    // }
-    // enemies.forEach(function (enemy, index) {
-    //     if (hitTestRectangle(enemy, player)) {
-    //         if (playerStats.health > 0) {
-    //             playerStats.health -= enemy.strength;
-    //             resourceMeters.types.health.inner.width = playerStats.health * 2 - resourceMeters.innerOffset * 2;
-    //         }
-
-    //         if (click['mouse']) {
-    //             if (enemy.health > 0) {
-    //                 enemy.health -= playerStats.strength;
-    //             }
-    //             if (enemy.health <= 0) {
-    //                 enemies.splice(index, 1);
-    //                 enemy.visible = false
-    //             }
-
-    //         }
-    //     }
-    // })
     if (playerStats.health <= 0) {
         state = end;
     }
@@ -262,7 +190,7 @@ function play() {
 
 function end() {
     // Game Over Scene
-    messageGameOver = new BitmapText("You died.", textStyle);
+    messageGameOver = new BitmapText("You died.", uiStyle.text);
     messageGameOver.x = app.view.width / 2 - messageGameOver.width / 2;
     messageGameOver.y = app.view.height / 2 - messageGameOver.height / 2;
     gameOverScene.addChild(messageGameOver);

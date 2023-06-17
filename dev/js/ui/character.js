@@ -1,15 +1,16 @@
 import { app, Sprite, Graphics, Container, BitmapText } from '../_game.js';
-import { getIconSheet } from '../sheets/iconSheet.js';
-import { playerName, playerStats, setEquippedCubby, getEquippedCubby, getEquipped, getEquippedSlot } from '../playerData.js';
-import { textStyle } from './textStyle.js';
 import { uiLayout, uiStyle } from './uiDesign.js';
+import { createNewPlayerArmor, destroyPlayerArmor } from '../player.js';
+import {
+    playerName, playerStats,
+    setEquippedCubby, getEquippedCubby, getEquipped, getEquippedSlot
+} from '../playerData.js';
+import { getIconSheet } from '../sheets/iconSheet.js';
 import { getPopupMenus } from './popupMenus.js';
 import { getTooltips } from './tooltips.js';
 import { cubbyState } from './cubby.js';
 import { inventoryPopulateNewItem } from './bag.js';
-import { destroyPlayerArmor } from '../player.js';
 import { itemsMap } from '../itemMap.js';
-import { createNewPlayerArmor } from '../player.js';
 
 let characterIcon;
 let characterUiBg;
@@ -51,7 +52,7 @@ export function character_setup() {
     characterUiNamePlateBg.beginFill(uiStyle.colors.black);
     characterUiNamePlateBg.drawRect(0, 0, characterUiBg.width, 30);
     characterUiNamePlate.addChild(characterUiNamePlateBg);
-    let characterUiNamePlateText = new BitmapText(playerName, textStyle);
+    let characterUiNamePlateText = new BitmapText(playerName, uiStyle.text);
     characterUiNamePlateText.x = 10;
     characterUiNamePlateText.y = 7;
     characterUiNamePlate.addChild(characterUiNamePlateText);
@@ -70,9 +71,9 @@ export function character_setup() {
             let statCount = new Container();
             statCount.x = 10;
             statCount.y = (characterUiStatsBg.height / 6) + (15 * i);
-            let label = new BitmapText(stat.slice(0, 3), textStyle);
+            let label = new BitmapText(stat.slice(0, 3), uiStyle.text);
             statCount.addChild(label);
-            let amount = new BitmapText(playerStats[stat].toString(), textStyle);
+            let amount = new BitmapText(playerStats[stat].toString(), uiStyle.text);
             amount.x = 40;
             statCount.addChild(amount);
             characterUiStats.addChild(statCount);
@@ -191,7 +192,7 @@ export function characterPopupMenus_setup() {
             itemBg.beginFill(uiStyle.colors.black);
             itemBg.drawRect(0, 0, uiLayout.popupMenu.width, uiLayout.popupMenu.height);
             itemBg.interactive = true;
-            let itemText = new BitmapText(item.label, textStyle);
+            let itemText = new BitmapText(item.label, uiStyle.text);
             itemText.x = 10;
             itemText.y = 8;
             item.menuItem.addChild(itemBg);
@@ -230,7 +231,7 @@ function tooltipStats(tooltip, itemName) {
         tooltipStatBg.drawRect(0, 0, uiLayout.tooltip.width, uiLayout.tooltip.height / 1.2);
         tooltipStat.addChild(tooltipStatBg);
 
-        let tooltipStatText = new BitmapText(statString, textStyle);
+        let tooltipStatText = new BitmapText(statString, uiStyle.text);
         tooltipStatText.x = 10;
         tooltipStatText.y = 3;
         tooltipStat.addChild(tooltipStatText);
@@ -283,7 +284,7 @@ export function characterTooltips_setup() {
         tooltipName.addChild(tooltipNameBg);
 
         let itemName = getEquippedSlot(equippedItem).item ? itemsMap[getEquippedSlot(equippedItem).item].name : 'No Item';
-        let tooltipNameText = new BitmapText(itemName, textStyle);
+        let tooltipNameText = new BitmapText(itemName, uiStyle.text);
         tooltipNameText.x = 10;
         tooltipNameText.y = 7;
         tooltipNameText.tint = uiStyle.colors.green;

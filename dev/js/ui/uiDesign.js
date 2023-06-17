@@ -16,7 +16,11 @@ export function uiData_setup() {
             cyan: '0x00d9ff',
             blue: '0x0004ff',
             violet: '0x8c00ff',
-        }
+        },
+        text: {
+            fontName: 'Visitor',
+            fontSize: 24,
+        },
     };
 
     uiLayout = {
