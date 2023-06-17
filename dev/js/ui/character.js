@@ -238,10 +238,37 @@ function tooltipStats(tooltip, itemName) {
     })
 }
 
+function tooltipsEvents(equippedItem, i) {
+    let cubby = getEquippedCubby(equippedItem);
+    cubby.on('mouseover', function () {
+        if (getEquippedSlot(equippedItem).item && !popupMenus.characterUi.children[i].visible) {
+            tooltips.characterUi.visible = true;
+            tooltips.characterUi.children[i].visible = true;
+        }
+    })
+    cubby.on('mouseout', function () {
+        if (getEquippedSlot(equippedItem).item) {
+            tooltips.characterUi.visible = false;
+            tooltips.characterUi.children[i].visible = false;
+        }
+    })
+    cubby.on('click', function () {
+        if (getEquippedSlot(equippedItem).item) {
+            if (tooltips.characterUi.children[i].visible) {
+                tooltips.characterUi.visible = false;
+                tooltips.characterUi.children[i].visible = false;
+            } else {
+                tooltips.characterUi.visible = true;
+                tooltips.characterUi.children[i].visible = true;
+            }
+        }
+    })
+}
+
 export function characterTooltips_setup() {
     let tooltipsCharacter = new Container();
     Object.keys(getEquipped()).forEach(function (equippedItem, i) {
-        let cubby = getEquippedCubby(equippedItem);
+        let cubby = getEquippedSlot(equippedItem).cubby;
 
         let tooltip = new Container();
         tooltip.visible = false;
@@ -273,29 +300,7 @@ export function characterTooltips_setup() {
         tooltips.characterUi = tooltipsCharacter;
         tooltips.characterUi.visible = false;
 
-        cubby.on('mouseover', function () {
-            if (getEquippedSlot(equippedItem).item && !popupMenus.characterUi.children[i].visible) {
-                tooltips.characterUi.visible = true;
-                tooltips.characterUi.children[i].visible = true;
-            }
-        })
-        cubby.on('mouseout', function () {
-            if (getEquippedSlot(equippedItem).item) {
-                tooltips.characterUi.visible = false;
-                tooltips.characterUi.children[i].visible = false;
-            }
-        })
-        cubby.on('click', function () {
-            if (getEquippedSlot(equippedItem).item) {
-                if (tooltips.characterUi.children[i].visible) {
-                    tooltips.characterUi.visible = false;
-                    tooltips.characterUi.children[i].visible = false;
-                } else {
-                    tooltips.characterUi.visible = true;
-                    tooltips.characterUi.children[i].visible = true;
-                }
-            }
-        })
+        tooltipsEvents(equippedItem, i);
     });
     return tooltips.characterUi;
 }
@@ -428,6 +433,7 @@ export function equippedPopulateNewItem(itemName) {
     let tooltip = tooltips.characterUi.children[i];
     let tooltipNameText = tooltip.children[0].children[1];
     tooltipNameText.text = itemsMap[itemName].name;
+    tooltipsEvents(itemSlot, i);
     tooltipStats(tooltip, itemName);
     createNewPlayerArmor(itemSlot);
 }

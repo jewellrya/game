@@ -322,6 +322,33 @@ function tooltipStats(tooltip, itemName) {
     })
 }
 
+function tooltipsEvents(inventoryItem, i) {
+    let cubby = inventoryItem.cubby;
+    cubby.on('mouseover', function () {
+        if (inventoryItem.item && !popupMenus.bagUi.children[i].visible) {
+            tooltips.bagUi.visible = true;
+            tooltips.bagUi.children[i].visible = true;
+        }
+    })
+    cubby.on('mouseout', function () {
+        if (inventoryItem.item) {
+            tooltips.bagUi.visible = false;
+            tooltips.bagUi.children[i].visible = false;
+        }
+    })
+    cubby.on('click', function () {
+        if (inventoryItem.item) {
+            if (tooltips.bagUi.children[i].visible) {
+                tooltips.bagUi.visible = false;
+                tooltips.bagUi.children[i].visible = false;
+            } else {
+                tooltips.bagUi.visible = true;
+                tooltips.bagUi.children[i].visible = true;
+            }
+        }
+    })
+}
+
 export function bagTooltips_setup() {
     let tooltipsBag = new Container();
     getInventoryItems().forEach(function (inventoryItem, i) {
@@ -358,29 +385,7 @@ export function bagTooltips_setup() {
         tooltips.bagUi = tooltipsBag;
         tooltips.bagUi.visible = false;
 
-        cubby.on('mouseover', function () {
-            if (inventoryItem.item && !popupMenus.bagUi.children[i].visible) {
-                tooltips.bagUi.visible = true;
-                tooltips.bagUi.children[i].visible = true;
-            }
-        })
-        cubby.on('mouseout', function () {
-            if (inventoryItem.item) {
-                tooltips.bagUi.visible = false;
-                tooltips.bagUi.children[i].visible = false;
-            }
-        })
-        cubby.on('click', function () {
-            if (inventoryItem.item) {
-                if (tooltips.bagUi.children[i].visible) {
-                    tooltips.bagUi.visible = false;
-                    tooltips.bagUi.children[i].visible = false;
-                } else {
-                    tooltips.bagUi.visible = true;
-                    tooltips.bagUi.children[i].visible = true;
-                }
-            }
-        })
+        tooltipsEvents(inventoryItem, i);
     })
     return tooltips.bagUi;
 }
@@ -410,5 +415,8 @@ export function inventoryPopulateNewItem(itemName) {
     let tooltip = tooltips.bagUi.children[i];
     let tooltipNameText = tooltip.children[0].children[1];
     tooltipNameText.text = itemsMap[itemName].name;
+    tooltipsEvents(firstEmptySlot, i);
     tooltipStats(tooltip, itemName);
+
+    // After 3rd "Equip", tooltips lose visible toggle.
 };
