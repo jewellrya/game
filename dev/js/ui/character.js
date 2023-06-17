@@ -9,6 +9,7 @@ import { cubbyState } from './cubby.js';
 import { inventoryPopulateNewItem } from './bag.js';
 import { destroyPlayerArmor } from '../player.js';
 import { itemsMap } from '../itemMap.js';
+import { createNewPlayerArmor } from '../player.js';
 
 let characterIcon;
 let characterUiBg;
@@ -213,6 +214,30 @@ export function characterPopupMenus_setup() {
     return popupMenus.characterUi;
 }
 
+function tooltipStats(tooltip, itemName) {
+    let itemStats = itemsMap[itemName].stats;
+    let itemStatsArray = [];
+    Object.keys(itemStats).map(function (stat, i) {
+        if (itemStats[stat] > 0) {
+            itemStatsArray.push(stat + ' ' + itemStats[stat]);
+        }
+    })
+    itemStatsArray.forEach(function (statString, i) {
+        let tooltipStat = new Container();
+        tooltipStat.y = uiLayout.tooltip.height + ((uiLayout.tooltip.height / 1.2) * i);
+        let tooltipStatBg = new Graphics();
+        tooltipStatBg.beginFill(uiStyle.colors.black, .75);
+        tooltipStatBg.drawRect(0, 0, uiLayout.tooltip.width, uiLayout.tooltip.height / 1.2);
+        tooltipStat.addChild(tooltipStatBg);
+
+        let tooltipStatText = new BitmapText(statString, textStyle);
+        tooltipStatText.x = 10;
+        tooltipStatText.y = 3;
+        tooltipStat.addChild(tooltipStatText);
+        tooltip.addChild(tooltipStat);
+    })
+}
+
 export function characterTooltips_setup() {
     let tooltipsCharacter = new Container();
     Object.keys(getEquipped()).forEach(function (equippedItem, i) {
@@ -241,27 +266,7 @@ export function characterTooltips_setup() {
 
         // Stat Plates for Each Stat with a value;
         if (getEquippedSlot(equippedItem).item) {
-            let itemStats = itemsMap[getEquippedSlot(equippedItem).item].stats;
-            let itemStatsArray = [];
-            Object.keys(itemStats).map(function (stat, i) {
-                if (itemStats[stat] > 0) {
-                    itemStatsArray.push(stat + ' ' + itemStats[stat]);
-                }
-            })
-            itemStatsArray.forEach(function (statString, i) {
-                let tooltipStat = new Container();
-                tooltipStat.y = uiLayout.tooltip.height + ((uiLayout.tooltip.height / 1.2) * i);
-                let tooltipStatBg = new Graphics();
-                tooltipStatBg.beginFill(uiStyle.colors.black, .75);
-                tooltipStatBg.drawRect(0, 0, uiLayout.tooltip.width, uiLayout.tooltip.height / 1.2);
-                tooltipStat.addChild(tooltipStatBg);
-
-                let tooltipStatText = new BitmapText(statString, textStyle);
-                tooltipStatText.x = tooltipNameText.x;
-                tooltipStatText.y = 3;
-                tooltipStat.addChild(tooltipStatText);
-                tooltip.addChild(tooltipStat);
-            })
+            tooltipStats(tooltip, getEquippedSlot(equippedItem).item);
         }
         tooltipsCharacter.addChild(tooltip);
 
@@ -295,64 +300,69 @@ export function characterTooltips_setup() {
     return tooltips.characterUi;
 }
 
+function popupMenuEvents(cubby, i) {
+    let cubbyBg = cubby.children[0];
+    let popupMenu = popupMenus.characterUi.children[i];
+
+    cubby.on('click', function () {
+        if (!popupMenu.visible) {
+            let clonedPopupMenus = popupMenus.characterUi.children.slice();
+            clonedPopupMenus.splice(i, 1);
+            clonedPopupMenus.forEach(function (menu) {
+                menu.visible = false;
+            })
+            Object.keys(getEquipped()).forEach(function (equippedSlot) {
+                let equippedSlotItem = getEquippedSlot(equippedSlot);
+                let otherCubbyBg = equippedSlotItem.cubby.children[0];
+                otherCubbyBg.clear();
+                cubbyState(otherCubbyBg, 'default');
+            })
+            popupMenu.visible = true;
+            popupMenus.characterUi.visible = true;
+            cubbyBg.clear();
+            cubbyState(cubbyBg, 'selected');
+        } else {
+            popupMenu.visible = false;
+            popupMenus.characterUi.visible = false;
+            cubbyBg.clear();
+            cubbyState(cubbyBg, 'hover');
+        }
+    })
+
+    cubby.on('mouseover', function () {
+        if (!popupMenu.visible) {
+            cubbyBg.clear();
+            cubbyState(cubbyBg, 'hover');
+        }
+    })
+
+    cubby.on('mouseout', function () {
+        if (!popupMenu.visible) {
+            cubbyBg.clear();
+            cubbyState(cubbyBg, 'default');
+        }
+    })
+}
+
 export function characterPopulateMenus() {
     Object.keys(getEquipped()).forEach(function (equippedSlot, i) {
         let equippedSlotItem = getEquippedSlot(equippedSlot);
         let equippedItem = equippedSlotItem.item;
         if (equippedItem) {
             let cubby = equippedSlotItem.cubby;
-            let cubbyBg = cubby.children[0];
-            let popupMenu = popupMenus.characterUi.children[i];
-
-            cubby.on('click', function () {
-                if (!popupMenu.visible) {
-                    let clonedPopupMenus = popupMenus.characterUi.children.slice();
-                    clonedPopupMenus.splice(i, 1);
-                    clonedPopupMenus.forEach(function (menu) {
-                        menu.visible = false;
-                    })
-                    Object.keys(getEquipped()).forEach(function (equippedSlot) {
-                        let equippedSlotItem = getEquippedSlot(equippedSlot);
-                        let otherCubbyBg = equippedSlotItem.cubby.children[0];
-                        otherCubbyBg.clear();
-                        cubbyState(otherCubbyBg, 'default');
-                    })
-                    popupMenu.visible = true;
-                    popupMenus.characterUi.visible = true;
-                    cubbyBg.clear();
-                    cubbyState(cubbyBg, 'selected');
-                } else {
-                    popupMenu.visible = false;
-                    popupMenus.characterUi.visible = false;
-                    cubbyBg.clear();
-                    cubbyState(cubbyBg, 'hover');
-                }
-            })
-
-            cubby.on('mouseover', function () {
-                if (!popupMenu.visible) {
-                    cubbyBg.clear();
-                    cubbyState(cubbyBg, 'hover');
-                }
-            })
-
-            cubby.on('mouseout', function () {
-                if (!popupMenu.visible) {
-                    cubbyBg.clear();
-                    cubbyState(cubbyBg, 'default');
-                }
-            })
+            popupMenuEvents(cubby, i);
         }
     });
 }
 
 export function characterPopupMenuInteraction() {
     Object.keys(getEquipped()).forEach(function (equippedSlot, i) {
-        let cubby = getEquippedCubby(equippedSlot);
         let popupMenu = popupMenus.characterUi.children[i];
+
         let unequip = popupMenu.children[0].children[0];
-        let itemName = getEquippedSlot(equippedSlot).item;
         unequip.on('click', function () {
+            let cubby = getEquippedCubby(equippedSlot);
+            let itemName = getEquippedSlot(equippedSlot).item;
             let itemIcon = cubby.children[1];
             itemIcon.destroy();
             let defaultIcon = new Sprite(getIconSheet()[getEquippedSlot(equippedSlot).defaultSprite]);
@@ -377,6 +387,7 @@ export function characterPopupMenuInteraction() {
 
         let destroy = popupMenu.children[1].children[0];
         destroy.on('click', function () {
+            let cubby = getEquippedCubby(equippedSlot);
             let itemIcon = cubby.children[1];
             itemIcon.destroy();
             let defaultIcon = new Sprite(getIconSheet()[getEquippedSlot(equippedSlot).defaultSprite]);
@@ -394,9 +405,29 @@ export function characterPopupMenuInteraction() {
 
             // Remove Sprite from player
             destroyPlayerArmor(equippedSlot);
-
-            // Populate in bags function.
-            inventoryPopulateNewItem(itemName);
         })
     });
+}
+
+export function equippedPopulateNewItem(itemName) {
+    let itemSlot = itemsMap[itemName].slot;
+    let equippedSlot = getEquippedSlot(itemSlot);
+    equippedSlot.cubby.children[1].destroy();
+    equippedSlot.item = itemName;
+
+    let newIcon = new Sprite(itemsMap[itemName].icon);
+    newIcon.scale.set(uiLayout.cubby.itemScale);
+    newIcon.x = (uiLayout.cubby.size - newIcon.width) / 2;
+    newIcon.y = (uiLayout.cubby.size - newIcon.height) / 2;
+    equippedSlot.cubby.addChild(newIcon);
+
+    // Reinstate Popup Menus and Tooltip
+    let cubby = equippedSlot.cubby;
+    let i = Object.keys(getEquipped()).map(function (e) { return e }).indexOf(itemSlot);
+    popupMenuEvents(cubby, i);
+    let tooltip = tooltips.characterUi.children[i];
+    let tooltipNameText = tooltip.children[0].children[1];
+    tooltipNameText.text = itemsMap[itemName].name;
+    tooltipStats(tooltip, itemName);
+    createNewPlayerArmor(itemSlot);
 }

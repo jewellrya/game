@@ -8,6 +8,7 @@ import { createNewPlayerArmor } from '../player.js';
 import { getTooltips } from './tooltips.js';
 import { uiLayout, uiStyle } from './uiDesign.js';
 import { cubbyState } from './cubby.js';
+import { equippedPopulateNewItem } from './character.js';
 
 let bagIcon;
 let bagUiBg;
@@ -267,19 +268,8 @@ export function bagPopupMenuInteraction() {
         equip.on('click', function () {
             let cubby = inventoryItem.cubby;
             let itemName = getInventoryItems()[i].item;
-            console.log(itemName);
-            let itemSlot = itemsMap[itemName].slot;
-            let equippedSlot = getEquippedSlot(itemSlot);
-            equippedSlot.cubby.children[1].destroy();
-            equippedSlot.item = itemName;
 
-            let newIcon = new Sprite(itemsMap[itemName].icon);
-            newIcon.scale.set(uiLayout.cubby.itemScale);
-            newIcon.x = (uiLayout.cubby.size - newIcon.width) / 2;
-            newIcon.y = (uiLayout.cubby.size - newIcon.height) / 2;
-            equippedSlot.cubby.addChild(newIcon);
-
-            createNewPlayerArmor(itemSlot);
+            equippedPopulateNewItem(itemName);
 
             let oldIcon = getInventoryItems()[i].icon;
             setInventoryItem(i, null);
@@ -406,20 +396,17 @@ export function inventoryPopulateNewItem(itemName) {
     let firstEmptySlot = emptyCubbies[0];
     firstEmptySlot.item = itemName;
 
-    let newItemIcon = new Sprite(itemsMap[itemName].icon)
+    let newItemIcon = new Sprite(itemsMap[itemName].icon);
     newItemIcon.scale.set(uiLayout.cubby.itemScale);
     newItemIcon.x = (uiLayout.cubby.size - newItemIcon.width) / 2;
     newItemIcon.y = (uiLayout.cubby.size - newItemIcon.height) / 2;
     firstEmptySlot.icon = newItemIcon;
     firstEmptySlot.cubby.addChild(firstEmptySlot.icon);
 
-    // Add Menus etc
+    // Reinstate Popup Menus and Tooltip
     let cubby = firstEmptySlot.cubby;
     let i = getInventoryItems().indexOf(firstEmptySlot);
-
     popupMenuEvents(cubby, i);
-
-    // Tooltips
     let tooltip = tooltips.bagUi.children[i];
     let tooltipNameText = tooltip.children[0].children[1];
     tooltipNameText.text = itemsMap[itemName].name;

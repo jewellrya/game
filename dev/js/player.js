@@ -90,4 +90,5 @@ export function destroyPlayerArmor(slot) {
     // if pants make player = noArmorNaked;
 }
 
+// Make containers for armor that persist to help with shoulders always being on top etc.
 // function for swapping armor.
