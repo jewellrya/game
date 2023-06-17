@@ -14,10 +14,9 @@ import { setMiscSheet } from './sheets/miscSheet.js';
 
 // UI
 import { resourceMeters_setup } from './ui/resourceMeters.js';
-import { bagButton_setup, bag_setup, bagPopupMenus_setup, bagPopupMenuInteraction, bagPopulateCubbies, bagTooltips_setup } from './ui/bag.js';
+import { bagButton_setup, bag_setup, bagPopupMenus_setup, bagPopupMenuInteraction, bagPopulateMenus, bagTooltips_setup } from './ui/bag.js';
 import { textStyle } from './ui/textStyle.js';
-import { tooltips_setup, getTooltips } from './ui/tooltips.js';
-import { character_setup, characterButton_setup } from './ui/character.js';
+import { character_setup, characterButton_setup, characterPopupMenus_setup, characterPopupMenuInteraction, characterPopulateMenus, characterTooltips_setup } from './ui/character.js';
 import { uiData_setup } from './ui/uiDesign.js';
 
 // Controls
@@ -128,8 +127,6 @@ function setup() {
     // UIs
     uiData_setup();
 
-    tooltips_setup();
-
     let resourceMeters = resourceMeters_setup();
     gameScene.addChild(resourceMeters);
 
@@ -137,7 +134,6 @@ function setup() {
     gameScene.addChild(bagButton);
     let bag = bag_setup();
     gameScene.addChild(bag);
-    bagTooltips_setup();
 
     let characterButton = characterButton_setup();
     gameScene.addChild(characterButton);
@@ -162,12 +158,17 @@ function setup() {
     // Create Popup Menu's Containers;
     let bagPopupMenus = bagPopupMenus_setup();
     gameScene.addChild(bagPopupMenus);
-    bagPopulateCubbies();
+    bagPopulateMenus();
     bagPopupMenuInteraction();
+    let bagTooltips = bagTooltips_setup();
+    gameScene.addChild(bagTooltips);
 
-    // Create Tooltips Container;
-    let tooltips = getTooltips();
-    gameScene.addChild(tooltips);
+    let characterPopupMenus = characterPopupMenus_setup();
+    gameScene.addChild(characterPopupMenus);
+    characterPopulateMenus();
+    characterPopupMenuInteraction();
+    let characterTooltips = characterTooltips_setup();
+    gameScene.addChild(characterTooltips);
 
     // Render the Stage
     app.renderer.render(app.stage);

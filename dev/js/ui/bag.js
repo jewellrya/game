@@ -1,5 +1,5 @@
 import { app, Container, Graphics, BitmapText, Sprite } from '../_game.js';
-import { getInventory, getInventoryItems, setInventoryItem, getEquippedSlot } from '../playerData.js';
+import { getInventory, getInventoryItems, setInventoryItem, getInventorySlot, getEquippedSlot } from '../playerData.js';
 import { getIconSheet } from '../sheets/iconSheet.js';
 import { textStyle } from './textStyle.js';
 import { itemsMap } from '../itemMap.js';
@@ -103,7 +103,7 @@ export function bag_setup() {
             cubby.x = (uiLayout.uiWindow.margin * j) + (uiLayout.cubby.size * j);
             cubby.y = (uiLayout.uiWindow.margin * i) + (uiLayout.cubby.size * i);
             let cubbyBg = new Graphics();
-            cubbyState(cubbyBg);
+            cubbyState(cubbyBg, 'default');
             cubbyBg.interactive = true;
             cubby.addChild(cubbyBg);
             row.addChild(cubby);
@@ -118,10 +118,10 @@ export function bag_setup() {
     })
 
     // Add items to cubbies.
-    setInventoryItem(14, 'clothChest');
-    setInventoryItem(1, 'clothHands');
-    setInventoryItem(20, 'clothShoulders');
-    setInventoryItem(3, 'clothFeet');
+    setInventoryItem(0, 'clothChest');
+    setInventoryItem(20, 'clothHands');
+    setInventoryItem(2, 'clothShoulders');
+    setInventoryItem(14, 'clothFeet');
 
     // Add Sprites from Inventory to each Cubby Container.
     getInventoryItems().forEach(function (inventoryItem) {
@@ -156,7 +156,7 @@ export function bag_setup() {
 
 export function bagPopupMenus_setup() {
     let popupMenusBag = new Container();
-    getInventoryItems().forEach(function (inventoryItem, i) {
+    getInventoryItems().forEach(function (inventoryItem) {
         let cubby = inventoryItem.cubby;
 
         // Generate Cubby Menu
@@ -177,7 +177,7 @@ export function bagPopupMenus_setup() {
             }
         ]
 
-        // Generate Cubby Menu Items
+        // Draw Menu Items
         menuItems.forEach(function (item, i) {
             item.menuItem = new Container();
             item.menuItem.y = (uiLayout.popupMenu.height * i);
@@ -208,143 +208,69 @@ export function bagPopupMenus_setup() {
     return popupMenus.bagUi;
 }
 
-export function bagTooltips_setup() {
-    getInventoryItems().forEach(function (inventoryItem, i) {
-        let cubby = inventoryItem.cubby;
-
-        let tooltip = new Container();
-        tooltip.visible = false;
-        tooltip.x = bagUiBg.x + cubby.x + bagUiBg.line.width + uiLayout.uiWindow.margin - uiLayout.tooltip.width + (uiLayout.cubby.size / 2);
-        tooltip.y = bagUiBg.y + cubby.y + uiLayout.cubby.size + bagUiBg.line.width + uiLayout.uiWindow.margin;
-        if (inventoryItem.item) {
-
-            // Name plate for Inventory Item
-            let tooltipName = new Container();
-            let tooltipNameBg = new Graphics();
-            tooltipNameBg.beginFill(uiStyle.colors.black, .75);
-            tooltipNameBg.drawRect(0, 0, uiLayout.tooltip.width, uiLayout.tooltip.height);
-            tooltipName.addChild(tooltipNameBg);
-
-            let itemName = itemsMap[inventoryItem.item].name;
-            let tooltipNameText = new BitmapText(itemName, textStyle);
-            tooltipNameText.x = 10;
-            tooltipNameText.y = 7;
-            tooltipNameText.tint = uiStyle.colors.green;
-            tooltipName.addChild(tooltipNameText);
-
-            tooltip.addChild(tooltipName);
-
-            // Stat Plates for Each Stat with a value;
-            let itemStats = itemsMap[inventoryItem.item].stats;
-            let itemStatsArray = [];
-            Object.keys(itemStats).map(function (stat, i) {
-                if (itemStats[stat] > 0) {
-                    itemStatsArray.push(stat + ' ' + itemStats[stat]);
-                }
+function popupMenuEvents(cubby, i) {
+    let cubbyBg = cubby.children[0];
+    let popupMenu = popupMenus.bagUi.children[i];
+    cubby.on('click', function () {
+        if (!popupMenu.visible) {
+            let clonedPopupMenus = popupMenus.bagUi.children.slice();
+            clonedPopupMenus.splice(i, 1);
+            clonedPopupMenus.forEach(function (menu) {
+                menu.visible = false;
             })
-            itemStatsArray.forEach(function (statString, i) {
-                let tooltipStat = new Container();
-                tooltipStat.y = uiLayout.tooltip.height + ((uiLayout.tooltip.height / 1.2) * i);
-                let tooltipStatBg = new Graphics();
-                tooltipStatBg.beginFill(uiStyle.colors.black, .75);
-                tooltipStatBg.drawRect(0, 0, uiLayout.tooltip.width, uiLayout.tooltip.height / 1.2);
-                tooltipStat.addChild(tooltipStatBg);
-
-                let tooltipStatText = new BitmapText(statString, textStyle);
-                tooltipStatText.x = tooltipNameText.x;
-                tooltipStatText.y = 3;
-                tooltipStat.addChild(tooltipStatText);
-                tooltip.addChild(tooltipStat);
+            getInventoryItems().forEach(function (inventoryItem) {
+                let otherCubbyBg = inventoryItem.cubby.children[0];
+                otherCubbyBg.clear();
+                cubbyState(otherCubbyBg, 'default');
             })
+            popupMenu.visible = true;
+            popupMenus.bagUi.visible = true;
+            cubbyBg.clear();
+            cubbyState(cubbyBg, 'selected');
+        } else {
+            popupMenu.visible = false;
+            popupMenus.bagUi.visible = false;
+            cubbyBg.clear();
+            cubbyState(cubbyBg, 'hover');
         }
+    });
 
-        tooltips.addChild(tooltip);
+    cubby.on('mouseover', function () {
+        if (!popupMenu.visible) {
+            cubbyBg.clear();
+            cubbyState(cubbyBg, 'hover');
+        }
+    })
 
-        cubby.on('mouseover', function () {
-            if (inventoryItem.item && !popupMenus.bagUi.children[i].visible) {
-                tooltips.visible = true;
-                tooltips.children[i].visible = true;
-            }
-        })
-        cubby.on('mouseout', function () {
-            if (inventoryItem.item) {
-                tooltips.visible = false;
-                tooltips.children[i].visible = false;
-            }
-        })
-        cubby.on('click', function () {
-            if (inventoryItem.item) {
-                if (tooltips.children[i].visible) {
-                    tooltips.visible = false;
-                    tooltips.children[i].visible = false;
-                } else {
-                    tooltips.visible = true;
-                    tooltips.children[i].visible = true;
-                }
-            }
-        })
+    cubby.on('mouseout', function () {
+        if (!popupMenu.visible) {
+            cubbyBg.clear();
+            cubbyState(cubbyBg, 'default');
+        }
     })
 }
 
-export function bagPopulateCubbies() {
+export function bagPopulateMenus() {
     getInventoryItems().forEach(function (inventoryItem, i) {
         if (inventoryItem.item) {
             let cubby = inventoryItem.cubby;
-            let cubbyBg = cubby.children[0];
-            let popupMenu = popupMenus.bagUi.children[i];
-
-            cubby.on('click', function () {
-                if (!popupMenu.visible) {
-                    let clonedPopupMenus = popupMenus.bagUi.children.slice();
-                    clonedPopupMenus.splice(i, 1);
-                    clonedPopupMenus.forEach(function (menu) {
-                        menu.visible = false;
-                    })
-                    getInventoryItems().forEach(function (inventoryItem) {
-                        let otherCubbyBg = inventoryItem.cubby.children[0];
-                        otherCubbyBg.clear();
-                        otherCubbyBg.beginFill(uiStyle.colors.black, .5);
-                        otherCubbyBg.drawRect(0, 0, uiLayout.cubby.size, uiLayout.cubby.size);
-                    })
-                    popupMenu.visible = true;
-                    popupMenus.bagUi.visible = true;
-                    cubbyBg.clear();
-                    cubbyState(cubbyBg, 'selected');
-                } else {
-                    popupMenu.visible = false;
-                    popupMenus.bagUi.visible = false;
-                    cubbyBg.clear();
-                    cubbyState(cubbyBg, 'hover');
-                }
-            });
-
-            cubby.on('mouseover', function () {
-                if (!popupMenu.visible) {
-                    cubbyBg.clear();
-                    cubbyState(cubbyBg, 'hover');
-                }
-            })
-
-            cubby.on('mouseout', function () {
-                if (!popupMenu.visible) {
-                    cubbyBg.clear();
-                    cubbyState(cubbyBg);
-                }
-            })
+            popupMenuEvents(cubby, i);
         }
     })
-
 }
 
 export function bagPopupMenuInteraction() {
     getInventoryItems().forEach(function (inventoryItem, i) {
-        let cubby = inventoryItem.cubby;
         let popupMenu = popupMenus.bagUi.children[i];
+
         let equip = popupMenu.children[0].children[0];
-        let itemName = getInventoryItems()[i].item;
         equip.on('click', function () {
+            let cubby = inventoryItem.cubby;
+            let itemName = getInventoryItems()[i].item;
+            console.log(itemName);
             let itemSlot = itemsMap[itemName].slot;
             let equippedSlot = getEquippedSlot(itemSlot);
+            equippedSlot.cubby.children[1].destroy();
             equippedSlot.item = itemName;
 
             let newIcon = new Sprite(itemsMap[itemName].icon);
@@ -363,11 +289,12 @@ export function bagPopupMenuInteraction() {
 
             let cubbyBg = cubby.children[0];
             cubbyBg.clear();
-            cubbyState(cubbyBg);;
+            cubbyState(cubbyBg, 'default');;
         })
 
         let destroy = popupMenu.children[1].children[0];
         destroy.on('click', function () {
+            let cubby = inventoryItem.cubby;
             let itemIcon = getInventoryItems()[i].icon;
             setInventoryItem(i, null);
             itemIcon.destroy();
@@ -376,7 +303,125 @@ export function bagPopupMenuInteraction() {
 
             let cubbyBg = cubby.children[0];
             cubbyBg.clear();
-            cubbyState(cubbyBg, 'hover');
+            cubbyState(cubbyBg, 'default');
         })
     });
 }
+
+function tooltipStats(tooltip, itemName) {
+    let itemStats = itemsMap[itemName].stats;
+    let itemStatsArray = [];
+    Object.keys(itemStats).map(function (stat, i) {
+        if (itemStats[stat] > 0) {
+            itemStatsArray.push(stat + ' ' + itemStats[stat]);
+        }
+    })
+    itemStatsArray.forEach(function (statString, i) {
+        let tooltipStat = new Container();
+        tooltipStat.y = uiLayout.tooltip.height + ((uiLayout.tooltip.height / 1.2) * i);
+        let tooltipStatBg = new Graphics();
+        tooltipStatBg.beginFill(uiStyle.colors.black, .75);
+        tooltipStatBg.drawRect(0, 0, uiLayout.tooltip.width, uiLayout.tooltip.height / 1.2);
+        tooltipStat.addChild(tooltipStatBg);
+
+        let tooltipStatText = new BitmapText(statString, textStyle);
+        tooltipStatText.x = 10;
+        tooltipStatText.y = 3;
+        tooltipStat.addChild(tooltipStatText);
+        tooltip.addChild(tooltipStat);
+    })
+}
+
+export function bagTooltips_setup() {
+    let tooltipsBag = new Container();
+    getInventoryItems().forEach(function (inventoryItem, i) {
+        let cubby = inventoryItem.cubby;
+
+        let tooltip = new Container();
+        tooltip.visible = false;
+        tooltip.x = bagUiBg.x + cubby.x + bagUiBg.line.width + uiLayout.uiWindow.margin - uiLayout.tooltip.width + (uiLayout.cubby.size / 2);
+        tooltip.y = bagUiBg.y + cubby.y + uiLayout.cubby.size + bagUiBg.line.width + uiLayout.uiWindow.margin;
+
+        // Name plate for Inventory Item
+        let tooltipName = new Container();
+        let tooltipNameBg = new Graphics();
+        tooltipNameBg.beginFill(uiStyle.colors.black, .75);
+        tooltipNameBg.drawRect(0, 0, uiLayout.tooltip.width, uiLayout.tooltip.height);
+        tooltipName.addChild(tooltipNameBg);
+
+        let itemName = inventoryItem.item ? itemsMap[inventoryItem.item].name : 'No Item';
+        let tooltipNameText = new BitmapText(itemName, textStyle);
+        tooltipNameText.x = 10;
+        tooltipNameText.y = 7;
+        tooltipNameText.tint = uiStyle.colors.green;
+        tooltipName.addChild(tooltipNameText);
+
+        tooltip.addChild(tooltipName);
+
+        // Stat Plates for Each Stat with a value;
+        if (inventoryItem.item) {
+            tooltipStats(tooltip, inventoryItem.item);
+        }
+
+        tooltipsBag.addChild(tooltip);
+
+        tooltips.bagUi = tooltipsBag;
+        tooltips.bagUi.visible = false;
+
+        cubby.on('mouseover', function () {
+            if (inventoryItem.item && !popupMenus.bagUi.children[i].visible) {
+                tooltips.bagUi.visible = true;
+                tooltips.bagUi.children[i].visible = true;
+            }
+        })
+        cubby.on('mouseout', function () {
+            if (inventoryItem.item) {
+                tooltips.bagUi.visible = false;
+                tooltips.bagUi.children[i].visible = false;
+            }
+        })
+        cubby.on('click', function () {
+            if (inventoryItem.item) {
+                if (tooltips.bagUi.children[i].visible) {
+                    tooltips.bagUi.visible = false;
+                    tooltips.bagUi.children[i].visible = false;
+                } else {
+                    tooltips.bagUi.visible = true;
+                    tooltips.bagUi.children[i].visible = true;
+                }
+            }
+        })
+    })
+    return tooltips.bagUi;
+}
+
+export function inventoryPopulateNewItem(itemName) {
+    let inventoryArray = getInventoryItems();
+    let emptyCubbies = [];
+    inventoryArray.forEach(function (inventoryItem, i) {
+        if (!inventoryItem.item) {
+            emptyCubbies.push(inventoryItem);
+        }
+    })
+    let firstEmptySlot = emptyCubbies[0];
+    firstEmptySlot.item = itemName;
+
+    let newItemIcon = new Sprite(itemsMap[itemName].icon)
+    newItemIcon.scale.set(uiLayout.cubby.itemScale);
+    newItemIcon.x = (uiLayout.cubby.size - newItemIcon.width) / 2;
+    newItemIcon.y = (uiLayout.cubby.size - newItemIcon.height) / 2;
+    firstEmptySlot.icon = newItemIcon;
+    firstEmptySlot.cubby.addChild(firstEmptySlot.icon);
+
+    // Add Menus etc
+    let cubby = firstEmptySlot.cubby;
+    let i = getInventoryItems().indexOf(firstEmptySlot);
+
+    popupMenuEvents(cubby, i);
+
+    // Tooltips
+    let tooltip = tooltips.bagUi.children[i];
+    let tooltipNameText = tooltip.children[0].children[1];
+    tooltipNameText.text = itemsMap[itemName].name;
+    tooltipStats(tooltip, itemName);
+};

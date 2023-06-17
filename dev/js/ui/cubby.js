@@ -9,7 +9,7 @@ export function cubbyState(graphic, state) {
         graphic.beginFill(uiStyle.colors.cyan);
         graphic.drawRect(0, 0, uiLayout.cubby.size, uiLayout.cubby.size);
     }
-    else {
+    else if (state === 'default') {
         // Default
         graphic.beginFill(uiStyle.colors.black, .5);
         graphic.drawRect(0, 0, uiLayout.cubby.size, uiLayout.cubby.size);

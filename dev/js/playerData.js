@@ -51,59 +51,69 @@ export let getInventory = () => inventory;
 export let setInventoryCopper = (val) => (inventory.currency.copper = val);
 export let getInventoryItems = () => inventory.items;
 export let setInventoryItem = (i, val) => inventory.items[i].item = val;
+export let getInventorySlot = (slot) => inventory.items[slot];
 
 let equipped = {
     head: {
         item: null,
         cubby: null,
+        defaultSprite: 'iconHead.png',
         animatedSprites: null,
         idleTexture: null,
     },
     feet: {
         item: null,
         cubby: null,
+        defaultSprite: 'iconFeet.png',
         animatedSprite: null,
         idleTexture: null,
     },
     legs: {
         item: 'clothLegs',
         cubby: null,
+        defaultSprite: 'iconLegs.png',
         animatedSprite: null,
         idleTexture: null,
     },
     chest: {
         item: null,
         cubby: null,
+        defaultSprite: 'iconChest.png',
         animatedSprite: null,
         idleTexture: null,
     },
     shoulders: {
         item: null,
         cubby: null,
+        defaultSprite: 'iconShoulders.png',
         animatedSprite: null,
         idleTexture: null,
     },
     hands: {
         item: null,
         cubby: null,
+        defaultSprite: 'iconHands.png',
         animatedSprite: null,
         idleTexture: null,
     },
     rightHand: {
         item: null,
         cubby: null,
+        defaultSprite: 'iconWeapon.png',
         animatedSprites: null,
         idleTexture: null,
     },
     leftHand: {
         item: null,
         cubby: null,
+        defaultSprite: 'iconShield.png',
         animatedSprites: null,
         idleTexture: null,
     },
     resourceItem: {
         item: null,
         cubby: null,
+        defaultSprite: 'iconArrow.png',
         animatedSprites: null,
         idleTexture: null,
     },

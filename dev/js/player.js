@@ -78,3 +78,16 @@ export function createNewPlayerArmor(slot) {
     equippedItem.animatedSprite.play();
     playerContainer.addChild(equippedItem.animatedSprite);
 }
+
+export function destroyPlayerArmor(slot) {
+    let playerContainer = getPlayerContainer();
+    let equippedItem = getEquippedSlot(slot);
+    playerContainer.removeChild(equippedItem.animatedSprite);
+    equippedItem.item = null;
+    equippedItem.animatedSprite = null;
+    equippedItem.idleTexture = null;
+
+    // if pants make player = noArmorNaked;
+}
+
+// function for swapping armor.
