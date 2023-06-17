@@ -55,7 +55,7 @@ export let getInventorySlot = (slot) => inventory.items[slot];
 
 let equipped = {
     head: {
-        item: null,
+        item: 'clothHead',
         cubby: null,
         defaultSprite: 'iconHead.png',
         animatedSprites: null,
