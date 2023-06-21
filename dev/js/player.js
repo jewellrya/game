@@ -60,46 +60,45 @@ export function createPlayerArmor() {
         let player = getPlayer();
         let playerContainer = getPlayerContainer();
         let equippedItem = getEquippedSlot(slot);
+        equippedItem.animatedSprite = new Container();
         if (equippedItem.item) {
             createPlayerSheet('humanMale', equippedItem.item);
-            equippedItem.animatedSprite = new AnimatedSprite(playerSheets['idle_' + equippedItem.item + '_' + playerStartingDirection]);
-            equippedItem.animatedSprite.x = player.x;
-            equippedItem.animatedSprite.y = player.y;
-            equippedItem.animatedSprite.scale.set(playerSpriteScale);
-            equippedItem.animatedSprite.animationSpeed = player.animationSpeed;
-            equippedItem.animatedSprite.loop = false;
-            equippedItem.animatedSprite.anchor.set(textureXAnchors[playerStartingDirection], 0);
+            let sheet = new AnimatedSprite(playerSheets['idle_' + equippedItem.item + '_' + playerStartingDirection]);
+            sheet.x = player.x;
+            sheet.y = player.y;
+            sheet.scale.set(playerSpriteScale);
+            sheet.animationSpeed = player.animationSpeed;
+            sheet.loop = false;
+            sheet.anchor.set(textureXAnchors[playerStartingDirection], 0);
+            sheet.play();
             equippedItem.idleTexture = playerSheets['idle_' + equippedItem.item + '_' + playerStartingDirection];
-            equippedItem.animatedSprite.play();
-            playerContainer.addChild(equippedItem.animatedSprite);
+            equippedItem.animatedSprite.addChild(sheet);
         }
+        playerContainer.addChild(equippedItem.animatedSprite);
     })
 }
 
 export function createNewPlayerArmor(slot) {
     // call after "equipped" is updated
     let player = getPlayer();
-    let playerContainer = getPlayerContainer();
     let equippedItem = getEquippedSlot(slot);
     createPlayerSheet('humanMale', equippedItem.item);
-    equippedItem.animatedSprite = new AnimatedSprite(playerSheets['idle_' + equippedItem.item + '_' + getPlayerDirection()]);
-    equippedItem.animatedSprite.x = player.x;
-    equippedItem.animatedSprite.y = player.y;
-    equippedItem.animatedSprite.scale.set(playerSpriteScale);
-    equippedItem.animatedSprite.animationSpeed = player.animationSpeed;
-    equippedItem.animatedSprite.loop = false;
-    equippedItem.animatedSprite.anchor.set(textureXAnchors[getPlayerDirection()], 0);
+    let sheet = new AnimatedSprite(playerSheets['idle_' + equippedItem.item + '_' + getPlayerDirection()]);
+    sheet.x = player.x;
+    sheet.y = player.y;
+    sheet.scale.set(playerSpriteScale);
+    sheet.animationSpeed = player.animationSpeed;
+    sheet.loop = false;
+    sheet.anchor.set(textureXAnchors[getPlayerDirection()], 0);
+    sheet.play();
     equippedItem.idleTexture = playerSheets['idle_' + equippedItem.item + '_' + getPlayerDirection()];
-    equippedItem.animatedSprite.play();
-    playerContainer.addChild(equippedItem.animatedSprite);
+    equippedItem.animatedSprite.addChild(sheet);
 }
 
 export function destroyPlayerArmor(slot) {
-    let playerContainer = getPlayerContainer();
     let equippedItem = getEquippedSlot(slot);
-    playerContainer.removeChild(equippedItem.animatedSprite);
+    equippedItem.animatedSprite.removeChild(equippedItem.animatedSprite.children[0]);
     equippedItem.item = null;
-    equippedItem.animatedSprite = null;
     equippedItem.idleTexture = null;
 
     // if pants make player = noArmorNaked;

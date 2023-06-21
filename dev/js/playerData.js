@@ -58,7 +58,7 @@ let equipped = {
         item: null,
         cubby: null,
         defaultSprite: 'iconHead.png',
-        animatedSprites: null,
+        animatedSprite: null,
         idleTexture: null,
     },
     feet: {

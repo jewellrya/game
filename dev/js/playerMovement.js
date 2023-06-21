@@ -12,7 +12,7 @@ import { enemy } from './enemies/bandit.js';
 //         item.y += y;
 //         item.x += x;
 //     })
-// }
+// }ds
 
 export let textureXAnchors = {
     'U': -0.05,
@@ -47,7 +47,7 @@ export function playerMovement() {
         Object.keys(getEquipped()).map(slot => {
             let equippedItem = getEquippedSlot(slot);
             if (equippedItem.item) {
-                changeTextureAnchor(equippedItem.animatedSprite, textureDirection);
+                changeTextureAnchor(equippedItem.animatedSprite.children[0], textureDirection);
             }
         })
     }
@@ -56,7 +56,7 @@ export function playerMovement() {
         Object.keys(getEquipped()).map(slot => {
             let equippedItem = getEquippedSlot(slot);
             if (equippedItem.item) {
-                equippedItem.animatedSprite.textures = playerSheets[animation + '_' + equippedItem.item + '_' + textureDirection];
+                equippedItem.animatedSprite.children[0].textures = playerSheets[animation + '_' + equippedItem.item + '_' + textureDirection];
             }
         })
     }
@@ -74,7 +74,7 @@ export function playerMovement() {
         Object.keys(getEquipped()).map(slot => {
             let equippedItem = getEquippedSlot(slot);
             if (equippedItem.item) {
-                equippedItem.animatedSprite.play();
+                equippedItem.animatedSprite.children[0].play();
             }
         })
     }
@@ -83,7 +83,7 @@ export function playerMovement() {
         Object.keys(getEquipped()).map(slot => {
             let equippedItem = getEquippedSlot(slot);
             if (equippedItem.item) {
-                equippedItem.animatedSprite.animationSpeed = speed;
+                equippedItem.animatedSprite.children[0].animationSpeed = speed;
             }
         })
     }
@@ -92,8 +92,8 @@ export function playerMovement() {
         Object.keys(getEquipped()).map(slot => {
             let equippedItem = getEquippedSlot(slot);
             if (equippedItem.item) {
-                setEquippedAnimatedSprites(slot, getEquippedSlot(slot).animatedSprite.textures = getEquippedSlot(slot).idleTexture);
-                setEquippedAnimatedSprites(slot, getEquippedSlot(slot).animatedSprite.play());
+                setEquippedAnimatedSprites(slot, getEquippedSlot(slot).animatedSprite.children[0].textures = getEquippedSlot(slot).idleTexture);
+                setEquippedAnimatedSprites(slot, getEquippedSlot(slot).animatedSprite.children[0].play());
             }
         })
     }

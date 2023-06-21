@@ -28,13 +28,13 @@ export function createEnemy() {
     enemyHitbox.y = enemy.height - (enemy.width / 8);
     enemy.addChild(enemyHitbox);
 
-    // let aggroArea = aggroDistance + (enemyHitbox.width / 2);
-    // let enemyAggroDistance = new Graphics();
-    // enemyAggroDistance.beginFill(uiStyle.colors.red, .1);
-    // enemyAggroDistance.drawEllipse(0, 0, aggroArea, aggroArea / 1.75);
-    // enemyAggroDistance.x = enemyHitbox.x;
-    // enemyAggroDistance.y = enemyHitbox.y;
-    // enemy.addChild(enemyAggroDistance);
+    let aggroArea = aggroDistance + (enemyHitbox.width / 2);
+    let enemyAggroDistance = new Graphics();
+    enemyAggroDistance.beginFill(uiStyle.colors.red, .1);
+    enemyAggroDistance.drawEllipse(0, 0, aggroArea, aggroArea / 1.75);
+    enemyAggroDistance.x = enemyHitbox.x;
+    enemyAggroDistance.y = enemyHitbox.y;
+    enemy.addChild(enemyAggroDistance);
 
     return enemy;
 }
