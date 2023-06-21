@@ -1,4 +1,4 @@
-import { keysDown } from './controls/keyboard.js';
+import { keysDown, keyboard } from './controls/keyboard.js';
 import { getPlayer } from './player.js';
 import { playerStats, getEquipped, getEquippedSlot, setEquippedAnimatedSprites, setEquippedIdleTexture } from './playerData.js';
 import { playerSheets, getIdleTexture, setIdleTexture } from './sheets/playerSheets.js';
@@ -30,6 +30,18 @@ function moveEnvironment(x, y) {
     // Wrap in an Array when more than one.
     enemy.x += x;
     enemy.y += y;
+}
+
+export function resetPlayerAnimations() {
+    // Reset player animation with keysDown
+    Object.keys(keysDown).map(key => {
+        keyboard(key).press = () => {
+            getPlayer().gotoAndStop(0);
+        }
+        keyboard(key).release = () => {
+            getPlayer().gotoAndStop(0);
+        }
+    })
 }
 
 export function playerMovement() {

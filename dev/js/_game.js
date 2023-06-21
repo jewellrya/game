@@ -4,8 +4,8 @@
 
 // Player
 import { playerStats } from './playerData.js';
-import { createPlayer, createPlayerArmor, getPlayer } from './player.js';
-import { playerMovement } from './playerMovement.js';
+import { createPlayer, createPlayerArmor } from './player.js';
+import { playerMovement, resetPlayerAnimations } from './playerMovement.js';
 
 // Sheets
 import { playerSheets_setup } from './sheets/playerSheets.js';
@@ -31,7 +31,7 @@ import { uiData_setup } from './ui/uiDesign.js';
 
 // Controls
 import { defaultCursor, attackCursor } from './controls/mouse.js';
-import { keysDown, keyboard, initiateKeyboard } from './controls/keyboard.js';
+import { initiateKeyboard } from './controls/keyboard.js';
 
 // Misc
 import { itemsMap_setup } from './itemMap.js';
@@ -140,24 +140,15 @@ function setup() {
     let bg = getBg();
     gameScene.addChild(bg);
 
-    let player = createPlayer();
-
-    // Reset player animation with keysDown
-    Object.keys(keysDown).map(key => {
-        keyboard(key).press = () => {
-            getPlayer().gotoAndStop(0);
-        }
-        keyboard(key).release = () => {
-            getPlayer().gotoAndStop(0);
-        }
-    })
-
-    gameScene.addChild(player);
-    createPlayerArmor();
-
     // Enemy
     let enemy = createEnemy();
     gameScene.addChild(enemy);
+    
+    // Player
+    resetPlayerAnimations();
+    let player = createPlayer();
+    gameScene.addChild(player);
+    createPlayerArmor();
 
     // UIs
     let resourceMeters = resourceMeters_setup();
@@ -205,7 +196,11 @@ function gameLoop(delta) {
 }
 
 function play() {
+
+    // Player Movement Controls
     playerMovement();
+
+    // Enemy Hitbox Listener
     enemyAggroListener();
 
     if (playerStats.health <= 0) {
