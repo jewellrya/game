@@ -121,6 +121,7 @@ export function bag_setup() {
     setInventoryItem(20, 'clothHands');
     setInventoryItem(2, 'clothShoulders');
     setInventoryItem(14, 'clothFeet');
+    setInventoryItem(9, 'clothHead');
 
     // Add Sprites from Inventory to each Cubby Container.
     getInventoryItems().forEach(function (inventoryItem) {

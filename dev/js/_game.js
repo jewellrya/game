@@ -12,6 +12,9 @@ import { playerSheets_setup } from './sheets/playerSheets.js';
 import { setIconSheet } from './sheets/iconSheet.js';
 import { setMiscSheet } from './sheets/miscSheet.js';
 
+// Enemy
+import { createEnemy, enemyAggroListener } from './enemies/bandit.js';
+
 // UI
 import { resourceMeters_setup } from './ui/resourceMeters.js';
 import {
@@ -165,6 +168,10 @@ function setup() {
     gameScene.addChild(player);
     createPlayerArmor();
 
+    // Enemy
+    let enemy = createEnemy();
+    gameScene.addChild(enemy);
+
     // Create Popup Menu's Containers;
     let bagPopupMenus = bagPopupMenus_setup();
     gameScene.addChild(bagPopupMenus);
@@ -198,6 +205,7 @@ function gameLoop(delta) {
 
 function play() {
     playerMovement();
+    enemyAggroListener();
 
     if (playerStats.health <= 0) {
         state = end;

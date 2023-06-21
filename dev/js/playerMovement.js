@@ -4,6 +4,7 @@ import { playerStats, getEquipped, getEquippedSlot, setEquippedAnimatedSprites, 
 import { playerSheets, getIdleTexture, setIdleTexture } from './sheets/playerSheets.js';
 import { getBg, setBgX, setBgY } from './background.js';
 import { getResourceMeters, setFatigue } from './ui/resourceMeters.js';
+import { enemy } from './enemies/bandit.js';
 
 // let environment = [getBg()].concat(enemies)
 // function moveEnvironment(x, y) {
@@ -13,17 +14,43 @@ import { getResourceMeters, setFatigue } from './ui/resourceMeters.js';
 //     })
 // }
 
+export let textureXAnchors = {
+    'U': -0.05,
+    'UR': -0.03,
+    'R': 0,
+    'DR': 0.05,
+    'D': 0.03,
+    'DL': 0.03,
+    'L': 0,
+    'UL': -0.03,
+}
+
+function changeTextureAnchor(texture, textureDirection) {
+    texture.anchor.set(textureXAnchors[textureDirection], 0);
+}
+
 let playerDirection = 'DR';
 export let getPlayerDirection = () => playerDirection;
 
 function moveEnvironment(x, y) {
     setBgX(getBg().x += x);
     setBgY(getBg().y += y);
+    enemy.x += x;
+    enemy.y += y;
 }
 
 export function playerMovement() {
     let player = getPlayer();
     let playerPlaying = player.playing;
+
+    function equippedItemLoopAnchor(textureDirection) {
+        Object.keys(getEquipped()).map(slot => {
+            let equippedItem = getEquippedSlot(slot);
+            if (equippedItem.item) {
+                changeTextureAnchor(equippedItem.animatedSprite, textureDirection);
+            }
+        })
+    }
 
     function equippedItemLoopTexture(animation, textureDirection) {
         Object.keys(getEquipped()).map(slot => {
@@ -83,6 +110,8 @@ export function playerMovement() {
                 player.textures = playerSheets['walking_noArmorNaked_' + textureDirection];
                 equippedItemLoopTexture('walking', textureDirection);
             }
+            changeTextureAnchor(player, textureDirection);
+            equippedItemLoopAnchor(textureDirection);
             player.play();
             equippedItemLoopPlay();
         }
