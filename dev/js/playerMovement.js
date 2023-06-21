@@ -6,14 +6,6 @@ import { getBg, setBgX, setBgY } from './background.js';
 import { getResourceMeters, setFatigue } from './ui/resourceMeters.js';
 import { enemy } from './enemies/bandit.js';
 
-// let environment = [getBg()].concat(enemies)
-// function moveEnvironment(x, y) {
-//     environment.forEach(function (item) {
-//         item.y += y;
-//         item.x += x;
-//     })
-// }ds
-
 export let textureXAnchors = {
     'U': -0.05,
     'UR': -0.03,
@@ -35,6 +27,7 @@ export let getPlayerDirection = () => playerDirection;
 function moveEnvironment(x, y) {
     setBgX(getBg().x += x);
     setBgY(getBg().y += y);
+    // Wrap in an Array when more than one.
     enemy.x += x;
     enemy.y += y;
 }

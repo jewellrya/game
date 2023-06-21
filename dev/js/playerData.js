@@ -53,6 +53,38 @@ export let getInventoryItems = () => inventory.items;
 export let setInventoryItem = (i, val) => inventory.items[i].item = val;
 export let getInventorySlot = (slot) => inventory.items[slot];
 
+// Cosmetics for much later.
+let cosmetics = {
+    hair: {
+        color: 1,
+        head: {
+            id: 1,
+            animatedSprite: null,
+            idleTexture: null,
+        },
+        beard: {
+            id: 1,
+            animatedSprite: null,
+            idleTexture: null,
+        },
+    },
+    skin: {
+        color: 1,
+    },
+    tattoo: {
+        color: 1,
+        id: 1,
+        animatedSprite: null,
+        idleTexture: null,
+    },
+    adornments: {
+        color: 1,
+        id: 1,
+        animatedTexture: null,
+        idleTexture: null,
+    }
+}
+
 let equipped = {
     head: {
         item: null,

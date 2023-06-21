@@ -101,8 +101,7 @@ export function destroyPlayerArmor(slot) {
     equippedItem.item = null;
     equippedItem.idleTexture = null;
 
-    // if pants make player = noArmorNaked;
+    // if pants make player = humanMale_body_*;
 }
 
-// Make containers for armor that persist to help with shoulders always being on top etc.
-// function for swapping armor.
+// function for swapping armor with the same armor slots.

@@ -123,6 +123,9 @@ function setup() {
     // Create Array of Spritesheets for the Player:
     playerSheets_setup();
 
+    // UI Setup
+    uiData_setup();
+
     // Main Game Scene
     gameScene = new Container();
     gameScene.render.renderWebGL;
@@ -136,22 +139,6 @@ function setup() {
     setBg(new Sprite(id['environment.png']));
     let bg = getBg();
     gameScene.addChild(bg);
-
-    // UIs
-    uiData_setup();
-
-    let resourceMeters = resourceMeters_setup();
-    gameScene.addChild(resourceMeters);
-
-    let bagButton = bagButton_setup();
-    gameScene.addChild(bagButton);
-    let bag = bag_setup();
-    gameScene.addChild(bag);
-
-    let characterButton = characterButton_setup();
-    gameScene.addChild(characterButton);
-    let character = character_setup();
-    gameScene.addChild(character);
 
     let player = createPlayer();
 
@@ -171,6 +158,20 @@ function setup() {
     // Enemy
     let enemy = createEnemy();
     gameScene.addChild(enemy);
+
+    // UIs
+    let resourceMeters = resourceMeters_setup();
+    gameScene.addChild(resourceMeters);
+
+    let bagButton = bagButton_setup();
+    gameScene.addChild(bagButton);
+    let bag = bag_setup();
+    gameScene.addChild(bag);
+
+    let characterButton = characterButton_setup();
+    gameScene.addChild(characterButton);
+    let character = character_setup();
+    gameScene.addChild(character);
 
     // Create Popup Menu's Containers;
     let bagPopupMenus = bagPopupMenus_setup();
