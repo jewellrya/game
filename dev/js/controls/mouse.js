@@ -1,13 +1,13 @@
 window.addEventListener('mousedown', mouseDown);
 window.addEventListener('mouseup', mouseUp);
-window.addEventListener('mousemove', mouseMove);
+window.addEventListener('mousemove', mouseMove, {once: true});
 
 let cursor = {
     x: 0,
     y: 0
 }
 
-let click = {};
+export let click = {};
 
 function mouseDown(e) {
     click['mouse'] = true;
