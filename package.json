@@ -7,9 +7,7 @@
   "scripts": {
     "server": "live-server",
     "watch": "./watch.sh",
-    "dev": "concurrently --kill-others \"npm run watch\" \"npm run server\"",
-    "spritesheet-terrain": "spritesheet-js -p assets/sprites -n spritesheet_terrain --padding 2 assets/sprites/terrain/*.png",
-    "spritesheet-humanmale": "spritesheet-js -p assets/sprites/humanMale/main -n spritesheet_humanMale_noArmorNaked --padding 0 assets/sprites/humanMale/main/noArmorNaked/*.png"
+    "dev": "concurrently --kill-others \"npm run watch\" \"npm run server\""
   },
   "keywords": [
     "Game"

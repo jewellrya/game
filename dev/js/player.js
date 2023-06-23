@@ -2,7 +2,7 @@ import { app, Container, AnimatedSprite, Sprite, Graphics } from './_game.js';
 import { playerSheets, setIdleTexture } from './sheets/playerSheets.js';
 import { getMiscSheet } from './sheets/miscSheet.js';
 import { getEquipped, getEquippedSlot } from './playerData.js';
-import { createPlayerSheet, getIdleTexture } from './sheets/playerSheets.js';
+import { getIdleTexture } from './sheets/playerSheets.js';
 import { getPlayerDirection, textureXAnchors } from './playerMovement.js';
 import { uiStyle } from './ui/uiDesign.js';
 
@@ -22,7 +22,6 @@ export let setPlayerTexture = (val) => player.textures = val;
 let playerStartingDirection = 'DR';
 
 export function createPlayer() {
-    createPlayerSheet('humanMale', 'noArmorNaked');
     setIdleTexture(playerSheets['idle_noArmorNaked_' + playerStartingDirection]);
     playerContainer = new Container();
 
@@ -62,7 +61,6 @@ export function createPlayerArmor() {
         let equippedItem = getEquippedSlot(slot);
         equippedItem.animatedSprite = new Container();
         if (equippedItem.item) {
-            createPlayerSheet('humanMale', equippedItem.item);
             let sheet = new AnimatedSprite(playerSheets['idle_' + equippedItem.item + '_' + playerStartingDirection]);
             sheet.x = player.x;
             sheet.y = player.y;
@@ -82,7 +80,6 @@ export function createNewPlayerArmor(slot) {
     // call after "equipped" is updated
     let player = getPlayer();
     let equippedItem = getEquippedSlot(slot);
-    createPlayerSheet('humanMale', equippedItem.item);
     let sheet = new AnimatedSprite(playerSheets['idle_' + equippedItem.item + '_' + getPlayerDirection()]);
     sheet.x = player.x;
     sheet.y = player.y;

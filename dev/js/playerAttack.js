@@ -5,7 +5,6 @@ let attackSpeed = 10;
 let attackInProgress = false;
 export function playerAttack() {
     if (click.mouse && !attackInProgress) {
-        console.log(click);
         
         
         
