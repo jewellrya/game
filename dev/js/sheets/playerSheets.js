@@ -1,7 +1,6 @@
 import { resources } from '../_game.js';
 
 // Player Spritesheets
-export let playerSheetUrls;
 export let playerSheets = {};
 
 let spriteIds = {
@@ -13,8 +12,9 @@ let spriteIds = {
 let animations = ['idle', 'walking', 'running'];
 let directions = ['R', 'DR', 'D', 'DL', 'L', 'UL', 'U', 'UR'];
 
-export function playerSheets_setup() {
-    let spritesheetDirs = [];
+// Function for returning an array of spritesheet directories.
+export function getPlayerSheetsDirs() {
+    let playerSheetDirContainer = [];
     function playerSheetsUrl(raceGender) {
         let rootDir = '../../assets/sprites/';
         
@@ -22,16 +22,33 @@ export function playerSheets_setup() {
             let array = spriteIds[type];
             array.forEach(function (spriteId) {
                 animations.forEach(function (animation) {
-                    let url = rootDir + raceGender + '/' + type + '/' + spriteId + '/spritesheets/' + raceGender + '_' + animation + '_' + spriteId + '.json';
-                    spritesheetDirs.push(url);
-                    playerSheets['sheet_' + raceGender + '_' + animation + '_' + spriteId] = resources[url].spritesheet;
+                    let dir = rootDir + raceGender + '/' + type + '/' + spriteId + '/spritesheets/' + raceGender + '_' + animation + '_' + spriteId + '.json';
+                    playerSheetDirContainer.push(dir);
+                })
+            })
+        })
+    }
+    playerSheetsUrl('humanMale');
+    return playerSheetDirContainer;
+}
+
+// Function for the playerSheets object setup that references each spritesheet.
+export function playerSheets_setup() {
+    function playerSheetsUrl(raceGender) {
+        let rootDir = '../../assets/sprites/';
+        
+        Object.keys(spriteIds).map(function (type) {
+            let array = spriteIds[type];
+            array.forEach(function (spriteId) {
+                animations.forEach(function (animation) {
+                    let dir = rootDir + raceGender + '/' + type + '/' + spriteId + '/spritesheets/' + raceGender + '_' + animation + '_' + spriteId + '.json';
+                    playerSheets['sheet_' + raceGender + '_' + animation + '_' + spriteId] = resources[dir].spritesheet;
                     directions.forEach(function (direction) {
                         playerSheets[animation + '_' + spriteId + '_' + direction] = playerSheets['sheet_' + raceGender + '_' + animation + '_' + spriteId].animations[animation + '-' + spriteId + '-' + direction];
                     })
                 })
             })
         })
-        playerSheetUrls = spritesheetDirs;
     }
     playerSheetsUrl('humanMale');
 }

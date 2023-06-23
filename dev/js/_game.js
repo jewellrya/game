@@ -1,7 +1,3 @@
-// import { hitTestRectangle } from './module/hit.js';
-// import { randomInt, randomIntReverse } from "./module/random.js";
-// import createEnemy from './module/enemy.js';
-
 // Player
 import { playerStats } from './playerData.js';
 import { createPlayer, createPlayerArmor } from './player.js';
@@ -9,7 +5,7 @@ import { playerMovement, resetPlayerAnimations } from './playerMovement.js';
 import { playerAttack } from './playerAttack.js';
 
 // Sheets
-import { playerSheets_setup } from './sheets/playerSheets.js';
+import { getPlayerSheetsDirs, playerSheets_setup } from './sheets/playerSheets.js';
 import { setIconSheet } from './sheets/iconSheet.js';
 import { setMiscSheet } from './sheets/miscSheet.js';
 
@@ -75,28 +71,9 @@ loader.shared
         '../../assets/sprites.json',
         '../../assets/sprites/icons/spritesheets/icons.json',
         '../../assets/sprites/misc/spritesheets/misc.json',
-        '../../assets/sprites/humanMale/main/noArmorNaked/spritesheets/humanMale_idle_noArmorNaked.json',
-        '../../assets/sprites/humanMale/main/noArmorNaked/spritesheets/humanMale_walking_noArmorNaked.json',
-        '../../assets/sprites/humanMale/main/noArmorNaked/spritesheets/humanMale_running_noArmorNaked.json',
-        '../../assets/sprites/humanMale/armor/clothChest/spritesheets/humanMale_idle_clothChest.json',
-        '../../assets/sprites/humanMale/armor/clothFeet/spritesheets/humanMale_idle_clothFeet.json',
-        '../../assets/sprites/humanMale/armor/clothHands/spritesheets/humanMale_idle_clothHands.json',
-        '../../assets/sprites/humanMale/armor/clothHead/spritesheets/humanMale_idle_clothHead.json',
-        '../../assets/sprites/humanMale/armor/clothLegs/spritesheets/humanMale_idle_clothLegs.json',
-        '../../assets/sprites/humanMale/armor/clothShoulders/spritesheets/humanMale_idle_clothShoulders.json',
-        '../../assets/sprites/humanMale/armor/clothChest/spritesheets/humanMale_walking_clothChest.json',
-        '../../assets/sprites/humanMale/armor/clothFeet/spritesheets/humanMale_walking_clothFeet.json',
-        '../../assets/sprites/humanMale/armor/clothHands/spritesheets/humanMale_walking_clothHands.json',
-        '../../assets/sprites/humanMale/armor/clothHead/spritesheets/humanMale_walking_clothHead.json',
-        '../../assets/sprites/humanMale/armor/clothLegs/spritesheets/humanMale_walking_clothLegs.json',
-        '../../assets/sprites/humanMale/armor/clothShoulders/spritesheets/humanMale_walking_clothShoulders.json',
-        '../../assets/sprites/humanMale/armor/clothChest/spritesheets/humanMale_running_clothChest.json',
-        '../../assets/sprites/humanMale/armor/clothFeet/spritesheets/humanMale_running_clothFeet.json',
-        '../../assets/sprites/humanMale/armor/clothHands/spritesheets/humanMale_running_clothHands.json',
-        '../../assets/sprites/humanMale/armor/clothHead/spritesheets/humanMale_running_clothHead.json',
-        '../../assets/sprites/humanMale/armor/clothLegs/spritesheets/humanMale_running_clothLegs.json',
-        '../../assets/sprites/humanMale/armor/clothShoulders/spritesheets/humanMale_running_clothShoulders.json',
-    ]).load(setup);
+    ].concat(
+        getPlayerSheetsDirs()
+    )).load(setup);
 
 function loadProgressHandler(loader) {
     // Basis for a loading progress bar.
