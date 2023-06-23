@@ -22,7 +22,7 @@ export function createEnemy() {
     enemy.addChild(enemySprite);
 
     enemyHitbox = new Graphics();
-    enemyHitbox.beginFill(uiStyle.colors.red, .25);
+    enemyHitbox.beginFill(uiStyle.colors.red, 0);
     enemyHitbox.drawEllipse(0, 0, enemy.width, enemy.width / 1.75);
     enemyHitbox.x = enemy.width / 2;
     enemyHitbox.y = enemy.height - (enemy.width / 8);
@@ -30,7 +30,7 @@ export function createEnemy() {
 
     let aggroArea = aggroDistance + (enemyHitbox.width / 2);
     let enemyAggroDistance = new Graphics();
-    enemyAggroDistance.beginFill(uiStyle.colors.red, .1);
+    enemyAggroDistance.beginFill(uiStyle.colors.red, 0);
     enemyAggroDistance.drawEllipse(0, 0, aggroArea, aggroArea / 1.75);
     enemyAggroDistance.x = enemyHitbox.x;
     enemyAggroDistance.y = enemyHitbox.y;

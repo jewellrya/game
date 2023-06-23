@@ -40,7 +40,7 @@ export function createPlayer() {
 
     let hitboxSize = player.width / 6;
     playerHitbox = new Graphics();
-    playerHitbox.beginFill(uiStyle.colors.green, .25);
+    playerHitbox.beginFill(uiStyle.colors.green, 0);
     playerHitbox.drawEllipse(0, 0, hitboxSize, hitboxSize / 1.75);
     playerHitbox.x = player.x + (player.width / 2);
     playerHitbox.y = player.y + player.height - (hitboxSize * 1.85);
