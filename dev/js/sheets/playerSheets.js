@@ -1,8 +1,10 @@
 import { resources } from '../_game.js';
+import { playerRaceGender } from '../playerData.js';
 
 // Player Spritesheets
 export let playerSheets = {};
 
+// spriteIds hierarchy should match the spritesheet directories:
 let spriteIds = {
     armor: ['clothChest', 'clothFeet', 'clothHands', 'clothHead', 'clothLegs', 'clothShoulders'],
     equipment: [],
@@ -28,11 +30,11 @@ export function getPlayerSheetsDirs() {
             })
         })
     }
-    playerSheetsUrl('humanMale');
+    playerSheetsUrl(playerRaceGender);
     return playerSheetDirContainer;
 }
 
-// Function for the playerSheets object setup that references each spritesheet.
+// Function for the playerSheets object setup that references each spritesheet and animation.
 export function playerSheets_setup() {
     function playerSheetsUrl(raceGender) {
         let rootDir = '../../assets/sprites/';
@@ -50,7 +52,7 @@ export function playerSheets_setup() {
             })
         })
     }
-    playerSheetsUrl('humanMale');
+    playerSheetsUrl(playerRaceGender);
 }
 
 let idleTexture;
