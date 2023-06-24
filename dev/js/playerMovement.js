@@ -5,6 +5,10 @@ import { playerSheets, getIdleTexture, setIdleTexture } from './sheets/playerShe
 import { getBg, setBgX, setBgY } from './background.js';
 import { getResourceMeters, setFatigue } from './ui/resourceMeters.js';
 import { enemy } from './enemies/bandit.js';
+import { click } from './controls/mouse.js';
+
+let attackInProgress = false;
+let attacked = false;
 
 export let textureXAnchors = {
     'U': -0.05,
@@ -128,6 +132,10 @@ export function playerMovement() {
                 // Running
                 player.animationSpeed = playerStats.dexterity / 20;
                 equippedItemLoopAnimationSpeed(playerStats.dexterity / 20);
+            } else if (click.mouse && !attackInProgress) {
+                // Melee Attacking
+                player.animationSpeed = playerStats.dexterity / 25;
+                equippedItemLoopAnimationSpeed(playerStats.dexterity / 25);
             } else {
                 // Walking
                 player.animationSpeed = playerStats.dexterity / 20;
@@ -138,6 +146,17 @@ export function playerMovement() {
             player.animationSpeed = .6;
             player.play();
             equippedItemLoopAnimationSpeed(.6);
+            equippedItemLoopPlay();
+        }
+    }
+
+    function attackPlayerTexture(textureDirection) {
+        if (!player.playing) {
+            player.textures = playerSheets['1hAttack_noArmorNaked_' + textureDirection];
+            equippedItemLoopTexture('1hAttack', textureDirection);
+            changeTextureAnchor(player, textureDirection);
+            equippedItemLoopAnchor(textureDirection);
+            player.play();
             equippedItemLoopPlay();
         }
     }
@@ -189,6 +208,12 @@ export function playerMovement() {
         }
         moveEnvironment(-playerStats.speed(), 0);
         setPlayerSpeed();
+    }
+
+    if (click.mouse && !attackInProgress) {
+        getPlayer().gotoAndStop(0);
+        setPlayerSpeed();
+        attackPlayerTexture(playerDirection);
     }
 
     // Idle animation if no keys are true

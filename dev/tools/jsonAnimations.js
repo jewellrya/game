@@ -1,10 +1,10 @@
 import * as fs from 'fs';
-import * as spritesheet_json from '../../assets/sprites/humanMale/main/noArmorNaked/spritesheets/humanMale_death_noArmorNaked.json' assert { type: 'json' };
+import * as spritesheet_json from '../../assets/sprites/humanMale/equipment/sword1h1/spritesheets/humanMale_1hAttackIdle_sword1h1.json' assert { type: 'json' };
 
 let raceGender = 'humanMale';
-let type = 'main'
-let spriteId = 'noArmorNaked';
-let animation = 'death';
+let type = 'equipment'
+let spriteId = 'sword1h1';
+let animation = '1hAttackIdle';
 
 let spritesheet = JSON.parse(JSON.stringify(spritesheet_json.default));
 let directions = ['U', 'UR', 'R', 'DR', 'D', 'DL', 'L', 'UL'];

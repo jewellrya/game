@@ -1,5 +1,5 @@
 #use to reformat file names "1hAttack-beard1-0001_DR" ---> "1hAttack-beard1-DR-01"
-prefix="1hAttackIdle-"
+prefix="1hAttack-"
 
 for file in $prefix*.png
 do

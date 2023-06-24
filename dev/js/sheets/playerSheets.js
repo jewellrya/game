@@ -7,11 +7,11 @@ export let playerSheets = {};
 // spriteIds hierarchy should match the spritesheet directories:
 let spriteIds = {
     armor: ['clothChest', 'clothFeet', 'clothHands', 'clothHead', 'clothLegs', 'clothShoulders'],
-    equipment: [],
+    equipment: ['sword1h1', 'shield1'],
     main: ['noArmorNaked'],
 };
 
-let animations = ['idle', 'walking', 'running'];
+let animations = ['idle', 'walking', 'running', '1hAttack', '1hAttackIdle', 'death'];
 let directions = ['R', 'DR', 'D', 'DL', 'L', 'UL', 'U', 'UR'];
 
 // Function for returning an array of spritesheet directories.
@@ -19,7 +19,7 @@ export function getPlayerSheetsDirs() {
     let playerSheetDirContainer = [];
     function playerSheetsUrl(raceGender) {
         let rootDir = '../../assets/sprites/';
-        
+
         Object.keys(spriteIds).map(function (type) {
             let array = spriteIds[type];
             array.forEach(function (spriteId) {
@@ -38,7 +38,7 @@ export function getPlayerSheetsDirs() {
 export function playerSheets_setup() {
     function playerSheetsUrl(raceGender) {
         let rootDir = '../../assets/sprites/';
-        
+
         Object.keys(spriteIds).map(function (type) {
             let array = spriteIds[type];
             array.forEach(function (spriteId) {

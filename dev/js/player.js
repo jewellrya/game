@@ -34,9 +34,9 @@ export function createPlayer() {
     player.anchor.set(textureXAnchors['DR'], 0);
 
     let playerBase = new Sprite(getMiscSheet()['dropShadow.png']);
-    playerBase.scale.set(playerSpriteScale * 1.5, playerSpriteScale * 1.5);
+    playerBase.scale.set(playerSpriteScale * 2.25, playerSpriteScale * 2.25);
     playerBase.x = player.x + (player.width / 2) - (playerBase.width / 2);
-    playerBase.y = player.y + player.height - 80;
+    playerBase.y = player.y + player.height - 85;
 
     let hitboxSize = player.width / 6;
     playerHitbox = new Graphics();

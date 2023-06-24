@@ -130,14 +130,14 @@ let equipped = {
         idleTexture: null,
     },
     rightHand: {
-        item: null,
+        item: 'sword1h1',
         cubby: null,
         defaultSprite: 'iconWeapon.png',
         animatedSprites: null,
         idleTexture: null,
     },
     leftHand: {
-        item: null,
+        item: 'shield1',
         cubby: null,
         defaultSprite: 'iconShield.png',
         animatedSprites: null,

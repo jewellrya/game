@@ -2,7 +2,6 @@
 import { playerStats } from './playerData.js';
 import { createPlayer, createPlayerArmor } from './player.js';
 import { playerMovement, resetPlayerAnimations } from './playerMovement.js';
-import { playerAttack } from './playerAttack.js';
 
 // Sheets
 import { getPlayerSheetsDirs, playerSheets_setup } from './sheets/playerSheets.js';
@@ -122,7 +121,7 @@ function setup() {
     // Enemy
     let enemy = createEnemy();
     gameScene.addChild(enemy);
-    
+
     // Player
     resetPlayerAnimations();
     let player = createPlayer();
@@ -178,9 +177,6 @@ function play() {
 
     // Player Movement Controls
     playerMovement();
-
-    // Player Attack
-    playerAttack();
 
     // Enemy Hitbox Listener
     enemyAggroListener();
