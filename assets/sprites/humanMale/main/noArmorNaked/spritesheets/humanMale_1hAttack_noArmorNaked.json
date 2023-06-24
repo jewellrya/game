@@ -1,0 +1,5070 @@
+{
+    "meta": {
+        "image": "humanMale_1hAttack_noArmorNaked.png",
+        "size": {
+            "w": 1728,
+            "h": 1620
+        },
+        "scale": "1"
+    },
+    "frames": {
+        "1hAttack-noArmorNaked-D-01.png": {
+            "frame": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-D-02.png": {
+            "frame": {
+                "x": 108,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-D-03.png": {
+            "frame": {
+                "x": 0,
+                "y": 108,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-D-04.png": {
+            "frame": {
+                "x": 108,
+                "y": 108,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-D-05.png": {
+            "frame": {
+                "x": 216,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-D-06.png": {
+            "frame": {
+                "x": 216,
+                "y": 108,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-D-07.png": {
+            "frame": {
+                "x": 0,
+                "y": 216,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-D-08.png": {
+            "frame": {
+                "x": 108,
+                "y": 216,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-D-09.png": {
+            "frame": {
+                "x": 216,
+                "y": 216,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-D-10.png": {
+            "frame": {
+                "x": 324,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-D-11.png": {
+            "frame": {
+                "x": 324,
+                "y": 108,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-D-12.png": {
+            "frame": {
+                "x": 324,
+                "y": 216,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-D-13.png": {
+            "frame": {
+                "x": 0,
+                "y": 324,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-D-14.png": {
+            "frame": {
+                "x": 108,
+                "y": 324,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-D-15.png": {
+            "frame": {
+                "x": 216,
+                "y": 324,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-D-16.png": {
+            "frame": {
+                "x": 324,
+                "y": 324,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-D-17.png": {
+            "frame": {
+                "x": 432,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-D-18.png": {
+            "frame": {
+                "x": 432,
+                "y": 108,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-D-19.png": {
+            "frame": {
+                "x": 432,
+                "y": 216,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-D-20.png": {
+            "frame": {
+                "x": 432,
+                "y": 324,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-D-21.png": {
+            "frame": {
+                "x": 0,
+                "y": 432,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-D-22.png": {
+            "frame": {
+                "x": 108,
+                "y": 432,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-D-23.png": {
+            "frame": {
+                "x": 216,
+                "y": 432,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-D-24.png": {
+            "frame": {
+                "x": 324,
+                "y": 432,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-D-25.png": {
+            "frame": {
+                "x": 432,
+                "y": 432,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-D-26.png": {
+            "frame": {
+                "x": 540,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-D-27.png": {
+            "frame": {
+                "x": 540,
+                "y": 108,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-D-28.png": {
+            "frame": {
+                "x": 540,
+                "y": 216,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-D-29.png": {
+            "frame": {
+                "x": 540,
+                "y": 324,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-D-30.png": {
+            "frame": {
+                "x": 540,
+                "y": 432,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DL-01.png": {
+            "frame": {
+                "x": 0,
+                "y": 540,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DL-02.png": {
+            "frame": {
+                "x": 108,
+                "y": 540,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DL-03.png": {
+            "frame": {
+                "x": 216,
+                "y": 540,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DL-04.png": {
+            "frame": {
+                "x": 324,
+                "y": 540,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DL-05.png": {
+            "frame": {
+                "x": 432,
+                "y": 540,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DL-06.png": {
+            "frame": {
+                "x": 540,
+                "y": 540,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DL-07.png": {
+            "frame": {
+                "x": 648,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DL-08.png": {
+            "frame": {
+                "x": 648,
+                "y": 108,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DL-09.png": {
+            "frame": {
+                "x": 648,
+                "y": 216,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DL-10.png": {
+            "frame": {
+                "x": 648,
+                "y": 324,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DL-11.png": {
+            "frame": {
+                "x": 648,
+                "y": 432,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DL-12.png": {
+            "frame": {
+                "x": 648,
+                "y": 540,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DL-13.png": {
+            "frame": {
+                "x": 0,
+                "y": 648,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DL-14.png": {
+            "frame": {
+                "x": 108,
+                "y": 648,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DL-15.png": {
+            "frame": {
+                "x": 216,
+                "y": 648,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DL-16.png": {
+            "frame": {
+                "x": 324,
+                "y": 648,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DL-17.png": {
+            "frame": {
+                "x": 432,
+                "y": 648,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DL-18.png": {
+            "frame": {
+                "x": 540,
+                "y": 648,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DL-19.png": {
+            "frame": {
+                "x": 648,
+                "y": 648,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DL-20.png": {
+            "frame": {
+                "x": 756,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DL-21.png": {
+            "frame": {
+                "x": 756,
+                "y": 108,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DL-22.png": {
+            "frame": {
+                "x": 756,
+                "y": 216,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DL-23.png": {
+            "frame": {
+                "x": 756,
+                "y": 324,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DL-24.png": {
+            "frame": {
+                "x": 756,
+                "y": 432,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DL-25.png": {
+            "frame": {
+                "x": 756,
+                "y": 540,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DL-26.png": {
+            "frame": {
+                "x": 756,
+                "y": 648,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DL-27.png": {
+            "frame": {
+                "x": 0,
+                "y": 756,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DL-28.png": {
+            "frame": {
+                "x": 108,
+                "y": 756,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DL-29.png": {
+            "frame": {
+                "x": 216,
+                "y": 756,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DL-30.png": {
+            "frame": {
+                "x": 324,
+                "y": 756,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DR-01.png": {
+            "frame": {
+                "x": 432,
+                "y": 756,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DR-02.png": {
+            "frame": {
+                "x": 540,
+                "y": 756,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DR-03.png": {
+            "frame": {
+                "x": 648,
+                "y": 756,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DR-04.png": {
+            "frame": {
+                "x": 756,
+                "y": 756,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DR-05.png": {
+            "frame": {
+                "x": 864,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DR-06.png": {
+            "frame": {
+                "x": 864,
+                "y": 108,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DR-07.png": {
+            "frame": {
+                "x": 864,
+                "y": 216,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DR-08.png": {
+            "frame": {
+                "x": 864,
+                "y": 324,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DR-09.png": {
+            "frame": {
+                "x": 864,
+                "y": 432,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DR-10.png": {
+            "frame": {
+                "x": 864,
+                "y": 540,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DR-11.png": {
+            "frame": {
+                "x": 864,
+                "y": 648,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DR-12.png": {
+            "frame": {
+                "x": 864,
+                "y": 756,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DR-13.png": {
+            "frame": {
+                "x": 0,
+                "y": 864,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DR-14.png": {
+            "frame": {
+                "x": 108,
+                "y": 864,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DR-15.png": {
+            "frame": {
+                "x": 216,
+                "y": 864,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DR-16.png": {
+            "frame": {
+                "x": 324,
+                "y": 864,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DR-17.png": {
+            "frame": {
+                "x": 432,
+                "y": 864,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DR-18.png": {
+            "frame": {
+                "x": 540,
+                "y": 864,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DR-19.png": {
+            "frame": {
+                "x": 648,
+                "y": 864,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DR-20.png": {
+            "frame": {
+                "x": 756,
+                "y": 864,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DR-21.png": {
+            "frame": {
+                "x": 864,
+                "y": 864,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DR-22.png": {
+            "frame": {
+                "x": 972,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DR-23.png": {
+            "frame": {
+                "x": 972,
+                "y": 108,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DR-24.png": {
+            "frame": {
+                "x": 972,
+                "y": 216,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DR-25.png": {
+            "frame": {
+                "x": 972,
+                "y": 324,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DR-26.png": {
+            "frame": {
+                "x": 972,
+                "y": 432,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DR-27.png": {
+            "frame": {
+                "x": 972,
+                "y": 540,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DR-28.png": {
+            "frame": {
+                "x": 972,
+                "y": 648,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DR-29.png": {
+            "frame": {
+                "x": 972,
+                "y": 756,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-DR-30.png": {
+            "frame": {
+                "x": 972,
+                "y": 864,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-L-01.png": {
+            "frame": {
+                "x": 0,
+                "y": 972,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-L-02.png": {
+            "frame": {
+                "x": 108,
+                "y": 972,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-L-03.png": {
+            "frame": {
+                "x": 216,
+                "y": 972,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-L-04.png": {
+            "frame": {
+                "x": 324,
+                "y": 972,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-L-05.png": {
+            "frame": {
+                "x": 432,
+                "y": 972,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-L-06.png": {
+            "frame": {
+                "x": 540,
+                "y": 972,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-L-07.png": {
+            "frame": {
+                "x": 648,
+                "y": 972,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-L-08.png": {
+            "frame": {
+                "x": 756,
+                "y": 972,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-L-09.png": {
+            "frame": {
+                "x": 864,
+                "y": 972,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-L-10.png": {
+            "frame": {
+                "x": 972,
+                "y": 972,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-L-11.png": {
+            "frame": {
+                "x": 1080,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-L-12.png": {
+            "frame": {
+                "x": 1080,
+                "y": 108,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-L-13.png": {
+            "frame": {
+                "x": 1080,
+                "y": 216,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-L-14.png": {
+            "frame": {
+                "x": 1080,
+                "y": 324,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-L-15.png": {
+            "frame": {
+                "x": 1080,
+                "y": 432,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-L-16.png": {
+            "frame": {
+                "x": 1080,
+                "y": 540,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-L-17.png": {
+            "frame": {
+                "x": 1080,
+                "y": 648,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-L-18.png": {
+            "frame": {
+                "x": 1080,
+                "y": 756,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-L-19.png": {
+            "frame": {
+                "x": 1080,
+                "y": 864,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-L-20.png": {
+            "frame": {
+                "x": 1080,
+                "y": 972,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-L-21.png": {
+            "frame": {
+                "x": 0,
+                "y": 1080,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-L-22.png": {
+            "frame": {
+                "x": 108,
+                "y": 1080,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-L-23.png": {
+            "frame": {
+                "x": 216,
+                "y": 1080,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-L-24.png": {
+            "frame": {
+                "x": 324,
+                "y": 1080,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-L-25.png": {
+            "frame": {
+                "x": 432,
+                "y": 1080,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-L-26.png": {
+            "frame": {
+                "x": 540,
+                "y": 1080,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-L-27.png": {
+            "frame": {
+                "x": 648,
+                "y": 1080,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-L-28.png": {
+            "frame": {
+                "x": 756,
+                "y": 1080,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-L-29.png": {
+            "frame": {
+                "x": 864,
+                "y": 1080,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-L-30.png": {
+            "frame": {
+                "x": 972,
+                "y": 1080,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-R-01.png": {
+            "frame": {
+                "x": 1080,
+                "y": 1080,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-R-02.png": {
+            "frame": {
+                "x": 1188,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-R-03.png": {
+            "frame": {
+                "x": 1188,
+                "y": 108,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-R-04.png": {
+            "frame": {
+                "x": 1188,
+                "y": 216,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-R-05.png": {
+            "frame": {
+                "x": 1188,
+                "y": 324,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-R-06.png": {
+            "frame": {
+                "x": 1188,
+                "y": 432,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-R-07.png": {
+            "frame": {
+                "x": 1188,
+                "y": 540,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-R-08.png": {
+            "frame": {
+                "x": 1188,
+                "y": 648,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-R-09.png": {
+            "frame": {
+                "x": 1188,
+                "y": 756,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-R-10.png": {
+            "frame": {
+                "x": 1188,
+                "y": 864,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-R-11.png": {
+            "frame": {
+                "x": 1188,
+                "y": 972,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-R-12.png": {
+            "frame": {
+                "x": 1188,
+                "y": 1080,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-R-13.png": {
+            "frame": {
+                "x": 0,
+                "y": 1188,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-R-14.png": {
+            "frame": {
+                "x": 108,
+                "y": 1188,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-R-15.png": {
+            "frame": {
+                "x": 216,
+                "y": 1188,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-R-16.png": {
+            "frame": {
+                "x": 324,
+                "y": 1188,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-R-17.png": {
+            "frame": {
+                "x": 432,
+                "y": 1188,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-R-18.png": {
+            "frame": {
+                "x": 540,
+                "y": 1188,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-R-19.png": {
+            "frame": {
+                "x": 648,
+                "y": 1188,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-R-20.png": {
+            "frame": {
+                "x": 756,
+                "y": 1188,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-R-21.png": {
+            "frame": {
+                "x": 864,
+                "y": 1188,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-R-22.png": {
+            "frame": {
+                "x": 972,
+                "y": 1188,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-R-23.png": {
+            "frame": {
+                "x": 1080,
+                "y": 1188,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-R-24.png": {
+            "frame": {
+                "x": 1188,
+                "y": 1188,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-R-25.png": {
+            "frame": {
+                "x": 1296,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-R-26.png": {
+            "frame": {
+                "x": 1296,
+                "y": 108,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-R-27.png": {
+            "frame": {
+                "x": 1296,
+                "y": 216,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-R-28.png": {
+            "frame": {
+                "x": 1296,
+                "y": 324,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-R-29.png": {
+            "frame": {
+                "x": 1296,
+                "y": 432,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-R-30.png": {
+            "frame": {
+                "x": 1296,
+                "y": 540,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-U-01.png": {
+            "frame": {
+                "x": 1296,
+                "y": 648,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-U-02.png": {
+            "frame": {
+                "x": 1296,
+                "y": 756,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-U-03.png": {
+            "frame": {
+                "x": 1296,
+                "y": 864,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-U-04.png": {
+            "frame": {
+                "x": 1296,
+                "y": 972,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-U-05.png": {
+            "frame": {
+                "x": 1296,
+                "y": 1080,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-U-06.png": {
+            "frame": {
+                "x": 1296,
+                "y": 1188,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-U-07.png": {
+            "frame": {
+                "x": 0,
+                "y": 1296,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-U-08.png": {
+            "frame": {
+                "x": 108,
+                "y": 1296,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-U-09.png": {
+            "frame": {
+                "x": 216,
+                "y": 1296,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-U-10.png": {
+            "frame": {
+                "x": 324,
+                "y": 1296,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-U-11.png": {
+            "frame": {
+                "x": 432,
+                "y": 1296,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-U-12.png": {
+            "frame": {
+                "x": 540,
+                "y": 1296,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-U-13.png": {
+            "frame": {
+                "x": 648,
+                "y": 1296,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-U-14.png": {
+            "frame": {
+                "x": 756,
+                "y": 1296,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-U-15.png": {
+            "frame": {
+                "x": 864,
+                "y": 1296,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-U-16.png": {
+            "frame": {
+                "x": 972,
+                "y": 1296,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-U-17.png": {
+            "frame": {
+                "x": 1080,
+                "y": 1296,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-U-18.png": {
+            "frame": {
+                "x": 1188,
+                "y": 1296,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-U-19.png": {
+            "frame": {
+                "x": 1296,
+                "y": 1296,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-U-20.png": {
+            "frame": {
+                "x": 1404,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-U-21.png": {
+            "frame": {
+                "x": 1404,
+                "y": 108,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-U-22.png": {
+            "frame": {
+                "x": 1404,
+                "y": 216,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-U-23.png": {
+            "frame": {
+                "x": 1404,
+                "y": 324,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-U-24.png": {
+            "frame": {
+                "x": 1404,
+                "y": 432,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-U-25.png": {
+            "frame": {
+                "x": 1404,
+                "y": 540,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-U-26.png": {
+            "frame": {
+                "x": 1404,
+                "y": 648,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-U-27.png": {
+            "frame": {
+                "x": 1404,
+                "y": 756,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-U-28.png": {
+            "frame": {
+                "x": 1404,
+                "y": 864,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-U-29.png": {
+            "frame": {
+                "x": 1404,
+                "y": 972,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-U-30.png": {
+            "frame": {
+                "x": 1404,
+                "y": 1080,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UL-01.png": {
+            "frame": {
+                "x": 1404,
+                "y": 1188,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UL-02.png": {
+            "frame": {
+                "x": 1404,
+                "y": 1296,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UL-03.png": {
+            "frame": {
+                "x": 0,
+                "y": 1404,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UL-04.png": {
+            "frame": {
+                "x": 108,
+                "y": 1404,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UL-05.png": {
+            "frame": {
+                "x": 216,
+                "y": 1404,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UL-06.png": {
+            "frame": {
+                "x": 324,
+                "y": 1404,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UL-07.png": {
+            "frame": {
+                "x": 432,
+                "y": 1404,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UL-08.png": {
+            "frame": {
+                "x": 540,
+                "y": 1404,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UL-09.png": {
+            "frame": {
+                "x": 648,
+                "y": 1404,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UL-10.png": {
+            "frame": {
+                "x": 756,
+                "y": 1404,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UL-11.png": {
+            "frame": {
+                "x": 864,
+                "y": 1404,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UL-12.png": {
+            "frame": {
+                "x": 972,
+                "y": 1404,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UL-13.png": {
+            "frame": {
+                "x": 1080,
+                "y": 1404,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UL-14.png": {
+            "frame": {
+                "x": 1188,
+                "y": 1404,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UL-15.png": {
+            "frame": {
+                "x": 1296,
+                "y": 1404,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UL-16.png": {
+            "frame": {
+                "x": 1404,
+                "y": 1404,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UL-17.png": {
+            "frame": {
+                "x": 1512,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UL-18.png": {
+            "frame": {
+                "x": 1512,
+                "y": 108,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UL-19.png": {
+            "frame": {
+                "x": 1512,
+                "y": 216,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UL-20.png": {
+            "frame": {
+                "x": 1512,
+                "y": 324,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UL-21.png": {
+            "frame": {
+                "x": 1512,
+                "y": 432,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UL-22.png": {
+            "frame": {
+                "x": 1512,
+                "y": 540,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UL-23.png": {
+            "frame": {
+                "x": 1512,
+                "y": 648,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UL-24.png": {
+            "frame": {
+                "x": 1512,
+                "y": 756,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UL-25.png": {
+            "frame": {
+                "x": 1512,
+                "y": 864,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UL-26.png": {
+            "frame": {
+                "x": 1512,
+                "y": 972,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UL-27.png": {
+            "frame": {
+                "x": 1512,
+                "y": 1080,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UL-28.png": {
+            "frame": {
+                "x": 1512,
+                "y": 1188,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UL-29.png": {
+            "frame": {
+                "x": 1512,
+                "y": 1296,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UL-30.png": {
+            "frame": {
+                "x": 1512,
+                "y": 1404,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UR-01.png": {
+            "frame": {
+                "x": 0,
+                "y": 1512,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UR-02.png": {
+            "frame": {
+                "x": 108,
+                "y": 1512,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UR-03.png": {
+            "frame": {
+                "x": 216,
+                "y": 1512,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UR-04.png": {
+            "frame": {
+                "x": 324,
+                "y": 1512,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UR-05.png": {
+            "frame": {
+                "x": 432,
+                "y": 1512,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UR-06.png": {
+            "frame": {
+                "x": 540,
+                "y": 1512,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UR-07.png": {
+            "frame": {
+                "x": 648,
+                "y": 1512,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UR-08.png": {
+            "frame": {
+                "x": 756,
+                "y": 1512,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UR-09.png": {
+            "frame": {
+                "x": 864,
+                "y": 1512,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UR-10.png": {
+            "frame": {
+                "x": 972,
+                "y": 1512,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UR-11.png": {
+            "frame": {
+                "x": 1080,
+                "y": 1512,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UR-12.png": {
+            "frame": {
+                "x": 1188,
+                "y": 1512,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UR-13.png": {
+            "frame": {
+                "x": 1296,
+                "y": 1512,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UR-14.png": {
+            "frame": {
+                "x": 1404,
+                "y": 1512,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UR-15.png": {
+            "frame": {
+                "x": 1512,
+                "y": 1512,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UR-16.png": {
+            "frame": {
+                "x": 1620,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UR-17.png": {
+            "frame": {
+                "x": 1620,
+                "y": 108,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UR-18.png": {
+            "frame": {
+                "x": 1620,
+                "y": 216,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UR-19.png": {
+            "frame": {
+                "x": 1620,
+                "y": 324,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UR-20.png": {
+            "frame": {
+                "x": 1620,
+                "y": 432,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UR-21.png": {
+            "frame": {
+                "x": 1620,
+                "y": 540,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UR-22.png": {
+            "frame": {
+                "x": 1620,
+                "y": 648,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UR-23.png": {
+            "frame": {
+                "x": 1620,
+                "y": 756,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UR-24.png": {
+            "frame": {
+                "x": 1620,
+                "y": 864,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UR-25.png": {
+            "frame": {
+                "x": 1620,
+                "y": 972,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UR-26.png": {
+            "frame": {
+                "x": 1620,
+                "y": 1080,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UR-27.png": {
+            "frame": {
+                "x": 1620,
+                "y": 1188,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UR-28.png": {
+            "frame": {
+                "x": 1620,
+                "y": 1296,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UR-29.png": {
+            "frame": {
+                "x": 1620,
+                "y": 1404,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "1hAttack-noArmorNaked-UR-30.png": {
+            "frame": {
+                "x": 1620,
+                "y": 1512,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        }
+    },
+    "animations": {
+        "1hAttack-noArmorNaked-U": [
+            "1hAttack-noArmorNaked-U-01.png",
+            "1hAttack-noArmorNaked-U-02.png",
+            "1hAttack-noArmorNaked-U-03.png",
+            "1hAttack-noArmorNaked-U-04.png",
+            "1hAttack-noArmorNaked-U-05.png",
+            "1hAttack-noArmorNaked-U-06.png",
+            "1hAttack-noArmorNaked-U-07.png",
+            "1hAttack-noArmorNaked-U-08.png",
+            "1hAttack-noArmorNaked-U-09.png",
+            "1hAttack-noArmorNaked-U-10.png",
+            "1hAttack-noArmorNaked-U-11.png",
+            "1hAttack-noArmorNaked-U-12.png",
+            "1hAttack-noArmorNaked-U-13.png",
+            "1hAttack-noArmorNaked-U-14.png",
+            "1hAttack-noArmorNaked-U-15.png",
+            "1hAttack-noArmorNaked-U-16.png",
+            "1hAttack-noArmorNaked-U-17.png",
+            "1hAttack-noArmorNaked-U-18.png",
+            "1hAttack-noArmorNaked-U-19.png",
+            "1hAttack-noArmorNaked-U-20.png",
+            "1hAttack-noArmorNaked-U-21.png",
+            "1hAttack-noArmorNaked-U-22.png",
+            "1hAttack-noArmorNaked-U-23.png",
+            "1hAttack-noArmorNaked-U-24.png",
+            "1hAttack-noArmorNaked-U-25.png",
+            "1hAttack-noArmorNaked-U-26.png",
+            "1hAttack-noArmorNaked-U-27.png",
+            "1hAttack-noArmorNaked-U-28.png",
+            "1hAttack-noArmorNaked-U-29.png",
+            "1hAttack-noArmorNaked-U-30.png"
+        ],
+        "1hAttack-noArmorNaked-UR": [
+            "1hAttack-noArmorNaked-UR-01.png",
+            "1hAttack-noArmorNaked-UR-02.png",
+            "1hAttack-noArmorNaked-UR-03.png",
+            "1hAttack-noArmorNaked-UR-04.png",
+            "1hAttack-noArmorNaked-UR-05.png",
+            "1hAttack-noArmorNaked-UR-06.png",
+            "1hAttack-noArmorNaked-UR-07.png",
+            "1hAttack-noArmorNaked-UR-08.png",
+            "1hAttack-noArmorNaked-UR-09.png",
+            "1hAttack-noArmorNaked-UR-10.png",
+            "1hAttack-noArmorNaked-UR-11.png",
+            "1hAttack-noArmorNaked-UR-12.png",
+            "1hAttack-noArmorNaked-UR-13.png",
+            "1hAttack-noArmorNaked-UR-14.png",
+            "1hAttack-noArmorNaked-UR-15.png",
+            "1hAttack-noArmorNaked-UR-16.png",
+            "1hAttack-noArmorNaked-UR-17.png",
+            "1hAttack-noArmorNaked-UR-18.png",
+            "1hAttack-noArmorNaked-UR-19.png",
+            "1hAttack-noArmorNaked-UR-20.png",
+            "1hAttack-noArmorNaked-UR-21.png",
+            "1hAttack-noArmorNaked-UR-22.png",
+            "1hAttack-noArmorNaked-UR-23.png",
+            "1hAttack-noArmorNaked-UR-24.png",
+            "1hAttack-noArmorNaked-UR-25.png",
+            "1hAttack-noArmorNaked-UR-26.png",
+            "1hAttack-noArmorNaked-UR-27.png",
+            "1hAttack-noArmorNaked-UR-28.png",
+            "1hAttack-noArmorNaked-UR-29.png",
+            "1hAttack-noArmorNaked-UR-30.png"
+        ],
+        "1hAttack-noArmorNaked-R": [
+            "1hAttack-noArmorNaked-R-01.png",
+            "1hAttack-noArmorNaked-R-02.png",
+            "1hAttack-noArmorNaked-R-03.png",
+            "1hAttack-noArmorNaked-R-04.png",
+            "1hAttack-noArmorNaked-R-05.png",
+            "1hAttack-noArmorNaked-R-06.png",
+            "1hAttack-noArmorNaked-R-07.png",
+            "1hAttack-noArmorNaked-R-08.png",
+            "1hAttack-noArmorNaked-R-09.png",
+            "1hAttack-noArmorNaked-R-10.png",
+            "1hAttack-noArmorNaked-R-11.png",
+            "1hAttack-noArmorNaked-R-12.png",
+            "1hAttack-noArmorNaked-R-13.png",
+            "1hAttack-noArmorNaked-R-14.png",
+            "1hAttack-noArmorNaked-R-15.png",
+            "1hAttack-noArmorNaked-R-16.png",
+            "1hAttack-noArmorNaked-R-17.png",
+            "1hAttack-noArmorNaked-R-18.png",
+            "1hAttack-noArmorNaked-R-19.png",
+            "1hAttack-noArmorNaked-R-20.png",
+            "1hAttack-noArmorNaked-R-21.png",
+            "1hAttack-noArmorNaked-R-22.png",
+            "1hAttack-noArmorNaked-R-23.png",
+            "1hAttack-noArmorNaked-R-24.png",
+            "1hAttack-noArmorNaked-R-25.png",
+            "1hAttack-noArmorNaked-R-26.png",
+            "1hAttack-noArmorNaked-R-27.png",
+            "1hAttack-noArmorNaked-R-28.png",
+            "1hAttack-noArmorNaked-R-29.png",
+            "1hAttack-noArmorNaked-R-30.png"
+        ],
+        "1hAttack-noArmorNaked-DR": [
+            "1hAttack-noArmorNaked-DR-01.png",
+            "1hAttack-noArmorNaked-DR-02.png",
+            "1hAttack-noArmorNaked-DR-03.png",
+            "1hAttack-noArmorNaked-DR-04.png",
+            "1hAttack-noArmorNaked-DR-05.png",
+            "1hAttack-noArmorNaked-DR-06.png",
+            "1hAttack-noArmorNaked-DR-07.png",
+            "1hAttack-noArmorNaked-DR-08.png",
+            "1hAttack-noArmorNaked-DR-09.png",
+            "1hAttack-noArmorNaked-DR-10.png",
+            "1hAttack-noArmorNaked-DR-11.png",
+            "1hAttack-noArmorNaked-DR-12.png",
+            "1hAttack-noArmorNaked-DR-13.png",
+            "1hAttack-noArmorNaked-DR-14.png",
+            "1hAttack-noArmorNaked-DR-15.png",
+            "1hAttack-noArmorNaked-DR-16.png",
+            "1hAttack-noArmorNaked-DR-17.png",
+            "1hAttack-noArmorNaked-DR-18.png",
+            "1hAttack-noArmorNaked-DR-19.png",
+            "1hAttack-noArmorNaked-DR-20.png",
+            "1hAttack-noArmorNaked-DR-21.png",
+            "1hAttack-noArmorNaked-DR-22.png",
+            "1hAttack-noArmorNaked-DR-23.png",
+            "1hAttack-noArmorNaked-DR-24.png",
+            "1hAttack-noArmorNaked-DR-25.png",
+            "1hAttack-noArmorNaked-DR-26.png",
+            "1hAttack-noArmorNaked-DR-27.png",
+            "1hAttack-noArmorNaked-DR-28.png",
+            "1hAttack-noArmorNaked-DR-29.png",
+            "1hAttack-noArmorNaked-DR-30.png"
+        ],
+        "1hAttack-noArmorNaked-D": [
+            "1hAttack-noArmorNaked-D-01.png",
+            "1hAttack-noArmorNaked-D-02.png",
+            "1hAttack-noArmorNaked-D-03.png",
+            "1hAttack-noArmorNaked-D-04.png",
+            "1hAttack-noArmorNaked-D-05.png",
+            "1hAttack-noArmorNaked-D-06.png",
+            "1hAttack-noArmorNaked-D-07.png",
+            "1hAttack-noArmorNaked-D-08.png",
+            "1hAttack-noArmorNaked-D-09.png",
+            "1hAttack-noArmorNaked-D-10.png",
+            "1hAttack-noArmorNaked-D-11.png",
+            "1hAttack-noArmorNaked-D-12.png",
+            "1hAttack-noArmorNaked-D-13.png",
+            "1hAttack-noArmorNaked-D-14.png",
+            "1hAttack-noArmorNaked-D-15.png",
+            "1hAttack-noArmorNaked-D-16.png",
+            "1hAttack-noArmorNaked-D-17.png",
+            "1hAttack-noArmorNaked-D-18.png",
+            "1hAttack-noArmorNaked-D-19.png",
+            "1hAttack-noArmorNaked-D-20.png",
+            "1hAttack-noArmorNaked-D-21.png",
+            "1hAttack-noArmorNaked-D-22.png",
+            "1hAttack-noArmorNaked-D-23.png",
+            "1hAttack-noArmorNaked-D-24.png",
+            "1hAttack-noArmorNaked-D-25.png",
+            "1hAttack-noArmorNaked-D-26.png",
+            "1hAttack-noArmorNaked-D-27.png",
+            "1hAttack-noArmorNaked-D-28.png",
+            "1hAttack-noArmorNaked-D-29.png",
+            "1hAttack-noArmorNaked-D-30.png"
+        ],
+        "1hAttack-noArmorNaked-DL": [
+            "1hAttack-noArmorNaked-DL-01.png",
+            "1hAttack-noArmorNaked-DL-02.png",
+            "1hAttack-noArmorNaked-DL-03.png",
+            "1hAttack-noArmorNaked-DL-04.png",
+            "1hAttack-noArmorNaked-DL-05.png",
+            "1hAttack-noArmorNaked-DL-06.png",
+            "1hAttack-noArmorNaked-DL-07.png",
+            "1hAttack-noArmorNaked-DL-08.png",
+            "1hAttack-noArmorNaked-DL-09.png",
+            "1hAttack-noArmorNaked-DL-10.png",
+            "1hAttack-noArmorNaked-DL-11.png",
+            "1hAttack-noArmorNaked-DL-12.png",
+            "1hAttack-noArmorNaked-DL-13.png",
+            "1hAttack-noArmorNaked-DL-14.png",
+            "1hAttack-noArmorNaked-DL-15.png",
+            "1hAttack-noArmorNaked-DL-16.png",
+            "1hAttack-noArmorNaked-DL-17.png",
+            "1hAttack-noArmorNaked-DL-18.png",
+            "1hAttack-noArmorNaked-DL-19.png",
+            "1hAttack-noArmorNaked-DL-20.png",
+            "1hAttack-noArmorNaked-DL-21.png",
+            "1hAttack-noArmorNaked-DL-22.png",
+            "1hAttack-noArmorNaked-DL-23.png",
+            "1hAttack-noArmorNaked-DL-24.png",
+            "1hAttack-noArmorNaked-DL-25.png",
+            "1hAttack-noArmorNaked-DL-26.png",
+            "1hAttack-noArmorNaked-DL-27.png",
+            "1hAttack-noArmorNaked-DL-28.png",
+            "1hAttack-noArmorNaked-DL-29.png",
+            "1hAttack-noArmorNaked-DL-30.png"
+        ],
+        "1hAttack-noArmorNaked-L": [
+            "1hAttack-noArmorNaked-L-01.png",
+            "1hAttack-noArmorNaked-L-02.png",
+            "1hAttack-noArmorNaked-L-03.png",
+            "1hAttack-noArmorNaked-L-04.png",
+            "1hAttack-noArmorNaked-L-05.png",
+            "1hAttack-noArmorNaked-L-06.png",
+            "1hAttack-noArmorNaked-L-07.png",
+            "1hAttack-noArmorNaked-L-08.png",
+            "1hAttack-noArmorNaked-L-09.png",
+            "1hAttack-noArmorNaked-L-10.png",
+            "1hAttack-noArmorNaked-L-11.png",
+            "1hAttack-noArmorNaked-L-12.png",
+            "1hAttack-noArmorNaked-L-13.png",
+            "1hAttack-noArmorNaked-L-14.png",
+            "1hAttack-noArmorNaked-L-15.png",
+            "1hAttack-noArmorNaked-L-16.png",
+            "1hAttack-noArmorNaked-L-17.png",
+            "1hAttack-noArmorNaked-L-18.png",
+            "1hAttack-noArmorNaked-L-19.png",
+            "1hAttack-noArmorNaked-L-20.png",
+            "1hAttack-noArmorNaked-L-21.png",
+            "1hAttack-noArmorNaked-L-22.png",
+            "1hAttack-noArmorNaked-L-23.png",
+            "1hAttack-noArmorNaked-L-24.png",
+            "1hAttack-noArmorNaked-L-25.png",
+            "1hAttack-noArmorNaked-L-26.png",
+            "1hAttack-noArmorNaked-L-27.png",
+            "1hAttack-noArmorNaked-L-28.png",
+            "1hAttack-noArmorNaked-L-29.png",
+            "1hAttack-noArmorNaked-L-30.png"
+        ],
+        "1hAttack-noArmorNaked-UL": [
+            "1hAttack-noArmorNaked-UL-01.png",
+            "1hAttack-noArmorNaked-UL-02.png",
+            "1hAttack-noArmorNaked-UL-03.png",
+            "1hAttack-noArmorNaked-UL-04.png",
+            "1hAttack-noArmorNaked-UL-05.png",
+            "1hAttack-noArmorNaked-UL-06.png",
+            "1hAttack-noArmorNaked-UL-07.png",
+            "1hAttack-noArmorNaked-UL-08.png",
+            "1hAttack-noArmorNaked-UL-09.png",
+            "1hAttack-noArmorNaked-UL-10.png",
+            "1hAttack-noArmorNaked-UL-11.png",
+            "1hAttack-noArmorNaked-UL-12.png",
+            "1hAttack-noArmorNaked-UL-13.png",
+            "1hAttack-noArmorNaked-UL-14.png",
+            "1hAttack-noArmorNaked-UL-15.png",
+            "1hAttack-noArmorNaked-UL-16.png",
+            "1hAttack-noArmorNaked-UL-17.png",
+            "1hAttack-noArmorNaked-UL-18.png",
+            "1hAttack-noArmorNaked-UL-19.png",
+            "1hAttack-noArmorNaked-UL-20.png",
+            "1hAttack-noArmorNaked-UL-21.png",
+            "1hAttack-noArmorNaked-UL-22.png",
+            "1hAttack-noArmorNaked-UL-23.png",
+            "1hAttack-noArmorNaked-UL-24.png",
+            "1hAttack-noArmorNaked-UL-25.png",
+            "1hAttack-noArmorNaked-UL-26.png",
+            "1hAttack-noArmorNaked-UL-27.png",
+            "1hAttack-noArmorNaked-UL-28.png",
+            "1hAttack-noArmorNaked-UL-29.png",
+            "1hAttack-noArmorNaked-UL-30.png"
+        ]
+    }
+}
