@@ -1,11 +1,10 @@
-import { keysDown, keyboard } from './controls/keyboard.js';
+import { keysDown, keysPressed, keyboard } from './controls/keyboard.js';
 import { getPlayer } from './player.js';
 import { playerStats, getEquipped, getEquippedSlot, setEquippedAnimatedSprites, setEquippedIdleTexture } from './playerData.js';
 import { playerSheets, getIdleTexture, setIdleTexture } from './sheets/playerSheets.js';
 import { getBg, setBgX, setBgY } from './background.js';
 import { getResourceMeters, setFatigue } from './ui/resourceMeters.js';
 import { enemy } from './enemies/bandit.js';
-import { click } from './controls/mouse.js';
 
 let attackInProgress = false;
 let attacked = false;
@@ -79,6 +78,15 @@ export function playerMovement() {
         })
     }
 
+    function equippedItemLoopAttackIdleTexture(textureDirection) {
+        Object.keys(getEquipped()).map(slot => {
+            let equippedItem = getEquippedSlot(slot);
+            if (equippedItem.item) {
+                setEquippedIdleTexture(slot, playerSheets['1hAttackIdle_' + equippedItem.item + '_' + textureDirection]);
+            }
+        })
+    }
+
     function equippedItemLoopPlay() {
         Object.keys(getEquipped()).map(slot => {
             let equippedItem = getEquippedSlot(slot);
@@ -132,7 +140,7 @@ export function playerMovement() {
                 // Running
                 player.animationSpeed = playerStats.dexterity / 20;
                 equippedItemLoopAnimationSpeed(playerStats.dexterity / 20);
-            } else if (click.mouse && !attackInProgress) {
+            } else if (keysPressed.KeyE && !attackInProgress) {
                 // Melee Attacking
                 player.animationSpeed = playerStats.dexterity / 25;
                 equippedItemLoopAnimationSpeed(playerStats.dexterity / 25);
@@ -151,6 +159,8 @@ export function playerMovement() {
     }
 
     function attackPlayerTexture(textureDirection) {
+        setIdleTexture(playerSheets['1hAttackIdle_noArmorNaked_' + textureDirection]);
+        equippedItemLoopAttackIdleTexture(textureDirection);
         if (!player.playing) {
             player.textures = playerSheets['1hAttack_noArmorNaked_' + textureDirection];
             equippedItemLoopTexture('1hAttack', textureDirection);
@@ -210,10 +220,20 @@ export function playerMovement() {
         setPlayerSpeed();
     }
 
-    if (click.mouse && !attackInProgress) {
-        getPlayer().gotoAndStop(0);
-        setPlayerSpeed();
-        attackPlayerTexture(playerDirection);
+    // Attack
+    // Need Walking and Attacking sprites. (walking legs plus torso seperate).
+    if (keysPressed.KeyE) {
+        if (!attackInProgress) {
+            attackInProgress = true;
+            getPlayer().gotoAndStop(0);
+            setPlayerSpeed();
+            attackPlayerTexture(playerDirection);
+            player.onComplete = () => {
+                console.log('on complete');
+                attackInProgress = false;
+                setPlayerSpeed();
+            }
+        }
     }
 
     // Idle animation if no keys are true

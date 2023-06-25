@@ -55,6 +55,11 @@ export let keysDown = {
     ShiftLeft: false,
 };
 
+// Used to capture keys pressed.
+export let keysPressed = {
+    KeyE: false,
+}
+
 // Initiate event listeners.
 export function initiateKeyboard() {
     Object.keys(keysDown).map(key => {
@@ -63,6 +68,14 @@ export function initiateKeyboard() {
         }
         keyboard(key).release = () => {
             keysDown[key] = false;
+        }
+    })
+    Object.keys(keysPressed).map(key => {
+        keyboard(key).press = () => {
+            keysPressed[key] = true;
+        }
+        keyboard(key).release = () => {
+            keysPressed[key] = false;
         }
     })
 }
