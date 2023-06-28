@@ -70,6 +70,7 @@ loader.shared
         '../../assets/sprites.json',
         '../../assets/sprites/icons/spritesheets/icons.json',
         '../../assets/sprites/misc/spritesheets/misc.json',
+        '../../assets/sprites/terrain/map.png'
     ].concat(
         getPlayerSheetsDirs()
     )).load(setup);
@@ -90,7 +91,6 @@ function setup() {
     initiateKeyboard();
 
     // Other texturesheets to move over.
-    let id = resources['../../assets/sprites.json'].textures;
     setIconSheet(resources['../../assets/sprites/icons/spritesheets/icons.json'].textures);
     setMiscSheet(resources['../../assets/sprites/misc/spritesheets/misc.json'].textures);
 
@@ -113,9 +113,14 @@ function setup() {
     gameOverScene.visible = false;
     app.stage.addChild(gameOverScene);
 
-    setBg(new Sprite(id['environment.png']));
+    let derp = new Sprite(
+        PIXI.Loader.shared.resources['../../assets/sprites/terrain/map.png'].texture
+    );
+    setBg(derp);
     let bg = getBg();
-    bg.scale.set(1.25, 1.25);
+    bg.scale.set(4, 4);
+    bg.x = -3000;
+    bg.y = -3000;
     gameScene.addChild(bg);
 
     // Enemy

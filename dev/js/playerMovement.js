@@ -6,9 +6,6 @@ import { getBg, setBgX, setBgY } from './background.js';
 import { getResourceMeters, setFatigue } from './ui/resourceMeters.js';
 import { enemy } from './enemies/bandit.js';
 
-let attackInProgress = false;
-let attacked = false;
-
 export let textureXAnchors = {
     'U': -0.05,
     'UR': -0.03,
@@ -19,6 +16,11 @@ export let textureXAnchors = {
     'L': 0,
     'UL': -0.03,
 }
+
+let attackCooldown = 1000;
+let lastAttack = Date.now();
+let isAttacking = false;
+let attackQueue = [];
 
 function changeTextureAnchor(texture, textureDirection) {
     texture.anchor.set(textureXAnchors[textureDirection], 0);
@@ -131,6 +133,9 @@ export function playerMovement() {
             equippedItemLoopAnchor(textureDirection);
             player.play();
             equippedItemLoopPlay();
+
+            isAttacking = false;
+            attackQueue = [];
         }
     }
 
@@ -140,7 +145,7 @@ export function playerMovement() {
                 // Running
                 player.animationSpeed = playerStats.dexterity / 20;
                 equippedItemLoopAnimationSpeed(playerStats.dexterity / 20);
-            } else if (keysPressed.KeyE && !attackInProgress) {
+            } else if (keysPressed.KeyE && isAttacking) {
                 // Melee Attacking
                 player.animationSpeed = playerStats.dexterity / 25;
                 equippedItemLoopAnimationSpeed(playerStats.dexterity / 25);
@@ -221,19 +226,35 @@ export function playerMovement() {
     }
 
     // Attack
-    // Need Walking and Attacking sprites. (walking legs plus torso seperate).
-    if (keysPressed.KeyE) {
-        if (!attackInProgress) {
-            attackInProgress = true;
+    function attack() {
+        if (Date.now() - lastAttack >= attackCooldown) {
+            attackQueue.push(Date.now());
+            lastAttack = Date.now();
+        }
+
+        if (!isAttacking && attackQueue.length > 0) {
+            isAttacking = true;
+
             getPlayer().gotoAndStop(0);
             setPlayerSpeed();
             attackPlayerTexture(playerDirection);
+
             player.onComplete = () => {
-                console.log('on complete');
-                attackInProgress = false;
-                setPlayerSpeed();
+                isAttacking = false;
+                
+                // Remove the completed attack from queue
+                attackQueue.shift();
+
+                // if there's another attack in the queue, start it
+                if (attackQueue.length > 0) {
+                    attack();
+                }
             }
         }
+    }
+
+    if (keysPressed.KeyE) {
+        attack();
     }
 
     // Idle animation if no keys are true
