@@ -72,7 +72,7 @@ export function playerDynamics() {
         })
         playerDirection = textureDirection;
         if (!player.playing) {
-            if (keysDown.ShiftLeft) {
+            if (keysDown.ShiftLeft && playerStats.fatigue > 0) {
                 player.textures = playerSheets['running_noArmorNaked_' + textureDirection];
                 equippedItemLoop(equippedItem => {
                     equippedItem.animatedSprite.children[0].textures = playerSheets['running_' + equippedItem.item + '_' + textureDirection];
