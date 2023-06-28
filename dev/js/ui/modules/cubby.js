@@ -1,4 +1,4 @@
-import { uiLayout, uiStyle } from './uiDesign.js';
+import { uiLayout, uiStyle } from '../ui_design.js';
 
 export function cubbyState(graphic, state) {
     if (state === 'hover') {

@@ -4,7 +4,7 @@ export let uiLayout;
 export let uiStyle;
 
 let windowHeight = 270;
-export function uiData_setup() {
+export function ui_design_init() {
     uiStyle = {
         colors: {
             black: '0x000000',

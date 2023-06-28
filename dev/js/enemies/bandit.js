@@ -1,5 +1,5 @@
 import { Container, Graphics } from '../_game.js';
-import { uiStyle } from '../ui/uiDesign.js';
+import { uiStyle } from '../ui/ui_design.js';
 import { getPlayer, playerHitbox } from '../player.js';
 
 export let enemy;

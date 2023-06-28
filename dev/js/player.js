@@ -4,7 +4,7 @@ import { getMiscSheet } from './sheets/miscSheet.js';
 import { getEquipped, getEquippedSlot } from './playerData.js';
 import { getIdleTexture } from './sheets/playerSheets.js';
 import { getPlayerDirection, textureXAnchors } from './playerDynamics.js';
-import { uiStyle } from './ui/uiDesign.js';
+import { uiStyle } from './ui/ui_design.js';
 
 export let playerSpriteScale = 2;
 export let playerHitbox;
@@ -29,7 +29,7 @@ export function createPlayer() {
     player.x = (app.view.width - (player.width * playerSpriteScale)) / 2;
     player.y = (app.view.height - (player.height * playerSpriteScale)) / 2;
     player.scale.set(playerSpriteScale);
-    player.animationSpeed = .1;
+    player.animationSpeed = .6;
     player.loop = false;
     player.anchor.set(textureXAnchors['DR'], 0);
 

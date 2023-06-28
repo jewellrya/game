@@ -1,6 +1,6 @@
-import { Container, Graphics, app } from '../_game.js';
-import { playerStats } from '../playerData.js';
-import { uiStyle } from './uiDesign.js';
+import { Container, Graphics, app } from '../../_game.js';
+import { playerStats } from '../../playerData.js';
+import { uiStyle } from '../ui_design.js';
 
 let resourceMeters = {
     types: {

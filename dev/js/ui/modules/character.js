@@ -1,16 +1,16 @@
-import { app, Sprite, Graphics, Container, BitmapText } from '../_game.js';
-import { uiLayout, uiStyle } from './uiDesign.js';
-import { createNewPlayerArmor, destroyPlayerArmor } from '../player.js';
+import { app, Sprite, Graphics, Container, BitmapText } from '../../_game.js';
+import { uiLayout, uiStyle } from '../ui_design.js';
+import { createNewPlayerArmor, destroyPlayerArmor } from '../../player.js';
 import {
     playerName, playerStats,
     setEquippedCubby, getEquippedCubby, getEquipped, getEquippedSlot
-} from '../playerData.js';
-import { getIconSheet } from '../sheets/iconSheet.js';
+} from '../../playerData.js';
+import { getIconSheet } from '../../sheets/iconSheet.js';
 import { getPopupMenus } from './popupMenus.js';
 import { getTooltips } from './tooltips.js';
 import { cubbyState } from './cubby.js';
 import { inventoryPopulateNewItem } from './bag.js';
-import { itemsMap } from '../itemMap.js';
+import { itemsMap } from '../../itemMap.js';
 
 let characterIcon;
 let characterUiBg;

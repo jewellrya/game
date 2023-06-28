@@ -1,7 +1,7 @@
 // Player
 import { playerStats } from './playerData.js';
 import { createPlayer, createPlayerArmor } from './player.js';
-import { playerMovement, resetPlayerAnimations } from './playerDynamics.js';
+import { playerDynamics, resetPlayerAnimations } from './playerDynamics.js';
 
 // Sheets
 import { getPlayerSheetsDirs, playerSheets_setup } from './sheets/playerSheets.js';
@@ -12,18 +12,8 @@ import { setMiscSheet } from './sheets/miscSheet.js';
 import { createEnemy, enemyAggroListener } from './enemies/bandit.js';
 
 // UI
-import { resourceMeters_setup } from './ui/resourceMeters.js';
-import {
-    bag_setup, bagButton_setup,
-    bagPopupMenus_setup, bagPopulateMenus, bagPopupMenuInteraction,
-    bagTooltips_setup,
-} from './ui/bag.js';
-import {
-    character_setup, characterButton_setup,
-    characterPopupMenus_setup, characterPopulateMenus, characterPopupMenuInteraction,
-    characterTooltips_setup
-} from './ui/character.js';
-import { uiData_setup } from './ui/uiDesign.js';
+import { ui_design_init } from './ui/ui_design.js';
+import { ui_setup } from './ui/ui.js';
 
 // Controls
 import { defaultCursor, attackCursor } from './controllers/mouse.js';
@@ -99,8 +89,8 @@ function setup() {
     // Create Array of Spritesheets for the Player:
     playerSheets_setup();
 
-    // UI Setup
-    uiData_setup();
+    // initialize ui variables
+    ui_design_init();
 
     // Main Game Scene
     gameScene = new Container();
@@ -137,33 +127,8 @@ function setup() {
     createPlayerArmor();
 
     // UIs
-    let resourceMeters = resourceMeters_setup();
-    gameScene.addChild(resourceMeters);
-
-    let bagButton = bagButton_setup();
-    gameScene.addChild(bagButton);
-    let bag = bag_setup();
-    gameScene.addChild(bag);
-
-    let characterButton = characterButton_setup();
-    gameScene.addChild(characterButton);
-    let character = character_setup();
-    gameScene.addChild(character);
-
-    // Create Popup Menu's Containers;
-    let bagPopupMenus = bagPopupMenus_setup();
-    gameScene.addChild(bagPopupMenus);
-    bagPopulateMenus();
-    bagPopupMenuInteraction();
-    let bagTooltips = bagTooltips_setup();
-    gameScene.addChild(bagTooltips);
-
-    let characterPopupMenus = characterPopupMenus_setup();
-    gameScene.addChild(characterPopupMenus);
-    characterPopulateMenus();
-    characterPopupMenuInteraction();
-    let characterTooltips = characterTooltips_setup();
-    gameScene.addChild(characterTooltips);
+    let ui = ui_setup();
+    gameScene.addChild(ui);
 
     // Render the Stage
     app.renderer.render(app.stage);
@@ -183,8 +148,8 @@ function gameLoop(delta) {
 
 function play() {
 
-    // Player Movement Controls
-    playerMovement();
+    // Player Movement / Controls
+    playerDynamics();
 
     // Enemy Hitbox Listener
     enemyAggroListener();

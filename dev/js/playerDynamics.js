@@ -3,7 +3,7 @@ import { getPlayer } from './player.js';
 import { playerStats, getEquipped, getEquippedSlot, setEquippedAnimatedSprites, setEquippedIdleTexture } from './playerData.js';
 import { playerSheets, getIdleTexture, setIdleTexture } from './sheets/playerSheets.js';
 import { getBg, setBgX, setBgY } from './background.js';
-import { getResourceMeters, setFatigue } from './ui/resourceMeters.js';
+import { getResourceMeters, setFatigue } from './ui/modules/resourceMeters.js';
 import { enemy } from './enemies/bandit.js';
 
 export let textureXAnchors = {
@@ -49,7 +49,7 @@ export function resetPlayerAnimations() {
     })
 }
 
-export function playerMovement() {
+export function playerDynamics() {
     let player = getPlayer();
     let playerPlaying = player.playing;
 
@@ -63,6 +63,9 @@ export function playerMovement() {
     }
 
     function movementPlayerTexture(textureDirection) {
+        // Instead setting these, make player stop moving and initiate attack.
+        isAttacking = false;
+        attackQueue = [];
         setIdleTexture(playerSheets['idle_noArmorNaked_' + textureDirection]);
         equippedItemLoop((equippedItem, slot) => {
             setEquippedIdleTexture(slot, playerSheets['idle_' + equippedItem.item + '_' + textureDirection]);
@@ -88,13 +91,10 @@ export function playerMovement() {
             equippedItemLoop(equippedItem => {
                 equippedItem.animatedSprite.children[0].play();
             })
-
-            isAttacking = false;
-            attackQueue = [];
         }
     }
 
-    function setPlayerSpeed() {
+    function setPlayerAnimSpeed() {
         if (playerPlaying) {
             if (keysDown.ShiftLeft) {
                 // Running
@@ -163,7 +163,7 @@ export function playerMovement() {
             movementPlayerTexture('U');
         }
         moveEnvironment(0, playerStats.speed());
-        setPlayerSpeed();
+        setPlayerAnimSpeed();
     }
 
     if (keysDown.KeyA) {
@@ -175,7 +175,7 @@ export function playerMovement() {
             movementPlayerTexture('L');
         }
         moveEnvironment(playerStats.speed(), 0);
-        setPlayerSpeed();
+        setPlayerAnimSpeed();
     }
 
     if (keysDown.KeyS) {
@@ -187,7 +187,7 @@ export function playerMovement() {
             movementPlayerTexture('D');
         }
         moveEnvironment(0, -playerStats.speed());
-        setPlayerSpeed();
+        setPlayerAnimSpeed();
     }
 
     if (keysDown.KeyD) {
@@ -199,7 +199,7 @@ export function playerMovement() {
             movementPlayerTexture('R');
         }
         moveEnvironment(-playerStats.speed(), 0);
-        setPlayerSpeed();
+        setPlayerAnimSpeed();
     }
 
     // Attack
@@ -213,7 +213,7 @@ export function playerMovement() {
             isAttacking = true;
 
             getPlayer().gotoAndStop(0);
-            setPlayerSpeed();
+            setPlayerAnimSpeed();
             attackPlayerTexture(playerDirection);
 
             player.onComplete = () => {
