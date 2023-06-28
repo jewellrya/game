@@ -1,7 +1,7 @@
 // Player
 import { playerStats } from './playerData.js';
 import { createPlayer, createPlayerArmor } from './player.js';
-import { playerDynamics, resetPlayerAnimations } from './playerDynamics.js';
+import { playerDynamics, keysDownResetPlayer_listener } from './playerDynamics.js';
 
 // Sheets
 import { getPlayerSheetsDirs, playerSheets_setup } from './sheets/playerSheets.js';
@@ -20,7 +20,7 @@ import { defaultCursor, attackCursor } from './controllers/mouse.js';
 import { initiateKeyboard } from './controllers/keyboard.js';
 
 // Misc
-import { itemsMap_setup } from './itemMap.js';
+import { itemsMap_init } from './itemMap.js';
 import { getBg, setBg } from './background.js';
 
 
@@ -83,8 +83,8 @@ function setup() {
     setIconSheet(resources['../../assets/sprites/icons/spritesheets/icons.json'].textures);
     setMiscSheet(resources['../../assets/sprites/misc/spritesheets/misc.json'].textures);
 
-    // Create an Object to get item data (execute after setIconSheet);
-    itemsMap_setup();
+    // Initialize item data (execute after setIconSheet);
+    itemsMap_init();
 
     // Create Array of Spritesheets for the Player:
     playerSheets_setup();
@@ -121,7 +121,7 @@ function setup() {
     gameScene.addChild(enemy);
 
     // Player
-    resetPlayerAnimations();
+    keysDownResetPlayer_listener();
     let player = createPlayer();
     gameScene.addChild(player);
     createPlayerArmor();

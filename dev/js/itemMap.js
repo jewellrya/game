@@ -14,7 +14,7 @@ function stats(str, end, vit, dex, int, wis, cha, arm) {
 }
 
 export let itemsMap;
-export function itemsMap_setup() {
+export function itemsMap_init() {
     itemsMap = {
         clothChest: {
             name: 'Burlap Robes',

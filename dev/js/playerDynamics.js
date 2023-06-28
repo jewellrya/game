@@ -37,7 +37,7 @@ function moveEnvironment(x, y) {
     enemy.y += y;
 }
 
-export function resetPlayerAnimations() {
+export function keysDownResetPlayer_listener() {
     // Reset player animation with keysDown
     Object.keys(keysDown).map(key => {
         keyboard(key).press = () => {
