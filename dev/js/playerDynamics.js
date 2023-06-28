@@ -21,6 +21,7 @@ let attackCooldown = 1000;
 let lastAttack = Date.now();
 let isAttacking = false;
 let attackQueue = [];
+let attackKeyReleased = true;
 
 function changeTextureAnchor(texture, textureDirection) {
     texture.anchor.set(textureXAnchors[textureDirection], 0);
@@ -66,6 +67,7 @@ export function playerDynamics() {
         // Instead setting these, make player stop moving and initiate attack.
         isAttacking = false;
         attackQueue = [];
+        attackKeyReleased = true;
         setIdleTexture(playerSheets['idle_noArmorNaked_' + textureDirection]);
         equippedItemLoop((equippedItem, slot) => {
             setEquippedIdleTexture(slot, playerSheets['idle_' + equippedItem.item + '_' + textureDirection]);
@@ -204,9 +206,10 @@ export function playerDynamics() {
 
     // Attack
     function attack() {
-        if (Date.now() - lastAttack >= attackCooldown) {
+        if (attackKeyReleased && Date.now() - lastAttack >= attackCooldown) {
             attackQueue.push(Date.now());
             lastAttack = Date.now();
+            attackKeyReleased = false;
         }
 
         if (!isAttacking && attackQueue.length > 0) {
@@ -230,6 +233,10 @@ export function playerDynamics() {
         }
     }
 
+    function releaseAttackKey() {
+        attackKeyReleased = true;
+    }
+
     if (!keysDown.KeyW && !keysDown.KeyA && !keysDown.KeyS && !keysDown.KeyD) {
 
         // Idle animation if no keys are true
@@ -245,6 +252,8 @@ export function playerDynamics() {
         // Attack
         if (keysPressed.Space) {
             attack();
+        } else {
+            releaseAttackKey();
         }
     }
 
@@ -260,7 +269,7 @@ export function playerDynamics() {
         if (playerStats.fatigue <= playerStats.fatigueRegen) {
             setTimeout(function () {
                 playerStats.fatigue += playerStats.fatigueRegen;
-            }, 3000);
+            }, 4000);
         } else {
             playerStats.fatigue += playerStats.fatigueRegen;
         }
