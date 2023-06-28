@@ -42,10 +42,15 @@ export function keysDownResetPlayer_listener() {
     // Reset player animation with keysDown
     Object.keys(keysDown).map(key => {
         keyboard(key).press = () => {
-            getPlayer().gotoAndStop(0);
+            if (!isAttacking) {
+                getPlayer().gotoAndStop(0);
+            }
+            
         }
         keyboard(key).release = () => {
-            getPlayer().gotoAndStop(0);
+            if (!isAttacking) {
+                getPlayer().gotoAndStop(0);
+            }   
         }
     })
 }
@@ -64,7 +69,6 @@ export function playerDynamics() {
     }
 
     function movementPlayerTexture(textureDirection) {
-        // Instead setting these, make player stop moving and initiate attack.
         setIdleTexture(playerSheets['idle_noArmorNaked_' + textureDirection]);
         equippedItemLoop((equippedItem, slot) => {
             setEquippedIdleTexture(slot, playerSheets['idle_' + equippedItem.item + '_' + textureDirection]);
@@ -91,9 +95,6 @@ export function playerDynamics() {
                 equippedItem.animatedSprite.children[0].play();
             })
         }
-        isAttacking = false;
-        attackQueue = [];
-        attackKeyReleased = true;
     }
 
     function setPlayerAnimSpeed() {
@@ -105,9 +106,9 @@ export function playerDynamics() {
                 equippedItemLoop(equippedItem => {
                     equippedItem.animatedSprite.children[0].animationSpeed = speed;
                 })
-            } else if (keysPressed.Space && isAttacking) {
+            } else if (isAttacking) {
                 // Melee Attacking
-                let speed = playerStats.dexterity / 25;
+                let speed = playerStats.dexterity / 20;
                 player.animationSpeed = speed;
                 equippedItemLoop(equippedItem => {
                     equippedItem.animatedSprite.children[0].animationSpeed = speed;
@@ -139,69 +140,69 @@ export function playerDynamics() {
         equippedItemLoop((equippedItem, slot) => {
             setEquippedIdleTexture(slot, playerSheets['1hAttackIdle_' + equippedItem.item + '_' + textureDirection]);
         })
-        if (!player.playing) {
-            player.textures = playerSheets['1hAttack_noArmorNaked_' + textureDirection];
-            equippedItemLoop(equippedItem => {
-                equippedItem.animatedSprite.children[0].textures = playerSheets['1hAttack_' + equippedItem.item + '_' + textureDirection];
-            })
-            changeTextureAnchor(player, textureDirection);
-            equippedItemLoop(equippedItem => {
-                changeTextureAnchor(equippedItem.animatedSprite.children[0], textureDirection);
-            })
-            player.play();
-            equippedItemLoop(equippedItem => {
-                equippedItem.animatedSprite.children[0].play();
-            })
-        }
+        player.textures = playerSheets['1hAttack_noArmorNaked_' + textureDirection];
+        equippedItemLoop(equippedItem => {
+            equippedItem.animatedSprite.children[0].textures = playerSheets['1hAttack_' + equippedItem.item + '_' + textureDirection];
+        })
+        changeTextureAnchor(player, textureDirection);
+        equippedItemLoop(equippedItem => {
+            changeTextureAnchor(equippedItem.animatedSprite.children[0], textureDirection);
+        })
+        player.play();
+        equippedItemLoop(equippedItem => {
+            equippedItem.animatedSprite.children[0].play();
+        })
     }
 
-    // keysDown
-    if (keysDown.KeyW) {
-        if (keysDown.KeyA) {
-            movementPlayerTexture('UL');
-        } else if (keysDown.KeyD) {
-            movementPlayerTexture('UR');
-        } else {
-            movementPlayerTexture('U');
-        }
-        moveEnvironment(0, playerStats.speed());
-        setPlayerAnimSpeed();
-    }
-
-    if (keysDown.KeyA) {
+    if (!isAttacking) {
+        // keysDown
         if (keysDown.KeyW) {
-            movementPlayerTexture('UL');
-        } else if (keysDown.KeyS) {
-            movementPlayerTexture('DL');
-        } else {
-            movementPlayerTexture('L');
+            if (keysDown.KeyA) {
+                movementPlayerTexture('UL');
+            } else if (keysDown.KeyD) {
+                movementPlayerTexture('UR');
+            } else {
+                movementPlayerTexture('U');
+            }
+            moveEnvironment(0, playerStats.speed());
+            setPlayerAnimSpeed();
         }
-        moveEnvironment(playerStats.speed(), 0);
-        setPlayerAnimSpeed();
-    }
 
-    if (keysDown.KeyS) {
         if (keysDown.KeyA) {
-            movementPlayerTexture('DL');
-        } else if (keysDown.KeyD) {
-            movementPlayerTexture('DR');
-        } else {
-            movementPlayerTexture('D');
+            if (keysDown.KeyW) {
+                movementPlayerTexture('UL');
+            } else if (keysDown.KeyS) {
+                movementPlayerTexture('DL');
+            } else {
+                movementPlayerTexture('L');
+            }
+            moveEnvironment(playerStats.speed(), 0);
+            setPlayerAnimSpeed();
         }
-        moveEnvironment(0, -playerStats.speed());
-        setPlayerAnimSpeed();
-    }
 
-    if (keysDown.KeyD) {
-        if (keysDown.KeyW) {
-            movementPlayerTexture('UR');
-        } else if (keysDown.KeyS) {
-            movementPlayerTexture('DR');
-        } else {
-            movementPlayerTexture('R');
+        if (keysDown.KeyS) {
+            if (keysDown.KeyA) {
+                movementPlayerTexture('DL');
+            } else if (keysDown.KeyD) {
+                movementPlayerTexture('DR');
+            } else {
+                movementPlayerTexture('D');
+            }
+            moveEnvironment(0, -playerStats.speed());
+            setPlayerAnimSpeed();
         }
-        moveEnvironment(-playerStats.speed(), 0);
-        setPlayerAnimSpeed();
+
+        if (keysDown.KeyD) {
+            if (keysDown.KeyW) {
+                movementPlayerTexture('UR');
+            } else if (keysDown.KeyS) {
+                movementPlayerTexture('DR');
+            } else {
+                movementPlayerTexture('R');
+            }
+            moveEnvironment(-playerStats.speed(), 0);
+            setPlayerAnimSpeed();
+        }
     }
 
     // Attack
@@ -215,7 +216,7 @@ export function playerDynamics() {
         if (!isAttacking && attackQueue.length > 0) {
             isAttacking = true;
 
-            getPlayer().gotoAndStop(0);
+            getPlayer().gotoAndPlay(0);
             setPlayerAnimSpeed();
             attackPlayerTexture(playerDirection);
 
@@ -233,8 +234,14 @@ export function playerDynamics() {
         }
     }
 
-    if (!keysDown.KeyW && !keysDown.KeyA && !keysDown.KeyS && !keysDown.KeyD) {
+    // Attack
+    if (keysPressed.Space) {
+        attack();
+    } else {
+        attackKeyReleased = true;
+    }
 
+    if (!keysDown.KeyW && !keysDown.KeyA && !keysDown.KeyS && !keysDown.KeyD) {
         // Idle animation if no keys are true
         if (!playerPlaying) {
             player.textures = getIdleTexture();
@@ -243,14 +250,6 @@ export function playerDynamics() {
                 setEquippedAnimatedSprites(slot, getEquippedSlot(slot).animatedSprite.children[0].textures = getEquippedSlot(slot).idleTexture);
                 setEquippedAnimatedSprites(slot, getEquippedSlot(slot).animatedSprite.children[0].play());
             })
-        }
-
-        // Attack
-        if (keysPressed.Space) {
-            attack();
-
-        } else {
-            attackKeyReleased = true;
         }
     }
 
