@@ -96,7 +96,7 @@ export function playerDynamics() {
 
     function setPlayerAnimSpeed() {
         if (playerPlaying) {
-            if (keysDown.ShiftLeft) {
+            if (keysDown.ShiftLeft && playerStats.fatigue > 0) {
                 // Running
                 let speed = playerStats.dexterity / 20;
                 player.animationSpeed = speed;
@@ -265,5 +265,10 @@ export function playerDynamics() {
             playerStats.fatigue += playerStats.fatigueRegen;
         }
         setFatigue(playerStats.fatigue * 2 - getResourceMeters().innerOffset * 2);
+    }
+
+    if (playerStats.fatigue <= 0) {
+        movementPlayerTexture(playerDirection);
+        setPlayerAnimSpeed();
     }
 }
