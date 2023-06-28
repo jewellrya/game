@@ -5,6 +5,7 @@ import { playerSheets, getIdleTexture, setIdleTexture } from './sheets/playerShe
 import { getBg, setBgX, setBgY } from './background.js';
 import { getResourceMeters, setFatigue } from './ui/modules/resourceMeters.js';
 import { enemy } from './enemies/bandit.js';
+import { loot } from './loot.js';
 
 export let textureXAnchors = {
     'U': -0.05,
@@ -36,6 +37,9 @@ function moveEnvironment(x, y) {
     // Wrap in an Array when more than one.
     enemy.x += x;
     enemy.y += y;
+
+    loot.x += x;
+    loot.y += y;
 }
 
 export function keysDownResetPlayer_listener() {

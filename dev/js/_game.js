@@ -22,7 +22,7 @@ import { initiateKeyboard } from './controllers/keyboard.js';
 // Misc
 import { itemsMap_init } from './itemMap.js';
 import { getBg, setBg } from './background.js';
-
+import { lootInstance } from './loot.js';
 
 // Aliases
 export let Application = PIXI.Application,
@@ -115,6 +115,10 @@ function setup() {
     bg.x = 405 - playerCoordX;
     bg.y = -1825 + playerCoordY;
     gameScene.addChild(bg);
+
+    // Loot
+    let loot = lootInstance('D');
+    gameScene.addChild(loot);
 
     // Enemy
     let enemy = createEnemy();

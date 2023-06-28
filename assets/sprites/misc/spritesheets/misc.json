@@ -1,36 +1,52 @@
 {"frames": {
 
-"cursor.png":
-{
-	"frame": {"x":0,"y":0,"w":16,"h":16},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
-	"sourceSize": {"w":16,"h":16}
-},
-"cursorAttack.png":
-{
-	"frame": {"x":16,"y":0,"w":18,"h":18},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":18,"h":18},
-	"sourceSize": {"w":18,"h":18}
-},
 "dropShadow.png":
 {
-	"frame": {"x":34,"y":0,"w":13,"h":8},
+	"frame": {"x":0,"y":0,"w":13,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":13,"h":8},
 	"sourceSize": {"w":13,"h":8}
+},
+"treasure-closed-D.png":
+{
+	"frame": {"x":0,"y":8,"w":23,"h":25},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":23,"h":25},
+	"sourceSize": {"w":23,"h":25}
+},
+"treasure-closed-U.png":
+{
+	"frame": {"x":0,"y":33,"w":23,"h":26},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":23,"h":26},
+	"sourceSize": {"w":23,"h":26}
+},
+"treasure-open-D.png":
+{
+	"frame": {"x":0,"y":59,"w":28,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":28,"h":32},
+	"sourceSize": {"w":28,"h":32}
+},
+"treasure-open-U.png":
+{
+	"frame": {"x":0,"y":91,"w":27,"h":28},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":27,"h":28},
+	"sourceSize": {"w":27,"h":28}
 }},
 "meta": {
 	"app": "https://www.codeandweb.com/texturepacker",
 	"version": "1.1",
 	"image": "misc.png",
 	"format": "RGBA8888",
-	"size": {"w":47,"h":18},
+	"size": {"w":28,"h":119},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:60edef823437bbf1425b5d2ca85fa61b:c2d8c0aa4e7369e7e827131969a3476d:8940225683741d51cffc2e8ee1e8f353$"
+	"smartupdate": "$TexturePacker:SmartUpdate:f56d94d75240cb3426d2915182590b8f:fa3d5706e3e151ca6fc4cb87ce00539e:8940225683741d51cffc2e8ee1e8f353$"
 }
 }
