@@ -65,9 +65,6 @@ export function playerDynamics() {
 
     function movementPlayerTexture(textureDirection) {
         // Instead setting these, make player stop moving and initiate attack.
-        isAttacking = false;
-        attackQueue = [];
-        attackKeyReleased = true;
         setIdleTexture(playerSheets['idle_noArmorNaked_' + textureDirection]);
         equippedItemLoop((equippedItem, slot) => {
             setEquippedIdleTexture(slot, playerSheets['idle_' + equippedItem.item + '_' + textureDirection]);
@@ -94,6 +91,9 @@ export function playerDynamics() {
                 equippedItem.animatedSprite.children[0].play();
             })
         }
+        isAttacking = false;
+        attackQueue = [];
+        attackKeyReleased = true;
     }
 
     function setPlayerAnimSpeed() {
@@ -233,10 +233,6 @@ export function playerDynamics() {
         }
     }
 
-    function releaseAttackKey() {
-        attackKeyReleased = true;
-    }
-
     if (!keysDown.KeyW && !keysDown.KeyA && !keysDown.KeyS && !keysDown.KeyD) {
 
         // Idle animation if no keys are true
@@ -252,8 +248,9 @@ export function playerDynamics() {
         // Attack
         if (keysPressed.Space) {
             attack();
+
         } else {
-            releaseAttackKey();
+            attackKeyReleased = true;
         }
     }
 
