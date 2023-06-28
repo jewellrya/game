@@ -253,16 +253,18 @@ export function playerMovement() {
         }
     }
 
-    if (keysPressed.KeyE) {
-        attack();
-    }
-
-    // Idle animation if no keys are true
     if (!keysDown.KeyW && !keysDown.KeyA && !keysDown.KeyS && !keysDown.KeyD) {
+
+        // Idle animation if no keys are true
         if (!playerPlaying) {
             player.textures = getIdleTexture();
             player.play();
             equippedItemLoopChangeIdle();
+        }
+
+        // Attack
+        if (keysPressed.KeyE) {
+            attack();
         }
     }
 
