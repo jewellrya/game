@@ -51,8 +51,8 @@ settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 
 // Create a Pixi Application
 export let app = new Application({
-    width: 600,
-    height: 400
+    width: 800,
+    height: 500
 });
 
 // Set Cursor
@@ -67,7 +67,6 @@ loader.shared.onProgress.add(loadProgressHandler)
 loader.shared
     .add('Visitor', '../../assets/Visitor.fnt')
     .add([
-        '../../assets/sprites.json',
         '../../assets/sprites/icons/spritesheets/icons.json',
         '../../assets/sprites/misc/spritesheets/misc.json',
         '../../assets/sprites/terrain/map.png'
@@ -113,12 +112,12 @@ function setup() {
     gameOverScene.visible = false;
     app.stage.addChild(gameOverScene);
 
-    let derp = new Sprite(
+    let map = new Sprite(
         PIXI.Loader.shared.resources['../../assets/sprites/terrain/map.png'].texture
     );
-    setBg(derp);
+    setBg(map);
     let bg = getBg();
-    bg.scale.set(4, 4);
+    bg.scale.set(3, 3);
     bg.x = -3000;
     bg.y = -3000;
     gameScene.addChild(bg);
