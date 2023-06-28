@@ -3,7 +3,7 @@ import { playerSheets, setIdleTexture } from './sheets/playerSheets.js';
 import { getMiscSheet } from './sheets/miscSheet.js';
 import { getEquipped, getEquippedSlot } from './playerData.js';
 import { getIdleTexture } from './sheets/playerSheets.js';
-import { getPlayerDirection, textureXAnchors } from './playerMovement.js';
+import { getPlayerDirection, textureXAnchors } from './playerDynamics.js';
 import { uiStyle } from './ui/uiDesign.js';
 
 export let playerSpriteScale = 2;

@@ -1,4 +1,4 @@
-import { keysDown, keysPressed, keyboard } from './controls/keyboard.js';
+import { keysDown, keysPressed, keyboard } from './controllers/keyboard.js';
 import { getPlayer } from './player.js';
 import { playerStats, getEquipped, getEquippedSlot, setEquippedAnimatedSprites, setEquippedIdleTexture } from './playerData.js';
 import { playerSheets, getIdleTexture, setIdleTexture } from './sheets/playerSheets.js';
@@ -53,86 +53,41 @@ export function playerMovement() {
     let player = getPlayer();
     let playerPlaying = player.playing;
 
-    function equippedItemLoopAnchor(textureDirection) {
-        Object.keys(getEquipped()).map(slot => {
+    function equippedItemLoop(callback) {
+        Object.keys(getEquipped()).forEach(slot => {
             let equippedItem = getEquippedSlot(slot);
             if (equippedItem.item) {
-                changeTextureAnchor(equippedItem.animatedSprite.children[0], textureDirection);
-            }
-        })
-    }
-
-    function equippedItemLoopTexture(animation, textureDirection) {
-        Object.keys(getEquipped()).map(slot => {
-            let equippedItem = getEquippedSlot(slot);
-            if (equippedItem.item) {
-                equippedItem.animatedSprite.children[0].textures = playerSheets[animation + '_' + equippedItem.item + '_' + textureDirection];
-            }
-        })
-    }
-
-    function equippedItemLoopIdleTexture(textureDirection) {
-        Object.keys(getEquipped()).map(slot => {
-            let equippedItem = getEquippedSlot(slot);
-            if (equippedItem.item) {
-                setEquippedIdleTexture(slot, playerSheets['idle_' + equippedItem.item + '_' + textureDirection]);
-            }
-        })
-    }
-
-    function equippedItemLoopAttackIdleTexture(textureDirection) {
-        Object.keys(getEquipped()).map(slot => {
-            let equippedItem = getEquippedSlot(slot);
-            if (equippedItem.item) {
-                setEquippedIdleTexture(slot, playerSheets['1hAttackIdle_' + equippedItem.item + '_' + textureDirection]);
-            }
-        })
-    }
-
-    function equippedItemLoopPlay() {
-        Object.keys(getEquipped()).map(slot => {
-            let equippedItem = getEquippedSlot(slot);
-            if (equippedItem.item) {
-                equippedItem.animatedSprite.children[0].play();
-            }
-        })
-    }
-
-    function equippedItemLoopAnimationSpeed(speed) {
-        Object.keys(getEquipped()).map(slot => {
-            let equippedItem = getEquippedSlot(slot);
-            if (equippedItem.item) {
-                equippedItem.animatedSprite.children[0].animationSpeed = speed;
-            }
-        })
-    }
-
-    function equippedItemLoopChangeIdle() {
-        Object.keys(getEquipped()).map(slot => {
-            let equippedItem = getEquippedSlot(slot);
-            if (equippedItem.item) {
-                setEquippedAnimatedSprites(slot, getEquippedSlot(slot).animatedSprite.children[0].textures = getEquippedSlot(slot).idleTexture);
-                setEquippedAnimatedSprites(slot, getEquippedSlot(slot).animatedSprite.children[0].play());
+                callback(equippedItem, slot);
             }
         })
     }
 
     function movementPlayerTexture(textureDirection) {
         setIdleTexture(playerSheets['idle_noArmorNaked_' + textureDirection]);
-        equippedItemLoopIdleTexture(textureDirection);
+        equippedItemLoop((equippedItem, slot) => {
+            setEquippedIdleTexture(slot, playerSheets['idle_' + equippedItem.item + '_' + textureDirection]);
+        })
         playerDirection = textureDirection;
         if (!player.playing) {
             if (keysDown.ShiftLeft) {
                 player.textures = playerSheets['running_noArmorNaked_' + textureDirection];
-                equippedItemLoopTexture('running', textureDirection);
+                equippedItemLoop(equippedItem => {
+                    equippedItem.animatedSprite.children[0].textures = playerSheets['running_' + equippedItem.item + '_' + textureDirection];
+                })
             } else {
                 player.textures = playerSheets['walking_noArmorNaked_' + textureDirection];
-                equippedItemLoopTexture('walking', textureDirection);
+                equippedItemLoop(equippedItem => {
+                    equippedItem.animatedSprite.children[0].textures = playerSheets['walking_' + equippedItem.item + '_' + textureDirection];
+                })
             }
             changeTextureAnchor(player, textureDirection);
-            equippedItemLoopAnchor(textureDirection);
+            equippedItemLoop(equippedItem => {
+                changeTextureAnchor(equippedItem.animatedSprite.children[0], textureDirection);
+            })
             player.play();
-            equippedItemLoopPlay();
+            equippedItemLoop(equippedItem => {
+                equippedItem.animatedSprite.children[0].play();
+            })
 
             isAttacking = false;
             attackQueue = [];
@@ -143,36 +98,58 @@ export function playerMovement() {
         if (playerPlaying) {
             if (keysDown.ShiftLeft) {
                 // Running
-                player.animationSpeed = playerStats.dexterity / 20;
-                equippedItemLoopAnimationSpeed(playerStats.dexterity / 20);
-            } else if (keysPressed.KeyE && isAttacking) {
+                let speed = playerStats.dexterity / 20;
+                player.animationSpeed = speed;
+                equippedItemLoop(equippedItem => {
+                    equippedItem.animatedSprite.children[0].animationSpeed = speed;
+                })
+            } else if (keysPressed.Space && isAttacking) {
                 // Melee Attacking
-                player.animationSpeed = playerStats.dexterity / 25;
-                equippedItemLoopAnimationSpeed(playerStats.dexterity / 25);
+                let speed = playerStats.dexterity / 25;
+                player.animationSpeed = speed;
+                equippedItemLoop(equippedItem => {
+                    equippedItem.animatedSprite.children[0].animationSpeed = speed;
+                })
             } else {
                 // Walking
-                player.animationSpeed = playerStats.dexterity / 20;
-                equippedItemLoopAnimationSpeed(playerStats.dexterity / 20);
+                let speed = playerStats.dexterity / 20;
+                player.animationSpeed = speed;
+                equippedItemLoop(equippedItem => {
+                    equippedItem.animatedSprite.children[0].animationSpeed = speed;
+                })
             }
         } else {
             // Idle
-            player.animationSpeed = .6;
+            let speed = .6;
+            player.animationSpeed = speed;
+            equippedItemLoop(equippedItem => {
+                equippedItem.animatedSprite.children[0].animationSpeed = speed;
+            })
             player.play();
-            equippedItemLoopAnimationSpeed(.6);
-            equippedItemLoopPlay();
+            equippedItemLoop(equippedItem => {
+                equippedItem.animatedSprite.children[0].play();
+            })
         }
     }
 
     function attackPlayerTexture(textureDirection) {
         setIdleTexture(playerSheets['1hAttackIdle_noArmorNaked_' + textureDirection]);
-        equippedItemLoopAttackIdleTexture(textureDirection);
+        equippedItemLoop((equippedItem, slot) => {
+            setEquippedIdleTexture(slot, playerSheets['1hAttackIdle_' + equippedItem.item + '_' + textureDirection]);
+        })
         if (!player.playing) {
             player.textures = playerSheets['1hAttack_noArmorNaked_' + textureDirection];
-            equippedItemLoopTexture('1hAttack', textureDirection);
+            equippedItemLoop(equippedItem => {
+                equippedItem.animatedSprite.children[0].textures = playerSheets['1hAttack_' + equippedItem.item + '_' + textureDirection];
+            })
             changeTextureAnchor(player, textureDirection);
-            equippedItemLoopAnchor(textureDirection);
+            equippedItemLoop(equippedItem => {
+                changeTextureAnchor(equippedItem.animatedSprite.children[0], textureDirection);
+            })
             player.play();
-            equippedItemLoopPlay();
+            equippedItemLoop(equippedItem => {
+                equippedItem.animatedSprite.children[0].play();
+            })
         }
     }
 
@@ -259,11 +236,14 @@ export function playerMovement() {
         if (!playerPlaying) {
             player.textures = getIdleTexture();
             player.play();
-            equippedItemLoopChangeIdle();
+            equippedItemLoop((equippedItem, slot) => {
+                setEquippedAnimatedSprites(slot, getEquippedSlot(slot).animatedSprite.children[0].textures = getEquippedSlot(slot).idleTexture);
+                setEquippedAnimatedSprites(slot, getEquippedSlot(slot).animatedSprite.children[0].play());
+            })
         }
 
         // Attack
-        if (keysPressed.KeyE) {
+        if (keysPressed.Space) {
             attack();
         }
     }

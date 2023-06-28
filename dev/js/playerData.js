@@ -1,4 +1,4 @@
-import { keysDown } from './controls/keyboard.js';
+import { keysDown } from './controllers/keyboard.js';
 
 export let playerRaceGender = 'humanMale';
 export let playerName = 'characterName';

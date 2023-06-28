@@ -1,7 +1,7 @@
 // Player
 import { playerStats } from './playerData.js';
 import { createPlayer, createPlayerArmor } from './player.js';
-import { playerMovement, resetPlayerAnimations } from './playerMovement.js';
+import { playerMovement, resetPlayerAnimations } from './playerDynamics.js';
 
 // Sheets
 import { getPlayerSheetsDirs, playerSheets_setup } from './sheets/playerSheets.js';
@@ -26,8 +26,8 @@ import {
 import { uiData_setup } from './ui/uiDesign.js';
 
 // Controls
-import { defaultCursor, attackCursor } from './controls/mouse.js';
-import { initiateKeyboard } from './controls/keyboard.js';
+import { defaultCursor, attackCursor } from './controllers/mouse.js';
+import { initiateKeyboard } from './controllers/keyboard.js';
 
 // Misc
 import { itemsMap_setup } from './itemMap.js';

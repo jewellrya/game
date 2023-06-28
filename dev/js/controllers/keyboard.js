@@ -57,7 +57,7 @@ export let keysDown = {
 
 // Used to capture keys pressed.
 export let keysPressed = {
-    KeyE: false,
+    Space: false,
 }
 
 // Initiate event listeners.
