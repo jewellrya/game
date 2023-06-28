@@ -112,14 +112,18 @@ function setup() {
     gameOverScene.visible = false;
     app.stage.addChild(gameOverScene);
 
+    // Set Player coordinates
+    let playerCoordX = 4175;
+    let playerCoordY = -500;
+
     let map = new Sprite(
         PIXI.Loader.shared.resources['../../assets/sprites/terrain/map.png'].texture
     );
     setBg(map);
     let bg = getBg();
-    bg.scale.set(3, 3);
-    bg.x = -3000;
-    bg.y = -3000;
+    bg.scale.set(4, 4);
+    bg.x = 405 - playerCoordX;
+    bg.y = -1825 + playerCoordY;
     gameScene.addChild(bg);
 
     // Enemy
