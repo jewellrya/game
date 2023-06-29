@@ -39,6 +39,10 @@ export let Application = PIXI.Application,
 
 settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 
+// Capture single click in game loop:
+let clickRegistered = false;
+export let getClickRegistered = () => clickRegistered;
+
 // Create a Pixi Application
 export let app = new Application({
     width: 800,
@@ -130,8 +134,8 @@ function setup() {
     let loot1 = lootInstance(550, 180, 'D');
     gameScene.addChild(loot1);
 
-    let loot2 = lootInstance(378, 143, 'U');
-    gameScene.addChild(loot2);
+    // let loot2 = lootInstance(378, 143, 'U');
+    // gameScene.addChild(loot2);
 
     // UIs
     let ui = ui_setup();
