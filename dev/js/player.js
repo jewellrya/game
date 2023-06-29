@@ -5,9 +5,10 @@ import { getEquipped, getEquippedSlot } from './playerData.js';
 import { getIdleTexture } from './sheets/playerSheets.js';
 import { getPlayerDirection, textureXAnchors } from './playerDynamics.js';
 import { uiStyle } from './ui/ui_design.js';
+import { Ellipse } from './hurtbox.js';
 
 export let playerSpriteScale = 2;
-export let playerHitbox;
+export let playerHurtbox;
 
 let playerContainer;
 export let getPlayerContainer = () => playerContainer;
@@ -38,14 +39,14 @@ export function createPlayer() {
     playerBase.x = player.x + (player.width / 2) - (playerBase.width / 2);
     playerBase.y = player.y + player.height - 85;
 
-    let hitboxSize = player.width / 6;
-    playerHitbox = new Graphics();
-    playerHitbox.beginFill(uiStyle.colors.green, 0);
-    playerHitbox.drawEllipse(0, 0, hitboxSize, hitboxSize / 1.75);
-    playerHitbox.x = player.x + (player.width / 2);
-    playerHitbox.y = player.y + player.height - (hitboxSize * 1.85);
+    let hurtboxScale = 0.45;
+    player.ellipse = new Ellipse(player.x + (player.width / 2), player.y + player.height / 1.45, player.width / (2 / hurtboxScale), player.height / (3 / hurtboxScale));
 
-    playerContainer.addChild(playerHitbox);
+    playerHurtbox = new Graphics();
+    playerHurtbox.beginFill(uiStyle.colors.red, .25);
+    playerHurtbox.drawEllipse(player.x + (player.width / 2), player.y + player.height / 1.45, player.width / (2 / hurtboxScale), player.height / (3 / hurtboxScale));
+
+    playerContainer.addChild(playerHurtbox);
     playerContainer.addChild(playerBase);
     playerContainer.addChild(player);
 

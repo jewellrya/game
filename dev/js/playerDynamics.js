@@ -38,8 +38,12 @@ function moveEnvironment(x, y) {
     enemy.x += x;
     enemy.y += y;
 
-    loot.x += x;
-    loot.y += y;
+    loot.forEach(lootInstance => {
+        lootInstance.x += x;
+        lootInstance.y += y;
+        lootInstance.ellipse.x += x;
+        lootInstance.ellipse.y += y;
+    })
 }
 
 export function keysDownResetPlayer_listener() {

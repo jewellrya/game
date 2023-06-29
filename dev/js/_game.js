@@ -22,7 +22,7 @@ import { initiateKeyboard } from './controllers/keyboard.js';
 // Misc
 import { itemsMap_init } from './itemMap.js';
 import { getBg, setBg } from './background.js';
-import { lootInstance } from './loot.js';
+import { lootInstance, lootCollide_listener } from './loot.js';
 
 // Aliases
 export let Application = PIXI.Application,
@@ -116,10 +116,6 @@ function setup() {
     bg.y = -1825 + playerCoordY;
     gameScene.addChild(bg);
 
-    // Loot
-    let loot = lootInstance('D');
-    gameScene.addChild(loot);
-
     // Enemy
     let enemy = createEnemy();
     gameScene.addChild(enemy);
@@ -129,6 +125,13 @@ function setup() {
     let player = createPlayer();
     gameScene.addChild(player);
     createPlayerArmor();
+
+    // Loot
+    let loot1 = lootInstance(550, 180, 'D');
+    gameScene.addChild(loot1);
+
+    let loot2 = lootInstance(378, 143, 'U');
+    gameScene.addChild(loot2);
 
     // UIs
     let ui = ui_setup();
@@ -157,6 +160,9 @@ function play() {
 
     // Enemy Hitbox Listener
     enemyAggroListener();
+
+    // Loot collide Listener
+    lootCollide_listener();
 
     if (playerStats.health <= 0) {
         state = end;
