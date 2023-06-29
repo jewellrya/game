@@ -40,27 +40,27 @@ export function createEnemy() {
 }
 
 export function enemyAggroListener() {
-    let enemyX = enemy.x + enemyHitbox.x;
-    let enemyY = enemy.y + enemyHitbox.y;
-    let playerX = playerHurtbox.x;
-    let playerY = playerHurtbox.y;
-    if (
-        enemyX + enemyHitbox.width >= playerX - aggroDistance
-        && enemyX <= playerX + playerHurtbox.width + aggroDistance
-        && enemyY + enemyHitbox.height >= playerY - aggroDistance
-        && enemyY <= playerY + playerHurtbox.height + aggroDistance
-    ) {
-        if (enemyX >= playerX + 40) {
-            enemy.x -= enemySpeed;
-        }
-        if (enemyX <= playerX - 40) {
-            enemy.x += enemySpeed;
-        }
-        if (enemyY >= playerY + 40) {
-            enemy.y -= enemySpeed;
-        }
-        if (enemyY <= playerY - 40) {
-            enemy.y += enemySpeed;
-        }
-    }
+    // let enemyX = enemy.x + enemyHitbox.x;
+    // let enemyY = enemy.y + enemyHitbox.y;
+    // let playerX = playerHurtbox.x;
+    // let playerY = playerHurtbox.y;
+    // if (
+    //     enemyX + enemyHitbox.width >= playerX - aggroDistance
+    //     && enemyX <= playerX + playerHurtbox.width + aggroDistance
+    //     && enemyY + enemyHitbox.height >= playerY - aggroDistance
+    //     && enemyY <= playerY + playerHurtbox.height + aggroDistance
+    // ) {
+    //     if (enemyX >= playerX + 40) {
+    //         enemy.x -= enemySpeed;
+    //     }
+    //     if (enemyX <= playerX - 40) {
+    //         enemy.x += enemySpeed;
+    //     }
+    //     if (enemyY >= playerY + 40) {
+    //         enemy.y -= enemySpeed;
+    //     }
+    //     if (enemyY <= playerY - 40) {
+    //         enemy.y += enemySpeed;
+    //     }
+    // }
 }

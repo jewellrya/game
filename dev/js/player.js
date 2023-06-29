@@ -42,11 +42,11 @@ export function createPlayer() {
     let hurtboxScale = 0.45;
     player.ellipse = new Ellipse(player.x + (player.width / 2), player.y + player.height / 1.45, player.width / (2 / hurtboxScale), player.height / (3 / hurtboxScale));
 
-    playerHurtbox = new Graphics();
-    playerHurtbox.beginFill(uiStyle.colors.red, .25);
-    playerHurtbox.drawEllipse(player.x + (player.width / 2), player.y + player.height / 1.45, player.width / (2 / hurtboxScale), player.height / (3 / hurtboxScale));
-
-    playerContainer.addChild(playerHurtbox);
+    // playerHurtbox = new Graphics();
+    // playerHurtbox.beginFill(uiStyle.colors.red, .25);
+    // playerHurtbox.drawEllipse(player.x + (player.width / 2), player.y + player.height / 1.45, player.width / (2 / hurtboxScale), player.height / (3 / hurtboxScale));
+    // playerContainer.addChild(playerHurtbox);
+    
     playerContainer.addChild(playerBase);
     playerContainer.addChild(player);
 

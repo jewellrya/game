@@ -3,6 +3,7 @@ import { getMiscSheet } from './sheets/miscSheet.js';
 import { getPlayer } from './player.js';
 import { uiStyle } from './ui/ui_design.js';
 import { Ellipse, ellipseCollides } from './hurtbox.js';
+import { keysPressed } from './controllers/keyboard.js';
 
 export let lootArray = [];
 let lootScale = 2.5;
@@ -32,10 +33,19 @@ export function lootInstance(x, y, direction) {
     // hurtbox.drawEllipse(sprite.x + sprite.width / 2, sprite.y + sprite.height / 1.45, sprite.width / (2 / hurtboxScale), sprite.height / (3 / hurtboxScale));
     // container.addChild(hurtbox);
 
+    // E Indicator
+    let eIndicator = new Sprite(getMiscSheet()['e-indicator.png']);
+    eIndicator.scale.set(0.5);
+    eIndicator.x = sprite.width / 2 - eIndicator.width / 2;
+    eIndicator.y = -10;
+    eIndicator.visible = false;
+    container.addChild(eIndicator);
+
     lootArray.push({
         direction: direction,
         container: container,
-        hasListener: false,
+        indicator: eIndicator,
+        keyReleased: true,
         sprite: {
             current: sprite,
             sprite_closed: sprite_closed,
@@ -58,9 +68,10 @@ export function lootCollide_listener() {
             yShift = 2 * lootScale;
         }
         if (ellipseCollides(player.ellipse, loot.container.ellipse)) {
-            if (!clickRegistered) {
-                loot.container.once('pointerdown', function () {
-                    loot.hasListener = true;
+            loot.indicator.visible = true;
+            function toggleLoot() {
+                if (loot.keyReleased) {
+                    loot.keyReleased = false;
                     
                     if (!loot.open) {
                         loot.open = true;
@@ -85,28 +96,31 @@ export function lootCollide_listener() {
                         // loot.container.children[1].y -= yShift / 2.5;
                         // loot.container.children[1].x -= xShift / 2.5;
                     }
-                    clickRegistered = false;
-                })
-                clickRegistered = true;
-            }
-        } else {
-            if (loot.hasListener) {
-                clickRegistered = false;
-                loot.hasListener = false;
-                loot.container.removeAllListeners();
-
-                if (loot.open) {
-                    loot.open = false;
-                    loot.sprite.current.texture = loot.sprite.sprite_closed;
-                    loot.container.y += yShift;
-                    loot.container.x += xShift;
-                    loot.container.ellipse.y -= yShift / 2.5;
-                    loot.container.ellipse.x -= xShift / 2.5;
-
-                    // // temp Graphic
-                    // loot.container.children[1].y -= yShift / 2.5;
-                    // loot.container.children[1].x -= xShift / 2.5;
                 }
+            }
+
+            if (keysPressed.KeyE) {
+                toggleLoot();
+            } else {
+                loot.keyReleased = true;
+            }
+
+        } else {
+            if (loot.indicator.visible) {
+                loot.indicator.visible = false;
+            }
+            
+            if (loot.open) {
+                loot.open = false;
+                loot.sprite.current.texture = loot.sprite.sprite_closed;
+                loot.container.y += yShift;
+                loot.container.x += xShift;
+                loot.container.ellipse.y -= yShift / 2.5;
+                loot.container.ellipse.x -= xShift / 2.5;
+
+                // // temp Graphic
+                // loot.container.children[1].y -= yShift / 2.5;
+                // loot.container.children[1].x -= xShift / 2.5;
             }
         }
     })
