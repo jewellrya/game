@@ -25,7 +25,7 @@ export function lootInstance(x, y, direction) {
     container.addChild(sprite);
 
     let hurtboxScale = 2;
-    container.ellipse = new Ellipse(sprite.x + sprite.width / 2, container.y + sprite.y + sprite.height / 1.45, sprite.width / (2 / hurtboxScale), sprite.height / (3 / hurtboxScale));
+    container.ellipse = new Ellipse(container.x + sprite.width / 2, container.y + sprite.height / 1.45, sprite.width / (2 / hurtboxScale), sprite.height / (3 / hurtboxScale));
     container.ellipse.graphics.x = sprite.width / 2;
     container.ellipse.graphics.y = sprite.height / 1.45;
     container.addChild(container.ellipse.graphics);
@@ -65,6 +65,7 @@ export function lootCollide_listener() {
             yShift = 2 * lootScale;
         }
         if (ellipseCollides(playerContainer.ellipse, loot.container.ellipse)) {
+            console.log('collide');
             loot.indicator.visible = true;
             function toggleLoot() {
                 if (loot.keyReleased) {

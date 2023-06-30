@@ -175,11 +175,11 @@ function play() {
             return a.ellipse.y - b.ellipse.y;
         })
 
-        for (let i = 0; i < gameScene.children.length; i++){
-            if (gameScene.children[i].y === 142) {
-                console.log(i);
-            }
-        }
+        // for (let i = 0; i < gameScene.children.length; i++){
+        //     if (gameScene.children[i].y === 142) {
+        //         console.log(i);
+        //     }
+        // }
     }
     updateDepthOrder(gameScene);
 
