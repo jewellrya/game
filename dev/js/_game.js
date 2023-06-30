@@ -1,6 +1,6 @@
 // Player
 import { playerStats } from './playerData.js';
-import { createPlayer, createPlayerArmor } from './player.js';
+import { createPlayer, createPlayerArmor, getPlayerContainer } from './player.js';
 import { playerDynamics, keysDownResetPlayer_listener } from './playerDynamics.js';
 
 // Sheets
@@ -23,6 +23,7 @@ import { initiateKeyboard } from './controllers/keyboard.js';
 import { itemsMap_init } from './itemMap.js';
 import { getBg, setBg } from './background.js';
 import { lootInstance, lootCollide_listener } from './loot.js';
+import { Ellipse } from './hurtbox.js';
 
 // Aliases
 export let Application = PIXI.Application,
@@ -74,7 +75,7 @@ function loadProgressHandler(loader) {
 }
 
 // Define variables in more than one function
-let gameScene, gameOverScene, messageGameOver;
+export let gameScene, gameOverScene, messageGameOver;
 let id, state;
 
 export let enemies = [];
@@ -96,16 +97,6 @@ function setup() {
     // initialize ui variables
     ui_design_init();
 
-    // Main Game Scene
-    gameScene = new Container();
-    gameScene.render.renderWebGL;
-    app.stage.addChild(gameScene);
-
-    // Secondary Game Over Scene
-    gameOverScene = new Container();
-    gameOverScene.visible = false;
-    app.stage.addChild(gameOverScene);
-
     // Set Player coordinates
     let playerCoordX = 4175;
     let playerCoordY = -500;
@@ -118,7 +109,17 @@ function setup() {
     bg.scale.set(4, 4);
     bg.x = 405 - playerCoordX;
     bg.y = -1825 + playerCoordY;
-    gameScene.addChild(bg);
+    app.stage.addChild(bg);
+
+    // Main Game Scene
+    gameScene = new Container();
+    gameScene.render.renderWebGL;
+    app.stage.addChild(gameScene);
+
+    // Secondary Game Over Scene
+    gameOverScene = new Container();
+    gameOverScene.visible = false;
+    app.stage.addChild(gameOverScene);
 
     // Enemy
     let enemy = createEnemy();
@@ -139,7 +140,7 @@ function setup() {
 
     // UIs
     let ui = ui_setup();
-    gameScene.addChild(ui);
+    app.stage.addChild(ui);
 
     // Render the Stage
     app.renderer.render(app.stage);
@@ -155,6 +156,7 @@ function setup() {
 function gameLoop(delta) {
     // update the current game state:
     state(delta);
+
 }
 
 function play() {
@@ -167,6 +169,19 @@ function play() {
 
     // Loot collide Listener
     lootCollide_listener();
+
+    function updateDepthOrder(gameScene) {
+        gameScene.children.sort((a, b) => {
+            return a.ellipse.y - b.ellipse.y;
+        })
+
+        for (let i = 0; i < gameScene.children.length; i++){
+            if (gameScene.children[i].y === 142) {
+                console.log(i);
+            }
+        }
+    }
+    updateDepthOrder(gameScene);
 
     if (playerStats.health <= 0) {
         state = end;

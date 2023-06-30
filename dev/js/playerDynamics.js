@@ -37,6 +37,8 @@ function moveEnvironment(x, y) {
     // Wrap in an Array when more than one.
     enemy.x += x;
     enemy.y += y;
+    enemy.ellipse.x += x;
+    enemy.ellipse.y += y;
 
     lootArray.forEach(loot => {
         loot.container.x += x;

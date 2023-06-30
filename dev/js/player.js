@@ -27,8 +27,6 @@ export function createPlayer() {
     playerContainer = new Container();
 
     player = new AnimatedSprite(getIdleTexture());
-    player.x = (app.view.width - (player.width * playerSpriteScale)) / 2;
-    player.y = (app.view.height - (player.height * playerSpriteScale)) / 2;
     player.scale.set(playerSpriteScale);
     player.animationSpeed = .6;
     player.loop = false;
@@ -38,19 +36,20 @@ export function createPlayer() {
     playerBase.scale.set(playerSpriteScale * 2.25, playerSpriteScale * 2.25);
     playerBase.x = player.x + (player.width / 2) - (playerBase.width / 2);
     playerBase.y = player.y + player.height - 85;
-
-    let hurtboxScale = 0.45;
-    player.ellipse = new Ellipse(player.x + (player.width / 2), player.y + player.height / 1.45, player.width / (2 / hurtboxScale), player.height / (3 / hurtboxScale));
-
-    // playerHurtbox = new Graphics();
-    // playerHurtbox.beginFill(uiStyle.colors.red, .25);
-    // playerHurtbox.drawEllipse(player.x + (player.width / 2), player.y + player.height / 1.45, player.width / (2 / hurtboxScale), player.height / (3 / hurtboxScale));
-    // playerContainer.addChild(playerHurtbox);
     
     playerContainer.addChild(playerBase);
     playerContainer.addChild(player);
 
     player.play();
+
+    playerContainer.x = (app.view.width - (player.width)) / 2;
+    playerContainer.y = (app.view.height - (player.height)) / 2;
+
+    let hurtboxScale = 0.45;
+    playerContainer.ellipse = new Ellipse(playerContainer.x + (playerContainer.width / 2), playerContainer.y + playerContainer.height / 1.45, playerContainer.width / (2 / hurtboxScale), playerContainer.height / (3 / hurtboxScale));
+    playerContainer.ellipse.graphics.x = playerContainer.width / 2;
+    playerContainer.ellipse.graphics.y = playerContainer.height / 1.45;
+    playerContainer.addChild(playerContainer.ellipse.graphics);
 
     return playerContainer;
 }
