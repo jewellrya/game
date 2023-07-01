@@ -4,13 +4,13 @@ import { createNewPlayerArmor, destroyPlayerArmor } from '../../player/player.js
 import {
     playerName, playerStats,
     setEquippedCubby, getEquippedCubby, getEquipped, getEquippedSlot
-} from '../../data/playerData.js';
+} from '../../player/playerData.js';
 import { getIconSheet } from '../../sheets/iconSheet.js';
 import { getPopupMenus } from './popupMenus.js';
 import { getTooltips } from './tooltips.js';
 import { cubbyState } from './cubby.js';
 import { inventoryPopulateNewItem } from './bag.js';
-import { itemData } from '../../data/itemData.js';
+import { itemData } from '../../items/itemData.js';
 
 let characterIcon;
 let characterUiBg;

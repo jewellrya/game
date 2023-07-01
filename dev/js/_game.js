@@ -22,7 +22,7 @@ import { defaultCursor, attackCursor } from './controllers/mouse.js';
 import { initiateKeyboard } from './controllers/keyboard.js';
 
 // Misc
-import { itemData_init } from './data/itemData.js';
+import { itemData_init } from './items/itemData.js';
 import { getBg, setBg } from './map/bg.js';
 import { lootInstance, lootCollide_listener } from './entities/containers/loot.js';
 

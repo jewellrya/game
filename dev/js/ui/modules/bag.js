@@ -1,12 +1,12 @@
 import { app, Container, Graphics, BitmapText, Sprite } from '../../_game.js';
 import { uiLayout, uiStyle } from '../ui_design.js';
-import { getInventory, getInventoryItems, setInventoryItem } from '../../data/playerData.js';
+import { getInventory, getInventoryItems, setInventoryItem } from '../../player/playerData.js';
 import { getIconSheet } from '../../sheets/iconSheet.js';
 import { getPopupMenus } from './popupMenus.js';
 import { getTooltips } from './tooltips.js';
 import { equippedPopulateNewItem } from './character.js';
 import { cubbyState } from './cubby.js';
-import { itemData } from '../../data/itemData.js';
+import { itemData } from '../../items/itemData.js';
 
 let bagIcon;
 let bagUiBg;

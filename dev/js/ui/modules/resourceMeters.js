@@ -1,5 +1,5 @@
 import { Container, Graphics, app } from '../../_game.js';
-import { playerStats } from '../../data/playerData.js';
+import { playerStats } from '../../player/playerData.js';
 import { uiStyle } from '../ui_design.js';
 
 let resourceMeters = {

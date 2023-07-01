@@ -1,6 +1,6 @@
 import { keysDown, keysPressed, keyboard } from '../controllers/keyboard.js';
 import { getPlayer } from '../player/player.js';
-import { playerStats, getEquipped, getEquippedSlot, setEquippedAnimatedSprites, setEquippedIdleTexture } from '../data/playerData.js';
+import { playerStats, getEquipped, getEquippedSlot, setEquippedAnimatedSprites, setEquippedIdleTexture } from '../player/playerData.js';
 import { playerSheets, getIdleTexture, setIdleTexture } from '../sheets/playerSheets.js';
 import { getBg, setBgX, setBgY } from '../map/bg.js';
 import { getResourceMeters, setFatigue } from '../ui/modules/resourceMeters.js';

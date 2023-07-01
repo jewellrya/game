@@ -1,7 +1,7 @@
 import { app, Container, AnimatedSprite, Sprite } from '../_game.js';
 import { playerSheets, setIdleTexture } from '../sheets/playerSheets.js';
 import { getMiscSheet } from '../sheets/miscSheet.js';
-import { getEquipped, getEquippedSlot } from '../data/playerData.js';
+import { getEquipped, getEquippedSlot } from './playerData.js';
 import { getIdleTexture } from '../sheets/playerSheets.js';
 import { getPlayerDirection, textureXAnchors } from '../dynamics/playerDynamics.js';
 import { interactBox } from '../proximityBoxes/interactBox.js';
