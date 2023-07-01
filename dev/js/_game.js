@@ -11,7 +11,7 @@ import { setMiscSheet } from './sheets/miscSheet.js';
 import { entitiesArray_setup } from './entities/entities.js';
 
 // Enemy
-import { createEnemy, enemyAggroListener } from './entities/enemies/bandit.js';
+import { createEnemy, enemyAggroListener } from './entities/enemies/rat.js';
 
 // UI
 import { ui_design_init } from './ui/ui_design.js';

@@ -1,7 +1,8 @@
-import { Container, Sprite, Graphics, getClickRegistered } from '../../_game.js';
+import { Container, Sprite, getClickRegistered } from '../../_game.js';
 import { getMiscSheet } from '../../sheets/miscSheet.js';
 import { getPlayerContainer } from '../../player/player.js';
-import { Ellipse, ellipseCollides, interactBox } from '../../proximityBoxes/interactBox.js';
+import { interactBox } from '../../proximityBoxes/interactBox.js';
+import { boxCollides } from '../../proximityBoxes/box.js';
 import { keysPressed } from '../../controllers/keyboard.js';
 
 export let lootArray = [];
@@ -58,7 +59,7 @@ export function lootCollide_listener() {
             xShift = 4 * lootScale;
             yShift = 2 * lootScale;
         }
-        if (ellipseCollides(playerContainer.interactBox, loot.container.interactBox)) {
+        if (boxCollides(playerContainer.interactBox, loot.container.interactBox)) {
             loot.indicator.visible = true;
             function toggleLoot() {
                 if (loot.keyReleased) {

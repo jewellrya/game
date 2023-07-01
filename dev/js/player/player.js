@@ -1,10 +1,10 @@
-import { app, Container, AnimatedSprite, Sprite, Graphics } from '../_game.js';
+import { app, Container, AnimatedSprite, Sprite } from '../_game.js';
 import { playerSheets, setIdleTexture } from '../sheets/playerSheets.js';
 import { getMiscSheet } from '../sheets/miscSheet.js';
 import { getEquipped, getEquippedSlot } from '../data/playerData.js';
 import { getIdleTexture } from '../sheets/playerSheets.js';
 import { getPlayerDirection, textureXAnchors } from '../dynamics/playerDynamics.js';
-import { Ellipse, interactBox } from '../proximityBoxes/interactBox.js';
+import { interactBox } from '../proximityBoxes/interactBox.js';
 
 export let playerSpriteScale = 2;
 export let playerHurtbox;
