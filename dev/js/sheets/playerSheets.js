@@ -1,5 +1,5 @@
 import { resources } from '../_game.js';
-import { playerRaceGender } from '../playerData.js';
+import { playerRaceGender } from '../data/playerData.js';
 
 // Player Spritesheets
 export let playerSheets = {};

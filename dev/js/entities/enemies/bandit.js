@@ -1,7 +1,7 @@
-import { Container, Graphics } from '../_game.js';
-import { uiStyle } from '../ui/ui_design.js';
-import { getPlayer, playerHurtbox } from '../player.js';
-import { Ellipse, interactBox } from '../interactBox.js';
+import { Container, Graphics } from '../../_game.js';
+import { uiStyle } from '../../ui/ui_design.js';
+import { getPlayer, playerHurtbox } from '../../player/player.js';
+import { Ellipse, interactBox } from '../../proximityBoxes/interactBox.js';
 
 export let enemy;
 export let enemyHitbox;

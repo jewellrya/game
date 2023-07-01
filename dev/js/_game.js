@@ -1,15 +1,17 @@
 // Player
-import { playerStats } from './playerData.js';
-import { createPlayer, createPlayerArmor, getPlayerContainer } from './player.js';
-import { playerDynamics, keysDownResetPlayer_listener } from './playerDynamics.js';
+import { createPlayer, createPlayerArmor } from './player/player.js';
+import { playerDynamics, keysDownResetPlayer_listener } from './dynamics/playerDynamics.js';
 
 // Sheets
 import { getPlayerSheetsDirs, playerSheets_setup } from './sheets/playerSheets.js';
 import { setIconSheet } from './sheets/iconSheet.js';
 import { setMiscSheet } from './sheets/miscSheet.js';
 
+// Entities
+import { entitiesArray_setup } from './entities/entities.js';
+
 // Enemy
-import { createEnemy, enemyAggroListener } from './enemies/bandit.js';
+import { createEnemy, enemyAggroListener } from './entities/enemies/bandit.js';
 
 // UI
 import { ui_design_init } from './ui/ui_design.js';
@@ -20,10 +22,9 @@ import { defaultCursor, attackCursor } from './controllers/mouse.js';
 import { initiateKeyboard } from './controllers/keyboard.js';
 
 // Misc
-import { itemsMap_init } from './itemMap.js';
-import { getBg, setBg } from './background.js';
-import { lootInstance, lootCollide_listener } from './loot.js';
-import { Ellipse } from './interactBox.js';
+import { itemData_init } from './data/itemData.js';
+import { getBg, setBg } from './map/bg.js';
+import { lootInstance, lootCollide_listener } from './entities/containers/loot.js';
 
 // Aliases
 export let Application = PIXI.Application,
@@ -89,7 +90,7 @@ function setup() {
     setMiscSheet(resources['../../assets/sprites/misc/spritesheets/misc.json'].textures);
 
     // Initialize item data (execute after setIconSheet);
-    itemsMap_init();
+    itemData_init();
 
     // Create Array of Spritesheets for the Player:
     playerSheets_setup();
@@ -135,8 +136,8 @@ function setup() {
     let loot1 = lootInstance(550, 180, 'D');
     gameScene.addChild(loot1);
 
-    // let loot2 = lootInstance(378, 143, 'U');
-    // gameScene.addChild(loot2);
+    // Entities (Any object in the stage besides the player)
+    entitiesArray_setup();
 
     // UIs
     let ui = ui_setup();
@@ -169,17 +170,6 @@ function play() {
 
     // Loot collide Listener
     lootCollide_listener();
-
-    function updateDepthOrder(gameScene) {
-        gameScene.children.sort((a, b) => {
-            return a.interactBox.y - b.interactBox.y;
-        })
-    }
-    updateDepthOrder(gameScene);
-
-    if (playerStats.health <= 0) {
-        state = end;
-    }
 }
 
 function end() {

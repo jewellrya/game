@@ -1,8 +1,8 @@
-import { Container, Sprite, Graphics, getClickRegistered } from './_game.js';
-import { getMiscSheet } from './sheets/miscSheet.js';
-import { getPlayerContainer } from './player.js';
-import { Ellipse, ellipseCollides, interactBox } from './interactBox.js';
-import { keysPressed } from './controllers/keyboard.js';
+import { Container, Sprite, Graphics, getClickRegistered } from '../../_game.js';
+import { getMiscSheet } from '../../sheets/miscSheet.js';
+import { getPlayerContainer } from '../../player/player.js';
+import { Ellipse, ellipseCollides, interactBox } from '../../proximityBoxes/interactBox.js';
+import { keysPressed } from '../../controllers/keyboard.js';
 
 export let lootArray = [];
 let lootScale = 2.5;

@@ -1,16 +1,16 @@
 import { app, Sprite, Graphics, Container, BitmapText } from '../../_game.js';
 import { uiLayout, uiStyle } from '../ui_design.js';
-import { createNewPlayerArmor, destroyPlayerArmor } from '../../player.js';
+import { createNewPlayerArmor, destroyPlayerArmor } from '../../player/player.js';
 import {
     playerName, playerStats,
     setEquippedCubby, getEquippedCubby, getEquipped, getEquippedSlot
-} from '../../playerData.js';
+} from '../../data/playerData.js';
 import { getIconSheet } from '../../sheets/iconSheet.js';
 import { getPopupMenus } from './popupMenus.js';
 import { getTooltips } from './tooltips.js';
 import { cubbyState } from './cubby.js';
 import { inventoryPopulateNewItem } from './bag.js';
-import { itemsMap } from '../../itemMap.js';
+import { itemData } from '../../data/itemData.js';
 
 let characterIcon;
 let characterUiBg;
@@ -216,7 +216,7 @@ export function characterPopupMenus_setup() {
 }
 
 function tooltipStats(tooltip, itemName) {
-    let itemStats = itemsMap[itemName].stats;
+    let itemStats = itemData[itemName].stats;
     let itemStatsArray = [];
     Object.keys(itemStats).map(function (stat, i) {
         if (itemStats[stat] > 0) {
@@ -283,7 +283,7 @@ export function characterTooltips_setup() {
         tooltipNameBg.drawRect(0, 0, uiLayout.tooltip.width, uiLayout.tooltip.height);
         tooltipName.addChild(tooltipNameBg);
 
-        let itemName = getEquippedSlot(equippedItem).item ? itemsMap[getEquippedSlot(equippedItem).item].name : 'No Item';
+        let itemName = getEquippedSlot(equippedItem).item ? itemData[getEquippedSlot(equippedItem).item].name : 'No Item';
         let tooltipNameText = new BitmapText(itemName, uiStyle.text);
         tooltipNameText.x = 10;
         tooltipNameText.y = 7;
@@ -416,12 +416,12 @@ export function characterPopupMenuInteraction() {
 }
 
 export function equippedPopulateNewItem(itemName) {
-    let itemSlot = itemsMap[itemName].slot;
+    let itemSlot = itemData[itemName].slot;
     let equippedSlot = getEquippedSlot(itemSlot);
     equippedSlot.cubby.children[1].destroy();
     equippedSlot.item = itemName;
 
-    let newIcon = new Sprite(itemsMap[itemName].icon);
+    let newIcon = new Sprite(itemData[itemName].icon);
     newIcon.scale.set(uiLayout.cubby.itemScale);
     newIcon.x = (uiLayout.cubby.size - newIcon.width) / 2;
     newIcon.y = (uiLayout.cubby.size - newIcon.height) / 2;
@@ -433,7 +433,7 @@ export function equippedPopulateNewItem(itemName) {
     popupMenuEvents(cubby, i);
     let tooltip = tooltips.characterUi.children[i];
     let tooltipNameText = tooltip.children[0].children[1];
-    tooltipNameText.text = itemsMap[itemName].name;
+    tooltipNameText.text = itemData[itemName].name;
     if (tooltips.characterUi.children[i].children.length <= 1) {
         tooltipStats(tooltip, itemName);
     }

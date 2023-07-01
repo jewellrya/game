@@ -1,4 +1,4 @@
-import { getIconSheet } from './sheets/iconSheet.js';
+import { getIconSheet } from '../sheets/iconSheet.js';
 
 function stats(str, end, vit, dex, int, wis, cha, arm) {
     return {
@@ -13,9 +13,9 @@ function stats(str, end, vit, dex, int, wis, cha, arm) {
     }
 }
 
-export let itemsMap;
-export function itemsMap_init() {
-    itemsMap = {
+export let itemData;
+export function itemData_init() {
+    itemData = {
         clothChest: {
             name: 'Burlap Robes',
             icon: getIconSheet()['iconClothChest.png'],

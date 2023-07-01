@@ -1,12 +1,12 @@
 import { app, Container, Graphics, BitmapText, Sprite } from '../../_game.js';
 import { uiLayout, uiStyle } from '../ui_design.js';
-import { getInventory, getInventoryItems, setInventoryItem } from '../../playerData.js';
+import { getInventory, getInventoryItems, setInventoryItem } from '../../data/playerData.js';
 import { getIconSheet } from '../../sheets/iconSheet.js';
 import { getPopupMenus } from './popupMenus.js';
 import { getTooltips } from './tooltips.js';
 import { equippedPopulateNewItem } from './character.js';
 import { cubbyState } from './cubby.js';
-import { itemsMap } from '../../itemMap.js';
+import { itemData } from '../../data/itemData.js';
 
 let bagIcon;
 let bagUiBg;
@@ -126,7 +126,7 @@ export function bag_setup() {
     // Add Sprites from Inventory to each Cubby Container.
     getInventoryItems().forEach(function (inventoryItem) {
         if (inventoryItem.item) {
-            inventoryItem.icon = new Sprite(itemsMap[inventoryItem.item].icon)
+            inventoryItem.icon = new Sprite(itemData[inventoryItem.item].icon)
             let itemIcon = inventoryItem.icon;
             itemIcon.scale.set(uiLayout.cubby.itemScale);
             itemIcon.x = (uiLayout.cubby.size - itemIcon.width) / 2;
@@ -298,7 +298,7 @@ export function bagPopupMenuInteraction() {
 }
 
 function tooltipStats(tooltip, itemName) {
-    let itemStats = itemsMap[itemName].stats;
+    let itemStats = itemData[itemName].stats;
     let itemStatsArray = [];
     Object.keys(itemStats).map(function (stat, i) {
         if (itemStats[stat] > 0) {
@@ -365,7 +365,7 @@ export function bagTooltips_setup() {
         tooltipNameBg.drawRect(0, 0, uiLayout.tooltip.width, uiLayout.tooltip.height);
         tooltipName.addChild(tooltipNameBg);
 
-        let itemName = inventoryItem.item ? itemsMap[inventoryItem.item].name : 'No Item';
+        let itemName = inventoryItem.item ? itemData[inventoryItem.item].name : 'No Item';
         let tooltipNameText = new BitmapText(itemName, uiStyle.text);
         tooltipNameText.x = 10;
         tooltipNameText.y = 7;
@@ -400,7 +400,7 @@ export function inventoryPopulateNewItem(itemName) {
     let firstEmptySlot = emptyCubbies[0];
     firstEmptySlot.item = itemName;
 
-    let newItemIcon = new Sprite(itemsMap[itemName].icon);
+    let newItemIcon = new Sprite(itemData[itemName].icon);
     newItemIcon.scale.set(uiLayout.cubby.itemScale);
     newItemIcon.x = (uiLayout.cubby.size - newItemIcon.width) / 2;
     newItemIcon.y = (uiLayout.cubby.size - newItemIcon.height) / 2;
@@ -413,7 +413,7 @@ export function inventoryPopulateNewItem(itemName) {
     popupMenuEvents(cubby, i);
     let tooltip = tooltips.bagUi.children[i];
     let tooltipNameText = tooltip.children[0].children[1];
-    tooltipNameText.text = itemsMap[itemName].name;
+    tooltipNameText.text = itemData[itemName].name;
     if (tooltips.bagUi.children[i].children.length <= 1) {
         tooltipStats(tooltip, itemName);
     }

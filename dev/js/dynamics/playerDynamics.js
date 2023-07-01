@@ -1,11 +1,11 @@
-import { keysDown, keysPressed, keyboard } from './controllers/keyboard.js';
-import { getPlayer } from './player.js';
-import { playerStats, getEquipped, getEquippedSlot, setEquippedAnimatedSprites, setEquippedIdleTexture } from './playerData.js';
-import { playerSheets, getIdleTexture, setIdleTexture } from './sheets/playerSheets.js';
-import { getBg, setBgX, setBgY } from './background.js';
-import { getResourceMeters, setFatigue } from './ui/modules/resourceMeters.js';
-import { enemy } from './enemies/bandit.js';
-import { lootArray } from './loot.js';
+import { keysDown, keysPressed, keyboard } from '../controllers/keyboard.js';
+import { getPlayer } from '../player/player.js';
+import { playerStats, getEquipped, getEquippedSlot, setEquippedAnimatedSprites, setEquippedIdleTexture } from '../data/playerData.js';
+import { playerSheets, getIdleTexture, setIdleTexture } from '../sheets/playerSheets.js';
+import { getBg, setBgX, setBgY } from '../map/bg.js';
+import { getResourceMeters, setFatigue } from '../ui/modules/resourceMeters.js';
+import { gameScene } from '../_game.js';
+import { entities } from '../entities/entities.js';
 
 export let textureXAnchors = {
     'U': -0.05,
@@ -34,18 +34,21 @@ export let getPlayerDirection = () => playerDirection;
 function moveEnvironment(x, y) {
     setBgX(getBg().x += x);
     setBgY(getBg().y += y);
-    // Wrap in an Array when more than one.
-    enemy.x += x;
-    enemy.y += y;
-    enemy.interactBox.x += x;
-    enemy.interactBox.y += y;
 
-    lootArray.forEach(loot => {
-        loot.container.x += x;
-        loot.container.y += y;
-        loot.container.interactBox.x += x;
-        loot.container.interactBox.y += y;
+    entities.forEach(entity => {
+        entity.x += x;
+        entity.y += y;
+        entity.interactBox.x += x;
+        entity.interactBox.y += y;
     })
+
+    gameScene.children.sort((a, b) => {
+        return a.interactBox.y - b.interactBox.y;
+    })
+
+    if (playerStats.health <= 0) {
+        state = end;
+    }
 }
 
 export function keysDownResetPlayer_listener() {

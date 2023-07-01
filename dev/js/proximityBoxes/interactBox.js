@@ -1,5 +1,5 @@
-import { Graphics } from './_game.js';
-import { uiStyle } from './ui/ui_design.js';
+import { Graphics } from '../_game.js';
+import { uiStyle } from '../ui/ui_design.js';
 
 export class Ellipse {
     constructor(x, y, rx, ry, color) {
