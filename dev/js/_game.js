@@ -8,7 +8,7 @@ import { setIconSheet } from './sheets/iconSheet.js';
 import { setMiscSheet } from './sheets/miscSheet.js';
 
 // Entities
-import { entities_setup } from './entities/entities.js';
+import { entities_setup, entities_events } from './entities/entities.js';
 
 // UI
 import { ui_design_init } from './ui/ui_design.js';
@@ -21,7 +21,6 @@ import { initiateKeyboard } from './controllers/keyboard.js';
 // Misc
 import { itemData_init } from './items/itemData.js';
 import { getBg, setBg } from './map/bg.js';
-import { lootCollide_listener } from './entities/containers/loot/loot.js';
 
 // Aliases
 export let Application = PIXI.Application,
@@ -154,8 +153,8 @@ function play() {
     // Player Movement / Controls
     playerDynamics();
 
-    // Loot collide Listener
-    lootCollide_listener();
+    // Interaction events from entities.
+    entities_events();
 }
 
 function end() {

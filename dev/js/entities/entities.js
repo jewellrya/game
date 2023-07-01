@@ -1,6 +1,6 @@
 import { gameScene } from '../_game.js';
-import { enemies, enemies_init } from './enemies/enemies.js';
-import { containers, containers_init } from './containers/containers.js';
+import { enemies, enemies_init, enemies_events } from './enemies/enemies.js';
+import { containers, containers_init, containers_events } from './containers/containers.js';
 
 export let entities = [];
 
@@ -23,4 +23,10 @@ export function entities_setup() {
     entities.forEach(entity => {
         gameScene.addChild(entity);
     })
+}
+
+export function entities_events() {
+    // Entity listener events used in the game loop.
+    enemies_events();
+    containers_events();
 }

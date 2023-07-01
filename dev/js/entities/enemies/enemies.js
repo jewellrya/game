@@ -11,3 +11,7 @@ export function enemies_init() {
     // Create all enemies here.
     pushEnemy(createEnemy_rat());
 }
+
+export function enemies_events() {
+    
+}
