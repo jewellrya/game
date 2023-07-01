@@ -23,7 +23,7 @@ import { initiateKeyboard } from './controllers/keyboard.js';
 import { itemsMap_init } from './itemMap.js';
 import { getBg, setBg } from './background.js';
 import { lootInstance, lootCollide_listener } from './loot.js';
-import { Ellipse } from './hurtbox.js';
+import { Ellipse } from './interactBox.js';
 
 // Aliases
 export let Application = PIXI.Application,
@@ -172,14 +172,8 @@ function play() {
 
     function updateDepthOrder(gameScene) {
         gameScene.children.sort((a, b) => {
-            return a.ellipse.y - b.ellipse.y;
+            return a.interactBox.y - b.interactBox.y;
         })
-
-        // for (let i = 0; i < gameScene.children.length; i++){
-        //     if (gameScene.children[i].y === 142) {
-        //         console.log(i);
-        //     }
-        // }
     }
     updateDepthOrder(gameScene);
 

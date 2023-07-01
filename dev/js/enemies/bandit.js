@@ -1,7 +1,7 @@
 import { Container, Graphics } from '../_game.js';
 import { uiStyle } from '../ui/ui_design.js';
 import { getPlayer, playerHurtbox } from '../player.js';
-import { Ellipse, ellipseCollides } from '../hurtbox.js';
+import { Ellipse, interactBox } from '../interactBox.js';
 
 export let enemy;
 export let enemyHitbox;
@@ -19,14 +19,10 @@ export function createEnemy() {
 
     let enemySprite = new Graphics();
     enemySprite.beginFill(uiStyle.colors.cyan);
-    enemySprite.drawRect(0, 0, 40, 100);
+    enemySprite.drawRect(0, 0, 40, 120);
     enemy.addChild(enemySprite);
 
-    let hurtboxScale = 3;
-    enemy.ellipse = new Ellipse(enemySprite.x + (enemySprite.width / 2), enemy.y + enemySprite.y + enemySprite.height, enemySprite.width / (3 / hurtboxScale), enemySprite.height / (11 / hurtboxScale));
-    enemy.ellipse.graphics.x = enemySprite.width / 2;
-    enemy.ellipse.graphics.y = enemySprite.height;
-    enemy.addChild(enemy.ellipse.graphics);
+    interactBox(enemy, enemySprite, 2.25, false, true);
 
     return enemy;
 }

@@ -1,8 +1,7 @@
 import { Container, Sprite, Graphics, getClickRegistered } from './_game.js';
 import { getMiscSheet } from './sheets/miscSheet.js';
 import { getPlayerContainer } from './player.js';
-import { uiStyle } from './ui/ui_design.js';
-import { Ellipse, ellipseCollides } from './hurtbox.js';
+import { Ellipse, ellipseCollides, interactBox } from './interactBox.js';
 import { keysPressed } from './controllers/keyboard.js';
 
 export let lootArray = [];
@@ -21,14 +20,9 @@ export function lootInstance(x, y, direction) {
     let sprite_closed = getMiscSheet()['treasure-closed-' + direction + '.png'];
     let sprite_open = getMiscSheet()['treasure-open-' + direction + '.png'];
     let sprite = new Sprite(sprite_closed);
-
     container.addChild(sprite);
 
-    let hurtboxScale = 2;
-    container.ellipse = new Ellipse(container.x + sprite.width / 2, container.y + sprite.height / 1.45, sprite.width / (2 / hurtboxScale), sprite.height / (3 / hurtboxScale));
-    container.ellipse.graphics.x = sprite.width / 2;
-    container.ellipse.graphics.y = sprite.height / 1.45;
-    container.addChild(container.ellipse.graphics);
+    interactBox(container, sprite, 1.5, false, true);
 
     // E Indicator
     let indicator = new Sprite(getMiscSheet()['e-indicator.png']);
@@ -64,8 +58,7 @@ export function lootCollide_listener() {
             xShift = 4 * lootScale;
             yShift = 2 * lootScale;
         }
-        if (ellipseCollides(playerContainer.ellipse, loot.container.ellipse)) {
-            console.log('collide');
+        if (ellipseCollides(playerContainer.interactBox, loot.container.interactBox)) {
             loot.indicator.visible = true;
             function toggleLoot() {
                 if (loot.keyReleased) {
@@ -74,25 +67,23 @@ export function lootCollide_listener() {
                     if (!loot.open) {
                         loot.open = true;
                         loot.sprite.current.texture = loot.sprite.sprite_open;
-                        loot.container.y -= yShift;
                         loot.container.x -= xShift;
-                        loot.container.ellipse.y += (yShift / 2.5);
-                        loot.container.ellipse.x += (xShift / 2.5);
+                        loot.container.y -= yShift;
+                        loot.container.interactBox.x += (xShift / 2.5);
+                        loot.container.interactBox.y += (yShift / 2.5);
+                        loot.container.interactBox.graphics.x += (xShift / 2.5);
+                        loot.container.interactBox.graphics.y += (yShift / 2.5);
+                        
 
-                        // // Temp Graphic
-                        // loot.container.children[1].y += yShift / 2.5;
-                        // loot.container.children[1].x += xShift / 2.5;
                     } else {
                         loot.open = false;
                         loot.sprite.current.texture = loot.sprite.sprite_closed;
-                        loot.container.y += yShift;
                         loot.container.x += xShift;
-                        loot.container.ellipse.y -= yShift / 2.5;
-                        loot.container.ellipse.x -= xShift / 2.5;
-
-                        // // temp Graphic
-                        // loot.container.children[1].y -= yShift / 2.5;
-                        // loot.container.children[1].x -= xShift / 2.5;
+                        loot.container.y += yShift;
+                        loot.container.interactBox.x -= xShift / 2.5;
+                        loot.container.interactBox.y -= yShift / 2.5;
+                        loot.container.interactBox.graphics.x -= (xShift / 2.5);
+                        loot.container.interactBox.graphics.y -= (yShift / 2.5);
                     }
                 }
             }
@@ -113,8 +104,10 @@ export function lootCollide_listener() {
                 loot.sprite.current.texture = loot.sprite.sprite_closed;
                 loot.container.y += yShift;
                 loot.container.x += xShift;
-                loot.container.ellipse.y -= yShift / 2.5;
-                loot.container.ellipse.x -= xShift / 2.5;
+                loot.container.interactBox.y -= yShift / 2.5;
+                loot.container.interactBox.x -= xShift / 2.5;
+                loot.container.interactBox.graphics.x -= (xShift / 2.5);
+                loot.container.interactBox.graphics.y -= (yShift / 2.5);
 
                 // // temp Graphic
                 // loot.container.children[1].y -= yShift / 2.5;

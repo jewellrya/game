@@ -4,8 +4,7 @@ import { getMiscSheet } from './sheets/miscSheet.js';
 import { getEquipped, getEquippedSlot } from './playerData.js';
 import { getIdleTexture } from './sheets/playerSheets.js';
 import { getPlayerDirection, textureXAnchors } from './playerDynamics.js';
-import { uiStyle } from './ui/ui_design.js';
-import { Ellipse } from './hurtbox.js';
+import { Ellipse, interactBox } from './interactBox.js';
 
 export let playerSpriteScale = 2;
 export let playerHurtbox;
@@ -44,12 +43,7 @@ export function createPlayer() {
 
     playerContainer.x = (app.view.width - (player.width)) / 2;
     playerContainer.y = (app.view.height - (player.height)) / 2;
-
-    let hurtboxScale = 0.45;
-    playerContainer.ellipse = new Ellipse(playerContainer.x + (playerContainer.width / 2), playerContainer.y + playerContainer.height / 1.45, playerContainer.width / (2 / hurtboxScale), playerContainer.height / (3 / hurtboxScale));
-    playerContainer.ellipse.graphics.x = playerContainer.width / 2;
-    playerContainer.ellipse.graphics.y = playerContainer.height / 1.45;
-    playerContainer.addChild(playerContainer.ellipse.graphics);
+    interactBox(playerContainer, player, 0.4, 0.9, true);
 
     return playerContainer;
 }
