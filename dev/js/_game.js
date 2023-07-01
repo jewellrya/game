@@ -8,10 +8,7 @@ import { setIconSheet } from './sheets/iconSheet.js';
 import { setMiscSheet } from './sheets/miscSheet.js';
 
 // Entities
-import { entitiesArray_setup } from './entities/entities.js';
-
-// Enemy
-import { createEnemy, enemyAggroListener } from './entities/enemies/rat.js';
+import { entities_setup } from './entities/entities.js';
 
 // UI
 import { ui_design_init } from './ui/ui_design.js';
@@ -24,7 +21,7 @@ import { initiateKeyboard } from './controllers/keyboard.js';
 // Misc
 import { itemData_init } from './items/itemData.js';
 import { getBg, setBg } from './map/bg.js';
-import { lootInstance, lootCollide_listener } from './entities/containers/loot.js';
+import { lootCollide_listener } from './entities/containers/loot/loot.js';
 
 // Aliases
 export let Application = PIXI.Application,
@@ -122,22 +119,14 @@ function setup() {
     gameOverScene.visible = false;
     app.stage.addChild(gameOverScene);
 
-    // Enemy
-    let enemy = createEnemy();
-    gameScene.addChild(enemy);
-
     // Player
     keysDownResetPlayer_listener();
     let player = createPlayer();
     gameScene.addChild(player);
     createPlayerArmor();
 
-    // Loot
-    let loot1 = lootInstance(550, 180, 'D');
-    gameScene.addChild(loot1);
-
-    // Entities (Any object in the stage besides the player)
-    entitiesArray_setup();
+    // Entities
+    entities_setup();
 
     // UIs
     let ui = ui_setup();
@@ -164,9 +153,6 @@ function play() {
 
     // Player Movement / Controls
     playerDynamics();
-
-    // Enemy Hitbox Listener
-    enemyAggroListener();
 
     // Loot collide Listener
     lootCollide_listener();

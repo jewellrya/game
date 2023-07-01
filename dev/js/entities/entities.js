@@ -1,11 +1,26 @@
-import { rat } from './enemies/rat.js';
-import { lootArray } from './containers/loot.js';
+import { gameScene } from '../_game.js';
+import { enemies, enemies_init } from './enemies/enemies.js';
+import { containers, containers_init } from './containers/containers.js';
 
 export let entities = [];
 
-export function entitiesArray_setup() {
-    entities.push(rat);
-    lootArray.forEach(loot => {
-        entities.push(loot.container);
+function entitiesPushLoop(array) {
+    array.forEach(item => {
+        entities.push(item);
+    })
+}
+
+export function entities_setup() {
+    // Initialize each group used in the arrays.
+    enemies_init();
+    containers_init();
+
+    let arrays = [enemies, containers];
+    arrays.forEach(array => {
+        entitiesPushLoop(array);
+    })
+
+    entities.forEach(entity => {
+        gameScene.addChild(entity);
     })
 }
