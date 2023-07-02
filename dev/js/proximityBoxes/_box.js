@@ -41,14 +41,10 @@ export function boxDistance(e1, e2) {
     let centerDistance = Math.sqrt(dx * dx + dy * dy);
 
     // Calculate the sum of the radii of the ellipses
-    let sumOfRadii = e1.rx + e2.rx;
+    let sumOfRadii = Math.min(e1.rx, e1.ry) + Math.min(e2.rx, e2.ry);
 
     // Calculate the distance from the outside of the ellipses
     let distance = centerDistance - sumOfRadii;
 
-    if (distance < 0) {
-        return 0;
-    } else {
-        return distance;
-    }
+    return distance;
 }

@@ -1,5 +1,6 @@
 // Player
 import { createPlayer, createPlayerArmor } from './player/player.js';
+import { playerStats } from './player/playerData.js';
 import { playerDynamics, keysDownResetPlayer_listener } from './dynamics/playerDynamics.js';
 
 // Sheets
@@ -155,6 +156,10 @@ function play() {
 
     // Interaction events from entities.
     entities_events();
+
+    if (playerStats.health <= 0) {
+        state = end;
+    }
 }
 
 function end() {

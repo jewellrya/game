@@ -3,7 +3,7 @@ import { playerSheets, setIdleTexture } from '../sheets/playerSheets.js';
 import { getMiscSheet } from '../sheets/miscSheet.js';
 import { getEquipped, getEquippedSlot } from './playerData.js';
 import { getIdleTexture } from '../sheets/playerSheets.js';
-import { textureXAnchors } from '../dynamics/playerDynamics.js';
+import { textureXAnchors } from '../dynamics/textureSwitch/utilties/textureXAnchors.js';
 import { interactBox } from '../proximityBoxes/interactBox.js';
 
 export let playerSpriteScale = 2;
@@ -21,8 +21,10 @@ export let setPlayerTexture = (val) => player.textures = val;
 
 export let playerBodyTexture = 'noArmorNaked';
 export let getPlayerBodyTexture = () => playerBodyTexture;
+export let setPlayerBodyTexture = (val) => playerBodyTexture = val;
 export let playerDirection = 'DR';
 export let getPlayerDirection = () => playerDirection;
+export let setPlayerDirection = (val) => playerDirection = val;
 
 export function createPlayer() {
     setIdleTexture(playerSheets['idle_' + playerBodyTexture + '_' + playerDirection]);
