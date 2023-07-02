@@ -3,7 +3,7 @@ import { playerSheets, setIdleTexture } from '../sheets/playerSheets.js';
 import { getMiscSheet } from '../sheets/miscSheet.js';
 import { getEquipped, getEquippedSlot } from './playerData.js';
 import { getIdleTexture } from '../sheets/playerSheets.js';
-import { getPlayerDirection, textureXAnchors } from '../dynamics/playerDynamics.js';
+import { textureXAnchors } from '../dynamics/playerDynamics.js';
 import { interactBox } from '../proximityBoxes/interactBox.js';
 
 export let playerSpriteScale = 2;
@@ -19,10 +19,13 @@ export let setPlayer = (val) => player = val;
 export let playerPlay = () => player.play();
 export let setPlayerTexture = (val) => player.textures = val;
 
-let playerStartingDirection = 'DR';
+export let playerBodyTexture = 'noArmorNaked';
+export let getPlayerBodyTexture = () => playerBodyTexture;
+export let playerDirection = 'DR';
+export let getPlayerDirection = () => playerDirection;
 
 export function createPlayer() {
-    setIdleTexture(playerSheets['idle_noArmorNaked_' + playerStartingDirection]);
+    setIdleTexture(playerSheets['idle_' + playerBodyTexture + '_' + playerDirection]);
     playerContainer = new Container();
 
     player = new AnimatedSprite(getIdleTexture());
@@ -55,15 +58,15 @@ export function createPlayerArmor() {
         let equippedItem = getEquippedSlot(slot);
         equippedItem.animatedSprite = new Container();
         if (equippedItem.item) {
-            let sheet = new AnimatedSprite(playerSheets['idle_' + equippedItem.item + '_' + playerStartingDirection]);
+            let sheet = new AnimatedSprite(playerSheets['idle_' + equippedItem.item + '_' + playerDirection]);
             sheet.x = player.x;
             sheet.y = player.y;
             sheet.scale.set(playerSpriteScale);
             sheet.animationSpeed = player.animationSpeed;
             sheet.loop = false;
-            sheet.anchor.set(textureXAnchors[playerStartingDirection], 0);
+            sheet.anchor.set(textureXAnchors[playerDirection], 0);
             sheet.play();
-            equippedItem.idleTexture = playerSheets['idle_' + equippedItem.item + '_' + playerStartingDirection];
+            equippedItem.idleTexture = playerSheets['idle_' + equippedItem.item + '_' + playerDirection];
             equippedItem.animatedSprite.addChild(sheet);
         }
         playerContainer.addChild(equippedItem.animatedSprite);

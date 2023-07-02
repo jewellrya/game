@@ -1,5 +1,5 @@
 import { keysDown, keysPressed, keyboard } from '../controllers/keyboard.js';
-import { getPlayer } from '../player/player.js';
+import { getPlayer, getPlayerBodyTexture, getPlayerDirection } from '../player/player.js';
 import { playerStats, getEquipped, getEquippedSlot, setEquippedAnimatedSprites, setEquippedIdleTexture } from '../player/playerData.js';
 import { playerSheets, getIdleTexture, setIdleTexture } from '../sheets/playerSheets.js';
 import { getBg, setBgX, setBgY } from '../map/bg.js';
@@ -28,9 +28,6 @@ function changeTextureAnchor(texture, textureDirection) {
     texture.anchor.set(textureXAnchors[textureDirection], 0);
 }
 
-let playerDirection = 'DR';
-export let getPlayerDirection = () => playerDirection;
-
 function moveEnvironment(x, y) {
     setBgX(getBg().x += x);
     setBgY(getBg().y += y);
@@ -55,6 +52,10 @@ function moveEnvironment(x, y) {
     }
 }
 
+let player;
+let playerDirection;
+let playerBodyTexture;
+
 export function keysDownResetPlayer_listener() {
     // Reset player animation with keysDown
     Object.keys(keysDown).map(key => {
@@ -73,8 +74,9 @@ export function keysDownResetPlayer_listener() {
 }
 
 export function playerDynamics() {
-    let player = getPlayer();
-    let playerPlaying = player.playing;
+    player = getPlayer();
+    playerDirection = getPlayerDirection();
+    playerBodyTexture = getPlayerBodyTexture();
 
     function equippedItemLoop(callback) {
         Object.keys(getEquipped()).forEach(slot => {
@@ -85,20 +87,20 @@ export function playerDynamics() {
         })
     }
 
-    function movementPlayerTexture(textureDirection) {
-        setIdleTexture(playerSheets['idle_noArmorNaked_' + textureDirection]);
+    function movementPlayerTexture(textureDirection, textureId) {
+        setIdleTexture(playerSheets['idle_' + textureId + '_' + textureDirection]);
         equippedItemLoop((equippedItem, slot) => {
             setEquippedIdleTexture(slot, playerSheets['idle_' + equippedItem.item + '_' + textureDirection]);
         })
         playerDirection = textureDirection;
         if (!player.playing) {
             if (keysDown.ShiftLeft && playerStats.fatigue > 0) {
-                player.textures = playerSheets['running_noArmorNaked_' + textureDirection];
+                player.textures = playerSheets['running_' + textureId + '_' + textureDirection];
                 equippedItemLoop(equippedItem => {
                     equippedItem.animatedSprite.children[0].textures = playerSheets['running_' + equippedItem.item + '_' + textureDirection];
                 })
             } else {
-                player.textures = playerSheets['walking_noArmorNaked_' + textureDirection];
+                player.textures = playerSheets['walking_' + textureId + '_' + textureDirection];
                 equippedItemLoop(equippedItem => {
                     equippedItem.animatedSprite.children[0].textures = playerSheets['walking_' + equippedItem.item + '_' + textureDirection];
                 })
@@ -115,7 +117,7 @@ export function playerDynamics() {
     }
 
     function setPlayerAnimSpeed() {
-        if (playerPlaying) {
+        if (player.playing) {
             if (keysDown.ShiftLeft && playerStats.fatigue > 0) {
                 // Running
                 let speed = playerStats.dexterity / 20;
@@ -152,12 +154,12 @@ export function playerDynamics() {
         }
     }
 
-    function attackPlayerTexture(textureDirection) {
-        setIdleTexture(playerSheets['1hAttackIdle_noArmorNaked_' + textureDirection]);
+    function attackPlayerTexture(textureDirection, textureId) {
+        setIdleTexture(playerSheets['1hAttackIdle_' + textureId + '_' + textureDirection]);
         equippedItemLoop((equippedItem, slot) => {
             setEquippedIdleTexture(slot, playerSheets['1hAttackIdle_' + equippedItem.item + '_' + textureDirection]);
         })
-        player.textures = playerSheets['1hAttack_noArmorNaked_' + textureDirection];
+        player.textures = playerSheets['1hAttack_' + textureId + '_' + textureDirection];
         equippedItemLoop(equippedItem => {
             equippedItem.animatedSprite.children[0].textures = playerSheets['1hAttack_' + equippedItem.item + '_' + textureDirection];
         })
@@ -175,11 +177,11 @@ export function playerDynamics() {
         // keysDown
         if (keysDown.KeyW) {
             if (keysDown.KeyA) {
-                movementPlayerTexture('UL');
+                movementPlayerTexture('UL', playerBodyTexture);
             } else if (keysDown.KeyD) {
-                movementPlayerTexture('UR');
+                movementPlayerTexture('UR', playerBodyTexture);
             } else {
-                movementPlayerTexture('U');
+                movementPlayerTexture('U', playerBodyTexture);
             }
             moveEnvironment(0, playerStats.speed());
             setPlayerAnimSpeed();
@@ -187,11 +189,11 @@ export function playerDynamics() {
 
         if (keysDown.KeyA) {
             if (keysDown.KeyW) {
-                movementPlayerTexture('UL');
+                movementPlayerTexture('UL', playerBodyTexture);
             } else if (keysDown.KeyS) {
-                movementPlayerTexture('DL');
+                movementPlayerTexture('DL', playerBodyTexture);
             } else {
-                movementPlayerTexture('L');
+                movementPlayerTexture('L', playerBodyTexture);
             }
             moveEnvironment(playerStats.speed(), 0);
             setPlayerAnimSpeed();
@@ -199,11 +201,11 @@ export function playerDynamics() {
 
         if (keysDown.KeyS) {
             if (keysDown.KeyA) {
-                movementPlayerTexture('DL');
+                movementPlayerTexture('DL', playerBodyTexture);
             } else if (keysDown.KeyD) {
-                movementPlayerTexture('DR');
+                movementPlayerTexture('DR', playerBodyTexture);
             } else {
-                movementPlayerTexture('D');
+                movementPlayerTexture('D', playerBodyTexture);
             }
             moveEnvironment(0, -playerStats.speed());
             setPlayerAnimSpeed();
@@ -211,11 +213,11 @@ export function playerDynamics() {
 
         if (keysDown.KeyD) {
             if (keysDown.KeyW) {
-                movementPlayerTexture('UR');
+                movementPlayerTexture('UR', playerBodyTexture);
             } else if (keysDown.KeyS) {
-                movementPlayerTexture('DR');
+                movementPlayerTexture('DR', playerBodyTexture);
             } else {
-                movementPlayerTexture('R');
+                movementPlayerTexture('R', playerBodyTexture);
             }
             moveEnvironment(-playerStats.speed(), 0);
             setPlayerAnimSpeed();
@@ -235,7 +237,7 @@ export function playerDynamics() {
 
             getPlayer().gotoAndPlay(0);
             setPlayerAnimSpeed();
-            attackPlayerTexture(playerDirection);
+            attackPlayerTexture(playerDirection, playerBodyTexture);
 
             player.onComplete = () => {
                 isAttacking = false;
@@ -260,7 +262,7 @@ export function playerDynamics() {
 
     if (!keysDown.KeyW && !keysDown.KeyA && !keysDown.KeyS && !keysDown.KeyD) {
         // Idle animation if no keys are true
-        if (!playerPlaying) {
+        if (!player.playing) {
             player.textures = getIdleTexture();
             player.play();
             equippedItemLoop((equippedItem, slot) => {
