@@ -1,8 +1,10 @@
-import { Ellipse } from './box.js';
+import { Ellipse } from './_box.js';
 import { uiStyle } from '../ui/ui_design.js';
 
 // Create a interactBox for a container direct child of gameScene.
 // Currently meant for objects height > width.
+// This also is used by sprite depth management.
+
 // complexY is set for weird sprites with alpha that dont match the height and width of the artwork.
 export function interactBox(container, sprite, scale, complexY, test_graphic) {
     let ellipseX = container.x + (container.width / 2);

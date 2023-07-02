@@ -13,5 +13,6 @@ export function containers_init() {
 }
 
 export function containers_events() {
+    // Containers events used in game loop.
     lootCollide_listener();
 }

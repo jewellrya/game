@@ -1,17 +1,15 @@
-import { Container, Sprite, getClickRegistered } from '../../../_game.js';
+import { Container, Sprite } from '../../../_game.js';
 import { getMiscSheet } from '../../../sheets/miscSheet.js';
 import { getPlayerContainer } from '../../../player/player.js';
 import { interactBox } from '../../../proximityBoxes/interactBox.js';
-import { boxCollides } from '../../../proximityBoxes/box.js';
+import { boxCollides } from '../../../proximityBoxes/_box.js';
 import { keysPressed } from '../../../controllers/keyboard.js';
 
-export let lootArray = [];
+let lootArray = [];
 let lootScale = 2.5;
 let playerContainer;
-let clickRegistered;
 
 export function lootInstance(x, y, direction) {
-    clickRegistered = getClickRegistered();
     playerContainer = getPlayerContainer();
     let container = new Container();
     container.x = x;

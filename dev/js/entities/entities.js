@@ -2,6 +2,7 @@ import { gameScene } from '../_game.js';
 import { enemies, enemies_init, enemies_events } from './enemies/enemies.js';
 import { containers, containers_init, containers_events } from './containers/containers.js';
 
+// Entities are populated into the map, moved around and interacted with the player's movements.
 export let entities = [];
 
 function entitiesPushLoop(array) {

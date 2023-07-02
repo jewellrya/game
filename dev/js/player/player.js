@@ -43,7 +43,7 @@ export function createPlayer() {
 
     playerContainer.x = (app.view.width - (player.width)) / 2;
     playerContainer.y = (app.view.height - (player.height)) / 2;
-    interactBox(playerContainer, player, 0.4, 0.9, true);
+    interactBox(playerContainer, player, 0.2, 0.9, true);
 
     return playerContainer;
 }

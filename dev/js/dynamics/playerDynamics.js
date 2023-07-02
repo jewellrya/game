@@ -40,6 +40,10 @@ function moveEnvironment(x, y) {
         entity.y += y;
         entity.interactBox.x += x;
         entity.interactBox.y += y;
+        if (entity.aggroBox) {
+            entity.aggroBox.x += x;
+            entity.aggroBox.y += y;
+        }
     })
 
     gameScene.children.sort((a, b) => {
