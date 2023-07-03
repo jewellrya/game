@@ -5,6 +5,7 @@ import { playerDynamics, keysDownResetPlayer_listener } from './dynamics/playerD
 
 // Sheets
 import { getPlayerSheetsDirs, playerSheets_setup } from './sheets/playerSheets.js';
+import { getEntitySheetsDirs, entitySheets_setup } from './sheets/entitySheet.js';
 import { setIconSheet } from './sheets/iconSheet.js';
 import { setMiscSheet } from './sheets/miscSheet.js';
 
@@ -65,6 +66,8 @@ loader.shared
         '../../assets/sprites/terrain/map.png'
     ].concat(
         getPlayerSheetsDirs()
+    ).concat(
+        getEntitySheetsDirs()
     )).load(setup);
 
 function loadProgressHandler(loader) {
@@ -82,7 +85,7 @@ function setup() {
 
     initiateKeyboard();
 
-    // Other texturesheets to move over.
+    // Icon & Misc texture sheet
     setIconSheet(resources['../../assets/sprites/icons/spritesheets/icons.json'].textures);
     setMiscSheet(resources['../../assets/sprites/misc/spritesheets/misc.json'].textures);
 
@@ -91,6 +94,9 @@ function setup() {
 
     // Create Array of Spritesheets for the Player:
     playerSheets_setup();
+
+    // Create Array of Spritesheets for Entities:
+    entitySheets_setup();
 
     // initialize ui variables
     ui_design_init();
