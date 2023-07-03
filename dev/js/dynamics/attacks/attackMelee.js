@@ -17,9 +17,8 @@ let attackAnimationFrame = 0;
 export function attack() {
     player = getPlayer();
 
-    
-
     if (attackKeyReleased && Date.now() - lastAttack >= attackCooldown) {
+        attackAnimationFrame = 0;
         attackQueue.push(Date.now());
         lastAttack = Date.now();
         attackKeyReleased = false;
@@ -44,8 +43,6 @@ export function attack() {
             }
         }
     }
-
-    
 }
 
 export function attack_control() {
@@ -54,16 +51,13 @@ export function attack_control() {
     } else {
         attackKeyReleased = true;
     }
-
     if (isAttacking) {
         attackAnimationFrame++;
         if (attackAnimationFrame === 30) {
-            // Fix queue thing here.
             playerDealDamage = true;
         } else {
             playerDealDamage = false;
         }
-    } else {
-        attackAnimationFrame = 0;
     }
 }
+
