@@ -2,22 +2,33 @@ import { getPlayer, playerDirection, playerBodyTexture } from '../../player/play
 import { setPlayerAnimSpeed } from '../textureSwitch/textureAnimSpeed.js';
 import { attackPlayerTexture } from '../textureSwitch/textureAttack.js';
 import { keysPressed } from '../../controllers/keyboard.js';
+import { itemData } from '../../items/itemData.js';
+import { getEquipped, playerStats } from '../../player/playerData.js';
 
 let player;
 
 export let isAttacking = false;
 export let playerDealDamage = false;
+export let weaponDamage;
+export let attackAnimationSpeed = playerStats.dexterity / 20;
+let weaponDamageModifier = playerStats.strength * 0.2;
 let attackKeyReleased = true;
-let attackCooldown = 1000;
+let attackCooldown = 1200 - playerStats.dexterity * 10;
 let lastAttack = Date.now();
 let attackQueue = [];
 let attackAnimationFrame = 0;
 
 // Attack
 export function attack() {
-    player = getPlayer();
 
     if (attackKeyReleased && Date.now() - lastAttack >= attackCooldown) {
+        player = getPlayer();
+        if (itemData[getEquipped().rightHand.item]) {
+            weaponDamage = itemData[getEquipped().rightHand.item].damage + weaponDamageModifier;
+        } else {
+            weaponDamage = weaponDamageModifier;
+        }
+        
         attackAnimationFrame = 0;
         attackQueue.push(Date.now());
         lastAttack = Date.now();

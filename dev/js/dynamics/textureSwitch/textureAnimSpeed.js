@@ -1,6 +1,6 @@
 import { getPlayer } from '../../player/player.js';
 import { playerStats } from '../../player/playerData.js';
-import { isAttacking } from '../attacks/attackMelee.js';
+import { isAttacking, attackAnimationSpeed } from '../attacks/attackMelee.js';
 import { equippedItemLoop } from './utilties/equippedItemLoop.js';
 import { keysDown } from '../../controllers/keyboard.js';
 
@@ -19,7 +19,7 @@ export function setPlayerAnimSpeed() {
             })
         } else if (isAttacking) {
             // Melee Attacking
-            let speed = playerStats.dexterity / 20;
+            let speed = attackAnimationSpeed;
             player.animationSpeed = speed;
             equippedItemLoop(equippedItem => {
                 equippedItem.animatedSprite.children[0].animationSpeed = speed;

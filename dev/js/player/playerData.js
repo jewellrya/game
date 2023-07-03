@@ -1,4 +1,5 @@
 import { keysDown } from '../controllers/keyboard.js';
+import { itemData } from '../items/itemData.js';
 
 export let playerRaceGender = 'humanMale';
 export let playerName = 'characterName';
@@ -11,7 +12,7 @@ export let playerStats = {
     dexterity: 10, // Affects walking speed, weapon speed, magic speed, and fatigue regen.
     intelligence: 10, // Affects magic damage and magic cost.
     wisdom: 10, // Affects soul amount and soul regen.
-    charisma: 10, // Dialogue options.
+    charisma: 10, // Dialogue options. 
 }
 
 // Secondary Stats (Ones Based on Primary)

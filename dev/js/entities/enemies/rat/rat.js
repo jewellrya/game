@@ -7,12 +7,12 @@ import { entitySheets } from '../../../sheets/entitySheet.js';
 import { getMiscSheet } from '../../../sheets/miscSheet.js';
 import { changeTextureAnchor, changeTextureAnchor_complex } from '../../../dynamics/textureSwitch/utilties/textureXAnchors.js';
 import { uiStyle } from '../../../ui/ui_design.js';
-import { playerDealDamage } from '../../../dynamics/attacks/attackMelee.js';
+import { playerDealDamage, weaponDamage } from '../../../dynamics/attacks/attackMelee.js';
 
 let rats = [];
 let ratScale = 1.25;
 let ratAnimationSpeed = .5;
-let ratHealth = 50;
+let ratHealth = 30;
 
 let playerContainer;
 
@@ -151,8 +151,8 @@ export function contactEnemy_rat() {
     rats.forEach(rat => {
         let isColliding = (boxCollides(playerContainer.interactBox, rat.container.interactBox));
         if (isColliding && playerDealDamage && rat.state !== 'dead') {
-            rat.health -= 10;
-            rat.healthBar.inner.width -= 10;
+            rat.health -= weaponDamage;
+            rat.healthBar.inner.width -= weaponDamage;
             death_rat(rat);
         }
     })

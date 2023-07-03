@@ -71,6 +71,7 @@ export function itemData_init() {
             equipable: true,
             slot: 'rightHand',
             stats: stats(2, 0, 0, 0, 0, 0, 0, 0),
+            damage: 3,
         },
         shield1: {
             name: 'Rusty Shield',
