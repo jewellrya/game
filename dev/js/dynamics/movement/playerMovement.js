@@ -77,6 +77,10 @@ export function movement_control() {
         }
     }
 
+    // Bug Here - adds more fatigue after running out?
+    // After running out and letting it fill without hitting shift.
+    // Move to its own file and test.
+
     // Running Reduce Fatigue
     if (keysDown.ShiftLeft) {
         if (playerStats.fatigue > 0) {
