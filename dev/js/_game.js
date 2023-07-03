@@ -35,6 +35,7 @@ export let Application = PIXI.Application,
     Container = PIXI.Container,
     BitmapText = PIXI.BitmapText,
     Graphics = PIXI.Graphics,
+    Ticker = PIXI.Ticker,
     u = new SpriteUtilities(PIXI);
 
 settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;

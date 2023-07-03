@@ -6,14 +6,18 @@ import { keysPressed } from '../../controllers/keyboard.js';
 let player;
 
 export let isAttacking = false;
+export let playerDealDamage = false;
+let attackKeyReleased = true;
 let attackCooldown = 1000;
 let lastAttack = Date.now();
 let attackQueue = [];
-let attackKeyReleased = true;
+let attackAnimationFrame = 0;
 
 // Attack
 export function attack() {
     player = getPlayer();
+
+    
 
     if (attackKeyReleased && Date.now() - lastAttack >= attackCooldown) {
         attackQueue.push(Date.now());
@@ -40,6 +44,8 @@ export function attack() {
             }
         }
     }
+
+    
 }
 
 export function attack_control() {
@@ -47,5 +53,17 @@ export function attack_control() {
         attack();
     } else {
         attackKeyReleased = true;
+    }
+
+    if (isAttacking) {
+        attackAnimationFrame++;
+        if (attackAnimationFrame === 30) {
+            // Fix queue thing here.
+            playerDealDamage = true;
+        } else {
+            playerDealDamage = false;
+        }
+    } else {
+        attackAnimationFrame = 0;
     }
 }

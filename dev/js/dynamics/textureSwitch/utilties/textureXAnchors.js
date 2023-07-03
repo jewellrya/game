@@ -1,3 +1,5 @@
+// Adjust Xanchors to center the Blender camera renders.
+// Globally set since all renders should use the same cameras.
 export let textureXAnchors = {
     'U': -0.05,
     'UR': -0.03,
@@ -11,4 +13,8 @@ export let textureXAnchors = {
 
 export function changeTextureAnchor(texture, textureDirection) {
     texture.anchor.set(textureXAnchors[textureDirection], 0);
+}
+
+export function changeTextureAnchor_complex(texture, textureDirection, textureAnchors) {
+    texture.anchor.set(textureAnchors[textureDirection].x, textureAnchors[textureDirection].y);
 }
