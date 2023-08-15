@@ -178,7 +178,7 @@
 },
 "iconSword1h1.png":
 {
-	"frame": {"x":12,"y":53,"w":16,"h":16},
+	"frame": {"x":13,"y":53,"w":15,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},

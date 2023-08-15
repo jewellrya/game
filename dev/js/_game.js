@@ -8,6 +8,7 @@ import { getPlayerSheetsDirs, playerSheets_setup } from './sheets/playerSheets.j
 import { getEntitySheetsDirs, entitySheets_setup } from './sheets/entitySheet.js';
 import { setIconSheet } from './sheets/iconSheet.js';
 import { setMiscSheet } from './sheets/miscSheet.js';
+import { environmentSheets_setup } from './sheets/environmentSheet.js';
 
 // Entities
 import { entities_setup, entities_events } from './entities/entities.js';
@@ -64,7 +65,8 @@ loader.shared
     .add([
         '../../assets/sprites/icons/spritesheets/icons.json',
         '../../assets/sprites/misc/spritesheets/misc.json',
-        '../../assets/sprites/terrain/map.png'
+        '../../assets/sprites/terrain/map.png',
+        '../../assets/sprites/environment/spritesheets/environment.json'
     ].concat(
         getPlayerSheetsDirs()
     ).concat(
@@ -131,6 +133,9 @@ function setup() {
     let player = createPlayer();
     gameScene.addChild(player);
     createPlayerArmor();
+
+    // Environment
+    environmentSheets_setup();
 
     // Entities
     entities_setup();

@@ -13,7 +13,7 @@ export let weaponDamage;
 export let attackAnimationSpeed = playerStats.dexterity / 20;
 let weaponDamageModifier = playerStats.strength * 0.2;
 let attackKeyReleased = true;
-let attackCooldown = 1200 - playerStats.dexterity * 10;
+let attackCooldown = 1200 - playerStats.dexterity * 4;
 let lastAttack = Date.now();
 let attackQueue = [];
 let attackAnimationFrame = 0;
