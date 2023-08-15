@@ -4,7 +4,7 @@ import { uiStyle } from '../ui/ui_design.js';
 // Create a aggroBox for a container direct child of gameScene.
 // Currently meant for objects height > width.
 // complexY is set for weird sprites with alpha that dont match the height and width of the artwork.
-export function aggroBox(container, sprite, scale, complexY, test_graphic) {
+export function aggroBox({container, sprite, scale = 1, complexY = null, test_graphic = false}) {
     let ellipseX = container.x + (container.width / 2);
     let ellipseY = container.y + (container.height - (container.width * (complexY ? complexY : 1)) / 3);
     let ellipseWidth = (sprite.width) * scale;

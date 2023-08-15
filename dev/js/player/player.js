@@ -48,7 +48,7 @@ export function createPlayer() {
 
     playerContainer.x = (app.view.width - (player.width)) / 2;
     playerContainer.y = (app.view.height - (player.height)) / 2;
-    interactBox(playerContainer, player, 0.2, 0.9, false);
+    interactBox({container: playerContainer, sprite: player, scale: 0.2, complexY: 0.9, test_graphic: false});
 
     return playerContainer;
 }

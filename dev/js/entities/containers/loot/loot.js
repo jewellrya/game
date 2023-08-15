@@ -21,7 +21,7 @@ export function lootInstance(x, y, direction) {
     let sprite = new Sprite(sprite_closed);
     container.addChild(sprite);
 
-    interactBox(container, sprite, 1.5, false, false);
+    interactBox({container, sprite, scale: 1.5, test_graphic: false});
 
     // E Indicator
     let indicator = new Sprite(getMiscSheet()['e-indicator.png']);

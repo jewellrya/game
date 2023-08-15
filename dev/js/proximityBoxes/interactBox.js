@@ -6,7 +6,7 @@ import { uiStyle } from '../ui/ui_design.js';
 // This also is used by sprite depth management.
 
 // complexY is set for weird sprites with alpha that dont match the height and width of the artwork.
-export function interactBox(container, sprite, scale, complexY, test_graphic) {
+export function interactBox({container, sprite, scale = 1, complexY = null, test_graphic = false}) {
     let ellipseX = container.x + (container.width / 2);
     let ellipseY = container.y + (container.height - (container.width * (complexY ? complexY : 1)) / 3);
     let ellipseWidth = (sprite.width) * scale;

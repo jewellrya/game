@@ -12,7 +12,7 @@ export function staticEnvironmentInstance(spriteId, x, y) {
 
     staticEnvironment.addChild(sprite);
 
-    interactBox(staticEnvironment, sprite, .8, .8, false);
+    interactBox({container: staticEnvironment, sprite, scale: .8, complexY: .8, test_graphic: false});
 
     return staticEnvironment;
 }

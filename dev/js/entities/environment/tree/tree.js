@@ -24,7 +24,7 @@ export function treeInstance(type, x, y) {
     tree.addChild(shadow);
     tree.addChild(sprite);
 
-    interactBox(tree, sprite, .05, 0.05, false);
+    interactBox({container: tree, sprite, scale: .05, complexY: 0.05, test_graphic: false});
 
     return tree;
 }

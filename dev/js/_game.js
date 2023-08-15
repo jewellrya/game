@@ -5,7 +5,7 @@ import { playerDynamics, keysDownResetPlayer_listener } from './dynamics/playerD
 
 // Sheets
 import { getPlayerSheetsDirs, playerSheets_setup } from './sheets/playerSheets.js';
-import { getEntitySheetsDirs, entitySheets_setup } from './sheets/entitySheet.js';
+import { getenemySheetsDirs, enemySheets_setup } from './sheets/enemySheet.js';
 import { setIconSheet } from './sheets/iconSheet.js';
 import { setMiscSheet } from './sheets/miscSheet.js';
 import { environmentSheets_setup } from './sheets/environmentSheet.js';
@@ -70,7 +70,7 @@ loader.shared
     ].concat(
         getPlayerSheetsDirs()
     ).concat(
-        getEntitySheetsDirs()
+        getenemySheetsDirs()
     )).load(setup);
 
 function loadProgressHandler(loader) {
@@ -99,7 +99,7 @@ function setup() {
     playerSheets_setup();
 
     // Create Array of Spritesheets for Entities:
-    entitySheets_setup();
+    enemySheets_setup();
 
     // initialize ui variables
     ui_design_init();

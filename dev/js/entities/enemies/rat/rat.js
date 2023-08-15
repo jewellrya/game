@@ -3,7 +3,7 @@ import { getPlayerContainer } from '../../../player/player.js';
 import { interactBox } from '../../../proximityBoxes/interactBox.js';
 import { boxCollides } from '../../../proximityBoxes/_box.js';
 import { aggroBox } from '../../../proximityBoxes/aggroBox.js';
-import { entitySheets } from '../../../sheets/entitySheet.js';
+import { enemySheets } from '../../../sheets/enemySheet.js';
 import { getMiscSheet } from '../../../sheets/miscSheet.js';
 import { changeTextureAnchor, changeTextureAnchor_complex } from '../../../dynamics/textureSwitch/utilties/textureXAnchors.js';
 import { uiStyle } from '../../../ui/ui_design.js';
@@ -25,7 +25,7 @@ export function createEnemy_rat() {
     rat.x = 600;
     rat.y = 300;
 
-    let sprite = new AnimatedSprite(entitySheets['idle_rat_' + ratDirection]);
+    let sprite = new AnimatedSprite(enemySheets['idle_rat_' + ratDirection]);
     sprite.animationSpeed = ratAnimationSpeed;
     sprite.scale.set(ratScale);
 
@@ -39,9 +39,9 @@ export function createEnemy_rat() {
 
     sprite.play();
 
-    interactBox(rat, sprite, .75, 0.65, false);
+    interactBox({container: rat, sprite, scale: .75, complexY: 0.65, test_graphic: false});
     let aggroFactor = 5;
-    aggroBox(rat, sprite, aggroFactor, 0.65, false);
+    aggroBox({container: rat, sprite, scale: aggroFactor, complexY: 0.65, test_graphic: false});
 
     // Health Bar
     let healthBar = new Container();
@@ -102,7 +102,7 @@ export function aggroEnemy_rat() {
                     if (rat.direction !== newDirection || rat.state !== 'walking') {
                         rat.direction = newDirection;
                         rat.state = 'walking';
-                        rat.sprite.textures = entitySheets['walking_rat_' + rat.direction];
+                        rat.sprite.textures = enemySheets['walking_rat_' + rat.direction];
                         changeTextureAnchor(rat.sprite, rat.direction);
                         rat.sprite.play();
                     }
@@ -121,7 +121,7 @@ export function aggroEnemy_rat() {
                     if (rat.direction !== newDirection || rat.state !== 'idle') {
                         rat.direction = newDirection;
                         rat.state = 'idle';
-                        rat.sprite.textures = entitySheets['idle_rat_' + rat.direction];
+                        rat.sprite.textures = enemySheets['idle_rat_' + rat.direction];
                         changeTextureAnchor(rat.sprite, rat.direction);
                         rat.sprite.play();
                     }
@@ -196,7 +196,7 @@ function death_rat(rat) {
 
     if (rat.health <= 0) {
         rat.state = 'dead';
-        rat.sprite.textures = entitySheets['death_rat_' + rat.direction];
+        rat.sprite.textures = enemySheets['death_rat_' + rat.direction];
         changeTextureAnchor_complex(rat.sprite, rat.direction, textureAnchors_death);
         rat.sprite.loop = false;
         rat.sprite.play();
