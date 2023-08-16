@@ -1,4 +1,4 @@
-import { resources } from '../_game.js';
+import { resources } from '../_game';
 import { playerRaceGender } from '../player/playerData.js';
 
 // Player Spritesheets

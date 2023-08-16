@@ -1,0 +1,76 @@
+{"frames": {
+
+"ctrl-indicator.png":
+{
+	"frame": {"x":0,"y":0,"w":37,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":37,"h":16},
+	"sourceSize": {"w":37,"h":16}
+},
+"dropShadow.png":
+{
+	"frame": {"x":37,"y":0,"w":13,"h":8},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":13,"h":8},
+	"sourceSize": {"w":13,"h":8}
+},
+"e-indicator.png":
+{
+	"frame": {"x":0,"y":16,"w":16,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
+	"sourceSize": {"w":16,"h":16}
+},
+"space-indicator.png":
+{
+	"frame": {"x":16,"y":16,"w":28,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":28,"h":16},
+	"sourceSize": {"w":28,"h":16}
+},
+"treasure-closed-D.png":
+{
+	"frame": {"x":0,"y":32,"w":23,"h":25},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":23,"h":25},
+	"sourceSize": {"w":23,"h":25}
+},
+"treasure-closed-U.png":
+{
+	"frame": {"x":23,"y":32,"w":23,"h":26},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":23,"h":26},
+	"sourceSize": {"w":23,"h":26}
+},
+"treasure-open-D.png":
+{
+	"frame": {"x":0,"y":58,"w":28,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":28,"h":32},
+	"sourceSize": {"w":28,"h":32}
+},
+"treasure-open-U.png":
+{
+	"frame": {"x":28,"y":58,"w":27,"h":28},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":27,"h":28},
+	"sourceSize": {"w":27,"h":28}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.1",
+	"image": "misc.png",
+	"format": "RGBA8888",
+	"size": {"w":55,"h":90},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:8854b2eb267715add61c81c77048b37d:2397804a7a375c8877cd23beb4520b96:8940225683741d51cffc2e8ee1e8f353$"
+}
+}

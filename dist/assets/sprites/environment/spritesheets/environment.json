@@ -1,0 +1,96 @@
+{"frames": {
+
+"mushrooms.png":
+{
+	"frame": {"x":60,"y":0,"w":24,"h":11},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":11},
+	"sourceSize": {"w":24,"h":11}
+},
+"oak1-1.png":
+{
+	"frame": {"x":0,"y":24,"w":214,"h":213},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":214,"h":213},
+	"sourceSize": {"w":214,"h":213}
+},
+"oak1-2.png":
+{
+	"frame": {"x":0,"y":237,"w":214,"h":213},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":214,"h":213},
+	"sourceSize": {"w":214,"h":213}
+},
+"oak1shadow-2.png":
+{
+	"frame": {"x":0,"y":450,"w":214,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":214,"h":64},
+	"sourceSize": {"w":214,"h":64}
+},
+"oak1shadow-1.png":
+{
+	"frame": {"x":0,"y":514,"w":214,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":214,"h":64},
+	"sourceSize": {"w":214,"h":64}
+},
+"rock1.png":
+{
+	"frame": {"x":14,"y":0,"w":23,"h":24},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":23,"h":24},
+	"sourceSize": {"w":23,"h":24}
+},
+"rock2.png":
+{
+	"frame": {"x":0,"y":0,"w":14,"h":13},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":14,"h":13},
+	"sourceSize": {"w":14,"h":13}
+},
+"rock3.png":
+{
+	"frame": {"x":37,"y":0,"w":23,"h":14},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":23,"h":14},
+	"sourceSize": {"w":23,"h":14}
+},
+"stump1.png":
+{
+	"frame": {"x":84,"y":0,"w":27,"h":14},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":27,"h":14},
+	"sourceSize": {"w":27,"h":14}
+},
+"stump2.png":
+{
+	"frame": {"x":111,"y":0,"w":27,"h":13},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":27,"h":13},
+	"sourceSize": {"w":27,"h":13}
+}},
+"animations": {
+	"oak1": ["oak1-1.png","oak1-2.png"],
+	"oak1shadow": ["oak1shadow-1.png","oak1shadow-2.png"]
+},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.1",
+	"image": "environment.png",
+	"format": "RGBA8888",
+	"size": {"w":214,"h":578},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:8fd307e78fcb6d42b393173a318183aa:31165ee976bb4e475b6215f6109e4b5b:7abea815e3107eecbafa95ee71efdc50$"
+}
+}

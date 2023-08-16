@@ -19,6 +19,7 @@
     "g": "^2.0.1",
     "jquery": "^3.5.1",
     "live-server": "^1.1.0",
+    "noisejs": "^2.1.0",
     "pixi.js": "^5.3.3",
     "pug": "^3.0.2",
     "sass": "^1.32.8",
@@ -26,6 +27,16 @@
     "spritesheet-js": "^1.2.8"
   },
   "devDependencies": {
-    "concurrently": "^5.3.0"
+    "concurrently": "^5.3.0",
+    "parcel-plugin-static-files-copy": "^2.6.0"
+  },
+  "staticFiles": {
+    "staticPath": [
+      {
+        "staticPath": "assets",
+        "staticOutDir": "assets"
+      }
+    ],
+    "watcherGlob": "**"
   }
 }

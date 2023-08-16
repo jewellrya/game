@@ -1,3 +1,5 @@
+import * as PIXI from 'pixi.js';
+
 // Player
 import { createPlayer, createPlayerArmor } from './player/player.js';
 import { playerStats } from './player/playerData.js';
@@ -25,6 +27,9 @@ import { initiateKeyboard } from './controllers/keyboard.js';
 import { itemData_init } from './items/itemData.js';
 import { getBg, setBg } from './map/bg.js';
 
+// Map
+import { noiseMap_macro } from './map/noiseMap_macro.js';
+
 // Aliases
 export let Application = PIXI.Application,
     loaderResource = PIXI.LoaderResource,
@@ -36,8 +41,7 @@ export let Application = PIXI.Application,
     Container = PIXI.Container,
     BitmapText = PIXI.BitmapText,
     Graphics = PIXI.Graphics,
-    Ticker = PIXI.Ticker,
-    u = new SpriteUtilities(PIXI);
+    Ticker = PIXI.Ticker
 
 settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 
@@ -87,6 +91,8 @@ function setup() {
     console.log('All files loaded.');
 
     initiateKeyboard();
+
+    // noiseMap_macro();
 
     // Icon & Misc texture sheet
     setIconSheet(resources['../../assets/sprites/icons/spritesheets/icons.json'].textures);

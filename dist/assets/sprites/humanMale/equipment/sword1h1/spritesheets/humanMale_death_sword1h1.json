@@ -1,0 +1,5070 @@
+{
+    "meta": {
+        "image": "humanMale_death_sword1h1.png",
+        "size": {
+            "w": 1728,
+            "h": 1620
+        },
+        "scale": "1"
+    },
+    "frames": {
+        "death-sword1h1-D-01.png": {
+            "frame": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-D-02.png": {
+            "frame": {
+                "x": 108,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-D-03.png": {
+            "frame": {
+                "x": 0,
+                "y": 108,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-D-04.png": {
+            "frame": {
+                "x": 108,
+                "y": 108,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-D-05.png": {
+            "frame": {
+                "x": 216,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-D-06.png": {
+            "frame": {
+                "x": 216,
+                "y": 108,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-D-07.png": {
+            "frame": {
+                "x": 0,
+                "y": 216,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-D-08.png": {
+            "frame": {
+                "x": 108,
+                "y": 216,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-D-09.png": {
+            "frame": {
+                "x": 216,
+                "y": 216,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-D-10.png": {
+            "frame": {
+                "x": 324,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-D-11.png": {
+            "frame": {
+                "x": 324,
+                "y": 108,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-D-12.png": {
+            "frame": {
+                "x": 324,
+                "y": 216,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-D-13.png": {
+            "frame": {
+                "x": 0,
+                "y": 324,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-D-14.png": {
+            "frame": {
+                "x": 108,
+                "y": 324,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-D-15.png": {
+            "frame": {
+                "x": 216,
+                "y": 324,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-D-16.png": {
+            "frame": {
+                "x": 324,
+                "y": 324,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-D-17.png": {
+            "frame": {
+                "x": 432,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-D-18.png": {
+            "frame": {
+                "x": 432,
+                "y": 108,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-D-19.png": {
+            "frame": {
+                "x": 432,
+                "y": 216,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-D-20.png": {
+            "frame": {
+                "x": 432,
+                "y": 324,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-D-21.png": {
+            "frame": {
+                "x": 0,
+                "y": 432,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-D-22.png": {
+            "frame": {
+                "x": 108,
+                "y": 432,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-D-23.png": {
+            "frame": {
+                "x": 216,
+                "y": 432,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-D-24.png": {
+            "frame": {
+                "x": 324,
+                "y": 432,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-D-25.png": {
+            "frame": {
+                "x": 432,
+                "y": 432,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-D-26.png": {
+            "frame": {
+                "x": 540,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-D-27.png": {
+            "frame": {
+                "x": 540,
+                "y": 108,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-D-28.png": {
+            "frame": {
+                "x": 540,
+                "y": 216,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-D-29.png": {
+            "frame": {
+                "x": 540,
+                "y": 324,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-D-30.png": {
+            "frame": {
+                "x": 540,
+                "y": 432,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DL-01.png": {
+            "frame": {
+                "x": 0,
+                "y": 540,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DL-02.png": {
+            "frame": {
+                "x": 108,
+                "y": 540,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DL-03.png": {
+            "frame": {
+                "x": 216,
+                "y": 540,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DL-04.png": {
+            "frame": {
+                "x": 324,
+                "y": 540,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DL-05.png": {
+            "frame": {
+                "x": 432,
+                "y": 540,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DL-06.png": {
+            "frame": {
+                "x": 540,
+                "y": 540,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DL-07.png": {
+            "frame": {
+                "x": 648,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DL-08.png": {
+            "frame": {
+                "x": 648,
+                "y": 108,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DL-09.png": {
+            "frame": {
+                "x": 648,
+                "y": 216,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DL-10.png": {
+            "frame": {
+                "x": 648,
+                "y": 324,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DL-11.png": {
+            "frame": {
+                "x": 648,
+                "y": 432,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DL-12.png": {
+            "frame": {
+                "x": 648,
+                "y": 540,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DL-13.png": {
+            "frame": {
+                "x": 0,
+                "y": 648,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DL-14.png": {
+            "frame": {
+                "x": 108,
+                "y": 648,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DL-15.png": {
+            "frame": {
+                "x": 216,
+                "y": 648,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DL-16.png": {
+            "frame": {
+                "x": 324,
+                "y": 648,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DL-17.png": {
+            "frame": {
+                "x": 432,
+                "y": 648,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DL-18.png": {
+            "frame": {
+                "x": 540,
+                "y": 648,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DL-19.png": {
+            "frame": {
+                "x": 648,
+                "y": 648,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DL-20.png": {
+            "frame": {
+                "x": 756,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DL-21.png": {
+            "frame": {
+                "x": 756,
+                "y": 108,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DL-22.png": {
+            "frame": {
+                "x": 756,
+                "y": 216,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DL-23.png": {
+            "frame": {
+                "x": 756,
+                "y": 324,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DL-24.png": {
+            "frame": {
+                "x": 756,
+                "y": 432,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DL-25.png": {
+            "frame": {
+                "x": 756,
+                "y": 540,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DL-26.png": {
+            "frame": {
+                "x": 756,
+                "y": 648,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DL-27.png": {
+            "frame": {
+                "x": 0,
+                "y": 756,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DL-28.png": {
+            "frame": {
+                "x": 108,
+                "y": 756,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DL-29.png": {
+            "frame": {
+                "x": 216,
+                "y": 756,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DL-30.png": {
+            "frame": {
+                "x": 324,
+                "y": 756,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DR-01.png": {
+            "frame": {
+                "x": 432,
+                "y": 756,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DR-02.png": {
+            "frame": {
+                "x": 540,
+                "y": 756,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DR-03.png": {
+            "frame": {
+                "x": 648,
+                "y": 756,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DR-04.png": {
+            "frame": {
+                "x": 756,
+                "y": 756,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DR-05.png": {
+            "frame": {
+                "x": 864,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DR-06.png": {
+            "frame": {
+                "x": 864,
+                "y": 108,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DR-07.png": {
+            "frame": {
+                "x": 864,
+                "y": 216,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DR-08.png": {
+            "frame": {
+                "x": 864,
+                "y": 324,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DR-09.png": {
+            "frame": {
+                "x": 864,
+                "y": 432,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DR-10.png": {
+            "frame": {
+                "x": 864,
+                "y": 540,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DR-11.png": {
+            "frame": {
+                "x": 864,
+                "y": 648,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DR-12.png": {
+            "frame": {
+                "x": 864,
+                "y": 756,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DR-13.png": {
+            "frame": {
+                "x": 0,
+                "y": 864,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DR-14.png": {
+            "frame": {
+                "x": 108,
+                "y": 864,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DR-15.png": {
+            "frame": {
+                "x": 216,
+                "y": 864,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DR-16.png": {
+            "frame": {
+                "x": 324,
+                "y": 864,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DR-17.png": {
+            "frame": {
+                "x": 432,
+                "y": 864,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DR-18.png": {
+            "frame": {
+                "x": 540,
+                "y": 864,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DR-19.png": {
+            "frame": {
+                "x": 648,
+                "y": 864,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DR-20.png": {
+            "frame": {
+                "x": 756,
+                "y": 864,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DR-21.png": {
+            "frame": {
+                "x": 864,
+                "y": 864,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DR-22.png": {
+            "frame": {
+                "x": 972,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DR-23.png": {
+            "frame": {
+                "x": 972,
+                "y": 108,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DR-24.png": {
+            "frame": {
+                "x": 972,
+                "y": 216,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DR-25.png": {
+            "frame": {
+                "x": 972,
+                "y": 324,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DR-26.png": {
+            "frame": {
+                "x": 972,
+                "y": 432,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DR-27.png": {
+            "frame": {
+                "x": 972,
+                "y": 540,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DR-28.png": {
+            "frame": {
+                "x": 972,
+                "y": 648,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DR-29.png": {
+            "frame": {
+                "x": 972,
+                "y": 756,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-DR-30.png": {
+            "frame": {
+                "x": 972,
+                "y": 864,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-L-01.png": {
+            "frame": {
+                "x": 0,
+                "y": 972,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-L-02.png": {
+            "frame": {
+                "x": 108,
+                "y": 972,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-L-03.png": {
+            "frame": {
+                "x": 216,
+                "y": 972,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-L-04.png": {
+            "frame": {
+                "x": 324,
+                "y": 972,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-L-05.png": {
+            "frame": {
+                "x": 432,
+                "y": 972,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-L-06.png": {
+            "frame": {
+                "x": 540,
+                "y": 972,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-L-07.png": {
+            "frame": {
+                "x": 648,
+                "y": 972,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-L-08.png": {
+            "frame": {
+                "x": 756,
+                "y": 972,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-L-09.png": {
+            "frame": {
+                "x": 864,
+                "y": 972,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-L-10.png": {
+            "frame": {
+                "x": 972,
+                "y": 972,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-L-11.png": {
+            "frame": {
+                "x": 1080,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-L-12.png": {
+            "frame": {
+                "x": 1080,
+                "y": 108,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-L-13.png": {
+            "frame": {
+                "x": 1080,
+                "y": 216,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-L-14.png": {
+            "frame": {
+                "x": 1080,
+                "y": 324,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-L-15.png": {
+            "frame": {
+                "x": 1080,
+                "y": 432,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-L-16.png": {
+            "frame": {
+                "x": 1080,
+                "y": 540,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-L-17.png": {
+            "frame": {
+                "x": 1080,
+                "y": 648,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-L-18.png": {
+            "frame": {
+                "x": 1080,
+                "y": 756,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-L-19.png": {
+            "frame": {
+                "x": 1080,
+                "y": 864,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-L-20.png": {
+            "frame": {
+                "x": 1080,
+                "y": 972,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-L-21.png": {
+            "frame": {
+                "x": 0,
+                "y": 1080,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-L-22.png": {
+            "frame": {
+                "x": 108,
+                "y": 1080,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-L-23.png": {
+            "frame": {
+                "x": 216,
+                "y": 1080,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-L-24.png": {
+            "frame": {
+                "x": 324,
+                "y": 1080,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-L-25.png": {
+            "frame": {
+                "x": 432,
+                "y": 1080,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-L-26.png": {
+            "frame": {
+                "x": 540,
+                "y": 1080,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-L-27.png": {
+            "frame": {
+                "x": 648,
+                "y": 1080,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-L-28.png": {
+            "frame": {
+                "x": 756,
+                "y": 1080,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-L-29.png": {
+            "frame": {
+                "x": 864,
+                "y": 1080,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-L-30.png": {
+            "frame": {
+                "x": 972,
+                "y": 1080,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-R-01.png": {
+            "frame": {
+                "x": 1080,
+                "y": 1080,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-R-02.png": {
+            "frame": {
+                "x": 1188,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-R-03.png": {
+            "frame": {
+                "x": 1188,
+                "y": 108,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-R-04.png": {
+            "frame": {
+                "x": 1188,
+                "y": 216,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-R-05.png": {
+            "frame": {
+                "x": 1188,
+                "y": 324,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-R-06.png": {
+            "frame": {
+                "x": 1188,
+                "y": 432,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-R-07.png": {
+            "frame": {
+                "x": 1188,
+                "y": 540,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-R-08.png": {
+            "frame": {
+                "x": 1188,
+                "y": 648,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-R-09.png": {
+            "frame": {
+                "x": 1188,
+                "y": 756,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-R-10.png": {
+            "frame": {
+                "x": 1188,
+                "y": 864,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-R-11.png": {
+            "frame": {
+                "x": 1188,
+                "y": 972,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-R-12.png": {
+            "frame": {
+                "x": 1188,
+                "y": 1080,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-R-13.png": {
+            "frame": {
+                "x": 0,
+                "y": 1188,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-R-14.png": {
+            "frame": {
+                "x": 108,
+                "y": 1188,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-R-15.png": {
+            "frame": {
+                "x": 216,
+                "y": 1188,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-R-16.png": {
+            "frame": {
+                "x": 324,
+                "y": 1188,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-R-17.png": {
+            "frame": {
+                "x": 432,
+                "y": 1188,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-R-18.png": {
+            "frame": {
+                "x": 540,
+                "y": 1188,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-R-19.png": {
+            "frame": {
+                "x": 648,
+                "y": 1188,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-R-20.png": {
+            "frame": {
+                "x": 756,
+                "y": 1188,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-R-21.png": {
+            "frame": {
+                "x": 864,
+                "y": 1188,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-R-22.png": {
+            "frame": {
+                "x": 972,
+                "y": 1188,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-R-23.png": {
+            "frame": {
+                "x": 1080,
+                "y": 1188,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-R-24.png": {
+            "frame": {
+                "x": 1188,
+                "y": 1188,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-R-25.png": {
+            "frame": {
+                "x": 1296,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-R-26.png": {
+            "frame": {
+                "x": 1296,
+                "y": 108,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-R-27.png": {
+            "frame": {
+                "x": 1296,
+                "y": 216,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-R-28.png": {
+            "frame": {
+                "x": 1296,
+                "y": 324,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-R-29.png": {
+            "frame": {
+                "x": 1296,
+                "y": 432,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-R-30.png": {
+            "frame": {
+                "x": 1296,
+                "y": 540,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-U-01.png": {
+            "frame": {
+                "x": 1296,
+                "y": 648,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-U-02.png": {
+            "frame": {
+                "x": 1296,
+                "y": 756,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-U-03.png": {
+            "frame": {
+                "x": 1296,
+                "y": 864,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-U-04.png": {
+            "frame": {
+                "x": 1296,
+                "y": 972,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-U-05.png": {
+            "frame": {
+                "x": 1296,
+                "y": 1080,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-U-06.png": {
+            "frame": {
+                "x": 1296,
+                "y": 1188,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-U-07.png": {
+            "frame": {
+                "x": 0,
+                "y": 1296,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-U-08.png": {
+            "frame": {
+                "x": 108,
+                "y": 1296,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-U-09.png": {
+            "frame": {
+                "x": 216,
+                "y": 1296,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-U-10.png": {
+            "frame": {
+                "x": 324,
+                "y": 1296,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-U-11.png": {
+            "frame": {
+                "x": 432,
+                "y": 1296,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-U-12.png": {
+            "frame": {
+                "x": 540,
+                "y": 1296,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-U-13.png": {
+            "frame": {
+                "x": 648,
+                "y": 1296,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-U-14.png": {
+            "frame": {
+                "x": 756,
+                "y": 1296,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-U-15.png": {
+            "frame": {
+                "x": 864,
+                "y": 1296,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-U-16.png": {
+            "frame": {
+                "x": 972,
+                "y": 1296,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-U-17.png": {
+            "frame": {
+                "x": 1080,
+                "y": 1296,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-U-18.png": {
+            "frame": {
+                "x": 1188,
+                "y": 1296,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-U-19.png": {
+            "frame": {
+                "x": 1296,
+                "y": 1296,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-U-20.png": {
+            "frame": {
+                "x": 1404,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-U-21.png": {
+            "frame": {
+                "x": 1404,
+                "y": 108,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-U-22.png": {
+            "frame": {
+                "x": 1404,
+                "y": 216,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-U-23.png": {
+            "frame": {
+                "x": 1404,
+                "y": 324,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-U-24.png": {
+            "frame": {
+                "x": 1404,
+                "y": 432,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-U-25.png": {
+            "frame": {
+                "x": 1404,
+                "y": 540,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-U-26.png": {
+            "frame": {
+                "x": 1404,
+                "y": 648,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-U-27.png": {
+            "frame": {
+                "x": 1404,
+                "y": 756,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-U-28.png": {
+            "frame": {
+                "x": 1404,
+                "y": 864,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-U-29.png": {
+            "frame": {
+                "x": 1404,
+                "y": 972,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-U-30.png": {
+            "frame": {
+                "x": 1404,
+                "y": 1080,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UL-01.png": {
+            "frame": {
+                "x": 1404,
+                "y": 1188,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UL-02.png": {
+            "frame": {
+                "x": 1404,
+                "y": 1296,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UL-03.png": {
+            "frame": {
+                "x": 0,
+                "y": 1404,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UL-04.png": {
+            "frame": {
+                "x": 108,
+                "y": 1404,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UL-05.png": {
+            "frame": {
+                "x": 216,
+                "y": 1404,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UL-06.png": {
+            "frame": {
+                "x": 324,
+                "y": 1404,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UL-07.png": {
+            "frame": {
+                "x": 432,
+                "y": 1404,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UL-08.png": {
+            "frame": {
+                "x": 540,
+                "y": 1404,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UL-09.png": {
+            "frame": {
+                "x": 648,
+                "y": 1404,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UL-10.png": {
+            "frame": {
+                "x": 756,
+                "y": 1404,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UL-11.png": {
+            "frame": {
+                "x": 864,
+                "y": 1404,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UL-12.png": {
+            "frame": {
+                "x": 972,
+                "y": 1404,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UL-13.png": {
+            "frame": {
+                "x": 1080,
+                "y": 1404,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UL-14.png": {
+            "frame": {
+                "x": 1188,
+                "y": 1404,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UL-15.png": {
+            "frame": {
+                "x": 1296,
+                "y": 1404,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UL-16.png": {
+            "frame": {
+                "x": 1404,
+                "y": 1404,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UL-17.png": {
+            "frame": {
+                "x": 1512,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UL-18.png": {
+            "frame": {
+                "x": 1512,
+                "y": 108,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UL-19.png": {
+            "frame": {
+                "x": 1512,
+                "y": 216,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UL-20.png": {
+            "frame": {
+                "x": 1512,
+                "y": 324,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UL-21.png": {
+            "frame": {
+                "x": 1512,
+                "y": 432,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UL-22.png": {
+            "frame": {
+                "x": 1512,
+                "y": 540,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UL-23.png": {
+            "frame": {
+                "x": 1512,
+                "y": 648,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UL-24.png": {
+            "frame": {
+                "x": 1512,
+                "y": 756,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UL-25.png": {
+            "frame": {
+                "x": 1512,
+                "y": 864,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UL-26.png": {
+            "frame": {
+                "x": 1512,
+                "y": 972,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UL-27.png": {
+            "frame": {
+                "x": 1512,
+                "y": 1080,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UL-28.png": {
+            "frame": {
+                "x": 1512,
+                "y": 1188,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UL-29.png": {
+            "frame": {
+                "x": 1512,
+                "y": 1296,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UL-30.png": {
+            "frame": {
+                "x": 1512,
+                "y": 1404,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UR-01.png": {
+            "frame": {
+                "x": 0,
+                "y": 1512,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UR-02.png": {
+            "frame": {
+                "x": 108,
+                "y": 1512,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UR-03.png": {
+            "frame": {
+                "x": 216,
+                "y": 1512,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UR-04.png": {
+            "frame": {
+                "x": 324,
+                "y": 1512,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UR-05.png": {
+            "frame": {
+                "x": 432,
+                "y": 1512,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UR-06.png": {
+            "frame": {
+                "x": 540,
+                "y": 1512,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UR-07.png": {
+            "frame": {
+                "x": 648,
+                "y": 1512,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UR-08.png": {
+            "frame": {
+                "x": 756,
+                "y": 1512,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UR-09.png": {
+            "frame": {
+                "x": 864,
+                "y": 1512,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UR-10.png": {
+            "frame": {
+                "x": 972,
+                "y": 1512,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UR-11.png": {
+            "frame": {
+                "x": 1080,
+                "y": 1512,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UR-12.png": {
+            "frame": {
+                "x": 1188,
+                "y": 1512,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UR-13.png": {
+            "frame": {
+                "x": 1296,
+                "y": 1512,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UR-14.png": {
+            "frame": {
+                "x": 1404,
+                "y": 1512,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UR-15.png": {
+            "frame": {
+                "x": 1512,
+                "y": 1512,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UR-16.png": {
+            "frame": {
+                "x": 1620,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UR-17.png": {
+            "frame": {
+                "x": 1620,
+                "y": 108,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UR-18.png": {
+            "frame": {
+                "x": 1620,
+                "y": 216,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UR-19.png": {
+            "frame": {
+                "x": 1620,
+                "y": 324,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UR-20.png": {
+            "frame": {
+                "x": 1620,
+                "y": 432,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UR-21.png": {
+            "frame": {
+                "x": 1620,
+                "y": 540,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UR-22.png": {
+            "frame": {
+                "x": 1620,
+                "y": 648,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UR-23.png": {
+            "frame": {
+                "x": 1620,
+                "y": 756,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UR-24.png": {
+            "frame": {
+                "x": 1620,
+                "y": 864,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UR-25.png": {
+            "frame": {
+                "x": 1620,
+                "y": 972,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UR-26.png": {
+            "frame": {
+                "x": 1620,
+                "y": 1080,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UR-27.png": {
+            "frame": {
+                "x": 1620,
+                "y": 1188,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UR-28.png": {
+            "frame": {
+                "x": 1620,
+                "y": 1296,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UR-29.png": {
+            "frame": {
+                "x": 1620,
+                "y": 1404,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        },
+        "death-sword1h1-UR-30.png": {
+            "frame": {
+                "x": 1620,
+                "y": 1512,
+                "w": 108,
+                "h": 108
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 108,
+                "h": 108
+            },
+            "sourceSize": {
+                "w": 108,
+                "h": 108
+            }
+        }
+    },
+    "animations": {
+        "death-sword1h1-U": [
+            "death-sword1h1-U-01.png",
+            "death-sword1h1-U-02.png",
+            "death-sword1h1-U-03.png",
+            "death-sword1h1-U-04.png",
+            "death-sword1h1-U-05.png",
+            "death-sword1h1-U-06.png",
+            "death-sword1h1-U-07.png",
+            "death-sword1h1-U-08.png",
+            "death-sword1h1-U-09.png",
+            "death-sword1h1-U-10.png",
+            "death-sword1h1-U-11.png",
+            "death-sword1h1-U-12.png",
+            "death-sword1h1-U-13.png",
+            "death-sword1h1-U-14.png",
+            "death-sword1h1-U-15.png",
+            "death-sword1h1-U-16.png",
+            "death-sword1h1-U-17.png",
+            "death-sword1h1-U-18.png",
+            "death-sword1h1-U-19.png",
+            "death-sword1h1-U-20.png",
+            "death-sword1h1-U-21.png",
+            "death-sword1h1-U-22.png",
+            "death-sword1h1-U-23.png",
+            "death-sword1h1-U-24.png",
+            "death-sword1h1-U-25.png",
+            "death-sword1h1-U-26.png",
+            "death-sword1h1-U-27.png",
+            "death-sword1h1-U-28.png",
+            "death-sword1h1-U-29.png",
+            "death-sword1h1-U-30.png"
+        ],
+        "death-sword1h1-UR": [
+            "death-sword1h1-UR-01.png",
+            "death-sword1h1-UR-02.png",
+            "death-sword1h1-UR-03.png",
+            "death-sword1h1-UR-04.png",
+            "death-sword1h1-UR-05.png",
+            "death-sword1h1-UR-06.png",
+            "death-sword1h1-UR-07.png",
+            "death-sword1h1-UR-08.png",
+            "death-sword1h1-UR-09.png",
+            "death-sword1h1-UR-10.png",
+            "death-sword1h1-UR-11.png",
+            "death-sword1h1-UR-12.png",
+            "death-sword1h1-UR-13.png",
+            "death-sword1h1-UR-14.png",
+            "death-sword1h1-UR-15.png",
+            "death-sword1h1-UR-16.png",
+            "death-sword1h1-UR-17.png",
+            "death-sword1h1-UR-18.png",
+            "death-sword1h1-UR-19.png",
+            "death-sword1h1-UR-20.png",
+            "death-sword1h1-UR-21.png",
+            "death-sword1h1-UR-22.png",
+            "death-sword1h1-UR-23.png",
+            "death-sword1h1-UR-24.png",
+            "death-sword1h1-UR-25.png",
+            "death-sword1h1-UR-26.png",
+            "death-sword1h1-UR-27.png",
+            "death-sword1h1-UR-28.png",
+            "death-sword1h1-UR-29.png",
+            "death-sword1h1-UR-30.png"
+        ],
+        "death-sword1h1-R": [
+            "death-sword1h1-R-01.png",
+            "death-sword1h1-R-02.png",
+            "death-sword1h1-R-03.png",
+            "death-sword1h1-R-04.png",
+            "death-sword1h1-R-05.png",
+            "death-sword1h1-R-06.png",
+            "death-sword1h1-R-07.png",
+            "death-sword1h1-R-08.png",
+            "death-sword1h1-R-09.png",
+            "death-sword1h1-R-10.png",
+            "death-sword1h1-R-11.png",
+            "death-sword1h1-R-12.png",
+            "death-sword1h1-R-13.png",
+            "death-sword1h1-R-14.png",
+            "death-sword1h1-R-15.png",
+            "death-sword1h1-R-16.png",
+            "death-sword1h1-R-17.png",
+            "death-sword1h1-R-18.png",
+            "death-sword1h1-R-19.png",
+            "death-sword1h1-R-20.png",
+            "death-sword1h1-R-21.png",
+            "death-sword1h1-R-22.png",
+            "death-sword1h1-R-23.png",
+            "death-sword1h1-R-24.png",
+            "death-sword1h1-R-25.png",
+            "death-sword1h1-R-26.png",
+            "death-sword1h1-R-27.png",
+            "death-sword1h1-R-28.png",
+            "death-sword1h1-R-29.png",
+            "death-sword1h1-R-30.png"
+        ],
+        "death-sword1h1-DR": [
+            "death-sword1h1-DR-01.png",
+            "death-sword1h1-DR-02.png",
+            "death-sword1h1-DR-03.png",
+            "death-sword1h1-DR-04.png",
+            "death-sword1h1-DR-05.png",
+            "death-sword1h1-DR-06.png",
+            "death-sword1h1-DR-07.png",
+            "death-sword1h1-DR-08.png",
+            "death-sword1h1-DR-09.png",
+            "death-sword1h1-DR-10.png",
+            "death-sword1h1-DR-11.png",
+            "death-sword1h1-DR-12.png",
+            "death-sword1h1-DR-13.png",
+            "death-sword1h1-DR-14.png",
+            "death-sword1h1-DR-15.png",
+            "death-sword1h1-DR-16.png",
+            "death-sword1h1-DR-17.png",
+            "death-sword1h1-DR-18.png",
+            "death-sword1h1-DR-19.png",
+            "death-sword1h1-DR-20.png",
+            "death-sword1h1-DR-21.png",
+            "death-sword1h1-DR-22.png",
+            "death-sword1h1-DR-23.png",
+            "death-sword1h1-DR-24.png",
+            "death-sword1h1-DR-25.png",
+            "death-sword1h1-DR-26.png",
+            "death-sword1h1-DR-27.png",
+            "death-sword1h1-DR-28.png",
+            "death-sword1h1-DR-29.png",
+            "death-sword1h1-DR-30.png"
+        ],
+        "death-sword1h1-D": [
+            "death-sword1h1-D-01.png",
+            "death-sword1h1-D-02.png",
+            "death-sword1h1-D-03.png",
+            "death-sword1h1-D-04.png",
+            "death-sword1h1-D-05.png",
+            "death-sword1h1-D-06.png",
+            "death-sword1h1-D-07.png",
+            "death-sword1h1-D-08.png",
+            "death-sword1h1-D-09.png",
+            "death-sword1h1-D-10.png",
+            "death-sword1h1-D-11.png",
+            "death-sword1h1-D-12.png",
+            "death-sword1h1-D-13.png",
+            "death-sword1h1-D-14.png",
+            "death-sword1h1-D-15.png",
+            "death-sword1h1-D-16.png",
+            "death-sword1h1-D-17.png",
+            "death-sword1h1-D-18.png",
+            "death-sword1h1-D-19.png",
+            "death-sword1h1-D-20.png",
+            "death-sword1h1-D-21.png",
+            "death-sword1h1-D-22.png",
+            "death-sword1h1-D-23.png",
+            "death-sword1h1-D-24.png",
+            "death-sword1h1-D-25.png",
+            "death-sword1h1-D-26.png",
+            "death-sword1h1-D-27.png",
+            "death-sword1h1-D-28.png",
+            "death-sword1h1-D-29.png",
+            "death-sword1h1-D-30.png"
+        ],
+        "death-sword1h1-DL": [
+            "death-sword1h1-DL-01.png",
+            "death-sword1h1-DL-02.png",
+            "death-sword1h1-DL-03.png",
+            "death-sword1h1-DL-04.png",
+            "death-sword1h1-DL-05.png",
+            "death-sword1h1-DL-06.png",
+            "death-sword1h1-DL-07.png",
+            "death-sword1h1-DL-08.png",
+            "death-sword1h1-DL-09.png",
+            "death-sword1h1-DL-10.png",
+            "death-sword1h1-DL-11.png",
+            "death-sword1h1-DL-12.png",
+            "death-sword1h1-DL-13.png",
+            "death-sword1h1-DL-14.png",
+            "death-sword1h1-DL-15.png",
+            "death-sword1h1-DL-16.png",
+            "death-sword1h1-DL-17.png",
+            "death-sword1h1-DL-18.png",
+            "death-sword1h1-DL-19.png",
+            "death-sword1h1-DL-20.png",
+            "death-sword1h1-DL-21.png",
+            "death-sword1h1-DL-22.png",
+            "death-sword1h1-DL-23.png",
+            "death-sword1h1-DL-24.png",
+            "death-sword1h1-DL-25.png",
+            "death-sword1h1-DL-26.png",
+            "death-sword1h1-DL-27.png",
+            "death-sword1h1-DL-28.png",
+            "death-sword1h1-DL-29.png",
+            "death-sword1h1-DL-30.png"
+        ],
+        "death-sword1h1-L": [
+            "death-sword1h1-L-01.png",
+            "death-sword1h1-L-02.png",
+            "death-sword1h1-L-03.png",
+            "death-sword1h1-L-04.png",
+            "death-sword1h1-L-05.png",
+            "death-sword1h1-L-06.png",
+            "death-sword1h1-L-07.png",
+            "death-sword1h1-L-08.png",
+            "death-sword1h1-L-09.png",
+            "death-sword1h1-L-10.png",
+            "death-sword1h1-L-11.png",
+            "death-sword1h1-L-12.png",
+            "death-sword1h1-L-13.png",
+            "death-sword1h1-L-14.png",
+            "death-sword1h1-L-15.png",
+            "death-sword1h1-L-16.png",
+            "death-sword1h1-L-17.png",
+            "death-sword1h1-L-18.png",
+            "death-sword1h1-L-19.png",
+            "death-sword1h1-L-20.png",
+            "death-sword1h1-L-21.png",
+            "death-sword1h1-L-22.png",
+            "death-sword1h1-L-23.png",
+            "death-sword1h1-L-24.png",
+            "death-sword1h1-L-25.png",
+            "death-sword1h1-L-26.png",
+            "death-sword1h1-L-27.png",
+            "death-sword1h1-L-28.png",
+            "death-sword1h1-L-29.png",
+            "death-sword1h1-L-30.png"
+        ],
+        "death-sword1h1-UL": [
+            "death-sword1h1-UL-01.png",
+            "death-sword1h1-UL-02.png",
+            "death-sword1h1-UL-03.png",
+            "death-sword1h1-UL-04.png",
+            "death-sword1h1-UL-05.png",
+            "death-sword1h1-UL-06.png",
+            "death-sword1h1-UL-07.png",
+            "death-sword1h1-UL-08.png",
+            "death-sword1h1-UL-09.png",
+            "death-sword1h1-UL-10.png",
+            "death-sword1h1-UL-11.png",
+            "death-sword1h1-UL-12.png",
+            "death-sword1h1-UL-13.png",
+            "death-sword1h1-UL-14.png",
+            "death-sword1h1-UL-15.png",
+            "death-sword1h1-UL-16.png",
+            "death-sword1h1-UL-17.png",
+            "death-sword1h1-UL-18.png",
+            "death-sword1h1-UL-19.png",
+            "death-sword1h1-UL-20.png",
+            "death-sword1h1-UL-21.png",
+            "death-sword1h1-UL-22.png",
+            "death-sword1h1-UL-23.png",
+            "death-sword1h1-UL-24.png",
+            "death-sword1h1-UL-25.png",
+            "death-sword1h1-UL-26.png",
+            "death-sword1h1-UL-27.png",
+            "death-sword1h1-UL-28.png",
+            "death-sword1h1-UL-29.png",
+            "death-sword1h1-UL-30.png"
+        ]
+    }
+}
