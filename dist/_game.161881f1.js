@@ -45297,14 +45297,622 @@ function attack_control() {
     }
   }
 }
-},{"../../player/player.js":"dev/js/player/player.js","../textureSwitch/textureAnimSpeed.js":"dev/js/dynamics/textureSwitch/textureAnimSpeed.js","../textureSwitch/textureAttack.js":"dev/js/dynamics/textureSwitch/textureAttack.js","../../controllers/keyboard.js":"dev/js/controllers/keyboard.js","../../items/itemData.js":"dev/js/items/itemData.js","../../player/playerData.js":"dev/js/player/playerData.js"}],"dev/js/map/bg.js":[function(require,module,exports) {
+},{"../../player/player.js":"dev/js/player/player.js","../textureSwitch/textureAnimSpeed.js":"dev/js/dynamics/textureSwitch/textureAnimSpeed.js","../textureSwitch/textureAttack.js":"dev/js/dynamics/textureSwitch/textureAttack.js","../../controllers/keyboard.js":"dev/js/controllers/keyboard.js","../../items/itemData.js":"dev/js/items/itemData.js","../../player/playerData.js":"dev/js/player/playerData.js"}],"node_modules/noisejs/index.js":[function(require,module,exports) {
+var global = arguments[3];
+/*
+ * A speed-improved perlin and simplex noise algorithms for 2D.
+ *
+ * Based on example code by Stefan Gustavson (stegu@itn.liu.se).
+ * Optimisations by Peter Eastman (peastman@drizzle.stanford.edu).
+ * Better rank ordering method by Stefan Gustavson in 2012.
+ * Converted to Javascript by Joseph Gentle.
+ *
+ * Version 2012-03-09
+ *
+ * This code was placed in the public domain by its original author,
+ * Stefan Gustavson. You may use it as you see fit, but
+ * attribution is appreciated.
+ *
+ */
+
+(function(global){
+
+  // Passing in seed will seed this Noise instance
+  function Noise(seed) {
+    function Grad(x, y, z) {
+      this.x = x; this.y = y; this.z = z;
+    }
+
+    Grad.prototype.dot2 = function(x, y) {
+      return this.x*x + this.y*y;
+    };
+
+    Grad.prototype.dot3 = function(x, y, z) {
+      return this.x*x + this.y*y + this.z*z;
+    };
+
+    this.grad3 = [new Grad(1,1,0),new Grad(-1,1,0),new Grad(1,-1,0),new Grad(-1,-1,0),
+                 new Grad(1,0,1),new Grad(-1,0,1),new Grad(1,0,-1),new Grad(-1,0,-1),
+                 new Grad(0,1,1),new Grad(0,-1,1),new Grad(0,1,-1),new Grad(0,-1,-1)];
+
+    this.p = [151,160,137,91,90,15,
+    131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,8,99,37,240,21,10,23,
+    190, 6,148,247,120,234,75,0,26,197,62,94,252,219,203,117,35,11,32,57,177,33,
+    88,237,149,56,87,174,20,125,136,171,168, 68,175,74,165,71,134,139,48,27,166,
+    77,146,158,231,83,111,229,122,60,211,133,230,220,105,92,41,55,46,245,40,244,
+    102,143,54, 65,25,63,161, 1,216,80,73,209,76,132,187,208, 89,18,169,200,196,
+    135,130,116,188,159,86,164,100,109,198,173,186, 3,64,52,217,226,250,124,123,
+    5,202,38,147,118,126,255,82,85,212,207,206,59,227,47,16,58,17,182,189,28,42,
+    223,183,170,213,119,248,152, 2,44,154,163, 70,221,153,101,155,167, 43,172,9,
+    129,22,39,253, 19,98,108,110,79,113,224,232,178,185, 112,104,218,246,97,228,
+    251,34,242,193,238,210,144,12,191,179,162,241, 81,51,145,235,249,14,239,107,
+    49,192,214, 31,181,199,106,157,184, 84,204,176,115,121,50,45,127, 4,150,254,
+    138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180];
+    // To remove the need for index wrapping, double the permutation table length
+    this.perm = new Array(512);
+    this.gradP = new Array(512);
+
+    this.seed(seed || 0);
+  }
+
+  // This isn't a very good seeding function, but it works ok. It supports 2^16
+  // different seed values. Write something better if you need more seeds.
+  Noise.prototype.seed = function(seed) {
+    if(seed > 0 && seed < 1) {
+      // Scale the seed out
+      seed *= 65536;
+    }
+
+    seed = Math.floor(seed);
+    if(seed < 256) {
+      seed |= seed << 8;
+    }
+
+    var p = this.p;
+    for(var i = 0; i < 256; i++) {
+      var v;
+      if (i & 1) {
+        v = p[i] ^ (seed & 255);
+      } else {
+        v = p[i] ^ ((seed>>8) & 255);
+      }
+
+      var perm = this.perm;
+      var gradP = this.gradP;
+      perm[i] = perm[i + 256] = v;
+      gradP[i] = gradP[i + 256] = this.grad3[v % 12];
+    }
+  };
+
+  /*
+  for(var i=0; i<256; i++) {
+    perm[i] = perm[i + 256] = p[i];
+    gradP[i] = gradP[i + 256] = grad3[perm[i] % 12];
+  }*/
+
+  // Skewing and unskewing factors for 2, 3, and 4 dimensions
+  var F2 = 0.5*(Math.sqrt(3)-1);
+  var G2 = (3-Math.sqrt(3))/6;
+
+  var F3 = 1/3;
+  var G3 = 1/6;
+
+  // 2D simplex noise
+  Noise.prototype.simplex2 = function(xin, yin) {
+    var n0, n1, n2; // Noise contributions from the three corners
+    // Skew the input space to determine which simplex cell we're in
+    var s = (xin+yin)*F2; // Hairy factor for 2D
+    var i = Math.floor(xin+s);
+    var j = Math.floor(yin+s);
+    var t = (i+j)*G2;
+    var x0 = xin-i+t; // The x,y distances from the cell origin, unskewed.
+    var y0 = yin-j+t;
+    // For the 2D case, the simplex shape is an equilateral triangle.
+    // Determine which simplex we are in.
+    var i1, j1; // Offsets for second (middle) corner of simplex in (i,j) coords
+    if(x0>y0) { // lower triangle, XY order: (0,0)->(1,0)->(1,1)
+      i1=1; j1=0;
+    } else {    // upper triangle, YX order: (0,0)->(0,1)->(1,1)
+      i1=0; j1=1;
+    }
+    // A step of (1,0) in (i,j) means a step of (1-c,-c) in (x,y), and
+    // a step of (0,1) in (i,j) means a step of (-c,1-c) in (x,y), where
+    // c = (3-sqrt(3))/6
+    var x1 = x0 - i1 + G2; // Offsets for middle corner in (x,y) unskewed coords
+    var y1 = y0 - j1 + G2;
+    var x2 = x0 - 1 + 2 * G2; // Offsets for last corner in (x,y) unskewed coords
+    var y2 = y0 - 1 + 2 * G2;
+    // Work out the hashed gradient indices of the three simplex corners
+    i &= 255;
+    j &= 255;
+
+    var perm = this.perm;
+    var gradP = this.gradP;
+    var gi0 = gradP[i+perm[j]];
+    var gi1 = gradP[i+i1+perm[j+j1]];
+    var gi2 = gradP[i+1+perm[j+1]];
+    // Calculate the contribution from the three corners
+    var t0 = 0.5 - x0*x0-y0*y0;
+    if(t0<0) {
+      n0 = 0;
+    } else {
+      t0 *= t0;
+      n0 = t0 * t0 * gi0.dot2(x0, y0);  // (x,y) of grad3 used for 2D gradient
+    }
+    var t1 = 0.5 - x1*x1-y1*y1;
+    if(t1<0) {
+      n1 = 0;
+    } else {
+      t1 *= t1;
+      n1 = t1 * t1 * gi1.dot2(x1, y1);
+    }
+    var t2 = 0.5 - x2*x2-y2*y2;
+    if(t2<0) {
+      n2 = 0;
+    } else {
+      t2 *= t2;
+      n2 = t2 * t2 * gi2.dot2(x2, y2);
+    }
+    // Add contributions from each corner to get the final noise value.
+    // The result is scaled to return values in the interval [-1,1].
+    return 70 * (n0 + n1 + n2);
+  };
+
+  // 3D simplex noise
+  Noise.prototype.simplex3 = function(xin, yin, zin) {
+    var n0, n1, n2, n3; // Noise contributions from the four corners
+
+    // Skew the input space to determine which simplex cell we're in
+    var s = (xin+yin+zin)*F3; // Hairy factor for 2D
+    var i = Math.floor(xin+s);
+    var j = Math.floor(yin+s);
+    var k = Math.floor(zin+s);
+
+    var t = (i+j+k)*G3;
+    var x0 = xin-i+t; // The x,y distances from the cell origin, unskewed.
+    var y0 = yin-j+t;
+    var z0 = zin-k+t;
+
+    // For the 3D case, the simplex shape is a slightly irregular tetrahedron.
+    // Determine which simplex we are in.
+    var i1, j1, k1; // Offsets for second corner of simplex in (i,j,k) coords
+    var i2, j2, k2; // Offsets for third corner of simplex in (i,j,k) coords
+    if(x0 >= y0) {
+      if(y0 >= z0)      { i1=1; j1=0; k1=0; i2=1; j2=1; k2=0; }
+      else if(x0 >= z0) { i1=1; j1=0; k1=0; i2=1; j2=0; k2=1; }
+      else              { i1=0; j1=0; k1=1; i2=1; j2=0; k2=1; }
+    } else {
+      if(y0 < z0)      { i1=0; j1=0; k1=1; i2=0; j2=1; k2=1; }
+      else if(x0 < z0) { i1=0; j1=1; k1=0; i2=0; j2=1; k2=1; }
+      else             { i1=0; j1=1; k1=0; i2=1; j2=1; k2=0; }
+    }
+    // A step of (1,0,0) in (i,j,k) means a step of (1-c,-c,-c) in (x,y,z),
+    // a step of (0,1,0) in (i,j,k) means a step of (-c,1-c,-c) in (x,y,z), and
+    // a step of (0,0,1) in (i,j,k) means a step of (-c,-c,1-c) in (x,y,z), where
+    // c = 1/6.
+    var x1 = x0 - i1 + G3; // Offsets for second corner
+    var y1 = y0 - j1 + G3;
+    var z1 = z0 - k1 + G3;
+
+    var x2 = x0 - i2 + 2 * G3; // Offsets for third corner
+    var y2 = y0 - j2 + 2 * G3;
+    var z2 = z0 - k2 + 2 * G3;
+
+    var x3 = x0 - 1 + 3 * G3; // Offsets for fourth corner
+    var y3 = y0 - 1 + 3 * G3;
+    var z3 = z0 - 1 + 3 * G3;
+
+    // Work out the hashed gradient indices of the four simplex corners
+    i &= 255;
+    j &= 255;
+    k &= 255;
+
+    var perm = this.perm;
+    var gradP = this.gradP;
+    var gi0 = gradP[i+   perm[j+   perm[k   ]]];
+    var gi1 = gradP[i+i1+perm[j+j1+perm[k+k1]]];
+    var gi2 = gradP[i+i2+perm[j+j2+perm[k+k2]]];
+    var gi3 = gradP[i+ 1+perm[j+ 1+perm[k+ 1]]];
+
+    // Calculate the contribution from the four corners
+    var t0 = 0.5 - x0*x0-y0*y0-z0*z0;
+    if(t0<0) {
+      n0 = 0;
+    } else {
+      t0 *= t0;
+      n0 = t0 * t0 * gi0.dot3(x0, y0, z0);  // (x,y) of grad3 used for 2D gradient
+    }
+    var t1 = 0.5 - x1*x1-y1*y1-z1*z1;
+    if(t1<0) {
+      n1 = 0;
+    } else {
+      t1 *= t1;
+      n1 = t1 * t1 * gi1.dot3(x1, y1, z1);
+    }
+    var t2 = 0.5 - x2*x2-y2*y2-z2*z2;
+    if(t2<0) {
+      n2 = 0;
+    } else {
+      t2 *= t2;
+      n2 = t2 * t2 * gi2.dot3(x2, y2, z2);
+    }
+    var t3 = 0.5 - x3*x3-y3*y3-z3*z3;
+    if(t3<0) {
+      n3 = 0;
+    } else {
+      t3 *= t3;
+      n3 = t3 * t3 * gi3.dot3(x3, y3, z3);
+    }
+    // Add contributions from each corner to get the final noise value.
+    // The result is scaled to return values in the interval [-1,1].
+    return 32 * (n0 + n1 + n2 + n3);
+
+  };
+
+  // ##### Perlin noise stuff
+
+  function fade(t) {
+    return t*t*t*(t*(t*6-15)+10);
+  }
+
+  function lerp(a, b, t) {
+    return (1-t)*a + t*b;
+  }
+
+  // 2D Perlin Noise
+  Noise.prototype.perlin2 = function(x, y) {
+    // Find unit grid cell containing point
+    var X = Math.floor(x), Y = Math.floor(y);
+    // Get relative xy coordinates of point within that cell
+    x = x - X; y = y - Y;
+    // Wrap the integer cells at 255 (smaller integer period can be introduced here)
+    X = X & 255; Y = Y & 255;
+
+    // Calculate noise contributions from each of the four corners
+    var perm = this.perm;
+    var gradP = this.gradP;
+    var n00 = gradP[X+perm[Y]].dot2(x, y);
+    var n01 = gradP[X+perm[Y+1]].dot2(x, y-1);
+    var n10 = gradP[X+1+perm[Y]].dot2(x-1, y);
+    var n11 = gradP[X+1+perm[Y+1]].dot2(x-1, y-1);
+
+    // Compute the fade curve value for x
+    var u = fade(x);
+
+    // Interpolate the four results
+    return lerp(
+        lerp(n00, n10, u),
+        lerp(n01, n11, u),
+       fade(y));
+  };
+
+  // 3D Perlin Noise
+  Noise.prototype.perlin3 = function(x, y, z) {
+    // Find unit grid cell containing point
+    var X = Math.floor(x), Y = Math.floor(y), Z = Math.floor(z);
+    // Get relative xyz coordinates of point within that cell
+    x = x - X; y = y - Y; z = z - Z;
+    // Wrap the integer cells at 255 (smaller integer period can be introduced here)
+    X = X & 255; Y = Y & 255; Z = Z & 255;
+
+    // Calculate noise contributions from each of the eight corners
+    var perm = this.perm;
+    var gradP = this.gradP;
+    var n000 = gradP[X+  perm[Y+  perm[Z  ]]].dot3(x,   y,     z);
+    var n001 = gradP[X+  perm[Y+  perm[Z+1]]].dot3(x,   y,   z-1);
+    var n010 = gradP[X+  perm[Y+1+perm[Z  ]]].dot3(x,   y-1,   z);
+    var n011 = gradP[X+  perm[Y+1+perm[Z+1]]].dot3(x,   y-1, z-1);
+    var n100 = gradP[X+1+perm[Y+  perm[Z  ]]].dot3(x-1,   y,   z);
+    var n101 = gradP[X+1+perm[Y+  perm[Z+1]]].dot3(x-1,   y, z-1);
+    var n110 = gradP[X+1+perm[Y+1+perm[Z  ]]].dot3(x-1, y-1,   z);
+    var n111 = gradP[X+1+perm[Y+1+perm[Z+1]]].dot3(x-1, y-1, z-1);
+
+    // Compute the fade curve value for x, y, z
+    var u = fade(x);
+    var v = fade(y);
+    var w = fade(z);
+
+    // Interpolate
+    return lerp(
+        lerp(
+          lerp(n000, n100, u),
+          lerp(n001, n101, u), w),
+        lerp(
+          lerp(n010, n110, u),
+          lerp(n011, n111, u), w),
+       v);
+  };
+
+  global.Noise = Noise;
+
+})(typeof module === "undefined" ? this : module.exports);
+
+},{}],"dev/js/map/utilities/noiseMap_utilities.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.setBgY = exports.setBgX = exports.setBg = exports.getBg = void 0;
+exports.denormalize = denormalize;
+exports.getColorForChunk = getColorForChunk;
+exports.getColorForMacro = getColorForMacro;
+exports.getPlayerStartingPosition = getPlayerStartingPosition;
+exports.normalize = normalize;
+function normalize(val) {
+  return (val + 1) / 2;
+}
+function denormalize(val) {
+  return val * 2 - 1;
+}
+function getColorForMacro(value) {
+  if (value < 0.28) return 0x000d9e; // Deep Lake
+  if (value < 0.35) return 0x0088ff; // Lake
+  if (value < 0.38) return 0x84add1; // Shallow Lake
+  if (value < 0.39) return 0xafe0d3; // Shore Lake
+  if (value < 0.4) return 0xe6e4d3; // Beach
+  if (value < 0.413) return 0xd5e0a6; // Land Beach
+  if (value < 0.54) return 0x9ac130; // Land
+  if (value < 0.64) return 0x76a321; // Semi-Inland
+  if (value < 0.7) return 0x2f7700; // Inland
+  if (value < 0.76) return 0x4c663a; // Mountainous Inland
+  if (value < 0.82) return 0x919984; // Mountainous
+  if (value < 0.85) return 0xd0d1c5; // High Mountainous
+  return 0xf4f0e9; // Mountain Peaks
+}
+
+function getColorForChunk(value) {
+  if (value < 0.28) return 0x000d9e; // Deep Lake
+  if (value < 0.3) return 0x0025b1; // Deep Lake +1
+  if (value < 0.32) return 0x003bc3; // Deep Lake +2
+
+  if (value < 0.33) return 0x0053d6; // Lake -2
+  if (value < 0.34) return 0x006eeb; // Lake -1
+  if (value < 0.35) return 0x0088ff; // Lake
+  if (value < 0.36) return 0x1c90f5; // Lake +1
+  if (value < 0.365) return 0x3597ec; // Lake +2
+
+  if (value < 0.37) return 0x4c9de4; // Shallow Lake -2
+  if (value < 0.375) return 0x67a5db; // Shallow Lake -1
+  if (value < 0.38) return 0x84add1; // Shallow Lake
+  if (value < 0.382) return 0x8cb7d1; // Shallow Lake -2
+  if (value < 0.384) return 0x93bfd1; // Shallow Lake -1
+
+  if (value < 0.386) return 0x9ccad2; // Shore Lake -2
+  if (value < 0.388) return 0xa7d7d3; // Shore Lake -1
+  if (value < 0.39) return 0xafe0d3; // Shore Lake
+  if (value < 0.392) return 0xbbe1d3; // Shore Lake +1
+  if (value < 0.394) return 0xc6e2d3; // Shore Lake +2
+
+  if (value < 0.396) return 0xd0e2d3; // Beach -2
+  if (value < 0.398) return 0xdbe3d3; // Beach -1
+  if (value < 0.4) return 0xe6e4d3; // Beach
+  if (value < 0.404) return 0xe2e3ca; // Beach +1
+  if (value < 0.408) return 0xdfe2c1; // Beach +2
+
+  if (value < 0.41) return 0xdbe1b8; // Land Beach -2
+  if (value < 0.411) return 0xd8e1af; // Land Beach -1
+  if (value < 0.413) return 0xd5e0a6; // Land Beach
+  if (value < 0.416) return 0xcedc98; // Land Beach +1
+  if (value < 0.418) return 0xc7d88a; // Land Beach +2
+
+  if (value < 0.43) return 0xb9d170; // Land -2
+  if (value < 0.48) return 0xa8c84d; // Land -1
+  if (value < 0.54) return 0x9ac130; // Land 
+  if (value < 0.58) return 0x94bc2d; // Land +1
+  if (value < 0.6) return 0x8cb52a; // Land +2
+
+  if (value < 0.63) return 0x85af27; // Semi-Inland -2
+  if (value < 0.64) return 0x7ca823; // Semi-Inland -1
+  if (value < 0.65) return 0x76a321; // Semi-Inland
+  if (value < 0.66) return 0x729b23; // Semi-Inland +1
+  if (value < 0.67) return 0x688e20; // Semi-Inland +2
+
+  if (value < 0.68) return 0x588716; // Inland -2
+  if (value < 0.69) return 0x477a0b; // Inland -1
+  if (value < 0.7) return 0x2f7700; // Inland
+  if (value < 0.72) return 0x35730c; // Inland +1
+  if (value < 0.74) return 0x3b7017; // Inland +2
+
+  if (value < 0.68) return 0x406d21; // Mountainous Inland -2
+  if (value < 0.69) return 0x456a2c; // Mountainous Inland -1
+  if (value < 0.76) return 0x4c663a; // Mountainous Inland
+  if (value < 0.68) return 0x5b714b; // Mountainous Inland +1
+  if (value < 0.69) return 0x687b59; // Mountainous Inland +2
+
+  if (value < 0.72) return 0x748365; // Mountainous -2
+  if (value < 0.76) return 0x828e74; // Mountainous -1
+  if (value < 0.82) return 0x919984; // Mountainous
+  if (value < 0.825) return 0xa0a693; // Mountainous +1
+  if (value < 0.83) return 0xacb1a0; // Mountainous +2
+
+  if (value < 0.84) return 0xbabdae; // High Mountainous -2
+  if (value < 0.845) return 0xc5c7ba; // High Mountainous -1
+  if (value < 0.85) return 0xd0d1c5; // High Mountainous
+  if (value < 0.86) return 0xd7d7cc; // High Mountainous +1
+  if (value < 0.87) return 0xdfded4; // High Mountainous +2
+
+  if (value < 0.88) return 0xe6e4db; // Mountain Peaks -2
+  if (value < 0.89) return 0xeeebe3; // Mountain Peaks -1
+  return 0xf4f0e9; // Mountain Peaks
+}
+
+function getPlayerStartingPosition() {
+  return {
+    x: 80,
+    y: 75
+  }; // Based on Chunk Coordinate
+}
+},{}],"dev/js/map/macro/noiseMap_macro.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getCombinedNoiseValue = getCombinedNoiseValue;
+exports.mapSize = void 0;
+exports.noiseMap_macro = noiseMap_macro;
+exports.seed = void 0;
+var _game = require("../../_game.js");
+var _noisejs = require("noisejs");
+var _noiseMap_chunk = require("../chunk/noiseMap_chunk.js");
+var _noiseMap_utilities = require("../utilities/noiseMap_utilities.js");
+// Larger persistence gives smoother landscapes with fewer high frequency details.
+// Lacunarity controls the gap between successive octaves: higher = more gaps, lower = smoother connected features.
+// Layering these values creates simulate a mix of both.
+var macroMapScale = 0.4;
+var seed = 123456789;
+exports.seed = seed;
+var mapSize = 200;
+exports.mapSize = mapSize;
+var chunkSize = 4;
+var scale = 0.025;
+var startingPosition = (0, _noiseMap_utilities.getPlayerStartingPosition)();
+function getCombinedNoiseValue(_ref) {
+  var x = _ref.x,
+    y = _ref.y,
+    seed = _ref.seed,
+    _ref$octaves = _ref.octaves,
+    octaves = _ref$octaves === void 0 ? 12 : _ref$octaves,
+    _ref$persistence = _ref.persistence,
+    persistence = _ref$persistence === void 0 ? 0.4 : _ref$persistence,
+    _ref$lacunarity = _ref.lacunarity,
+    lacunarity = _ref$lacunarity === void 0 ? 2.1 : _ref$lacunarity,
+    _ref$frequency = _ref.frequency,
+    frequency = _ref$frequency === void 0 ? 0.5 : _ref$frequency,
+    _ref$amplitude = _ref.amplitude,
+    amplitude = _ref$amplitude === void 0 ? 1 : _ref$amplitude;
+  var total = 0;
+  var maxValue = 0; // Used for normalizing result to 0.0 - 1.0
+
+  // Initialize noise generator with the seed.
+  var noiseGenerator = new _noisejs.Noise(seed);
+  for (var i = 0; i < octaves; i++) {
+    var xOffset = x + seed * 10;
+    var yOffset = y + seed * 10;
+    total += noiseGenerator.simplex2(xOffset * frequency * scale, yOffset * frequency * scale) * amplitude;
+    maxValue += amplitude;
+    amplitude *= persistence;
+    frequency *= lacunarity;
+  }
+  return total / maxValue;
+}
+function noiseMap_macro(_ref2) {
+  var _ref2$seed = _ref2.seed,
+    seed = _ref2$seed === void 0 ? seed : _ref2$seed;
+  var graphics = new _game.Graphics();
+  for (var i = 0; i < mapSize; i++) {
+    for (var j = 0; j < mapSize; j++) {
+      var value = (0, _noiseMap_utilities.normalize)(getCombinedNoiseValue({
+        x: i,
+        y: j,
+        seed: seed
+      })); // Normalize value to [0,1]
+      var color = (0, _noiseMap_utilities.getColorForMacro)(value);
+      graphics.beginFill(color);
+      graphics.drawRect(i * chunkSize, j * chunkSize, chunkSize, chunkSize);
+      graphics.endFill();
+      graphics.x = 0;
+      graphics.y = 0;
+    }
+  }
+  graphics.scale.set(macroMapScale);
+  _game.mapScene.addChild(graphics);
+  var initialChunk = (0, _noiseMap_chunk.generateChunkFromMacro)(startingPosition.x, startingPosition.y, seed);
+  var chunkGraphic = (0, _noiseMap_chunk.drawChunkGraphics)(initialChunk);
+
+  // Draw a red square for the chunk's position.
+  var tileScaled = _noiseMap_chunk.tileSize * macroMapScale;
+  var markerMultiplier = 6;
+  var markerSize = markerMultiplier * tileScaled;
+  var redMarker = new _game.Graphics();
+  var markerX = startingPosition.x * tileScaled - markerSize / 2 + tileScaled / 2;
+  var markerY = startingPosition.y * tileScaled - markerSize / 2 + tileScaled / 2;
+  redMarker.beginFill(0xFF0000); // red color
+  redMarker.drawRect(markerX, markerY, markerSize, markerSize);
+  _game.mapScene.addChild(redMarker);
+  return chunkGraphic;
+}
+},{"../../_game.js":"dev/js/_game.js","noisejs":"node_modules/noisejs/index.js","../chunk/noiseMap_chunk.js":"dev/js/map/chunk/noiseMap_chunk.js","../utilities/noiseMap_utilities.js":"dev/js/map/utilities/noiseMap_utilities.js"}],"dev/js/map/chunk/noiseMap_chunk.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.drawChunkGraphics = drawChunkGraphics;
+exports.generateChunkFromMacro = generateChunkFromMacro;
+exports.tileSize = exports.setBgY = exports.setBgX = exports.setBg = exports.getBg = void 0;
+var _game = require("../../_game");
+var _noisejs = require("noisejs");
+var _noiseMap_macro = require("../macro/noiseMap_macro");
+var _noiseMap_utilities = require("../utilities/noiseMap_utilities");
 var bg;
+var tileSize = 4;
+exports.tileSize = tileSize;
+var chunk_size = 1024;
+var chunk_scale = 1;
+var chunk_detail_scale = 1; // Smaller scale than MACRO for more details
+var seed = 12345;
+var startingPosition = (0, _noiseMap_utilities.getPlayerStartingPosition)();
+var chunkNoiseGenerator = new _noisejs.Noise(seed);
+
+// Combining function; Decide how to mix the macro and detail values
+function combineMacroAndDetail(macro, detail) {
+  return macro * 0.7 + detail * 0.3;
+}
+
+// Function to generate a chunk based on macro-level position
+function generateChunkFromMacro(macroX, macroY, seed) {
+  var macroValue = (0, _noiseMap_macro.getCombinedNoiseValue)({
+    x: startingPosition.x,
+    y: startingPosition.y,
+    seed: seed
+  });
+  var chunk = [];
+  for (var i = 0; i < chunk_size; i++) {
+    chunk[i] = [];
+    for (var j = 0; j < chunk_size; j++) {
+      // Interpolate macro position based on chunk position
+      var interpolatedMacroX = macroX + i / (chunk_size / 4);
+      var interpolatedMacroY = (macroY + j / (chunk_size / 4)) * 1.65;
+
+      // Generating detail noise based on the exact position in the chunk
+      var detailValue = 0;
+      var frequency = 1;
+      var amplitude = 1;
+      var maxAmplitude = 0;
+      var octaves = 4;
+      var persistence = 0.5;
+      for (var octave = 0; octave < octaves; octave++) {
+        detailValue += chunkNoiseGenerator.simplex2(interpolatedMacroX * chunk_detail_scale * frequency, interpolatedMacroY * chunk_detail_scale * frequency * 1.65) * amplitude;
+        maxAmplitude += amplitude;
+        frequency *= 2; // Double the frequency each octave to get finer details
+        amplitude *= persistence; // Reduce the amplitude based on persistence
+      }
+
+      detailValue /= maxAmplitude;
+      chunk[i][j] = combineMacroAndDetail(macroValue, detailValue);
+    }
+  }
+  return chunk;
+}
+function drawChunkGraphics(chunk) {
+  var container = new _game.Container();
+  var graphics = new _game.Graphics();
+  for (var i = 0; i < chunk.length; i++) {
+    for (var j = 0; j < chunk[i].length; j++) {
+      var value = (0, _noiseMap_utilities.normalize)(chunk[i][j]);
+      var color = (0, _noiseMap_utilities.getColorForChunk)(value);
+      graphics.beginFill(color);
+      graphics.drawRect(i * tileSize, j * tileSize, tileSize, tileSize);
+      graphics.endFill();
+    }
+  }
+  container.addChild(graphics);
+  container.scale.set(chunk_scale);
+  return container;
+}
+
+// This is where the chunk's graphic is set and used.
 var getBg = function getBg() {
   return bg;
 };
@@ -45321,7 +45929,7 @@ var setBgY = function setBgY(val) {
   return bg.y = val;
 };
 exports.setBgY = setBgY;
-},{}],"dev/js/proximityBoxes/aggroBox.js":[function(require,module,exports) {
+},{"../../_game":"dev/js/_game.js","noisejs":"node_modules/noisejs/index.js","../macro/noiseMap_macro":"dev/js/map/macro/noiseMap_macro.js","../utilities/noiseMap_utilities":"dev/js/map/utilities/noiseMap_utilities.js"}],"dev/js/proximityBoxes/aggroBox.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -45945,11 +46553,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.moveEnvironment = moveEnvironment;
 var _game = require("../../_game.js");
-var _bg = require("../../map/bg.js");
+var _noiseMap_chunk = require("../../map/chunk/noiseMap_chunk.js");
 var _entities = require("../../entities/entities.js");
 function moveEnvironment(x, y) {
-  (0, _bg.setBgX)((0, _bg.getBg)().x += x);
-  (0, _bg.setBgY)((0, _bg.getBg)().y += y);
+  (0, _noiseMap_chunk.setBgX)((0, _noiseMap_chunk.getBg)().x += x);
+  (0, _noiseMap_chunk.setBgY)((0, _noiseMap_chunk.getBg)().y += y);
   _entities.entities.forEach(function (entity) {
     entity.x += x;
     entity.y += y;
@@ -45964,7 +46572,7 @@ function moveEnvironment(x, y) {
     return a.interactBox.y - b.interactBox.y;
   });
 }
-},{"../../_game.js":"dev/js/_game.js","../../map/bg.js":"dev/js/map/bg.js","../../entities/entities.js":"dev/js/entities/entities.js"}],"dev/js/dynamics/textureSwitch/textureMovement.js":[function(require,module,exports) {
+},{"../../_game.js":"dev/js/_game.js","../../map/chunk/noiseMap_chunk.js":"dev/js/map/chunk/noiseMap_chunk.js","../../entities/entities.js":"dev/js/entities/entities.js"}],"dev/js/dynamics/textureSwitch/textureMovement.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -46224,7 +46832,23 @@ function keysDownResetPlayer_listener() {
     };
   });
 }
-},{"../controllers/keyboard.js":"dev/js/controllers/keyboard.js","../player/player.js":"dev/js/player/player.js","./attacks/attackMelee.js":"dev/js/dynamics/attacks/attackMelee.js","./movement/playerMovement.js":"dev/js/dynamics/movement/playerMovement.js"}],"dev/js/ui/modules/popupMenus.js":[function(require,module,exports) {
+},{"../controllers/keyboard.js":"dev/js/controllers/keyboard.js","../player/player.js":"dev/js/player/player.js","./attacks/attackMelee.js":"dev/js/dynamics/attacks/attackMelee.js","./movement/playerMovement.js":"dev/js/dynamics/movement/playerMovement.js"}],"dev/js/sheets/textureSheet.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.setTextureSheet = exports.getTextureSheet = void 0;
+var textureSheet;
+var getTextureSheet = function getTextureSheet() {
+  return textureSheet;
+};
+exports.getTextureSheet = getTextureSheet;
+var setTextureSheet = function setTextureSheet(val) {
+  return textureSheet = val;
+};
+exports.setTextureSheet = setTextureSheet;
+},{}],"dev/js/ui/modules/popupMenus.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -47162,377 +47786,13 @@ var defaultCursor = "url('../../assets/cursor.png'),auto";
 exports.defaultCursor = defaultCursor;
 var attackCursor = "url('../../assets/cursorAttack.png'),auto";
 exports.attackCursor = attackCursor;
-},{}],"node_modules/noisejs/index.js":[function(require,module,exports) {
-var global = arguments[3];
-/*
- * A speed-improved perlin and simplex noise algorithms for 2D.
- *
- * Based on example code by Stefan Gustavson (stegu@itn.liu.se).
- * Optimisations by Peter Eastman (peastman@drizzle.stanford.edu).
- * Better rank ordering method by Stefan Gustavson in 2012.
- * Converted to Javascript by Joseph Gentle.
- *
- * Version 2012-03-09
- *
- * This code was placed in the public domain by its original author,
- * Stefan Gustavson. You may use it as you see fit, but
- * attribution is appreciated.
- *
- */
-
-(function(global){
-
-  // Passing in seed will seed this Noise instance
-  function Noise(seed) {
-    function Grad(x, y, z) {
-      this.x = x; this.y = y; this.z = z;
-    }
-
-    Grad.prototype.dot2 = function(x, y) {
-      return this.x*x + this.y*y;
-    };
-
-    Grad.prototype.dot3 = function(x, y, z) {
-      return this.x*x + this.y*y + this.z*z;
-    };
-
-    this.grad3 = [new Grad(1,1,0),new Grad(-1,1,0),new Grad(1,-1,0),new Grad(-1,-1,0),
-                 new Grad(1,0,1),new Grad(-1,0,1),new Grad(1,0,-1),new Grad(-1,0,-1),
-                 new Grad(0,1,1),new Grad(0,-1,1),new Grad(0,1,-1),new Grad(0,-1,-1)];
-
-    this.p = [151,160,137,91,90,15,
-    131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,8,99,37,240,21,10,23,
-    190, 6,148,247,120,234,75,0,26,197,62,94,252,219,203,117,35,11,32,57,177,33,
-    88,237,149,56,87,174,20,125,136,171,168, 68,175,74,165,71,134,139,48,27,166,
-    77,146,158,231,83,111,229,122,60,211,133,230,220,105,92,41,55,46,245,40,244,
-    102,143,54, 65,25,63,161, 1,216,80,73,209,76,132,187,208, 89,18,169,200,196,
-    135,130,116,188,159,86,164,100,109,198,173,186, 3,64,52,217,226,250,124,123,
-    5,202,38,147,118,126,255,82,85,212,207,206,59,227,47,16,58,17,182,189,28,42,
-    223,183,170,213,119,248,152, 2,44,154,163, 70,221,153,101,155,167, 43,172,9,
-    129,22,39,253, 19,98,108,110,79,113,224,232,178,185, 112,104,218,246,97,228,
-    251,34,242,193,238,210,144,12,191,179,162,241, 81,51,145,235,249,14,239,107,
-    49,192,214, 31,181,199,106,157,184, 84,204,176,115,121,50,45,127, 4,150,254,
-    138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180];
-    // To remove the need for index wrapping, double the permutation table length
-    this.perm = new Array(512);
-    this.gradP = new Array(512);
-
-    this.seed(seed || 0);
-  }
-
-  // This isn't a very good seeding function, but it works ok. It supports 2^16
-  // different seed values. Write something better if you need more seeds.
-  Noise.prototype.seed = function(seed) {
-    if(seed > 0 && seed < 1) {
-      // Scale the seed out
-      seed *= 65536;
-    }
-
-    seed = Math.floor(seed);
-    if(seed < 256) {
-      seed |= seed << 8;
-    }
-
-    var p = this.p;
-    for(var i = 0; i < 256; i++) {
-      var v;
-      if (i & 1) {
-        v = p[i] ^ (seed & 255);
-      } else {
-        v = p[i] ^ ((seed>>8) & 255);
-      }
-
-      var perm = this.perm;
-      var gradP = this.gradP;
-      perm[i] = perm[i + 256] = v;
-      gradP[i] = gradP[i + 256] = this.grad3[v % 12];
-    }
-  };
-
-  /*
-  for(var i=0; i<256; i++) {
-    perm[i] = perm[i + 256] = p[i];
-    gradP[i] = gradP[i + 256] = grad3[perm[i] % 12];
-  }*/
-
-  // Skewing and unskewing factors for 2, 3, and 4 dimensions
-  var F2 = 0.5*(Math.sqrt(3)-1);
-  var G2 = (3-Math.sqrt(3))/6;
-
-  var F3 = 1/3;
-  var G3 = 1/6;
-
-  // 2D simplex noise
-  Noise.prototype.simplex2 = function(xin, yin) {
-    var n0, n1, n2; // Noise contributions from the three corners
-    // Skew the input space to determine which simplex cell we're in
-    var s = (xin+yin)*F2; // Hairy factor for 2D
-    var i = Math.floor(xin+s);
-    var j = Math.floor(yin+s);
-    var t = (i+j)*G2;
-    var x0 = xin-i+t; // The x,y distances from the cell origin, unskewed.
-    var y0 = yin-j+t;
-    // For the 2D case, the simplex shape is an equilateral triangle.
-    // Determine which simplex we are in.
-    var i1, j1; // Offsets for second (middle) corner of simplex in (i,j) coords
-    if(x0>y0) { // lower triangle, XY order: (0,0)->(1,0)->(1,1)
-      i1=1; j1=0;
-    } else {    // upper triangle, YX order: (0,0)->(0,1)->(1,1)
-      i1=0; j1=1;
-    }
-    // A step of (1,0) in (i,j) means a step of (1-c,-c) in (x,y), and
-    // a step of (0,1) in (i,j) means a step of (-c,1-c) in (x,y), where
-    // c = (3-sqrt(3))/6
-    var x1 = x0 - i1 + G2; // Offsets for middle corner in (x,y) unskewed coords
-    var y1 = y0 - j1 + G2;
-    var x2 = x0 - 1 + 2 * G2; // Offsets for last corner in (x,y) unskewed coords
-    var y2 = y0 - 1 + 2 * G2;
-    // Work out the hashed gradient indices of the three simplex corners
-    i &= 255;
-    j &= 255;
-
-    var perm = this.perm;
-    var gradP = this.gradP;
-    var gi0 = gradP[i+perm[j]];
-    var gi1 = gradP[i+i1+perm[j+j1]];
-    var gi2 = gradP[i+1+perm[j+1]];
-    // Calculate the contribution from the three corners
-    var t0 = 0.5 - x0*x0-y0*y0;
-    if(t0<0) {
-      n0 = 0;
-    } else {
-      t0 *= t0;
-      n0 = t0 * t0 * gi0.dot2(x0, y0);  // (x,y) of grad3 used for 2D gradient
-    }
-    var t1 = 0.5 - x1*x1-y1*y1;
-    if(t1<0) {
-      n1 = 0;
-    } else {
-      t1 *= t1;
-      n1 = t1 * t1 * gi1.dot2(x1, y1);
-    }
-    var t2 = 0.5 - x2*x2-y2*y2;
-    if(t2<0) {
-      n2 = 0;
-    } else {
-      t2 *= t2;
-      n2 = t2 * t2 * gi2.dot2(x2, y2);
-    }
-    // Add contributions from each corner to get the final noise value.
-    // The result is scaled to return values in the interval [-1,1].
-    return 70 * (n0 + n1 + n2);
-  };
-
-  // 3D simplex noise
-  Noise.prototype.simplex3 = function(xin, yin, zin) {
-    var n0, n1, n2, n3; // Noise contributions from the four corners
-
-    // Skew the input space to determine which simplex cell we're in
-    var s = (xin+yin+zin)*F3; // Hairy factor for 2D
-    var i = Math.floor(xin+s);
-    var j = Math.floor(yin+s);
-    var k = Math.floor(zin+s);
-
-    var t = (i+j+k)*G3;
-    var x0 = xin-i+t; // The x,y distances from the cell origin, unskewed.
-    var y0 = yin-j+t;
-    var z0 = zin-k+t;
-
-    // For the 3D case, the simplex shape is a slightly irregular tetrahedron.
-    // Determine which simplex we are in.
-    var i1, j1, k1; // Offsets for second corner of simplex in (i,j,k) coords
-    var i2, j2, k2; // Offsets for third corner of simplex in (i,j,k) coords
-    if(x0 >= y0) {
-      if(y0 >= z0)      { i1=1; j1=0; k1=0; i2=1; j2=1; k2=0; }
-      else if(x0 >= z0) { i1=1; j1=0; k1=0; i2=1; j2=0; k2=1; }
-      else              { i1=0; j1=0; k1=1; i2=1; j2=0; k2=1; }
-    } else {
-      if(y0 < z0)      { i1=0; j1=0; k1=1; i2=0; j2=1; k2=1; }
-      else if(x0 < z0) { i1=0; j1=1; k1=0; i2=0; j2=1; k2=1; }
-      else             { i1=0; j1=1; k1=0; i2=1; j2=1; k2=0; }
-    }
-    // A step of (1,0,0) in (i,j,k) means a step of (1-c,-c,-c) in (x,y,z),
-    // a step of (0,1,0) in (i,j,k) means a step of (-c,1-c,-c) in (x,y,z), and
-    // a step of (0,0,1) in (i,j,k) means a step of (-c,-c,1-c) in (x,y,z), where
-    // c = 1/6.
-    var x1 = x0 - i1 + G3; // Offsets for second corner
-    var y1 = y0 - j1 + G3;
-    var z1 = z0 - k1 + G3;
-
-    var x2 = x0 - i2 + 2 * G3; // Offsets for third corner
-    var y2 = y0 - j2 + 2 * G3;
-    var z2 = z0 - k2 + 2 * G3;
-
-    var x3 = x0 - 1 + 3 * G3; // Offsets for fourth corner
-    var y3 = y0 - 1 + 3 * G3;
-    var z3 = z0 - 1 + 3 * G3;
-
-    // Work out the hashed gradient indices of the four simplex corners
-    i &= 255;
-    j &= 255;
-    k &= 255;
-
-    var perm = this.perm;
-    var gradP = this.gradP;
-    var gi0 = gradP[i+   perm[j+   perm[k   ]]];
-    var gi1 = gradP[i+i1+perm[j+j1+perm[k+k1]]];
-    var gi2 = gradP[i+i2+perm[j+j2+perm[k+k2]]];
-    var gi3 = gradP[i+ 1+perm[j+ 1+perm[k+ 1]]];
-
-    // Calculate the contribution from the four corners
-    var t0 = 0.5 - x0*x0-y0*y0-z0*z0;
-    if(t0<0) {
-      n0 = 0;
-    } else {
-      t0 *= t0;
-      n0 = t0 * t0 * gi0.dot3(x0, y0, z0);  // (x,y) of grad3 used for 2D gradient
-    }
-    var t1 = 0.5 - x1*x1-y1*y1-z1*z1;
-    if(t1<0) {
-      n1 = 0;
-    } else {
-      t1 *= t1;
-      n1 = t1 * t1 * gi1.dot3(x1, y1, z1);
-    }
-    var t2 = 0.5 - x2*x2-y2*y2-z2*z2;
-    if(t2<0) {
-      n2 = 0;
-    } else {
-      t2 *= t2;
-      n2 = t2 * t2 * gi2.dot3(x2, y2, z2);
-    }
-    var t3 = 0.5 - x3*x3-y3*y3-z3*z3;
-    if(t3<0) {
-      n3 = 0;
-    } else {
-      t3 *= t3;
-      n3 = t3 * t3 * gi3.dot3(x3, y3, z3);
-    }
-    // Add contributions from each corner to get the final noise value.
-    // The result is scaled to return values in the interval [-1,1].
-    return 32 * (n0 + n1 + n2 + n3);
-
-  };
-
-  // ##### Perlin noise stuff
-
-  function fade(t) {
-    return t*t*t*(t*(t*6-15)+10);
-  }
-
-  function lerp(a, b, t) {
-    return (1-t)*a + t*b;
-  }
-
-  // 2D Perlin Noise
-  Noise.prototype.perlin2 = function(x, y) {
-    // Find unit grid cell containing point
-    var X = Math.floor(x), Y = Math.floor(y);
-    // Get relative xy coordinates of point within that cell
-    x = x - X; y = y - Y;
-    // Wrap the integer cells at 255 (smaller integer period can be introduced here)
-    X = X & 255; Y = Y & 255;
-
-    // Calculate noise contributions from each of the four corners
-    var perm = this.perm;
-    var gradP = this.gradP;
-    var n00 = gradP[X+perm[Y]].dot2(x, y);
-    var n01 = gradP[X+perm[Y+1]].dot2(x, y-1);
-    var n10 = gradP[X+1+perm[Y]].dot2(x-1, y);
-    var n11 = gradP[X+1+perm[Y+1]].dot2(x-1, y-1);
-
-    // Compute the fade curve value for x
-    var u = fade(x);
-
-    // Interpolate the four results
-    return lerp(
-        lerp(n00, n10, u),
-        lerp(n01, n11, u),
-       fade(y));
-  };
-
-  // 3D Perlin Noise
-  Noise.prototype.perlin3 = function(x, y, z) {
-    // Find unit grid cell containing point
-    var X = Math.floor(x), Y = Math.floor(y), Z = Math.floor(z);
-    // Get relative xyz coordinates of point within that cell
-    x = x - X; y = y - Y; z = z - Z;
-    // Wrap the integer cells at 255 (smaller integer period can be introduced here)
-    X = X & 255; Y = Y & 255; Z = Z & 255;
-
-    // Calculate noise contributions from each of the eight corners
-    var perm = this.perm;
-    var gradP = this.gradP;
-    var n000 = gradP[X+  perm[Y+  perm[Z  ]]].dot3(x,   y,     z);
-    var n001 = gradP[X+  perm[Y+  perm[Z+1]]].dot3(x,   y,   z-1);
-    var n010 = gradP[X+  perm[Y+1+perm[Z  ]]].dot3(x,   y-1,   z);
-    var n011 = gradP[X+  perm[Y+1+perm[Z+1]]].dot3(x,   y-1, z-1);
-    var n100 = gradP[X+1+perm[Y+  perm[Z  ]]].dot3(x-1,   y,   z);
-    var n101 = gradP[X+1+perm[Y+  perm[Z+1]]].dot3(x-1,   y, z-1);
-    var n110 = gradP[X+1+perm[Y+1+perm[Z  ]]].dot3(x-1, y-1,   z);
-    var n111 = gradP[X+1+perm[Y+1+perm[Z+1]]].dot3(x-1, y-1, z-1);
-
-    // Compute the fade curve value for x, y, z
-    var u = fade(x);
-    var v = fade(y);
-    var w = fade(z);
-
-    // Interpolate
-    return lerp(
-        lerp(
-          lerp(n000, n100, u),
-          lerp(n001, n101, u), w),
-        lerp(
-          lerp(n010, n110, u),
-          lerp(n011, n111, u), w),
-       v);
-  };
-
-  global.Noise = Noise;
-
-})(typeof module === "undefined" ? this : module.exports);
-
-},{}],"dev/js/map/noiseMap_macro.js":[function(require,module,exports) {
+},{}],"dev/js/_game.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.noiseMap_macro = noiseMap_macro;
-var _game = require("../_game.js");
-var _noisejs = require("noisejs");
-// 1. Chunk Definition: 32x32 tiles? Terrain type, objects present, elevation.
-// 2. World coordinate System (Chunk Coordinate System: World Coordinate / 32).
-// 3. Macro-Level Noise Map -> Chunk-Level Noise Map -> Tile-level.
-
-// Add a Bundler for this at some point.
-
-function noiseMap_macro() {
-  // const noise = new Noise(Math.random());
-  // const tileSize = 4;
-  // const mapSize = 200;
-
-  // for (let i = 0; i < mapSize; i++) {
-  //     for (let j = 0; j < mapSize; j++) {
-  //         const value = (noise.simplex2(i * 0.1, j * 0.1) + 1) / 2;  // Normalize value to [0,1]
-  //         const color = (value * 255).toFixed(0);
-
-  //         const graphics = new PIXI.Graphics();
-  //         graphics.beginFill(PIXI.utils.rgb2hex([color / 255, color / 255, color / 255]));
-  //         graphics.drawRect(i * tileSize, j * tileSize, tileSize, tileSize);
-  //         graphics.endFill();
-
-  //         gameScene.addChild(graphics);
-  //     }
-  // }
-}
-},{"../_game.js":"dev/js/_game.js","noisejs":"node_modules/noisejs/index.js"}],"dev/js/_game.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.settings = exports.resources = exports.messageGameOver = exports.loaderResource = exports.loader = exports.getClickRegistered = exports.gameScene = exports.gameOverScene = exports.enemies = exports.app = exports.Ticker = exports.Sprite = exports.Graphics = exports.Container = exports.BitmapText = exports.Application = exports.AnimatedSprite = void 0;
+exports.utils = exports.settings = exports.resources = exports.renderer = exports.messageGameOver = exports.mapScene = exports.map = exports.loaderResource = exports.loader = exports.getClickRegistered = exports.gameScene = exports.gameOverScene = exports.enemies = exports.app = exports.Ticker = exports.Texture = exports.Sprite = exports.Graphics = exports.Container = exports.BitmapText = exports.Application = exports.AnimatedSprite = void 0;
 var PIXI = _interopRequireWildcard(require("pixi.js"));
 var _player = require("./player/player.js");
 var _playerData = require("./player/playerData.js");
@@ -47541,6 +47801,7 @@ var _playerSheets = require("./sheets/playerSheets.js");
 var _enemySheet = require("./sheets/enemySheet.js");
 var _iconSheet = require("./sheets/iconSheet.js");
 var _miscSheet = require("./sheets/miscSheet.js");
+var _textureSheet = require("./sheets/textureSheet.js");
 var _environmentSheet = require("./sheets/environmentSheet.js");
 var _entities = require("./entities/entities.js");
 var _ui_design = require("./ui/ui_design.js");
@@ -47548,8 +47809,8 @@ var _ui = require("./ui/ui.js");
 var _mouse = require("./controllers/mouse.js");
 var _keyboard = require("./controllers/keyboard.js");
 var _itemData = require("./items/itemData.js");
-var _bg = require("./map/bg.js");
-var _noiseMap_macro = require("./map/noiseMap_macro.js");
+var _noiseMap_chunk = require("./map/chunk/noiseMap_chunk.js");
+var _noiseMap_macro = require("./map/macro/noiseMap_macro.js");
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 // Player
@@ -47570,22 +47831,28 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 var Application = PIXI.Application,
   loaderResource = PIXI.LoaderResource,
   loader = PIXI.Loader,
-  settings = PIXI.settings,
-  resources = PIXI.Loader.shared.resources,
   Sprite = PIXI.Sprite,
   AnimatedSprite = PIXI.AnimatedSprite,
   Container = PIXI.Container,
   BitmapText = PIXI.BitmapText,
   Graphics = PIXI.Graphics,
-  Ticker = PIXI.Ticker;
+  Texture = PIXI.Texture,
+  Ticker = PIXI.Ticker,
+  settings = PIXI.settings,
+  resources = PIXI.Loader.shared.resources,
+  renderer = PIXI.autoDetectRenderer(),
+  utils = PIXI.utils;
+exports.utils = utils;
+exports.renderer = renderer;
+exports.resources = resources;
+exports.settings = settings;
 exports.Ticker = Ticker;
+exports.Texture = Texture;
 exports.Graphics = Graphics;
 exports.BitmapText = BitmapText;
 exports.Container = Container;
 exports.AnimatedSprite = AnimatedSprite;
 exports.Sprite = Sprite;
-exports.resources = resources;
-exports.settings = settings;
 exports.loader = loader;
 exports.loaderResource = loaderResource;
 exports.Application = Application;
@@ -47603,35 +47870,42 @@ var app = new Application({
   width: 800,
   height: 500
 });
+exports.app = app;
+var map = new Application({
+  width: 320,
+  height: 320
+});
 
 // Set Cursor
-exports.app = app;
+exports.map = map;
 app.renderer.plugins.interaction.cursorStyles.default = _mouse.defaultCursor;
 app.renderer.plugins.interaction.cursorStyles.hover = _mouse.attackCursor;
 
 // Add the canvas that Pixi automatically created for you.
 document.getElementById("game").appendChild(app.view);
+document.getElementById("map").appendChild(map.view);
 loaderResource.setExtensionXhrType('fnt', loaderResource.XHR_RESPONSE_TYPE.TEXT);
 loader.shared.onProgress.add(loadProgressHandler);
-loader.shared.add('Visitor', '../../assets/Visitor.fnt').add(['../../assets/sprites/icons/spritesheets/icons.json', '../../assets/sprites/misc/spritesheets/misc.json', '../../assets/sprites/terrain/map.png', '../../assets/sprites/environment/spritesheets/environment.json'].concat((0, _playerSheets.getPlayerSheetsDirs)()).concat((0, _enemySheet.getenemySheetsDirs)())).load(setup);
+loader.shared.add('Visitor', '../../assets/Visitor.fnt').add(['../../assets/sprites/icons/spritesheets/icons.json', '../../assets/sprites/misc/spritesheets/misc.json', '../../assets/sprites/environment/spritesheets/environment.json'].concat((0, _playerSheets.getPlayerSheetsDirs)()).concat((0, _enemySheet.getenemySheetsDirs)())).load(setup);
 function loadProgressHandler(loader) {
   // Basis for a loading progress bar.
   console.log('loading...', loader.progress + '%');
 }
 
 // Define variables in more than one function
-var gameScene, gameOverScene, messageGameOver;
+var gameScene, gameOverScene, messageGameOver, mapScene;
+exports.mapScene = mapScene;
 exports.messageGameOver = messageGameOver;
 exports.gameOverScene = gameOverScene;
 exports.gameScene = gameScene;
-var id, state;
+var state;
 var enemies = [];
 exports.enemies = enemies;
 function setup() {
   console.log('All files loaded.');
+  exports.mapScene = mapScene = new Container();
+  map.stage.addChild(mapScene);
   (0, _keyboard.initiateKeyboard)();
-
-  // noiseMap_macro();
 
   // Icon & Misc texture sheet
   (0, _iconSheet.setIconSheet)(resources['../../assets/sprites/icons/spritesheets/icons.json'].textures);
@@ -47648,16 +47922,12 @@ function setup() {
 
   // initialize ui variables
   (0, _ui_design.ui_design_init)();
-
-  // Set Player coordinates
-  var playerCoordX = 4175;
-  var playerCoordY = -500;
-  var map = new Sprite(PIXI.Loader.shared.resources['../../assets/sprites/terrain/map.png'].texture);
-  (0, _bg.setBg)(map);
-  var bg = (0, _bg.getBg)();
-  bg.scale.set(4, 4);
-  bg.x = 405 - playerCoordX;
-  bg.y = -1825 + playerCoordY;
+  (0, _noiseMap_chunk.setBg)((0, _noiseMap_macro.noiseMap_macro)({
+    seed: 123456789
+  }));
+  var bg = (0, _noiseMap_chunk.getBg)();
+  bg.x = -1200;
+  bg.y = -800;
   app.stage.addChild(bg);
 
   // Main Game Scene
@@ -47722,7 +47992,7 @@ function end() {
   gameScene.visible = false;
   gameOverScene.visible = true;
 }
-},{"pixi.js":"node_modules/pixi.js/lib/pixi.es.js","./player/player.js":"dev/js/player/player.js","./player/playerData.js":"dev/js/player/playerData.js","./dynamics/playerDynamics.js":"dev/js/dynamics/playerDynamics.js","./sheets/playerSheets.js":"dev/js/sheets/playerSheets.js","./sheets/enemySheet.js":"dev/js/sheets/enemySheet.js","./sheets/iconSheet.js":"dev/js/sheets/iconSheet.js","./sheets/miscSheet.js":"dev/js/sheets/miscSheet.js","./sheets/environmentSheet.js":"dev/js/sheets/environmentSheet.js","./entities/entities.js":"dev/js/entities/entities.js","./ui/ui_design.js":"dev/js/ui/ui_design.js","./ui/ui.js":"dev/js/ui/ui.js","./controllers/mouse.js":"dev/js/controllers/mouse.js","./controllers/keyboard.js":"dev/js/controllers/keyboard.js","./items/itemData.js":"dev/js/items/itemData.js","./map/bg.js":"dev/js/map/bg.js","./map/noiseMap_macro.js":"dev/js/map/noiseMap_macro.js"}],"../../../../../opt/homebrew/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"pixi.js":"node_modules/pixi.js/lib/pixi.es.js","./player/player.js":"dev/js/player/player.js","./player/playerData.js":"dev/js/player/playerData.js","./dynamics/playerDynamics.js":"dev/js/dynamics/playerDynamics.js","./sheets/playerSheets.js":"dev/js/sheets/playerSheets.js","./sheets/enemySheet.js":"dev/js/sheets/enemySheet.js","./sheets/iconSheet.js":"dev/js/sheets/iconSheet.js","./sheets/miscSheet.js":"dev/js/sheets/miscSheet.js","./sheets/textureSheet.js":"dev/js/sheets/textureSheet.js","./sheets/environmentSheet.js":"dev/js/sheets/environmentSheet.js","./entities/entities.js":"dev/js/entities/entities.js","./ui/ui_design.js":"dev/js/ui/ui_design.js","./ui/ui.js":"dev/js/ui/ui.js","./controllers/mouse.js":"dev/js/controllers/mouse.js","./controllers/keyboard.js":"dev/js/controllers/keyboard.js","./items/itemData.js":"dev/js/items/itemData.js","./map/chunk/noiseMap_chunk.js":"dev/js/map/chunk/noiseMap_chunk.js","./map/macro/noiseMap_macro.js":"dev/js/map/macro/noiseMap_macro.js"}],"../../../../../opt/homebrew/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -47747,7 +48017,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49626" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58814" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

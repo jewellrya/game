@@ -7,7 +7,7 @@
   "scripts": {
     "server": "live-server",
     "watch": "./watch.sh",
-    "dev": "concurrently --kill-others \"npm run watch\" \"npm run server\""
+    "dev": "parcel index.html"
   },
   "keywords": [
     "Game"

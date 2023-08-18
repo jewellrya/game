@@ -1,5 +1,5 @@
 import { gameScene } from '../../_game.js';
-import { getBg, setBgX, setBgY } from '../../map/bg.js';
+import { getBg, setBgX, setBgY } from '../../map/chunk/noiseMap_chunk.js';
 import { entities } from '../../entities/entities.js';
 
 export function moveEnvironment(x, y) {

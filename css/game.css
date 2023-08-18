@@ -2,6 +2,12 @@ body {
   margin: 0;
 }
 
+@font-face {
+  font-family: "Visitor";
+  font-style: normal;
+  font-weight: 400;
+  src: url(../../assets/visitor2.ttf);
+}
 #img_texture {
   transform: rotateX(-60deg) rotateY(0deg) rotateZ(-45deg);
 }

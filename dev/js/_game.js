@@ -10,6 +10,7 @@ import { getPlayerSheetsDirs, playerSheets_setup } from './sheets/playerSheets.j
 import { getenemySheetsDirs, enemySheets_setup } from './sheets/enemySheet.js';
 import { setIconSheet } from './sheets/iconSheet.js';
 import { setMiscSheet } from './sheets/miscSheet.js';
+import { setTextureSheet } from './sheets/textureSheet.js';
 import { environmentSheets_setup } from './sheets/environmentSheet.js';
 
 // Entities
@@ -25,23 +26,26 @@ import { initiateKeyboard } from './controllers/keyboard.js';
 
 // Misc
 import { itemData_init } from './items/itemData.js';
-import { getBg, setBg } from './map/bg.js';
+import { getBg, setBg } from './map/chunk/noiseMap_chunk.js';
 
 // Map
-import { noiseMap_macro } from './map/noiseMap_macro.js';
+import { noiseMap_macro } from './map/macro/noiseMap_macro.js';
 
 // Aliases
 export let Application = PIXI.Application,
     loaderResource = PIXI.LoaderResource,
     loader = PIXI.Loader,
-    settings = PIXI.settings,
-    resources = PIXI.Loader.shared.resources,
     Sprite = PIXI.Sprite,
     AnimatedSprite = PIXI.AnimatedSprite,
     Container = PIXI.Container,
     BitmapText = PIXI.BitmapText,
     Graphics = PIXI.Graphics,
-    Ticker = PIXI.Ticker
+    Texture = PIXI.Texture,
+    Ticker = PIXI.Ticker,
+    settings = PIXI.settings,
+    resources = PIXI.Loader.shared.resources,
+    renderer = PIXI.autoDetectRenderer(),
+    utils = PIXI.utils
 
 settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 
@@ -55,12 +59,18 @@ export let app = new Application({
     height: 500
 });
 
+export let map = new Application({
+    width: 320,
+    height: 320,
+})
+
 // Set Cursor
 app.renderer.plugins.interaction.cursorStyles.default = defaultCursor;
 app.renderer.plugins.interaction.cursorStyles.hover = attackCursor;
 
 // Add the canvas that Pixi automatically created for you.
 document.getElementById("game").appendChild(app.view);
+document.getElementById("map").appendChild(map.view);
 
 loaderResource.setExtensionXhrType('fnt', loaderResource.XHR_RESPONSE_TYPE.TEXT);
 loader.shared.onProgress.add(loadProgressHandler)
@@ -69,8 +79,7 @@ loader.shared
     .add([
         '../../assets/sprites/icons/spritesheets/icons.json',
         '../../assets/sprites/misc/spritesheets/misc.json',
-        '../../assets/sprites/terrain/map.png',
-        '../../assets/sprites/environment/spritesheets/environment.json'
+        '../../assets/sprites/environment/spritesheets/environment.json',
     ].concat(
         getPlayerSheetsDirs()
     ).concat(
@@ -83,16 +92,17 @@ function loadProgressHandler(loader) {
 }
 
 // Define variables in more than one function
-export let gameScene, gameOverScene, messageGameOver;
-let id, state;
+export let gameScene, gameOverScene, messageGameOver, mapScene;
+let state;
 
 export let enemies = [];
 function setup() {
     console.log('All files loaded.');
 
-    initiateKeyboard();
+    mapScene = new Container();
+    map.stage.addChild(mapScene);
 
-    // noiseMap_macro();
+    initiateKeyboard();
 
     // Icon & Misc texture sheet
     setIconSheet(resources['../../assets/sprites/icons/spritesheets/icons.json'].textures);
@@ -110,18 +120,10 @@ function setup() {
     // initialize ui variables
     ui_design_init();
 
-    // Set Player coordinates
-    let playerCoordX = 4175;
-    let playerCoordY = -500;
-
-    let map = new Sprite(
-        PIXI.Loader.shared.resources['../../assets/sprites/terrain/map.png'].texture
-    );
-    setBg(map);
+    setBg(noiseMap_macro({ seed: 123456789 }));
     let bg = getBg();
-    bg.scale.set(4, 4);
-    bg.x = 405 - playerCoordX;
-    bg.y = -1825 + playerCoordY;
+    bg.x = -1200;
+    bg.y = -800;
     app.stage.addChild(bg);
 
     // Main Game Scene
