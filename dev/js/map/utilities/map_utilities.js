@@ -1,5 +1,5 @@
 import { BitmapText, Container, app, mapScene } from '../../_game.js';
-import { chunk_actual_size, tileSize } from '../chunk/noiseMap_chunk';
+import { chunk_actual_size, resolutionSize } from '../chunk/noiseMap_chunk';
 import { seed } from '../macro/noiseMap_macro.js';
 import { uiStyle } from '../../ui/ui_design.js';
 
@@ -113,7 +113,7 @@ export function getPlayerStartingChunk() {
 }
 
 export function generateCoordinates() {
-    let coordinateTile = tileSize * 4;
+    let tileSize = resolutionSize * 4;
 
     // Coordinate of the chunk itself.
     let chunkX = getPlayerStartingChunk().x;
@@ -124,8 +124,8 @@ export function generateCoordinates() {
     let playerToChunkY = 0;
 
     // Player's coordinate in respect to the whole world.
-    let playerX = Math.floor(((chunkX * chunk_actual_size) + playerToChunkX + app.view.width / 2) / coordinateTile);
-    let playerY = Math.floor(((chunkY * chunk_actual_size) + playerToChunkY + app.view.height / 2) / coordinateTile);
+    let playerX = Math.floor(((chunkX * chunk_actual_size) + playerToChunkX + app.view.width / 2) / tileSize);
+    let playerY = Math.floor(((chunkY * chunk_actual_size) + playerToChunkY + app.view.height / 2) / tileSize);
 
     // Make coordinate object:
     coordinates = {

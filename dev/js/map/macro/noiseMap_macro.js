@@ -1,6 +1,6 @@
 import { mapScene, Graphics } from '../../_game.js';
 import { Noise } from 'noisejs';
-import { generateChunkFromMacro, drawChunkGraphics, tileSize } from '../chunk/noiseMap_chunk.js';
+import { generateChunkFromMacro, drawChunkGraphics, resolutionSize } from '../chunk/noiseMap_chunk.js';
 import { getColorForMacro, getPlayerStartingChunk, normalize } from '../utilities/map_utilities.js';
 
 // Larger persistence gives smoother landscapes with fewer high frequency details.
@@ -60,7 +60,7 @@ export function noiseMap_macro({ seed = seed }) {
     let chunkGraphic = drawChunkGraphics(initialChunk);
 
     // Draw a red square for the chunk's position.
-    let tileScaled = tileSize * macroMapScale;
+    let tileScaled = resolutionSize * macroMapScale;
     let markerMultiplier = 6;
     let markerSize = markerMultiplier * tileScaled;
 

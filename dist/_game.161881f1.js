@@ -45912,7 +45912,7 @@ function getPlayerStartingChunk() {
 }
 
 function generateCoordinates() {
-  var coordinateTile = _noiseMap_chunk.tileSize * 4;
+  var tileSize = _noiseMap_chunk.resolutionSize * 4;
 
   // Coordinate of the chunk itself.
   var chunkX = getPlayerStartingChunk().x;
@@ -45923,8 +45923,8 @@ function generateCoordinates() {
   var playerToChunkY = 0;
 
   // Player's coordinate in respect to the whole world.
-  var playerX = Math.floor((chunkX * _noiseMap_chunk.chunk_actual_size + playerToChunkX + _game.app.view.width / 2) / coordinateTile);
-  var playerY = Math.floor((chunkY * _noiseMap_chunk.chunk_actual_size + playerToChunkY + _game.app.view.height / 2) / coordinateTile);
+  var playerX = Math.floor((chunkX * _noiseMap_chunk.chunk_actual_size + playerToChunkX + _game.app.view.width / 2) / tileSize);
+  var playerY = Math.floor((chunkY * _noiseMap_chunk.chunk_actual_size + playerToChunkY + _game.app.view.height / 2) / tileSize);
 
   // Make coordinate object:
   exports.coordinates = coordinates = {
@@ -46063,7 +46063,7 @@ function noiseMap_macro(_ref2) {
   var chunkGraphic = (0, _noiseMap_chunk.drawChunkGraphics)(initialChunk);
 
   // Draw a red square for the chunk's position.
-  var tileScaled = _noiseMap_chunk.tileSize * macroMapScale;
+  var tileScaled = _noiseMap_chunk.resolutionSize * macroMapScale;
   var markerMultiplier = 6;
   var markerSize = markerMultiplier * tileScaled;
   var redMarker = new _game.Graphics();
@@ -46090,9 +46090,9 @@ function seededRandom(seed) {
   return x - Math.floor(x);
 }
 function objectChunkDispertion(_ref) {
-  var createEntityFn = _ref.createEntityFn,
-    pushEntityFn = _ref.pushEntityFn,
-    entityDensity = _ref.entityDensity,
+  var createObjectFn = _ref.createObjectFn,
+    pushObjectFn = _ref.pushObjectFn,
+    objectDensity = _ref.objectDensity,
     objectSeed = _ref.objectSeed,
     _ref$coordX = _ref.coordX,
     coordX = _ref$coordX === void 0 ? _map_utilities.coordinates.player.chunk.x : _ref$coordX,
@@ -46101,26 +46101,26 @@ function objectChunkDispertion(_ref) {
   objectSeed = (parseInt(_noiseMap_macro.seed) * parseInt(objectSeed)).toString();
   var width = _noiseMap_chunk.chunk_actual_size;
   var height = _noiseMap_chunk.chunk_actual_size;
-  entityDensity /= 10000;
+  objectDensity /= 10000;
   console.log(objectSeed);
   var totalSpots = width * height;
-  var numEntities = Math.floor(totalSpots * entityDensity);
-  var entities = [];
+  var numObjects = Math.floor(totalSpots * objectDensity);
+  var objects = [];
   var usedPositions = new Set();
-  while (entities.length < numEntities) {
+  while (objects.length < numObjects) {
     var potentialPosition = Math.floor(seededRandom(objectSeed++) * totalSpots);
     if (!usedPositions.has(potentialPosition)) {
       usedPositions.add(potentialPosition);
       var x = potentialPosition % width + coordX;
       var y = Math.floor(potentialPosition / width) + coordY;
-      var entity = createEntityFn(x, y, objectSeed);
-      if (pushEntityFn) {
-        pushEntityFn(entity);
+      var object = createObjectFn(x, y, objectSeed);
+      if (pushObjectFn) {
+        pushObjectFn(object);
       }
-      entities.push(entity);
+      objects.push(object);
     }
   }
-  return entities;
+  return objects;
 }
 },{"../../map/utilities/map_utilities":"dev/js/map/utilities/map_utilities.js","../../map/chunk/noiseMap_chunk.js":"dev/js/map/chunk/noiseMap_chunk.js","../../map/macro/noiseMap_macro":"dev/js/map/macro/noiseMap_macro.js"}],"dev/js/sheets/environmentSheet.js":[function(require,module,exports) {
 "use strict";
@@ -46163,7 +46163,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.chunk_actual_size = void 0;
 exports.drawChunkGraphics = drawChunkGraphics;
 exports.generateChunkFromMacro = generateChunkFromMacro;
-exports.tileSize = exports.setBgY = exports.setBgX = exports.setBg = exports.getBg = void 0;
+exports.setBgY = exports.setBgX = exports.setBg = exports.resolutionSize = exports.getBg = void 0;
 var _game = require("../../_game");
 var _noisejs = require("noisejs");
 var _noiseMap_macro = require("../macro/noiseMap_macro");
@@ -46171,11 +46171,11 @@ var _map_utilities = require("../utilities/map_utilities");
 var _entities_utilities = require("../../entities/utilities/entities_utilities");
 var _environmentSheet = require("../../sheets/environmentSheet");
 var bg;
-var tileSize = 4;
-exports.tileSize = tileSize;
+var resolutionSize = 4;
+exports.resolutionSize = resolutionSize;
 var chunk_size = 1024;
 var chunk_scale = 1;
-var chunk_actual_size = chunk_size * chunk_scale * tileSize;
+var chunk_actual_size = chunk_size * chunk_scale * resolutionSize;
 exports.chunk_actual_size = chunk_actual_size;
 var chunk_detail_scale = 1;
 var seed = 12345;
@@ -46235,7 +46235,7 @@ function drawChunkGraphics(chunk) {
       var value = (0, _map_utilities.normalize)(chunk[i][j]);
       var color = (0, _map_utilities.getColorForChunk)(value);
       landscape.beginFill(color);
-      landscape.drawRect(i * tileSize, j * tileSize, tileSize, tileSize);
+      landscape.drawRect(i * resolutionSize, j * resolutionSize, resolutionSize, resolutionSize);
       landscape.endFill();
     }
   }
@@ -46254,9 +46254,9 @@ function drawChunkGraphics(chunk) {
   var landscapeSprite = new _game.Sprite(landscapeTexture);
   container.addChild(landscapeSprite);
   (0, _entities_utilities.objectChunkDispertion)({
-    createEntityFn: createTexture,
-    pushEntityFn: null,
-    entityDensity: 1.2,
+    createObjectFn: createTexture,
+    pushObjectFn: null,
+    objectDensity: 1.2,
     objectSeed: '3812',
     coordX: foliage.x,
     coordY: foliage.y
@@ -46867,45 +46867,45 @@ function pushEnvironment(createFn) {
 function environment_init() {
   // Create all environment entities here.
   (0, _entities_utilities.objectChunkDispertion)({
-    createEntityFn: _tree.treeInstance.bind(null, 'oak1'),
-    pushEntityFn: pushEnvironment,
-    entityDensity: 0.01,
+    createObjectFn: _tree.treeInstance.bind(null, 'oak1'),
+    pushObjectFn: pushEnvironment,
+    objectDensity: 0.01,
     objectSeed: '1'
   });
   (0, _entities_utilities.objectChunkDispertion)({
-    createEntityFn: _staticEnvironment.staticEnvironmentInstance.bind(null, 'rock1'),
-    pushEntityFn: pushEnvironment,
-    entityDensity: 0.01,
+    createObjectFn: _staticEnvironment.staticEnvironmentInstance.bind(null, 'rock1'),
+    pushObjectFn: pushEnvironment,
+    objectDensity: 0.01,
     objectSeed: '2'
   });
   (0, _entities_utilities.objectChunkDispertion)({
-    createEntityFn: _staticEnvironment.staticEnvironmentInstance.bind(null, 'rock2'),
-    pushEntityFn: pushEnvironment,
-    entityDensity: 0.01,
+    createObjectFn: _staticEnvironment.staticEnvironmentInstance.bind(null, 'rock2'),
+    pushObjectFn: pushEnvironment,
+    objectDensity: 0.01,
     objectSeed: '3'
   });
   (0, _entities_utilities.objectChunkDispertion)({
-    createEntityFn: _staticEnvironment.staticEnvironmentInstance.bind(null, 'rock3'),
-    pushEntityFn: pushEnvironment,
-    entityDensity: 0.01,
+    createObjectFn: _staticEnvironment.staticEnvironmentInstance.bind(null, 'rock3'),
+    pushObjectFn: pushEnvironment,
+    objectDensity: 0.01,
     objectSeed: '4'
   });
   (0, _entities_utilities.objectChunkDispertion)({
-    createEntityFn: _staticEnvironment.staticEnvironmentInstance.bind(null, 'stump1'),
-    pushEntityFn: pushEnvironment,
-    entityDensity: 0.01,
+    createObjectFn: _staticEnvironment.staticEnvironmentInstance.bind(null, 'stump1'),
+    pushObjectFn: pushEnvironment,
+    objectDensity: 0.01,
     objectSeed: '5'
   });
   (0, _entities_utilities.objectChunkDispertion)({
-    createEntityFn: _staticEnvironment.staticEnvironmentInstance.bind(null, 'stump2'),
-    pushEntityFn: pushEnvironment,
-    entityDensity: 0.01,
+    createObjectFn: _staticEnvironment.staticEnvironmentInstance.bind(null, 'stump2'),
+    pushObjectFn: pushEnvironment,
+    objectDensity: 0.01,
     objectSeed: '6'
   });
   (0, _entities_utilities.objectChunkDispertion)({
-    createEntityFn: _staticEnvironment.staticEnvironmentInstance.bind(null, 'mushrooms'),
-    pushEntityFn: pushEnvironment,
-    entityDensity: 0.01,
+    createObjectFn: _staticEnvironment.staticEnvironmentInstance.bind(null, 'mushrooms'),
+    pushObjectFn: pushEnvironment,
+    objectDensity: 0.01,
     objectSeed: '7'
   });
 }

@@ -7,10 +7,10 @@ import { environmentSheets } from '../../sheets/environmentSheet';
 
 let bg;
 
-export let tileSize = 4;
+export let resolutionSize = 4;
 let chunk_size = 1024;
 let chunk_scale = 1;
-export const chunk_actual_size = chunk_size * chunk_scale * tileSize;
+export const chunk_actual_size = chunk_size * chunk_scale * resolutionSize;
 let chunk_detail_scale = 1;
 let seed = 12345;
 let startingChunk = getPlayerStartingChunk();
@@ -69,7 +69,7 @@ export function drawChunkGraphics(chunk) {
             let color = getColorForChunk(value);
 
             landscape.beginFill(color);
-            landscape.drawRect(i * tileSize, j * tileSize, tileSize, tileSize);
+            landscape.drawRect(i * resolutionSize, j * resolutionSize, resolutionSize, resolutionSize);
             landscape.endFill();
         }
     }
@@ -89,7 +89,7 @@ export function drawChunkGraphics(chunk) {
     let landscapeSprite = new Sprite(landscapeTexture);
     container.addChild(landscapeSprite);
 
-    objectChunkDispertion({ createEntityFn: createTexture, pushEntityFn: null, entityDensity: 1.2, objectSeed: '3812', coordX: foliage.x, coordY: foliage.y });
+    objectChunkDispertion({ createObjectFn: createTexture, pushObjectFn: null, objectDensity: 1.2, objectSeed: '3812', coordX: foliage.x, coordY: foliage.y });
     let foliageTexture = RenderTexture.create(foliage.width, foliage.height);
     app.renderer.render(foliage, foliageTexture);
     let foliageSprite = new Sprite(foliageTexture);

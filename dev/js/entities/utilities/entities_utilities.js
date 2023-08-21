@@ -7,19 +7,19 @@ export function seededRandom(seed) {
     return x - Math.floor(x);
 }
 
-export function objectChunkDispertion({ createEntityFn, pushEntityFn, entityDensity, objectSeed, coordX = coordinates.player.chunk.x, coordY = coordinates.player.chunk.y }) {
+export function objectChunkDispertion({ createObjectFn, pushObjectFn, objectDensity, objectSeed, coordX = coordinates.player.chunk.x, coordY = coordinates.player.chunk.y }) {
     objectSeed = (parseInt(seed) * parseInt(objectSeed)).toString();
     let width = chunk_actual_size;
     let height = chunk_actual_size;
-    entityDensity /= 10000;
+    objectDensity /= 10000;
     console.log(objectSeed);
 
     let totalSpots = width * height;
-    let numEntities = Math.floor(totalSpots * entityDensity);
-    let entities = [];
+    let numObjects = Math.floor(totalSpots * objectDensity);
+    let objects = [];
     let usedPositions = new Set();
 
-    while (entities.length < numEntities) {
+    while (objects.length < numObjects) {
         let potentialPosition = Math.floor(seededRandom(objectSeed++) * totalSpots);
 
         if (!usedPositions.has(potentialPosition)) {
@@ -28,13 +28,13 @@ export function objectChunkDispertion({ createEntityFn, pushEntityFn, entityDens
             let x = potentialPosition % width + coordX;
             let y = Math.floor(potentialPosition / width) + coordY;
 
-            let entity = createEntityFn(x, y, objectSeed);
-            if (pushEntityFn) {
-                pushEntityFn(entity);
+            let object = createObjectFn(x, y, objectSeed);
+            if (pushObjectFn) {
+                pushObjectFn(object);
             }
-            entities.push(entity);
+            objects.push(object);
         }
     }
 
-    return entities;
+    return objects;
 }
