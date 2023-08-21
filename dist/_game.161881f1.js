@@ -556,8 +556,8 @@ var _es6PromisePolyfill = require("es6-promise-polyfill");
 var _objectAssign = _interopRequireDefault(require("object-assign"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 /*!
- * @pixi/polyfill - v5.3.3
- * Compiled Tue, 04 Aug 2020 16:23:09 UTC
+ * @pixi/polyfill - v5.3.12
+ * Compiled Wed, 23 Mar 2022 18:34:28 UTC
  *
  * @pixi/polyfill is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -805,8 +805,8 @@ exports.settings = exports.isMobile = void 0;
 var _ismobilejs = _interopRequireDefault(require("ismobilejs"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 /*!
- * @pixi/settings - v5.3.3
- * Compiled Tue, 04 Aug 2020 16:23:09 UTC
+ * @pixi/settings - v5.3.12
+ * Compiled Wed, 23 Mar 2022 18:34:28 UTC
  *
  * @pixi/settings is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -1458,10 +1458,10 @@ function earcut(data, holeIndices, dim) {
 
         // minX, minY and invSize are later used to transform coords into integers for z-order calculation
         invSize = Math.max(maxX - minX, maxY - minY);
-        invSize = invSize !== 0 ? 1 / invSize : 0;
+        invSize = invSize !== 0 ? 32767 / invSize : 0;
     }
 
-    earcutLinked(outerNode, triangles, dim, minX, minY, invSize);
+    earcutLinked(outerNode, triangles, dim, minX, minY, invSize, 0);
 
     return triangles;
 }
@@ -1525,9 +1525,9 @@ function earcutLinked(ear, triangles, dim, minX, minY, invSize, pass) {
 
         if (invSize ? isEarHashed(ear, minX, minY, invSize) : isEar(ear)) {
             // cut off the triangle
-            triangles.push(prev.i / dim);
-            triangles.push(ear.i / dim);
-            triangles.push(next.i / dim);
+            triangles.push(prev.i / dim | 0);
+            triangles.push(ear.i / dim | 0);
+            triangles.push(next.i / dim | 0);
 
             removeNode(ear);
 
@@ -1570,10 +1570,18 @@ function isEar(ear) {
     if (area(a, b, c) >= 0) return false; // reflex, can't be an ear
 
     // now make sure we don't have other points inside the potential ear
-    var p = ear.next.next;
+    var ax = a.x, bx = b.x, cx = c.x, ay = a.y, by = b.y, cy = c.y;
 
-    while (p !== ear.prev) {
-        if (pointInTriangle(a.x, a.y, b.x, b.y, c.x, c.y, p.x, p.y) &&
+    // triangle bbox; min & max are calculated like this for speed
+    var x0 = ax < bx ? (ax < cx ? ax : cx) : (bx < cx ? bx : cx),
+        y0 = ay < by ? (ay < cy ? ay : cy) : (by < cy ? by : cy),
+        x1 = ax > bx ? (ax > cx ? ax : cx) : (bx > cx ? bx : cx),
+        y1 = ay > by ? (ay > cy ? ay : cy) : (by > cy ? by : cy);
+
+    var p = c.next;
+    while (p !== a) {
+        if (p.x >= x0 && p.x <= x1 && p.y >= y0 && p.y <= y1 &&
+            pointInTriangle(ax, ay, bx, by, cx, cy, p.x, p.y) &&
             area(p.prev, p, p.next) >= 0) return false;
         p = p.next;
     }
@@ -1588,45 +1596,43 @@ function isEarHashed(ear, minX, minY, invSize) {
 
     if (area(a, b, c) >= 0) return false; // reflex, can't be an ear
 
+    var ax = a.x, bx = b.x, cx = c.x, ay = a.y, by = b.y, cy = c.y;
+
     // triangle bbox; min & max are calculated like this for speed
-    var minTX = a.x < b.x ? (a.x < c.x ? a.x : c.x) : (b.x < c.x ? b.x : c.x),
-        minTY = a.y < b.y ? (a.y < c.y ? a.y : c.y) : (b.y < c.y ? b.y : c.y),
-        maxTX = a.x > b.x ? (a.x > c.x ? a.x : c.x) : (b.x > c.x ? b.x : c.x),
-        maxTY = a.y > b.y ? (a.y > c.y ? a.y : c.y) : (b.y > c.y ? b.y : c.y);
+    var x0 = ax < bx ? (ax < cx ? ax : cx) : (bx < cx ? bx : cx),
+        y0 = ay < by ? (ay < cy ? ay : cy) : (by < cy ? by : cy),
+        x1 = ax > bx ? (ax > cx ? ax : cx) : (bx > cx ? bx : cx),
+        y1 = ay > by ? (ay > cy ? ay : cy) : (by > cy ? by : cy);
 
     // z-order range for the current triangle bbox;
-    var minZ = zOrder(minTX, minTY, minX, minY, invSize),
-        maxZ = zOrder(maxTX, maxTY, minX, minY, invSize);
+    var minZ = zOrder(x0, y0, minX, minY, invSize),
+        maxZ = zOrder(x1, y1, minX, minY, invSize);
 
     var p = ear.prevZ,
         n = ear.nextZ;
 
     // look for points inside the triangle in both directions
     while (p && p.z >= minZ && n && n.z <= maxZ) {
-        if (p !== ear.prev && p !== ear.next &&
-            pointInTriangle(a.x, a.y, b.x, b.y, c.x, c.y, p.x, p.y) &&
-            area(p.prev, p, p.next) >= 0) return false;
+        if (p.x >= x0 && p.x <= x1 && p.y >= y0 && p.y <= y1 && p !== a && p !== c &&
+            pointInTriangle(ax, ay, bx, by, cx, cy, p.x, p.y) && area(p.prev, p, p.next) >= 0) return false;
         p = p.prevZ;
 
-        if (n !== ear.prev && n !== ear.next &&
-            pointInTriangle(a.x, a.y, b.x, b.y, c.x, c.y, n.x, n.y) &&
-            area(n.prev, n, n.next) >= 0) return false;
+        if (n.x >= x0 && n.x <= x1 && n.y >= y0 && n.y <= y1 && n !== a && n !== c &&
+            pointInTriangle(ax, ay, bx, by, cx, cy, n.x, n.y) && area(n.prev, n, n.next) >= 0) return false;
         n = n.nextZ;
     }
 
     // look for remaining points in decreasing z-order
     while (p && p.z >= minZ) {
-        if (p !== ear.prev && p !== ear.next &&
-            pointInTriangle(a.x, a.y, b.x, b.y, c.x, c.y, p.x, p.y) &&
-            area(p.prev, p, p.next) >= 0) return false;
+        if (p.x >= x0 && p.x <= x1 && p.y >= y0 && p.y <= y1 && p !== a && p !== c &&
+            pointInTriangle(ax, ay, bx, by, cx, cy, p.x, p.y) && area(p.prev, p, p.next) >= 0) return false;
         p = p.prevZ;
     }
 
     // look for remaining points in increasing z-order
     while (n && n.z <= maxZ) {
-        if (n !== ear.prev && n !== ear.next &&
-            pointInTriangle(a.x, a.y, b.x, b.y, c.x, c.y, n.x, n.y) &&
-            area(n.prev, n, n.next) >= 0) return false;
+        if (n.x >= x0 && n.x <= x1 && n.y >= y0 && n.y <= y1 && n !== a && n !== c &&
+            pointInTriangle(ax, ay, bx, by, cx, cy, n.x, n.y) && area(n.prev, n, n.next) >= 0) return false;
         n = n.nextZ;
     }
 
@@ -1642,9 +1648,9 @@ function cureLocalIntersections(start, triangles, dim) {
 
         if (!equals(a, b) && intersects(a, p, p.next, b) && locallyInside(a, b) && locallyInside(b, a)) {
 
-            triangles.push(a.i / dim);
-            triangles.push(p.i / dim);
-            triangles.push(b.i / dim);
+            triangles.push(a.i / dim | 0);
+            triangles.push(p.i / dim | 0);
+            triangles.push(b.i / dim | 0);
 
             // remove two nodes involved
             removeNode(p);
@@ -1674,8 +1680,8 @@ function splitEarcut(start, triangles, dim, minX, minY, invSize) {
                 c = filterPoints(c, c.next);
 
                 // run earcut on each half
-                earcutLinked(a, triangles, dim, minX, minY, invSize);
-                earcutLinked(c, triangles, dim, minX, minY, invSize);
+                earcutLinked(a, triangles, dim, minX, minY, invSize, 0);
+                earcutLinked(c, triangles, dim, minX, minY, invSize, 0);
                 return;
             }
             b = b.next;
@@ -1701,8 +1707,7 @@ function eliminateHoles(data, holeIndices, outerNode, dim) {
 
     // process holes from left to right
     for (i = 0; i < queue.length; i++) {
-        eliminateHole(queue[i], outerNode);
-        outerNode = filterPoints(outerNode, outerNode.next);
+        outerNode = eliminateHole(queue[i], outerNode);
     }
 
     return outerNode;
@@ -1714,14 +1719,16 @@ function compareX(a, b) {
 
 // find a bridge between vertices that connects hole with an outer ring and and link it
 function eliminateHole(hole, outerNode) {
-    outerNode = findHoleBridge(hole, outerNode);
-    if (outerNode) {
-        var b = splitPolygon(outerNode, hole);
-
-        // filter collinear points around the cuts
-        filterPoints(outerNode, outerNode.next);
-        filterPoints(b, b.next);
+    var bridge = findHoleBridge(hole, outerNode);
+    if (!bridge) {
+        return outerNode;
     }
+
+    var bridgeReverse = splitPolygon(bridge, hole);
+
+    // filter collinear points around the cuts
+    filterPoints(bridgeReverse, bridgeReverse.next);
+    return filterPoints(bridge, bridge.next);
 }
 
 // David Eberly's algorithm for finding a bridge between hole and outer polygon
@@ -1739,19 +1746,14 @@ function findHoleBridge(hole, outerNode) {
             var x = p.x + (hy - p.y) * (p.next.x - p.x) / (p.next.y - p.y);
             if (x <= hx && x > qx) {
                 qx = x;
-                if (x === hx) {
-                    if (hy === p.y) return p;
-                    if (hy === p.next.y) return p.next;
-                }
                 m = p.x < p.next.x ? p : p.next;
+                if (x === hx) return m; // hole touches outer segment; pick leftmost endpoint
             }
         }
         p = p.next;
     } while (p !== outerNode);
 
     if (!m) return null;
-
-    if (hx === qx) return m; // hole touches outer segment; pick leftmost endpoint
 
     // look for points inside the triangle of hole point, segment intersection and endpoint;
     // if there are no points found, we have a valid connection;
@@ -1793,7 +1795,7 @@ function sectorContainsSector(m, p) {
 function indexCurve(start, minX, minY, invSize) {
     var p = start;
     do {
-        if (p.z === null) p.z = zOrder(p.x, p.y, minX, minY, invSize);
+        if (p.z === 0) p.z = zOrder(p.x, p.y, minX, minY, invSize);
         p.prevZ = p.prev;
         p.nextZ = p.next;
         p = p.next;
@@ -1861,8 +1863,8 @@ function sortLinked(list) {
 // z-order of a point given coords and inverse of the longer side of data bbox
 function zOrder(x, y, minX, minY, invSize) {
     // coords are transformed into non-negative 15-bit integer range
-    x = 32767 * (x - minX) * invSize;
-    y = 32767 * (y - minY) * invSize;
+    x = (x - minX) * invSize | 0;
+    y = (y - minY) * invSize | 0;
 
     x = (x | (x << 8)) & 0x00FF00FF;
     x = (x | (x << 4)) & 0x0F0F0F0F;
@@ -1891,9 +1893,9 @@ function getLeftmost(start) {
 
 // check if a point lies within a convex triangle
 function pointInTriangle(ax, ay, bx, by, cx, cy, px, py) {
-    return (cx - px) * (ay - py) - (ax - px) * (cy - py) >= 0 &&
-           (ax - px) * (by - py) - (bx - px) * (ay - py) >= 0 &&
-           (bx - px) * (cy - py) - (cx - px) * (by - py) >= 0;
+    return (cx - px) * (ay - py) >= (ax - px) * (cy - py) &&
+           (ax - px) * (by - py) >= (bx - px) * (ay - py) &&
+           (bx - px) * (cy - py) >= (cx - px) * (by - py);
 }
 
 // check if a diagonal between two polygon nodes is valid (lies in polygon interior)
@@ -2036,7 +2038,7 @@ function Node(i, x, y) {
     this.next = null;
 
     // z-order curve value
-    this.z = null;
+    this.z = 0;
 
     // previous and next nodes in z-order
     this.prevZ = null;
@@ -5351,8 +5353,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.WRAP_MODES = exports.TYPES = exports.TARGETS = exports.SCALE_MODES = exports.RENDERER_TYPE = exports.PRECISION = exports.MSAA_QUALITY = exports.MIPMAP_MODES = exports.MASK_TYPES = exports.GC_MODES = exports.FORMATS = exports.ENV = exports.DRAW_MODES = exports.CLEAR_MODES = exports.BUFFER_BITS = exports.BLEND_MODES = exports.ALPHA_MODES = void 0;
 /*!
- * @pixi/constants - v5.3.3
- * Compiled Tue, 04 Aug 2020 16:23:09 UTC
+ * @pixi/constants - v5.3.12
+ * Compiled Wed, 23 Mar 2022 18:34:28 UTC
  *
  * @pixi/constants is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -5875,8 +5877,8 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 /*!
- * @pixi/utils - v5.3.3
- * Compiled Tue, 04 Aug 2020 16:23:09 UTC
+ * @pixi/utils - v5.3.12
+ * Compiled Wed, 23 Mar 2022 18:34:28 UTC
  *
  * @pixi/utils is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -5906,7 +5908,7 @@ _settings.settings.RETINA_PREFIX = /@([0-9\.]+)x/;
  */
 _settings.settings.FAIL_IF_MAJOR_PERFORMANCE_CAVEAT = true;
 var saidHello = false;
-var VERSION = '5.3.3';
+var VERSION = '5.3.12';
 /**
  * Skips the hello message of renderers that are created after this is run.
  *
@@ -6754,8 +6756,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.groupD8 = exports.Transform = exports.SHAPES = exports.RoundedRectangle = exports.Rectangle = exports.RAD_TO_DEG = exports.Polygon = exports.Point = exports.PI_2 = exports.ObservablePoint = exports.Matrix = exports.Ellipse = exports.DEG_TO_RAD = exports.Circle = void 0;
 /*!
- * @pixi/math - v5.3.3
- * Compiled Tue, 04 Aug 2020 16:23:09 UTC
+ * @pixi/math - v5.3.12
+ * Compiled Wed, 23 Mar 2022 18:34:28 UTC
  *
  * @pixi/math is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -8779,8 +8781,8 @@ var _settings = require("@pixi/settings");
 var _math = require("@pixi/math");
 var _utils = require("@pixi/utils");
 /*!
- * @pixi/display - v5.3.3
- * Compiled Tue, 04 Aug 2020 16:23:09 UTC
+ * @pixi/display - v5.3.12
+ * Compiled Wed, 23 Mar 2022 18:34:28 UTC
  *
  * @pixi/display is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -10486,8 +10488,8 @@ exports.accessibleTarget = exports.AccessibilityManager = void 0;
 var _display = require("@pixi/display");
 var _utils = require("@pixi/utils");
 /*!
- * @pixi/accessibility - v5.3.3
- * Compiled Tue, 04 Aug 2020 16:23:09 UTC
+ * @pixi/accessibility - v5.3.12
+ * Compiled Wed, 23 Mar 2022 18:34:28 UTC
  *
  * @pixi/accessibility is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -11073,8 +11075,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.UPDATE_PRIORITY = exports.TickerPlugin = exports.Ticker = void 0;
 var _settings = require("@pixi/settings");
 /*!
- * @pixi/ticker - v5.3.3
- * Compiled Tue, 04 Aug 2020 16:23:09 UTC
+ * @pixi/ticker - v5.3.12
+ * Compiled Wed, 23 Mar 2022 18:34:28 UTC
  *
  * @pixi/ticker is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -11938,8 +11940,8 @@ var _ticker = require("@pixi/ticker");
 var _display = require("@pixi/display");
 var _utils = require("@pixi/utils");
 /*!
- * @pixi/interaction - v5.3.3
- * Compiled Tue, 04 Aug 2020 16:23:09 UTC
+ * @pixi/interaction - v5.3.12
+ * Compiled Wed, 23 Mar 2022 18:34:28 UTC
  *
  * @pixi/interaction is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -14182,8 +14184,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Runner = void 0;
 /*!
- * @pixi/runner - v5.3.3
- * Compiled Tue, 04 Aug 2020 16:23:09 UTC
+ * @pixi/runner - v5.3.12
+ * Compiled Wed, 23 Mar 2022 18:34:28 UTC
  *
  * @pixi/runner is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -14401,8 +14403,8 @@ var _runner = require("@pixi/runner");
 var _ticker = require("@pixi/ticker");
 var _math = require("@pixi/math");
 /*!
- * @pixi/core - v5.3.3
- * Compiled Tue, 04 Aug 2020 16:23:09 UTC
+ * @pixi/core - v5.3.12
+ * Compiled Wed, 23 Mar 2022 18:34:28 UTC
  *
  * @pixi/core is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -16361,7 +16363,7 @@ var SVGResource = /** @class */function (_super) {
     // url file extension is SVG
     return extension === 'svg'
     // source is SVG data-uri
-    || typeof source === 'string' && source.indexOf('data:image/svg+xml;base64') === 0
+    || typeof source === 'string' && /^data:image\/svg\+xml(;(charset=utf8|utf8))?;base64/.test(source)
     // source is SVG inline
     || typeof source === 'string' && source.indexOf('<svg') === 0;
   };
@@ -18953,7 +18955,7 @@ var FilterSystem = /** @class */function (_super) {
       // new behavior: sum the padding
       : padding + filter.padding;
       // only auto fit if all filters are autofit
-      autoFit = autoFit || filter.autoFit;
+      autoFit = autoFit && filter.autoFit;
       legacy = legacy || filter.legacy;
     }
     if (filterStack.length === 1) {
@@ -19557,6 +19559,10 @@ var ContextSystem = /** @class */function (_super) {
    */
   ContextSystem.prototype.validateContext = function (gl) {
     var attributes = gl.getContextAttributes();
+    var isWebGl2 = 'WebGL2RenderingContext' in window && gl instanceof window.WebGL2RenderingContext;
+    if (isWebGl2) {
+      this.webGLVersion = 2;
+    }
     // this is going to be fairly simple for now.. but at least we have room to grow!
     if (!attributes.stencil) {
       /* eslint-disable max-len, no-console */
@@ -19564,7 +19570,7 @@ var ContextSystem = /** @class */function (_super) {
       /* eslint-enable max-len, no-console */
     }
 
-    var hasuint32 = 'WebGL2RenderingContext' in window && gl instanceof window.WebGL2RenderingContext || !!gl.getExtension('OES_element_index_uint');
+    var hasuint32 = isWebGl2 || !!gl.getExtension('OES_element_index_uint');
     this.supports.uint32Indices = hasuint32;
     if (!hasuint32) {
       /* eslint-disable max-len, no-console */
@@ -20126,7 +20132,7 @@ var GeometrySystem = /** @class */function (_super) {
     var context = this.renderer.context;
     this.CONTEXT_UID = this.renderer.CONTEXT_UID;
     // webgl2
-    if (!gl.createVertexArray) {
+    if (context.webGLVersion !== 2) {
       // webgl 1!
       var nativeVaoExtension_1 = this.renderer.context.extensions.vertexArrayObject;
       if (_settings.settings.PREFER_ENV === _constants.ENV.WEBGL_LEGACY) {
@@ -20155,7 +20161,7 @@ var GeometrySystem = /** @class */function (_super) {
         };
       }
     }
-    if (!gl.vertexAttribDivisor) {
+    if (context.webGLVersion !== 2) {
       var instanceExt_1 = gl.getExtension('ANGLE_instanced_arrays');
       if (instanceExt_1) {
         gl.vertexAttribDivisor = function (a, b) {
@@ -20187,12 +20193,14 @@ var GeometrySystem = /** @class */function (_super) {
     // Still mulling over the best way to solve this one..
     // will likely need to modify the shader attribute locations at run time!
     var vaos = geometry.glVertexArrayObjects[this.CONTEXT_UID];
+    var incRefCount = false;
     if (!vaos) {
       this.managedGeometries[geometry.id] = geometry;
       geometry.disposeRunner.add(this);
       geometry.glVertexArrayObjects[this.CONTEXT_UID] = vaos = {};
+      incRefCount = true;
     }
-    var vao = vaos[shader.program.id] || this.initGeometryVao(geometry, shader.program);
+    var vao = vaos[shader.program.id] || this.initGeometryVao(geometry, shader.program, incRefCount);
     this._activeGeometry = geometry;
     if (this._activeVao !== vao) {
       this._activeVao = vao;
@@ -20288,8 +20296,12 @@ var GeometrySystem = /** @class */function (_super) {
    * @protected
    * @param {PIXI.Geometry} geometry - Instance of geometry to to generate Vao for
    * @param {PIXI.Program} program - Instance of program
+   * @param {boolean} [incRefCount=false] - Increment refCount of all geometry buffers
    */
-  GeometrySystem.prototype.initGeometryVao = function (geometry, program) {
+  GeometrySystem.prototype.initGeometryVao = function (geometry, program, incRefCount) {
+    if (incRefCount === void 0) {
+      incRefCount = true;
+    }
     this.checkCompatibility(geometry, program);
     var gl = this.gl;
     var CONTEXT_UID = this.CONTEXT_UID;
@@ -20344,7 +20356,9 @@ var GeometrySystem = /** @class */function (_super) {
         this.managedBuffers[buffer.id] = buffer;
         buffer.disposeRunner.add(this);
       }
-      buffer._glBuffers[CONTEXT_UID].refCount++;
+      if (incRefCount) {
+        buffer._glBuffers[CONTEXT_UID].refCount++;
+      }
     }
     // TODO - maybe make this a data object?
     // lets wait to see if we need to first!
@@ -23322,11 +23336,11 @@ var TextureGCSystem = /** @class */function (_super) {
    * @param {PIXI.DisplayObject} displayObject - the displayObject to remove the textures from.
    */
   TextureGCSystem.prototype.unload = function (displayObject) {
-    var _a;
     var tm = this.renderer.texture;
+    var texture = displayObject._texture;
     // only destroy non generated textures
-    if ((_a = displayObject._texture) === null || _a === void 0 ? void 0 : _a.framebuffer) {
-      tm.destroyTexture(displayObject._texture);
+    if (texture && !texture.framebuffer) {
+      tm.destroyTexture(texture);
     }
     for (var i = displayObject.children.length - 1; i >= 0; i--) {
       this.unload(displayObject.children[i]);
@@ -23552,7 +23566,7 @@ var TextureSystem = /** @class */function (_super) {
           gl.activeTexture(gl.TEXTURE0 + i);
           this.currentLocation = i;
         }
-        gl.bindTexture(gl.TEXTURE_2D, this.emptyTextures[texture.target].texture);
+        gl.bindTexture(texture.target, this.emptyTextures[texture.target].texture);
         boundTextures[i] = null;
       }
     }
@@ -25427,8 +25441,8 @@ exports.Application = void 0;
 var _display = require("@pixi/display");
 var _core = require("@pixi/core");
 /*!
- * @pixi/app - v5.3.3
- * Compiled Tue, 04 Aug 2020 16:23:09 UTC
+ * @pixi/app - v5.3.12
+ * Compiled Wed, 23 Mar 2022 18:34:28 UTC
  *
  * @pixi/app is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -25690,6 +25704,7 @@ var ResizePlugin = /** @class */function () {
    * @private
    */
   ResizePlugin.destroy = function () {
+    window.removeEventListener('resize', this.queueResize);
     this.cancelResize();
     this.cancelResize = null;
     this.queueResize = null;
@@ -25710,8 +25725,8 @@ var _utils = require("@pixi/utils");
 var _math = require("@pixi/math");
 var _core = require("@pixi/core");
 /*!
- * @pixi/extract - v5.3.3
- * Compiled Tue, 04 Aug 2020 16:23:09 UTC
+ * @pixi/extract - v5.3.12
+ * Compiled Wed, 23 Mar 2022 18:34:28 UTC
  *
  * @pixi/extract is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -25921,34 +25936,32 @@ var Extract = /** @class */function () {
   return Extract;
 }();
 exports.Extract = Extract;
-},{"@pixi/utils":"node_modules/@pixi/utils/lib/utils.es.js","@pixi/math":"node_modules/@pixi/math/lib/math.es.js","@pixi/core":"node_modules/@pixi/core/lib/core.es.js"}],"node_modules/parse-uri/index.js":[function(require,module,exports) {
+},{"@pixi/utils":"node_modules/@pixi/utils/lib/utils.es.js","@pixi/math":"node_modules/@pixi/math/lib/math.es.js","@pixi/core":"node_modules/@pixi/core/lib/core.es.js"}],"node_modules/parse-uri/src/index.js":[function(require,module,exports) {
 'use strict';
 
-function parseURI(str, opts) {
+module.exports = (str, opts = {}) => {
   if (!str) return undefined;
-  opts = opts || {};
-  var o = {
+  const o = {
     key: ['source', 'protocol', 'authority', 'userInfo', 'user', 'password', 'host', 'port', 'relative', 'path', 'directory', 'file', 'query', 'anchor'],
     q: {
       name: 'queryKey',
       parser: /(?:^|&)([^&=]*)=?([^&]*)/g
     },
     parser: {
-      strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
-      loose: /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
+      strict: /^(?:([^:/?#]+):)?(?:\/\/((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:/?#]*)(?::(\d*))?))?((((?:[^?#/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
+      loose: /^(?:(?![^:@]+:[^:@/]*@)([^:/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#/]*\.[^?#/.]+(?:[?#]|$)))*\/?)?([^?#/]*))(?:\?([^#]*))?(?:#(.*))?)/
     }
   };
-  var m = o.parser[opts.strictMode ? 'strict' : 'loose'].exec(str);
-  var uri = {};
-  var i = 14;
+  const m = o.parser[opts.strictMode ? 'strict' : 'loose'].exec(str);
+  const uri = {};
+  let i = 14;
   while (i--) uri[o.key[i]] = m[i] || '';
   uri[o.q.name] = {};
   uri[o.key[12]].replace(o.q.parser, function ($0, $1, $2) {
     if ($1) uri[o.q.name][$1] = $2;
   });
   return uri;
-}
-module.exports = parseURI;
+};
 },{}],"node_modules/mini-signals/lib/mini-signals.js":[function(require,module,exports) {
 'use strict';
 
@@ -28251,7 +28264,7 @@ Loader.use = function LoaderUseStatic(fn) {
   Loader._defaultAfterMiddleware.push(fn);
   return Loader;
 };
-},{"parse-uri":"node_modules/parse-uri/index.js","mini-signals":"node_modules/mini-signals/lib/mini-signals.js"}],"node_modules/@pixi/loaders/lib/loaders.es.js":[function(require,module,exports) {
+},{"parse-uri":"node_modules/parse-uri/src/index.js","mini-signals":"node_modules/mini-signals/lib/mini-signals.js"}],"node_modules/@pixi/loaders/lib/loaders.es.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28261,8 +28274,8 @@ exports.TextureLoader = exports.LoaderResource = exports.Loader = exports.AppLoa
 var _resourceLoader = require("resource-loader");
 var _core = require("@pixi/core");
 /*!
- * @pixi/loaders - v5.3.3
- * Compiled Tue, 04 Aug 2020 16:23:09 UTC
+ * @pixi/loaders - v5.3.12
+ * Compiled Wed, 23 Mar 2022 18:34:28 UTC
  *
  * @pixi/loaders is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -28603,8 +28616,8 @@ var _utils = require("@pixi/utils");
 var _core = require("@pixi/core");
 var _math = require("@pixi/math");
 /*!
- * @pixi/particles - v5.3.3
- * Compiled Tue, 04 Aug 2020 16:23:09 UTC
+ * @pixi/particles - v5.3.12
+ * Compiled Wed, 23 Mar 2022 18:34:28 UTC
  *
  * @pixi/particles is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -29426,8 +29439,8 @@ var _utils = require("@pixi/utils");
 var _constants = require("@pixi/constants");
 var _display = require("@pixi/display");
 /*!
- * @pixi/graphics - v5.3.3
- * Compiled Tue, 04 Aug 2020 16:23:09 UTC
+ * @pixi/graphics - v5.3.12
+ * Compiled Wed, 23 Mar 2022 18:34:28 UTC
  *
  * @pixi/graphics is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -30127,38 +30140,70 @@ function buildNonNativeLine(graphicsData, graphicsGeometry) {
     /* Outer miter point */
     var omx = x1 - (px - x1) * outerWeight;
     var omy = y1 - (py - y1) * outerWeight;
-    if (style.join === LINE_JOIN.BEVEL || pdist / widthSquared > miterLimitSquared) {
-      if (clockwise) /* rotating at inner angle */{
-          verts.push(imx, imy); // inner miter point
-          verts.push(x1 + perpx * outerWeight, y1 + perpy * outerWeight); // first segment's outer vertex
-          verts.push(imx, imy); // inner miter point
-          verts.push(x1 + perp1x * outerWeight, y1 + perp1y * outerWeight); // second segment's outer vertex
-        } else /* rotating at outer angle */{
-          verts.push(x1 - perpx * innerWeight, y1 - perpy * innerWeight); // first segment's inner vertex
-          verts.push(omx, omy); // outer miter point
-          verts.push(x1 - perp1x * innerWeight, y1 - perp1y * innerWeight); // second segment's outer vertex
-          verts.push(omx, omy); // outer miter point
-        }
+    /* Is the inside miter point too far away, creating a spike? */
+    var smallerInsideSegmentSq = Math.min(dx0 * dx0 + dy0 * dy0, dx1 * dx1 + dy1 * dy1);
+    var insideWeight = clockwise ? innerWeight : outerWeight;
+    var smallerInsideDiagonalSq = smallerInsideSegmentSq + insideWeight * insideWeight * widthSquared;
+    var insideMiterOk = pdist <= smallerInsideDiagonalSq;
+    if (insideMiterOk) {
+      if (style.join === LINE_JOIN.BEVEL || pdist / widthSquared > miterLimitSquared) {
+        if (clockwise) /* rotating at inner angle */{
+            verts.push(imx, imy); // inner miter point
+            verts.push(x1 + perpx * outerWeight, y1 + perpy * outerWeight); // first segment's outer vertex
+            verts.push(imx, imy); // inner miter point
+            verts.push(x1 + perp1x * outerWeight, y1 + perp1y * outerWeight); // second segment's outer vertex
+          } else /* rotating at outer angle */{
+            verts.push(x1 - perpx * innerWeight, y1 - perpy * innerWeight); // first segment's inner vertex
+            verts.push(omx, omy); // outer miter point
+            verts.push(x1 - perp1x * innerWeight, y1 - perp1y * innerWeight); // second segment's outer vertex
+            verts.push(omx, omy); // outer miter point
+          }
 
-      indexCount += 2;
-    } else if (style.join === LINE_JOIN.ROUND) {
-      if (clockwise) /* arc is outside */{
-          verts.push(imx, imy);
-          verts.push(x1 + perpx * outerWeight, y1 + perpy * outerWeight);
-          indexCount += round(x1, y1, x1 + perpx * outerWeight, y1 + perpy * outerWeight, x1 + perp1x * outerWeight, y1 + perp1y * outerWeight, verts, true) + 4;
-          verts.push(imx, imy);
-          verts.push(x1 + perp1x * outerWeight, y1 + perp1y * outerWeight);
-        } else /* arc is inside */{
-          verts.push(x1 - perpx * innerWeight, y1 - perpy * innerWeight);
-          verts.push(omx, omy);
-          indexCount += round(x1, y1, x1 - perpx * innerWeight, y1 - perpy * innerWeight, x1 - perp1x * innerWeight, y1 - perp1y * innerWeight, verts, false) + 4;
-          verts.push(x1 - perp1x * innerWeight, y1 - perp1y * innerWeight);
-          verts.push(omx, omy);
+        indexCount += 2;
+      } else if (style.join === LINE_JOIN.ROUND) {
+        if (clockwise) /* arc is outside */{
+            verts.push(imx, imy);
+            verts.push(x1 + perpx * outerWeight, y1 + perpy * outerWeight);
+            indexCount += round(x1, y1, x1 + perpx * outerWeight, y1 + perpy * outerWeight, x1 + perp1x * outerWeight, y1 + perp1y * outerWeight, verts, true) + 4;
+            verts.push(imx, imy);
+            verts.push(x1 + perp1x * outerWeight, y1 + perp1y * outerWeight);
+          } else /* arc is inside */{
+            verts.push(x1 - perpx * innerWeight, y1 - perpy * innerWeight);
+            verts.push(omx, omy);
+            indexCount += round(x1, y1, x1 - perpx * innerWeight, y1 - perpy * innerWeight, x1 - perp1x * innerWeight, y1 - perp1y * innerWeight, verts, false) + 4;
+            verts.push(x1 - perp1x * innerWeight, y1 - perp1y * innerWeight);
+            verts.push(omx, omy);
+          }
+      } else {
+        verts.push(imx, imy);
+        verts.push(omx, omy);
+      }
+    } else
+      // inside miter is NOT ok
+      {
+        verts.push(x1 - perpx * innerWeight, y1 - perpy * innerWeight); // first segment's inner vertex
+        verts.push(x1 + perpx * outerWeight, y1 + perpy * outerWeight); // first segment's outer vertex
+        if (style.join === LINE_JOIN.BEVEL || pdist / widthSquared > miterLimitSquared) ;else if (style.join === LINE_JOIN.ROUND) {
+          if (clockwise) /* arc is outside */{
+              indexCount += round(x1, y1, x1 + perpx * outerWeight, y1 + perpy * outerWeight, x1 + perp1x * outerWeight, y1 + perp1y * outerWeight, verts, true) + 2;
+            } else /* arc is inside */{
+              indexCount += round(x1, y1, x1 - perpx * innerWeight, y1 - perpy * innerWeight, x1 - perp1x * innerWeight, y1 - perp1y * innerWeight, verts, false) + 2;
+            }
+        } else {
+          if (clockwise) {
+            verts.push(omx, omy); // inner miter point
+            verts.push(omx, omy); // inner miter point
+          } else {
+            verts.push(imx, imy); // outer miter point
+            verts.push(imx, imy); // outer miter point
+          }
+
+          indexCount += 2;
         }
-    } else {
-      verts.push(imx, imy);
-      verts.push(omx, omy);
-    }
+        verts.push(x1 - perp1x * innerWeight, y1 - perp1y * innerWeight); // second segment's inner vertex
+        verts.push(x1 + perp1x * outerWeight, y1 + perp1y * outerWeight); // second segment's outer vertex
+        indexCount += 2;
+      }
   }
   x0 = points[(length - 2) * 2];
   y0 = points[(length - 2) * 2 + 1];
@@ -31271,8 +31316,8 @@ var GraphicsGeometry = /** @class */function (_super) {
       currentGroup.size += data.size;
       index += data.size;
       textureId = nextTexture._batchLocation;
-      this.addColors(colors, style.color, style.alpha, data.attribSize);
-      this.addTextureIds(textureIds, textureId, data.attribSize);
+      this.addColors(colors, style.color, style.alpha, data.attribSize, data.attribStart);
+      this.addTextureIds(textureIds, textureId, data.attribSize, data.attribStart);
     }
     _core.BaseTexture._globalBatch = TICK;
     // upload..
@@ -31425,13 +31470,18 @@ var GraphicsGeometry = /** @class */function (_super) {
    * @param {number} color - Color to add
    * @param {number} alpha - Alpha to use
    * @param {number} size - Number of colors to add
+   * @param {number} offset
    */
-  GraphicsGeometry.prototype.addColors = function (colors, color, alpha, size) {
+  GraphicsGeometry.prototype.addColors = function (colors, color, alpha, size, offset) {
+    if (offset === void 0) {
+      offset = 0;
+    }
     // TODO use the premultiply bits Ivan added
     var rgb = (color >> 16) + (color & 0xff00) + ((color & 0xff) << 16);
     var rgba = (0, _utils.premultiplyTint)(rgb, alpha);
-    while (size-- > 0) {
-      colors.push(rgba);
+    colors.length = Math.max(colors.length, offset + size);
+    for (var i = 0; i < size; i++) {
+      colors[offset + i] = rgba;
     }
   };
   /**
@@ -31441,10 +31491,15 @@ var GraphicsGeometry = /** @class */function (_super) {
    * @param {number[]} textureIds
    * @param {number} id
    * @param {number} size
+   * @param {number} offset
    */
-  GraphicsGeometry.prototype.addTextureIds = function (textureIds, id, size) {
-    while (size-- > 0) {
-      textureIds.push(id);
+  GraphicsGeometry.prototype.addTextureIds = function (textureIds, id, size, offset) {
+    if (offset === void 0) {
+      offset = 0;
+    }
+    textureIds.length = Math.max(textureIds.length, offset + size);
+    for (var i = 0; i < size; i++) {
+      textureIds[offset + i] = id;
     }
   };
   /**
@@ -32383,10 +32438,10 @@ var Graphics = /** @class */function (_super) {
   Graphics.prototype._render = function (renderer) {
     this.finishPoly();
     var geometry = this._geometry;
-    var hasuit32 = renderer.context.supports.uint32Indices;
+    var hasuint32 = renderer.context.supports.uint32Indices;
     // batch part..
     // batch it!
-    geometry.updateBatches(hasuit32);
+    geometry.updateBatches(hasuint32);
     if (geometry.batchable) {
       if (this.batchDirty !== geometry.batchDirty) {
         this._populateBatches();
@@ -32515,8 +32570,9 @@ var Graphics = /** @class */function (_super) {
       // and that only gets created if we actually need it..
       // but may be more than one plugins for graphics
       if (!DEFAULT_SHADERS[pluginName]) {
-        var sampleValues = new Int32Array(16);
-        for (var i = 0; i < 16; i++) {
+        var MAX_TEXTURES = renderer.plugins.batch.MAX_TEXTURES;
+        var sampleValues = new Int32Array(MAX_TEXTURES);
+        for (var i = 0; i < MAX_TEXTURES; i++) {
           sampleValues[i] = i;
         }
         var uniforms = {
@@ -32668,7 +32724,6 @@ var Graphics = /** @class */function (_super) {
    *  Should it destroy the base texture of the child sprite
    */
   Graphics.prototype.destroy = function (options) {
-    _super.prototype.destroy.call(this, options);
     this._geometry.refCount--;
     if (this._geometry.refCount === 0) {
       this._geometry.dispose();
@@ -32711,8 +32766,8 @@ var _math = require("@pixi/math");
 var _settings = require("@pixi/settings");
 var _utils = require("@pixi/utils");
 /*!
- * @pixi/sprite - v5.3.3
- * Compiled Tue, 04 Aug 2020 16:23:09 UTC
+ * @pixi/sprite - v5.3.12
+ * Compiled Wed, 23 Mar 2022 18:34:28 UTC
  *
  * @pixi/sprite is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -33305,8 +33360,8 @@ var _settings = require("@pixi/settings");
 var _math = require("@pixi/math");
 var _utils = require("@pixi/utils");
 /*!
- * @pixi/text - v5.3.3
- * Compiled Tue, 04 Aug 2020 16:23:09 UTC
+ * @pixi/text - v5.3.12
+ * Compiled Wed, 23 Mar 2022 18:34:28 UTC
  *
  * @pixi/text is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -34268,7 +34323,7 @@ var TextMetrics = /** @class */function () {
     var width = 0;
     var line = '';
     var lines = '';
-    var cache = {};
+    var cache = Object.create(null);
     var letterSpacing = style.letterSpacing,
       whiteSpace = style.whiteSpace;
     // How to handle whitespaces
@@ -34426,7 +34481,7 @@ var TextMetrics = /** @class */function () {
    */
   TextMetrics.getFromCache = function (key, letterSpacing, cache, context) {
     var width = cache[key];
-    if (width === undefined) {
+    if (typeof width !== 'number') {
       var spacing = key.length * letterSpacing;
       width = context.measureText(key).width + spacing;
       cache[key] = width;
@@ -34943,8 +34998,9 @@ var Text = /** @class */function (_super) {
     // beneath the text, whilst also having the proper text shadow styling.
     for (var i = 0; i < passesCount; ++i) {
       var isShadowPass = style.dropShadow && i === 0;
-      var dsOffsetText = isShadowPass ? height * 2 : 0; // we only want the drop shadow, so put text way off-screen
-      var dsOffsetShadow = dsOffsetText * this.resolution;
+      // we only want the drop shadow, so put text way off-screen
+      var dsOffsetText = isShadowPass ? Math.ceil(Math.max(1, height) + style.padding * 2) : 0;
+      var dsOffsetShadow = dsOffsetText * this._resolution;
       if (isShadowPass) {
         // On Safari, text with gradient and drop shadows together do not position correctly
         // if the scale of the canvas is not 1: https://bugs.webkit.org/show_bug.cgi?id=197689
@@ -34953,10 +35009,12 @@ var Text = /** @class */function (_super) {
         context.strokeStyle = 'black';
         var dropShadowColor = style.dropShadowColor;
         var rgb = (0, _utils.hex2rgb)(typeof dropShadowColor === 'number' ? dropShadowColor : (0, _utils.string2hex)(dropShadowColor));
+        var dropShadowBlur = style.dropShadowBlur * this._resolution;
+        var dropShadowDistance = style.dropShadowDistance * this._resolution;
         context.shadowColor = "rgba(" + rgb[0] * 255 + "," + rgb[1] * 255 + "," + rgb[2] * 255 + "," + style.dropShadowAlpha + ")";
-        context.shadowBlur = style.dropShadowBlur;
-        context.shadowOffsetX = Math.cos(style.dropShadowAngle) * style.dropShadowDistance;
-        context.shadowOffsetY = Math.sin(style.dropShadowAngle) * style.dropShadowDistance + dsOffsetShadow;
+        context.shadowBlur = dropShadowBlur;
+        context.shadowOffsetX = Math.cos(style.dropShadowAngle) * dropShadowDistance;
+        context.shadowOffsetY = Math.sin(style.dropShadowAngle) * dropShadowDistance + dsOffsetShadow;
       } else {
         // set canvas text styles
         context.fillStyle = this._generateFillStyle(style, lines, measured);
@@ -34964,7 +35022,7 @@ var Text = /** @class */function (_super) {
         //       the setter converts to string. See this thread for more details:
         //       https://github.com/microsoft/TypeScript/issues/2521
         context.strokeStyle = style.stroke;
-        context.shadowColor = '0';
+        context.shadowColor = 'black';
         context.shadowBlur = 0;
         context.shadowOffsetX = 0;
         context.shadowOffsetY = 0;
@@ -35348,8 +35406,8 @@ var _ticker = require("@pixi/ticker");
 var _display = require("@pixi/display");
 var _text = require("@pixi/text");
 /*!
- * @pixi/prepare - v5.3.3
- * Compiled Tue, 04 Aug 2020 16:23:09 UTC
+ * @pixi/prepare - v5.3.12
+ * Compiled Wed, 23 Mar 2022 18:34:28 UTC
  *
  * @pixi/prepare is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -35995,8 +36053,8 @@ var _core = require("@pixi/core");
 var _utils = require("@pixi/utils");
 var _loaders = require("@pixi/loaders");
 /*!
- * @pixi/spritesheet - v5.3.3
- * Compiled Tue, 04 Aug 2020 16:23:09 UTC
+ * @pixi/spritesheet - v5.3.12
+ * Compiled Wed, 23 Mar 2022 18:34:28 UTC
  *
  * @pixi/spritesheet is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -36337,8 +36395,8 @@ var _sprite = require("@pixi/sprite");
 var _utils = require("@pixi/utils");
 var _constants = require("@pixi/constants");
 /*!
- * @pixi/sprite-tiling - v5.3.3
- * Compiled Tue, 04 Aug 2020 16:23:09 UTC
+ * @pixi/sprite-tiling - v5.3.12
+ * Compiled Wed, 23 Mar 2022 18:34:28 UTC
  *
  * @pixi/sprite-tiling is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -36428,7 +36486,7 @@ var TilingSprite = /** @class */function (_super) {
      *
      * @member {PIXI.TextureMatrix}
      */
-    _this.uvMatrix = texture.uvMatrix || new _core.TextureMatrix(texture);
+    _this.uvMatrix = _this.texture.uvMatrix || new _core.TextureMatrix(texture);
     /**
      * Plugin that is responsible for rendering this element.
      * Allows to customize the rendering process without overriding '_render' method.
@@ -36646,8 +36704,8 @@ var TilingSprite = /** @class */function (_super) {
 }(_sprite.Sprite);
 exports.TilingSprite = TilingSprite;
 var vertex = "attribute vec2 aVertexPosition;\nattribute vec2 aTextureCoord;\n\nuniform mat3 projectionMatrix;\nuniform mat3 translationMatrix;\nuniform mat3 uTransform;\n\nvarying vec2 vTextureCoord;\n\nvoid main(void)\n{\n    gl_Position = vec4((projectionMatrix * translationMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);\n\n    vTextureCoord = (uTransform * vec3(aTextureCoord, 1.0)).xy;\n}\n";
-var fragment = "varying vec2 vTextureCoord;\n\nuniform sampler2D uSampler;\nuniform vec4 uColor;\nuniform mat3 uMapCoord;\nuniform vec4 uClampFrame;\nuniform vec2 uClampOffset;\n\nvoid main(void)\n{\n    vec2 coord = vTextureCoord - floor(vTextureCoord - uClampOffset);\n    coord = (uMapCoord * vec3(coord, 1.0)).xy;\n    coord = clamp(coord, uClampFrame.xy, uClampFrame.zw);\n\n    vec4 texSample = texture2D(uSampler, coord);\n    gl_FragColor = texSample * uColor;\n}\n";
-var fragmentSimple = "varying vec2 vTextureCoord;\n\nuniform sampler2D uSampler;\nuniform vec4 uColor;\n\nvoid main(void)\n{\n    vec4 sample = texture2D(uSampler, vTextureCoord);\n    gl_FragColor = sample * uColor;\n}\n";
+var fragment = "varying vec2 vTextureCoord;\n\nuniform sampler2D uSampler;\nuniform vec4 uColor;\nuniform mat3 uMapCoord;\nuniform vec4 uClampFrame;\nuniform vec2 uClampOffset;\n\nvoid main(void)\n{\n    vec2 coord = vTextureCoord + ceil(uClampOffset - vTextureCoord);\n    coord = (uMapCoord * vec3(coord, 1.0)).xy;\n    coord = clamp(coord, uClampFrame.xy, uClampFrame.zw);\n\n    vec4 texSample = texture2D(uSampler, coord);\n    gl_FragColor = texSample * uColor;\n}\n";
+var fragmentSimple = "varying vec2 vTextureCoord;\n\nuniform sampler2D uSampler;\nuniform vec4 uColor;\n\nvoid main(void)\n{\n    vec4 texSample = texture2D(uSampler, vTextureCoord);\n    gl_FragColor = texSample * uColor;\n}\n";
 var tempMat = new _math.Matrix();
 /**
  * WebGL renderer plugin for tiling sprites
@@ -36762,8 +36820,8 @@ var _display = require("@pixi/display");
 var _settings = require("@pixi/settings");
 var _utils = require("@pixi/utils");
 /*!
- * @pixi/mesh - v5.3.3
- * Compiled Tue, 04 Aug 2020 16:23:09 UTC
+ * @pixi/mesh - v5.3.12
+ * Compiled Wed, 23 Mar 2022 18:34:28 UTC
  *
  * @pixi/mesh is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -36959,9 +37017,6 @@ var Mesh = /** @class */function (_super) {
      */
     _this.vertexDirty = 0;
     _this._transformID = -1;
-    // Inherited from DisplayMode, set defaults
-    _this.tint = 0xFFFFFF;
-    _this.blendMode = _constants.BLEND_MODES.NORMAL;
     /**
      * Internal roundPixels field
      *
@@ -37489,8 +37544,8 @@ var _text = require("@pixi/text");
 var _display = require("@pixi/display");
 var _loaders = require("@pixi/loaders");
 /*!
- * @pixi/text-bitmap - v5.3.3
- * Compiled Tue, 04 Aug 2020 16:23:09 UTC
+ * @pixi/text-bitmap - v5.3.12
+ * Compiled Wed, 23 Mar 2022 18:34:28 UTC
  *
  * @pixi/text-bitmap is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -37645,7 +37700,8 @@ var TextFormat = /** @class */function () {
       page: [],
       char: [],
       chars: [],
-      kerning: []
+      kerning: [],
+      kernings: []
     };
     for (var i in items) {
       // Extract item name
@@ -37789,8 +37845,46 @@ var XMLFormat = /** @class */function () {
   return XMLFormat;
 }();
 
+/**
+ * BitmapFont format that's XML-based.
+ *
+ * @class
+ * @private
+ */
+var XMLStringFormat = /** @class */function () {
+  function XMLStringFormat() {}
+  /**
+   * Check if resource refers to text xml font data.
+   *
+   * @static
+   * @private
+   * @param {any} data
+   * @return {boolean} True if resource could be treated as font data, false otherwise.
+   */
+  XMLStringFormat.test = function (data) {
+    if (typeof data === 'string' && data.indexOf('<font>') > -1) {
+      var xml = new self.DOMParser().parseFromString(data, 'text/xml');
+      return XMLFormat.test(xml);
+    }
+    return false;
+  };
+  /**
+   * Convert the text XML into BitmapFontData that we can use.
+   *
+   * @static
+   * @private
+   * @param {string} xmlTxt
+   * @return {BitmapFontData} Data to use for BitmapFont
+   */
+  XMLStringFormat.parse = function (xmlTxt) {
+    var xml = new window.DOMParser().parseFromString(xmlTxt, 'text/xml');
+    return XMLFormat.parse(xml);
+  };
+  return XMLStringFormat;
+}();
+
 // Registered formats, maybe make this extensible in the future?
-var formats = [TextFormat, XMLFormat];
+var formats = [TextFormat, XMLFormat, XMLStringFormat];
 /**
  * Auto-detect BitmapFont parsing format based on data.
  * @private
@@ -37934,23 +38028,17 @@ function drawGlyph(canvas, context, metrics, x, y, resolution, style) {
   // set canvas text styles
   context.fillStyle = generateFillStyle(canvas, context, style, resolution, [char], metrics);
   context.strokeStyle = style.stroke;
-  context.font = style.toFontString();
-  context.lineWidth = style.strokeThickness;
-  context.textBaseline = style.textBaseline;
-  context.lineJoin = style.lineJoin;
-  context.miterLimit = style.miterLimit;
-  // set canvas text styles
-  context.fillStyle = generateFillStyle(canvas, context, style, resolution, [char], metrics);
-  context.strokeStyle = style.stroke;
-  var dropShadowColor = style.dropShadowColor;
-  var rgb = (0, _utils.hex2rgb)(typeof dropShadowColor === 'number' ? dropShadowColor : (0, _utils.string2hex)(dropShadowColor));
   if (style.dropShadow) {
+    var dropShadowColor = style.dropShadowColor;
+    var rgb = (0, _utils.hex2rgb)(typeof dropShadowColor === 'number' ? dropShadowColor : (0, _utils.string2hex)(dropShadowColor));
+    var dropShadowBlur = style.dropShadowBlur * resolution;
+    var dropShadowDistance = style.dropShadowDistance * resolution;
     context.shadowColor = "rgba(" + rgb[0] * 255 + "," + rgb[1] * 255 + "," + rgb[2] * 255 + "," + style.dropShadowAlpha + ")";
-    context.shadowBlur = style.dropShadowBlur;
-    context.shadowOffsetX = Math.cos(style.dropShadowAngle) * style.dropShadowDistance;
-    context.shadowOffsetY = Math.sin(style.dropShadowAngle) * style.dropShadowDistance;
+    context.shadowBlur = dropShadowBlur;
+    context.shadowOffsetX = Math.cos(style.dropShadowAngle) * dropShadowDistance;
+    context.shadowOffsetY = Math.sin(style.dropShadowAngle) * dropShadowDistance;
   } else {
-    context.shadowColor = '0';
+    context.shadowColor = 'black';
     context.shadowBlur = 0;
     context.shadowOffsetX = 0;
     context.shadowOffsetY = 0;
@@ -37961,7 +38049,7 @@ function drawGlyph(canvas, context, metrics, x, y, resolution, style) {
   if (style.fill) {
     context.fillText(char, tx, ty + metrics.lineHeight - fontProperties.descent);
   }
-  context.setTransform();
+  context.setTransform(1, 0, 0, 1, 0, 0); // defaults needed for older browsers (e.g. Opera 29)
   context.fillStyle = 'rgba(0, 0, 0, 0)';
 }
 
@@ -38019,13 +38107,16 @@ var BitmapFont = /** @class */function () {
   /**
    * @param {PIXI.BitmapFontData} data
    * @param {PIXI.Texture[]|Object.<string, PIXI.Texture>} textures
+   * @param {boolean} [ownsTextures] - Setting to `true` will destroy page textures
+   *        when the font is uninstalled.
    */
-  function BitmapFont(data, textures) {
+  function BitmapFont(data, textures, ownsTextures) {
     var info = data.info[0];
     var common = data.common[0];
     var page = data.page[0];
     var res = (0, _utils.getResolutionOfUrl)(page.file);
     var pageTextures = {};
+    this._ownsTextures = ownsTextures;
     /**
      * The name of the font face.
      *
@@ -38123,7 +38214,9 @@ var BitmapFont = /** @class */function () {
       this.chars[id].texture = null;
     }
     for (var id in this.pageTextures) {
-      this.pageTextures[id].destroy(true);
+      if (this._ownsTextures) {
+        this.pageTextures[id].destroy(true);
+      }
       this.pageTextures[id] = null;
     }
     // Set readonly null.
@@ -38138,10 +38231,13 @@ var BitmapFont = /** @class */function () {
    *        characters map that could be provided as xml or raw string.
    * @param {Object.<string, PIXI.Texture>|PIXI.Texture|PIXI.Texture[]}
    *        textures - List of textures for each page.
+   * @param {boolean} managedTexture - Set to `true` to destroy page textures
+   *        when the font is uninstalled. By default fonts created with
+   *        `BitmapFont.from` or from the `BitmapFontLoader` are `true`.
    * @return {PIXI.BitmapFont} Result font object with font, size, lineHeight
    *         and char fields.
    */
-  BitmapFont.install = function (data, textures) {
+  BitmapFont.install = function (data, textures, ownsTextures) {
     var fontData;
     if (data instanceof BitmapFontData) {
       fontData = data;
@@ -38156,7 +38252,7 @@ var BitmapFont = /** @class */function () {
     if (textures instanceof _core.Texture) {
       textures = [textures];
     }
-    var font = new BitmapFont(fontData, textures);
+    var font = new BitmapFont(fontData, textures, ownsTextures);
     BitmapFont.available[font.font] = font;
     return font;
   };
@@ -38164,7 +38260,7 @@ var BitmapFont = /** @class */function () {
    * Remove bitmap font by name.
    *
    * @static
-   * @param {string} name
+   * @param {string} name - Name of the font to uninstall.
    */
   BitmapFont.uninstall = function (name) {
     var font = BitmapFont.available[name];
@@ -38311,7 +38407,7 @@ var BitmapFont = /** @class */function () {
       positionX += (textureGlyphWidth + 2 * padding) * resolution;
       positionX = Math.ceil(positionX);
     }
-    var font = new BitmapFont(fontData, textures);
+    var font = new BitmapFont(fontData, textures, true);
     // Make it easier to replace a font
     if (BitmapFont.available[name] !== undefined) {
       BitmapFont.uninstall(name);
@@ -38542,21 +38638,24 @@ var BitmapText = /** @class */function (_super) {
       _this.dirty = true;
     }, _this, 0, 0);
     /**
-     * If true PixiJS will Math.floor() x/y values when rendering, stopping pixel interpolation.
-     * Advantages can include sharper image quality (like text) and faster rendering on canvas.
-     * The main disadvantage is movement of objects may appear less smooth.
-     * To set the global default, change {@link PIXI.settings.ROUND_PIXELS}
+     * If true PixiJS will Math.floor() x/y values when rendering
      *
      * @member {boolean}
      * @default PIXI.settings.ROUND_PIXELS
      */
-    _this.roundPixels = _settings.settings.ROUND_PIXELS;
+    _this._roundPixels = _settings.settings.ROUND_PIXELS;
     /**
      * Set to `true` if the BitmapText needs to be redrawn.
      *
      * @member {boolean}
      */
     _this.dirty = true;
+    /**
+     * Cached char texture is destroyed when BitmapText is destroyed
+     * @member {Record<number, Texture>}
+     * @private
+     */
+    _this._textureCache = {};
     return _this;
   }
   /**
@@ -38687,7 +38786,9 @@ var BitmapText = /** @class */function (_super) {
         pageMeshData.uvsCount = 0;
         pageMeshData.total = 0;
         // TODO need to get page texture here somehow..
-        pageMeshData.mesh.texture = new _core.Texture(texture.baseTexture);
+        var _textureCache = this._textureCache;
+        _textureCache[baseTextureUid] = _textureCache[baseTextureUid] || new _core.Texture(texture.baseTexture);
+        pageMeshData.mesh.texture = _textureCache[baseTextureUid];
         pageMeshData.mesh.tint = this._tint;
         newPagesMeshData.push(pageMeshData);
         pagesMeshData[baseTextureUid] = pageMeshData;
@@ -38719,6 +38820,13 @@ var BitmapText = /** @class */function (_super) {
         pageMeshData.vertices = new Float32Array(4 * 2 * total);
         pageMeshData.uvs = new Float32Array(4 * 2 * total);
         pageMeshData.indices = new Uint16Array(6 * total);
+      } else {
+        var total_1 = pageMeshData.total;
+        var vertices = pageMeshData.vertices;
+        // Clear the garbage at the end of the vertices buffer. This will prevent the bounds miscalculation.
+        for (var i_1 = total_1 * 4 * 2; i_1 < vertices.length; i_1++) {
+          vertices[i_1] = 0;
+        }
       }
       // as a buffer maybe bigger than the current word, we set the size of the meshMaterial
       // to match the number of letters needed
@@ -38726,7 +38834,11 @@ var BitmapText = /** @class */function (_super) {
     }
     for (var i = 0; i < lenChars; i++) {
       var char = chars[i];
-      var xPos = (char.position.x + lineAlignOffsets[char.line]) * scale;
+      var offset = char.position.x + lineAlignOffsets[char.line];
+      if (this._roundPixels) {
+        offset = Math.round(offset);
+      }
+      var xPos = offset * scale;
       var yPos = char.position.y * scale;
       var texture = char.texture;
       var pageMesh = pagesMeshData[texture.baseTexture.uid];
@@ -38765,7 +38877,7 @@ var BitmapText = /** @class */function (_super) {
         var vertexCount = 0;
         var anchorOffsetX = this._textWidth * this.anchor.x;
         var anchorOffsetY = this._textHeight * this.anchor.y;
-        for (var i_1 = 0; i_1 < pageMeshData.total; i_1++) {
+        for (var i_2 = 0; i_2 < pageMeshData.total; i_2++) {
           pageMeshData.vertices[vertexCount++] -= anchorOffsetX;
           pageMeshData.vertices[vertexCount++] -= anchorOffsetY;
           pageMeshData.vertices[vertexCount++] -= anchorOffsetX;
@@ -39014,6 +39126,28 @@ var BitmapText = /** @class */function (_super) {
     enumerable: false,
     configurable: true
   });
+  Object.defineProperty(BitmapText.prototype, "roundPixels", {
+    /**
+     * If true PixiJS will Math.floor() x/y values when rendering, stopping pixel interpolation.
+     * Advantages can include sharper image quality (like text) and faster rendering on canvas.
+     * The main disadvantage is movement of objects may appear less smooth.
+     * To set the global default, change {@link PIXI.settings.ROUND_PIXELS}
+     *
+     * @member {boolean}
+     * @default PIXI.settings.ROUND_PIXELS
+     */
+    get: function () {
+      return this._roundPixels;
+    },
+    set: function (value) {
+      if (value !== this._roundPixels) {
+        this._roundPixels = value;
+        this.dirty = true;
+      }
+    },
+    enumerable: false,
+    configurable: true
+  });
   Object.defineProperty(BitmapText.prototype, "textHeight", {
     /**
      * The height of the overall text, different from fontSize,
@@ -39046,6 +39180,16 @@ var BitmapText = /** @class */function (_super) {
       style.fontName = style.font.name;
       style.fontSize = typeof style.font.size === 'number' ? style.font.size : parseInt(style.font.size, 10);
     }
+  };
+  BitmapText.prototype.destroy = function (options) {
+    var _textureCache = this._textureCache;
+    for (var id in _textureCache) {
+      var texture = _textureCache[id];
+      texture.destroy();
+      delete _textureCache[id];
+    }
+    this._textureCache = null;
+    _super.prototype.destroy.call(this, options);
   };
   /**
    * Register a bitmap font with data and a texture.
@@ -39100,7 +39244,7 @@ var BitmapFontLoader = /** @class */function () {
    * @see PIXI.Loader.registerPlugin
    */
   BitmapFontLoader.add = function () {
-    _loaders.LoaderResource.setExtensionXhrType('fnt', _loaders.LoaderResource.XHR_RESPONSE_TYPE.DOCUMENT);
+    _loaders.LoaderResource.setExtensionXhrType('fnt', _loaders.LoaderResource.XHR_RESPONSE_TYPE.TEXT);
   };
   /**
    * Called after a resource is loaded.
@@ -39123,7 +39267,7 @@ var BitmapFontLoader = /** @class */function () {
     var completed = function (page) {
       textures[page.metadata.pageFile] = page.texture;
       if (Object.keys(textures).length === data.page.length) {
-        resource.bitmapFont = BitmapFont.install(data, textures);
+        resource.bitmapFont = BitmapFont.install(data, textures, true);
         next();
       }
     };
@@ -39221,8 +39365,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.AlphaFilter = void 0;
 var _core = require("@pixi/core");
 /*!
- * @pixi/filter-alpha - v5.3.3
- * Compiled Tue, 04 Aug 2020 16:23:09 UTC
+ * @pixi/filter-alpha - v5.3.12
+ * Compiled Wed, 23 Mar 2022 18:34:28 UTC
  *
  * @pixi/filter-alpha is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -39327,8 +39471,8 @@ exports.BlurFilterPass = exports.BlurFilter = void 0;
 var _core = require("@pixi/core");
 var _settings = require("@pixi/settings");
 /*!
- * @pixi/filter-blur - v5.3.3
- * Compiled Tue, 04 Aug 2020 16:23:09 UTC
+ * @pixi/filter-blur - v5.3.12
+ * Compiled Wed, 23 Mar 2022 18:34:28 UTC
  *
  * @pixi/filter-blur is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -39868,7 +40012,7 @@ var BlurFilterPass = /** @class */function (_super) {
    * @param {boolean} horizontal - Do pass along the x-axis (`true`) or y-axis (`false`).
    * @param {number} [strength=8] - The strength of the blur filter.
    * @param {number} [quality=4] - The quality of the blur filter.
-   * @param {number} [resolution=1] - The resolution of the blur filter.
+   * @param {number} [resolution=PIXI.settings.FILTER_RESOLUTION] - The resolution of the blur filter.
    * @param {number} [kernelSize=5] - The kernelSize of the blur filter.Options: 5, 7, 9, 11, 13, 15.
    */
   function BlurFilterPass(horizontal, strength, quality, resolution, kernelSize) {
@@ -39879,7 +40023,7 @@ var BlurFilterPass = /** @class */function (_super) {
       quality = 4;
     }
     if (resolution === void 0) {
-      resolution = _settings.settings.RESOLUTION;
+      resolution = _settings.settings.FILTER_RESOLUTION;
     }
     if (kernelSize === void 0) {
       kernelSize = 5;
@@ -40002,7 +40146,7 @@ var BlurFilter = /** @class */function (_super) {
   /**
    * @param {number} [strength=8] - The strength of the blur filter.
    * @param {number} [quality=4] - The quality of the blur filter.
-   * @param {number} [resolution=1] - The resolution of the blur filter.
+   * @param {number} [resolution=PIXI.settings.FILTER_RESOLUTION] - The resolution of the blur filter.
    * @param {number} [kernelSize=5] - The kernelSize of the blur filter.Options: 5, 7, 9, 11, 13, 15.
    */
   function BlurFilter(strength, quality, resolution, kernelSize) {
@@ -40013,7 +40157,7 @@ var BlurFilter = /** @class */function (_super) {
       quality = 4;
     }
     if (resolution === void 0) {
-      resolution = _settings.settings.RESOLUTION;
+      resolution = _settings.settings.FILTER_RESOLUTION;
     }
     if (kernelSize === void 0) {
       kernelSize = 5;
@@ -40168,8 +40312,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.ColorMatrixFilter = void 0;
 var _core = require("@pixi/core");
 /*!
- * @pixi/filter-color-matrix - v5.3.3
- * Compiled Tue, 04 Aug 2020 16:23:09 UTC
+ * @pixi/filter-color-matrix - v5.3.12
+ * Compiled Wed, 23 Mar 2022 18:34:28 UTC
  *
  * @pixi/filter-color-matrix is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -40628,8 +40772,8 @@ exports.DisplacementFilter = void 0;
 var _core = require("@pixi/core");
 var _math = require("@pixi/math");
 /*!
- * @pixi/filter-displacement - v5.3.3
- * Compiled Tue, 04 Aug 2020 16:23:09 UTC
+ * @pixi/filter-displacement - v5.3.12
+ * Compiled Wed, 23 Mar 2022 18:34:28 UTC
  *
  * @pixi/filter-displacement is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -40776,8 +40920,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.FXAAFilter = void 0;
 var _core = require("@pixi/core");
 /*!
- * @pixi/filter-fxaa - v5.3.3
- * Compiled Tue, 04 Aug 2020 16:23:09 UTC
+ * @pixi/filter-fxaa - v5.3.12
+ * Compiled Wed, 23 Mar 2022 18:34:28 UTC
  *
  * @pixi/filter-fxaa is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -40851,8 +40995,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.NoiseFilter = void 0;
 var _core = require("@pixi/core");
 /*!
- * @pixi/filter-noise - v5.3.3
- * Compiled Tue, 04 Aug 2020 16:23:09 UTC
+ * @pixi/filter-noise - v5.3.12
+ * Compiled Wed, 23 Mar 2022 18:34:28 UTC
  *
  * @pixi/filter-noise is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -40976,8 +41120,8 @@ var _math = require("@pixi/math");
 var _utils = require("@pixi/utils");
 var _settings = require("@pixi/settings");
 /*!
- * @pixi/mixin-cache-as-bitmap - v5.3.3
- * Compiled Tue, 04 Aug 2020 16:23:09 UTC
+ * @pixi/mixin-cache-as-bitmap - v5.3.12
+ * Compiled Wed, 23 Mar 2022 18:34:28 UTC
  *
  * @pixi/mixin-cache-as-bitmap is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -41118,6 +41262,7 @@ _display.DisplayObject.prototype._initCachedDisplayObject = function _initCached
   // this could be more elegant..
   var cachedRenderTexture = renderer.renderTexture.current;
   var cachedSourceFrame = renderer.renderTexture.sourceFrame.clone();
+  var cachedDestinationFrame = renderer.renderTexture.destinationFrame.clone();
   var cachedProjectionTransform = renderer.projection.transform;
   // We also store the filter stack - I will definitely look to change how this works a little later down the line.
   // const stack = renderer.filterManager.filterStack;
@@ -41137,7 +41282,7 @@ _display.DisplayObject.prototype._initCachedDisplayObject = function _initCached
   renderer.render(this, renderTexture, true, m, false);
   // now restore the state be setting the new properties
   renderer.projection.transform = cachedProjectionTransform;
-  renderer.renderTexture.bind(cachedRenderTexture, cachedSourceFrame);
+  renderer.renderTexture.bind(cachedRenderTexture, cachedSourceFrame, cachedDestinationFrame);
   // renderer.filterManager.filterStack = stack;
   this.render = this._renderCached;
   // the rest is the same as for Canvas
@@ -41299,8 +41444,8 @@ _display.DisplayObject.prototype._cacheAsBitmapDestroy = function _cacheAsBitmap
 
 var _display = require("@pixi/display");
 /*!
- * @pixi/mixin-get-child-by-name - v5.3.3
- * Compiled Tue, 04 Aug 2020 16:23:09 UTC
+ * @pixi/mixin-get-child-by-name - v5.3.12
+ * Compiled Wed, 23 Mar 2022 18:34:28 UTC
  *
  * @pixi/mixin-get-child-by-name is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -41350,8 +41495,8 @@ _display.Container.prototype.getChildByName = function getChildByName(name, deep
 var _display = require("@pixi/display");
 var _math = require("@pixi/math");
 /*!
- * @pixi/mixin-get-global-position - v5.3.3
- * Compiled Tue, 04 Aug 2020 16:23:09 UTC
+ * @pixi/mixin-get-global-position - v5.3.12
+ * Compiled Wed, 23 Mar 2022 18:34:28 UTC
  *
  * @pixi/mixin-get-global-position is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -41394,8 +41539,8 @@ var _mesh = require("@pixi/mesh");
 var _constants = require("@pixi/constants");
 var _core = require("@pixi/core");
 /*!
- * @pixi/mesh-extras - v5.3.3
- * Compiled Tue, 04 Aug 2020 16:23:09 UTC
+ * @pixi/mesh-extras - v5.3.12
+ * Compiled Wed, 23 Mar 2022 18:34:28 UTC
  *
  * @pixi/mesh-extras is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -41810,6 +41955,10 @@ var SimplePlane = /** @class */function (_super) {
     }
     _super.prototype._render.call(this, renderer);
   };
+  SimplePlane.prototype.destroy = function (options) {
+    this.shader.texture.off('update', this.textureUpdated, this);
+    _super.prototype.destroy.call(this, options);
+  };
   return SimplePlane;
 }(_mesh.Mesh);
 
@@ -42156,8 +42305,8 @@ var _core = require("@pixi/core");
 var _sprite = require("@pixi/sprite");
 var _ticker = require("@pixi/ticker");
 /*!
- * @pixi/sprite-animated - v5.3.3
- * Compiled Tue, 04 Aug 2020 16:23:09 UTC
+ * @pixi/sprite-animated - v5.3.12
+ * Compiled Wed, 23 Mar 2022 18:34:28 UTC
  *
  * @pixi/sprite-animated is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -42407,6 +42556,9 @@ var AnimatedSprite = /** @class */function (_super) {
    * @param {number} deltaTime - Time since last tick.
    */
   AnimatedSprite.prototype.update = function (deltaTime) {
+    if (!this._playing) {
+      return;
+    }
     var elapsed = this.animationSpeed * deltaTime;
     var previousFrame = this.currentFrame;
     if (this._durations !== null) {
@@ -42534,7 +42686,7 @@ var AnimatedSprite = /** @class */function (_super) {
     /**
      * The array of textures used for this AnimatedSprite.
      *
-     * @member {PIXI.Texture[]}
+     * @member {PIXI.Texture[]|PIXI.AnimatedSprite.FrameObject[]}
      */
     get: function () {
       return this._textures;
@@ -42928,8 +43080,8 @@ Object.keys(_settings).forEach(function (key) {
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 /*!
- * pixi.js - v5.3.3
- * Compiled Tue, 04 Aug 2020 16:23:09 UTC
+ * pixi.js - v5.3.12
+ * Compiled Wed, 23 Mar 2022 18:34:28 UTC
  *
  * pixi.js is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -44250,7 +44402,7 @@ _app.Application.registerPlugin(_loaders.AppLoaderPlugin);
  * @name VERSION
  * @type {string}
  */
-var VERSION = '5.3.3';
+var VERSION = '5.3.12';
 /**
  * @namespace PIXI
  */
@@ -44422,7 +44574,7 @@ function itemData_init() {
   exports.itemData = itemData = {
     clothChest: {
       name: 'Burlap Robes',
-      icon: _iconSheet.getIconSheet['iconClothChest.png'],
+      icon: (0, _iconSheet.getIconSheet)()['iconClothChest.png'],
       type: 'armor',
       equipable: true,
       slot: 'chest',
@@ -44430,7 +44582,7 @@ function itemData_init() {
     },
     clothFeet: {
       name: 'Burlap Boots',
-      icon: _iconSheet.getIconSheet['iconClothFeet.png'],
+      icon: (0, _iconSheet.getIconSheet)()['iconClothFeet.png'],
       type: 'armor',
       equipable: true,
       slot: 'feet',
@@ -44438,7 +44590,7 @@ function itemData_init() {
     },
     clothHands: {
       name: 'Burlap Gloves',
-      icon: _iconSheet.getIconSheet['iconClothHands.png'],
+      icon: (0, _iconSheet.getIconSheet)()['iconClothHands.png'],
       type: 'armor',
       equipable: true,
       slot: 'hands',
@@ -44446,7 +44598,7 @@ function itemData_init() {
     },
     clothHead: {
       name: 'Burlap Hood',
-      icon: _iconSheet.getIconSheet['iconClothHead.png'],
+      icon: (0, _iconSheet.getIconSheet)()['iconClothHead.png'],
       type: 'armor',
       equipable: true,
       slot: 'head',
@@ -44454,7 +44606,7 @@ function itemData_init() {
     },
     clothLegs: {
       name: 'Burlap Trousers',
-      icon: _iconSheet.getIconSheet['iconClothLegs.png'],
+      icon: (0, _iconSheet.getIconSheet)()['iconClothLegs.png'],
       type: 'armor',
       equipable: true,
       slot: 'legs',
@@ -44462,7 +44614,7 @@ function itemData_init() {
     },
     clothShoulders: {
       name: 'Burlap Pauldrons',
-      icon: _iconSheet.getIconSheet['iconClothShoulders.png'],
+      icon: (0, _iconSheet.getIconSheet)()['iconClothShoulders.png'],
       type: 'armor',
       equipable: true,
       slot: 'shoulders',
@@ -44470,7 +44622,7 @@ function itemData_init() {
     },
     sword1h1: {
       name: 'Rusty Sword',
-      icon: _iconSheet.getIconSheet['iconSword1h1.png'],
+      icon: (0, _iconSheet.getIconSheet)()['iconSword1h1.png'],
       type: 'weapon',
       equipable: true,
       slot: 'rightHand',
@@ -44479,7 +44631,7 @@ function itemData_init() {
     },
     shield1: {
       name: 'Rusty Shield',
-      icon: _iconSheet.getIconSheet['iconShield1.png'],
+      icon: (0, _iconSheet.getIconSheet)()['iconShield1.png'],
       type: 'shield',
       equipable: true,
       slot: 'leftHand',
@@ -45627,17 +45779,29 @@ var global = arguments[3];
 
 })(typeof module === "undefined" ? this : module.exports);
 
-},{}],"dev/js/map/utilities/noiseMap_utilities.js":[function(require,module,exports) {
+},{}],"dev/js/map/utilities/map_utilities.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.coordinates = void 0;
 exports.denormalize = denormalize;
+exports.generateCoordinates = generateCoordinates;
+exports.getChunkCoords = void 0;
 exports.getColorForChunk = getColorForChunk;
 exports.getColorForMacro = getColorForMacro;
-exports.getPlayerStartingPosition = getPlayerStartingPosition;
+exports.getPlayerStartingChunk = getPlayerStartingChunk;
+exports.getWorldCoords = void 0;
+exports.graphicCoordinates = graphicCoordinates;
 exports.normalize = normalize;
+exports.setWorldCoords = exports.setChunkCoords = void 0;
+var _game = require("../../_game.js");
+var _noiseMap_chunk = require("../chunk/noiseMap_chunk");
+var _noiseMap_macro = require("../macro/noiseMap_macro.js");
+var _ui_design = require("../../ui/ui_design.js");
+var coordinates;
+exports.coordinates = coordinates;
 function normalize(val) {
   return (val + 1) / 2;
 }
@@ -45661,6 +45825,8 @@ function getColorForMacro(value) {
 }
 
 function getColorForChunk(value) {
+  if (value < 0) return 0x000000; // Black Testing Outside of Normalization.
+
   if (value < 0.28) return 0x000d9e; // Deep Lake
   if (value < 0.3) return 0x0025b1; // Deep Lake +1
   if (value < 0.32) return 0x003bc3; // Deep Lake +2
@@ -45689,17 +45855,17 @@ function getColorForChunk(value) {
   if (value < 0.404) return 0xe2e3ca; // Beach +1
   if (value < 0.408) return 0xdfe2c1; // Beach +2
 
-  if (value < 0.41) return 0xdbe1b8; // Land Beach -2
-  if (value < 0.411) return 0xd8e1af; // Land Beach -1
-  if (value < 0.413) return 0xd5e0a6; // Land Beach
-  if (value < 0.416) return 0xcedc98; // Land Beach +1
-  if (value < 0.418) return 0xc7d88a; // Land Beach +2
+  if (value < 0.41) return 0xdae0b7; // Land Beach -2
+  if (value < 0.4) return 0xd7e0ae; // Land Beach -1
+  if (value < 0.413) return 0xd4dfa5; // Land Beach
+  if (value < 0.42) return 0xcddb97; // Land Beach +1
+  if (value < 0.44) return 0xc6d789; // Land Beach +2
 
-  if (value < 0.43) return 0xb9d170; // Land -2
-  if (value < 0.48) return 0xa8c84d; // Land -1
-  if (value < 0.54) return 0x9ac130; // Land 
-  if (value < 0.58) return 0x94bc2d; // Land +1
-  if (value < 0.6) return 0x8cb52a; // Land +2
+  if (value < 0.45) return 0xb8d070; // Land -2
+  if (value < 0.46) return 0xa7c74d; // Land -1
+  if (value < 0.54) return 0x99c030; // Land 
+  if (value < 0.61) return 0x93bb2d; // Land +1
+  if (value < 0.62) return 0x8bb42a; // Land +2
 
   if (value < 0.63) return 0x85af27; // Semi-Inland -2
   if (value < 0.64) return 0x7ca823; // Semi-Inland -1
@@ -45710,17 +45876,17 @@ function getColorForChunk(value) {
   if (value < 0.68) return 0x588716; // Inland -2
   if (value < 0.69) return 0x477a0b; // Inland -1
   if (value < 0.7) return 0x2f7700; // Inland
-  if (value < 0.72) return 0x35730c; // Inland +1
+  if (value < 0.73) return 0x35730c; // Inland +1
   if (value < 0.74) return 0x3b7017; // Inland +2
 
-  if (value < 0.68) return 0x406d21; // Mountainous Inland -2
-  if (value < 0.69) return 0x456a2c; // Mountainous Inland -1
+  if (value < 0.745) return 0x406d21; // Mountainous Inland -2
+  if (value < 0.75) return 0x456a2c; // Mountainous Inland -1
   if (value < 0.76) return 0x4c663a; // Mountainous Inland
-  if (value < 0.68) return 0x5b714b; // Mountainous Inland +1
-  if (value < 0.69) return 0x687b59; // Mountainous Inland +2
+  if (value < 0.77) return 0x5b714b; // Mountainous Inland +1
+  if (value < 0.775) return 0x687b59; // Mountainous Inland +2
 
-  if (value < 0.72) return 0x748365; // Mountainous -2
-  if (value < 0.76) return 0x828e74; // Mountainous -1
+  if (value < 0.78) return 0x748365; // Mountainous -2
+  if (value < 0.79) return 0x828e74; // Mountainous -1
   if (value < 0.82) return 0x919984; // Mountainous
   if (value < 0.825) return 0xa0a693; // Mountainous +1
   if (value < 0.83) return 0xacb1a0; // Mountainous +2
@@ -45733,16 +45899,87 @@ function getColorForChunk(value) {
 
   if (value < 0.88) return 0xe6e4db; // Mountain Peaks -2
   if (value < 0.89) return 0xeeebe3; // Mountain Peaks -1
+
   return 0xf4f0e9; // Mountain Peaks
 }
 
-function getPlayerStartingPosition() {
+function getPlayerStartingChunk() {
   return {
-    x: 80,
-    y: 75
+    x: 55,
+    y: 40
   }; // Based on Chunk Coordinate
 }
-},{}],"dev/js/map/macro/noiseMap_macro.js":[function(require,module,exports) {
+
+function generateCoordinates() {
+  var coordinateTile = _noiseMap_chunk.tileSize * 4;
+
+  // Coordinate of the chunk itself.
+  var chunkX = getPlayerStartingChunk().x;
+  var chunkY = getPlayerStartingChunk().y;
+
+  // Player's coordinate in respect to the currently occupied chunk.
+  var playerToChunkX = 0;
+  var playerToChunkY = 0;
+
+  // Player's coordinate in respect to the whole world.
+  var playerX = Math.floor((chunkX * _noiseMap_chunk.chunk_actual_size + playerToChunkX + _game.app.view.width / 2) / coordinateTile);
+  var playerY = Math.floor((chunkY * _noiseMap_chunk.chunk_actual_size + playerToChunkY + _game.app.view.height / 2) / coordinateTile);
+
+  // Make coordinate object:
+  exports.coordinates = coordinates = {
+    chunk: {
+      x: chunkX,
+      y: chunkY
+    },
+    player: {
+      chunk: {
+        x: playerToChunkX,
+        y: playerToChunkY
+      },
+      world: {
+        x: playerX,
+        y: playerY
+      }
+    }
+  };
+}
+function graphicCoordinates() {
+  var container = new _game.Container();
+  var chunkCoordString = 'CHUNK: ' + coordinates.chunk.x + ', ' + coordinates.chunk.y;
+  var playerCoordString = 'WORLD: ' + coordinates.player.world.x + ', ' + coordinates.player.world.y;
+  var prefaceText = new _game.BitmapText('Seed: ' + _noiseMap_macro.seed, _ui_design.uiStyle.text);
+  container.addChild(prefaceText);
+  var chunkCoordText = new _game.BitmapText(chunkCoordString, _ui_design.uiStyle.text);
+  chunkCoordText.y = prefaceText.height + 20;
+  container.addChild(chunkCoordText);
+  var playerCoordText = new _game.BitmapText(playerCoordString, _ui_design.uiStyle.text);
+  playerCoordText.y = chunkCoordText.height + chunkCoordText.y;
+  container.addChild(playerCoordText);
+  container.x = 340;
+  container.y = 20;
+  return container;
+}
+var getChunkCoords = function getChunkCoords() {
+  return coordinates.chunk;
+};
+exports.getChunkCoords = getChunkCoords;
+var setChunkCoords = function setChunkCoords(x, y) {
+  return coordinates.chunk.x = x, coordinates.chunk.y = y;
+};
+exports.setChunkCoords = setChunkCoords;
+var getWorldCoords = function getWorldCoords() {
+  return coordinates.player.world;
+};
+exports.getWorldCoords = getWorldCoords;
+var setWorldCoords = function setWorldCoords(x, y) {
+  return coordinates.player.world.x = x, coordinates.player.world.y = y;
+};
+
+// MAKE A WAY TO UPDATE COORDINATES IN GAME LOOP.
+// let chunkCoordText = mapScene.children[2].children[1];
+// chunkCoordText.text = (i++).toString();
+exports.setWorldCoords = setWorldCoords;
+},{"../../_game.js":"dev/js/_game.js","../chunk/noiseMap_chunk":"dev/js/map/chunk/noiseMap_chunk.js","../macro/noiseMap_macro.js":"dev/js/map/macro/noiseMap_macro.js","../../ui/ui_design.js":"dev/js/ui/ui_design.js"}],"dev/js/map/macro/noiseMap_macro.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -45755,7 +45992,7 @@ exports.seed = void 0;
 var _game = require("../../_game.js");
 var _noisejs = require("noisejs");
 var _noiseMap_chunk = require("../chunk/noiseMap_chunk.js");
-var _noiseMap_utilities = require("../utilities/noiseMap_utilities.js");
+var _map_utilities = require("../utilities/map_utilities.js");
 // Larger persistence gives smoother landscapes with fewer high frequency details.
 // Lacunarity controls the gap between successive octaves: higher = more gaps, lower = smoother connected features.
 // Layering these values creates simulate a mix of both.
@@ -45766,7 +46003,7 @@ var mapSize = 200;
 exports.mapSize = mapSize;
 var chunkSize = 4;
 var scale = 0.025;
-var startingPosition = (0, _noiseMap_utilities.getPlayerStartingPosition)();
+var startingChunk = (0, _map_utilities.getPlayerStartingChunk)();
 function getCombinedNoiseValue(_ref) {
   var x = _ref.x,
     y = _ref.y,
@@ -45802,12 +46039,12 @@ function noiseMap_macro(_ref2) {
   var graphics = new _game.Graphics();
   for (var i = 0; i < mapSize; i++) {
     for (var j = 0; j < mapSize; j++) {
-      var value = (0, _noiseMap_utilities.normalize)(getCombinedNoiseValue({
+      var value = (0, _map_utilities.normalize)(getCombinedNoiseValue({
         x: i,
         y: j,
         seed: seed
       })); // Normalize value to [0,1]
-      var color = (0, _noiseMap_utilities.getColorForMacro)(value);
+      var color = (0, _map_utilities.getColorForMacro)(value);
       graphics.beginFill(color);
       graphics.drawRect(i * chunkSize, j * chunkSize, chunkSize, chunkSize);
       graphics.endFill();
@@ -45817,7 +46054,7 @@ function noiseMap_macro(_ref2) {
   }
   graphics.scale.set(macroMapScale);
   _game.mapScene.addChild(graphics);
-  var initialChunk = (0, _noiseMap_chunk.generateChunkFromMacro)(startingPosition.x, startingPosition.y, seed);
+  var initialChunk = (0, _noiseMap_chunk.generateChunkFromMacro)(startingChunk.x, startingChunk.y, seed);
   var chunkGraphic = (0, _noiseMap_chunk.drawChunkGraphics)(initialChunk);
 
   // Draw a red square for the chunk's position.
@@ -45825,48 +46062,130 @@ function noiseMap_macro(_ref2) {
   var markerMultiplier = 6;
   var markerSize = markerMultiplier * tileScaled;
   var redMarker = new _game.Graphics();
-  var markerX = startingPosition.x * tileScaled - markerSize / 2 + tileScaled / 2;
-  var markerY = startingPosition.y * tileScaled - markerSize / 2 + tileScaled / 2;
+  var markerX = startingChunk.x * tileScaled - markerSize / 2 + tileScaled / 2;
+  var markerY = startingChunk.y * tileScaled - markerSize / 2 + tileScaled / 2;
   redMarker.beginFill(0xFF0000); // red color
   redMarker.drawRect(markerX, markerY, markerSize, markerSize);
   _game.mapScene.addChild(redMarker);
   return chunkGraphic;
 }
-},{"../../_game.js":"dev/js/_game.js","noisejs":"node_modules/noisejs/index.js","../chunk/noiseMap_chunk.js":"dev/js/map/chunk/noiseMap_chunk.js","../utilities/noiseMap_utilities.js":"dev/js/map/utilities/noiseMap_utilities.js"}],"dev/js/map/chunk/noiseMap_chunk.js":[function(require,module,exports) {
+},{"../../_game.js":"dev/js/_game.js","noisejs":"node_modules/noisejs/index.js","../chunk/noiseMap_chunk.js":"dev/js/map/chunk/noiseMap_chunk.js","../utilities/map_utilities.js":"dev/js/map/utilities/map_utilities.js"}],"dev/js/entities/utilities/entities_utilities.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.objectChunkDispertion = objectChunkDispertion;
+exports.seededRandom = seededRandom;
+var _map_utilities = require("../../map/utilities/map_utilities");
+var _noiseMap_chunk = require("../../map/chunk/noiseMap_chunk.js");
+function seededRandom(seed) {
+  var x = Math.sin(seed++) * 10000;
+  return x - Math.floor(x);
+}
+function objectChunkDispertion(_ref) {
+  var createEntityFn = _ref.createEntityFn,
+    pushEntityFn = _ref.pushEntityFn,
+    entityDensity = _ref.entityDensity,
+    seed = _ref.seed,
+    _ref$coordX = _ref.coordX,
+    coordX = _ref$coordX === void 0 ? _map_utilities.coordinates.player.chunk.x : _ref$coordX,
+    _ref$coordY = _ref.coordY,
+    coordY = _ref$coordY === void 0 ? _map_utilities.coordinates.player.chunk.y : _ref$coordY;
+  var width = _noiseMap_chunk.chunk_actual_size;
+  var height = _noiseMap_chunk.chunk_actual_size;
+  entityDensity /= 10000;
+  var totalSpots = width * height;
+  var numEntities = Math.floor(totalSpots * entityDensity);
+  var entities = [];
+  var usedPositions = new Set();
+  while (entities.length < numEntities) {
+    var potentialPosition = Math.floor(seededRandom(seed++) * totalSpots);
+    if (!usedPositions.has(potentialPosition)) {
+      usedPositions.add(potentialPosition);
+      var x = potentialPosition % width + coordX;
+      var y = Math.floor(potentialPosition / width) + coordY;
+      var entity = createEntityFn(x, y, seed);
+      if (pushEntityFn) {
+        pushEntityFn(entity);
+      }
+      entities.push(entity);
+    }
+  }
+  return entities;
+}
+},{"../../map/utilities/map_utilities":"dev/js/map/utilities/map_utilities.js","../../map/chunk/noiseMap_chunk.js":"dev/js/map/chunk/noiseMap_chunk.js"}],"dev/js/sheets/environmentSheet.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.environmentSheets = void 0;
+exports.environmentSheets_setup = environmentSheets_setup;
+var _game = require("../_game.js");
+// Environment Spritesheets
+var environmentSheets = {};
+exports.environmentSheets = environmentSheets;
+var dir = '../../assets/sprites/environment/spritesheets/environment.json';
+var staticSprites = ['mushrooms', 'rock1', 'rock2', 'rock3', 'stump1', 'stump2', 'grass_texture-1', 'grass_texture-2', 'grass_texture-3'];
+var animatedSprites = ['oak1', 'oak1shadow'];
+function environmentSheets_generate(spriteId, animated) {
+  if (!animated) {
+    environmentSheets[spriteId] = _game.resources[dir].textures[spriteId + '.png'];
+  } else {
+    environmentSheets[spriteId] = _game.resources[dir].spritesheet.animations[spriteId];
+  }
+}
+function environmentSheets_setup() {
+  // Static Sprites
+  staticSprites.forEach(function (spriteId) {
+    environmentSheets_generate(spriteId, false);
+  });
+  // Animated Sprites
+  animatedSprites.forEach(function (spriteId) {
+    environmentSheets_generate(spriteId, true);
+  });
+}
+},{"../_game.js":"dev/js/_game.js"}],"dev/js/map/chunk/noiseMap_chunk.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.chunk_actual_size = void 0;
 exports.drawChunkGraphics = drawChunkGraphics;
 exports.generateChunkFromMacro = generateChunkFromMacro;
 exports.tileSize = exports.setBgY = exports.setBgX = exports.setBg = exports.getBg = void 0;
 var _game = require("../../_game");
 var _noisejs = require("noisejs");
 var _noiseMap_macro = require("../macro/noiseMap_macro");
-var _noiseMap_utilities = require("../utilities/noiseMap_utilities");
+var _map_utilities = require("../utilities/map_utilities");
+var _entities_utilities = require("../../entities/utilities/entities_utilities");
+var _environmentSheet = require("../../sheets/environmentSheet");
 var bg;
 var tileSize = 4;
 exports.tileSize = tileSize;
 var chunk_size = 1024;
 var chunk_scale = 1;
-var chunk_detail_scale = 1; // Smaller scale than MACRO for more details
+var chunk_actual_size = chunk_size * chunk_scale * tileSize;
+exports.chunk_actual_size = chunk_actual_size;
+var chunk_detail_scale = 1;
 var seed = 12345;
-var startingPosition = (0, _noiseMap_utilities.getPlayerStartingPosition)();
+var startingChunk = (0, _map_utilities.getPlayerStartingChunk)();
 var chunkNoiseGenerator = new _noisejs.Noise(seed);
-
-// Combining function; Decide how to mix the macro and detail values
-function combineMacroAndDetail(macro, detail) {
-  return macro * 0.7 + detail * 0.3;
+function adjustDetailToMacro(macroValue, detailValue, deviationFactor) {
+  // This function takes a macro value, a detail value, and a deviation factor.
+  var adjustedDetail = macroValue + (detailValue - 0.5) * 2 * deviationFactor;
+  return adjustedDetail;
 }
 
 // Function to generate a chunk based on macro-level position
 function generateChunkFromMacro(macroX, macroY, seed) {
   var macroValue = (0, _noiseMap_macro.getCombinedNoiseValue)({
-    x: startingPosition.x,
-    y: startingPosition.y,
+    x: startingChunk.x,
+    y: startingChunk.y,
     seed: seed
-  });
+  }); // Get the value for the chunk from a 4x4 position on Macro.
   var chunk = [];
   for (var i = 0; i < chunk_size; i++) {
     chunk[i] = [];
@@ -45877,11 +46196,12 @@ function generateChunkFromMacro(macroX, macroY, seed) {
 
       // Generating detail noise based on the exact position in the chunk
       var detailValue = 0;
-      var frequency = 1;
-      var amplitude = 1;
+      var frequency = 1.2; // Lower = more seperated pieces
+      var amplitude = 2;
       var maxAmplitude = 0;
-      var octaves = 4;
-      var persistence = 0.5;
+      var octaves = 8;
+      var persistence = 0.5; // lower = smoother borders.
+
       for (var octave = 0; octave < octaves; octave++) {
         detailValue += chunkNoiseGenerator.simplex2(interpolatedMacroX * chunk_detail_scale * frequency, interpolatedMacroY * chunk_detail_scale * frequency * 1.65) * amplitude;
         maxAmplitude += amplitude;
@@ -45890,29 +46210,57 @@ function generateChunkFromMacro(macroX, macroY, seed) {
       }
 
       detailValue /= maxAmplitude;
-      chunk[i][j] = combineMacroAndDetail(macroValue, detailValue);
+      detailValue = (0, _map_utilities.normalize)(detailValue);
+
+      // Adjust the detail to be around the macro value
+      var deviationFactor = 0.2; // Change this to control how much the detail values can deviate from the macro value.
+      chunk[i][j] = adjustDetailToMacro(macroValue, detailValue, deviationFactor);
     }
   }
   return chunk;
 }
 function drawChunkGraphics(chunk) {
   var container = new _game.Container();
-  var graphics = new _game.Graphics();
+  var landscape = new _game.Graphics();
   for (var i = 0; i < chunk.length; i++) {
     for (var j = 0; j < chunk[i].length; j++) {
-      var value = (0, _noiseMap_utilities.normalize)(chunk[i][j]);
-      var color = (0, _noiseMap_utilities.getColorForChunk)(value);
-      graphics.beginFill(color);
-      graphics.drawRect(i * tileSize, j * tileSize, tileSize, tileSize);
-      graphics.endFill();
+      var value = (0, _map_utilities.normalize)(chunk[i][j]);
+      var color = (0, _map_utilities.getColorForChunk)(value);
+      landscape.beginFill(color);
+      landscape.drawRect(i * tileSize, j * tileSize, tileSize, tileSize);
+      landscape.endFill();
     }
   }
-  container.addChild(graphics);
+  var foliage = new _game.Container();
+  function createTexture(x, y, chunkSeed) {
+    var randomIndex = 1 + Math.floor((0, _entities_utilities.seededRandom)(chunkSeed++) * 3);
+    var texture = new _game.Sprite(_environmentSheet.environmentSheets['grass_texture-' + randomIndex]);
+    texture.scale.set(3);
+    texture.x = x;
+    texture.y = y;
+    foliage.addChild(texture);
+  }
   container.scale.set(chunk_scale);
+  var landscapeTexture = _game.RenderTexture.create(landscape.width, landscape.height);
+  _game.app.renderer.render(landscape, landscapeTexture);
+  var landscapeSprite = new _game.Sprite(landscapeTexture);
+  container.addChild(landscapeSprite);
+  (0, _entities_utilities.objectChunkDispertion)({
+    createEntityFn: createTexture,
+    pushEntityFn: null,
+    entityDensity: 1.2,
+    seed: '3812',
+    coordX: foliage.x,
+    coordY: foliage.y
+  });
+  var foliageTexture = _game.RenderTexture.create(foliage.width, foliage.height);
+  _game.app.renderer.render(foliage, foliageTexture);
+  var foliageSprite = new _game.Sprite(foliageTexture);
+  container.addChild(foliageSprite);
   return container;
 }
 
-// This is where the chunk's graphic is set and used.
+// This is where the chunk's graphic is set and used!
 var getBg = function getBg() {
   return bg;
 };
@@ -45929,7 +46277,7 @@ var setBgY = function setBgY(val) {
   return bg.y = val;
 };
 exports.setBgY = setBgY;
-},{"../../_game":"dev/js/_game.js","noisejs":"node_modules/noisejs/index.js","../macro/noiseMap_macro":"dev/js/map/macro/noiseMap_macro.js","../utilities/noiseMap_utilities":"dev/js/map/utilities/noiseMap_utilities.js"}],"dev/js/proximityBoxes/aggroBox.js":[function(require,module,exports) {
+},{"../../_game":"dev/js/_game.js","noisejs":"node_modules/noisejs/index.js","../macro/noiseMap_macro":"dev/js/map/macro/noiseMap_macro.js","../utilities/map_utilities":"dev/js/map/utilities/map_utilities.js","../../entities/utilities/entities_utilities":"dev/js/entities/utilities/entities_utilities.js","../../sheets/environmentSheet":"dev/js/sheets/environmentSheet.js"}],"dev/js/proximityBoxes/aggroBox.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -46376,45 +46724,14 @@ function pushContainer(createFn) {
 }
 function containers_init() {
   // Create all containers here.
-  pushContainer((0, _loot.lootInstance)(550, 180, 'D'));
+  pushContainer((0, _loot.lootInstance)(550, 130, 'D'));
+  pushContainer((0, _loot.lootInstance)(1000, 100, 'U'));
 }
 function containers_events() {
   // Containers events used in game loop.
   (0, _loot.lootCollide_listener)();
 }
-},{"./loot/loot.js":"dev/js/entities/containers/loot/loot.js"}],"dev/js/sheets/environmentSheet.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.environmentSheets = void 0;
-exports.environmentSheets_setup = environmentSheets_setup;
-var _game = require("../_game.js");
-// Environment Spritesheets
-var environmentSheets = {};
-exports.environmentSheets = environmentSheets;
-var dir = '../../assets/sprites/environment/spritesheets/environment.json';
-var staticSprites = ['mushrooms', 'rock1', 'rock2', 'rock3', 'stump1', 'stump2'];
-var animatedSprites = ['oak1', 'oak1shadow'];
-function environmentSheets_generate(spriteId, animated) {
-  if (!animated) {
-    environmentSheets[spriteId] = _game.resources[dir].textures[spriteId + '.png'];
-  } else {
-    environmentSheets[spriteId] = _game.resources[dir].spritesheet.animations[spriteId];
-  }
-}
-function environmentSheets_setup() {
-  // Static Sprites
-  staticSprites.forEach(function (spriteId) {
-    environmentSheets_generate(spriteId, false);
-  });
-  // Animated Sprites
-  animatedSprites.forEach(function (spriteId) {
-    environmentSheets_generate(spriteId, true);
-  });
-}
-},{"../_game.js":"dev/js/_game.js"}],"dev/js/entities/environment/tree/tree.js":[function(require,module,exports) {
+},{"./loot/loot.js":"dev/js/entities/containers/loot/loot.js"}],"dev/js/entities/environment/tree/tree.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -46437,8 +46754,8 @@ function treeInstance(type, x, y) {
   shadow.scale.set(3.5);
   shadow.animationSpeed = treeAnimationSpeed;
   shadow.play();
-  shadow.x = 50;
-  shadow.y = 520;
+  shadow.x = 65;
+  shadow.y = 500;
   tree.addChild(shadow);
   tree.addChild(sprite);
   (0, _interactBox.interactBox)({
@@ -46487,6 +46804,7 @@ exports.environment_events = environment_events;
 exports.environment_init = environment_init;
 var _tree = require("./tree/tree.js");
 var _staticEnvironment = require("./staticEnvironment/staticEnvironment.js");
+var _entities_utilities = require("../utilities/entities_utilities.js");
 var environment = [];
 exports.environment = environment;
 function pushEnvironment(createFn) {
@@ -46495,17 +46813,47 @@ function pushEnvironment(createFn) {
 }
 function environment_init() {
   // Create all environment entities here.
-  pushEnvironment((0, _tree.treeInstance)('oak1', 300, -400));
-  pushEnvironment((0, _staticEnvironment.staticEnvironmentInstance)('rock1', 800, 400));
-  pushEnvironment((0, _staticEnvironment.staticEnvironmentInstance)('rock2', 740, 450));
-  pushEnvironment((0, _staticEnvironment.staticEnvironmentInstance)('rock3', 350, 200));
-  pushEnvironment((0, _staticEnvironment.staticEnvironmentInstance)('stump1', 200, 350));
-  pushEnvironment((0, _staticEnvironment.staticEnvironmentInstance)('stump2', 150, 400));
+  (0, _entities_utilities.objectChunkDispertion)({
+    createEntityFn: _tree.treeInstance.bind(null, 'oak1'),
+    pushEntityFn: pushEnvironment,
+    entityDensity: 0.01,
+    seed: '0000'
+  });
+  (0, _entities_utilities.objectChunkDispertion)({
+    createEntityFn: _staticEnvironment.staticEnvironmentInstance.bind(null, 'rock1'),
+    pushEntityFn: pushEnvironment,
+    entityDensity: 0.01,
+    seed: '2222'
+  });
+  (0, _entities_utilities.objectChunkDispertion)({
+    createEntityFn: _staticEnvironment.staticEnvironmentInstance.bind(null, 'rock2'),
+    pushEntityFn: pushEnvironment,
+    entityDensity: 0.01,
+    seed: '3333'
+  });
+  (0, _entities_utilities.objectChunkDispertion)({
+    createEntityFn: _staticEnvironment.staticEnvironmentInstance.bind(null, 'rock3'),
+    pushEntityFn: pushEnvironment,
+    entityDensity: 0.01,
+    seed: '4444'
+  });
+  (0, _entities_utilities.objectChunkDispertion)({
+    createEntityFn: _staticEnvironment.staticEnvironmentInstance.bind(null, 'stump1'),
+    pushEntityFn: pushEnvironment,
+    entityDensity: 0.01,
+    seed: '5555'
+  });
+  (0, _entities_utilities.objectChunkDispertion)({
+    createEntityFn: _staticEnvironment.staticEnvironmentInstance.bind(null, 'stump2'),
+    pushEntityFn: pushEnvironment,
+    entityDensity: 0.01,
+    seed: '1111'
+  });
 }
 function environment_events() {
   // Environment events used in game loop.
 }
-},{"./tree/tree.js":"dev/js/entities/environment/tree/tree.js","./staticEnvironment/staticEnvironment.js":"dev/js/entities/environment/staticEnvironment/staticEnvironment.js"}],"dev/js/entities/entities.js":[function(require,module,exports) {
+},{"./tree/tree.js":"dev/js/entities/environment/tree/tree.js","./staticEnvironment/staticEnvironment.js":"dev/js/entities/environment/staticEnvironment/staticEnvironment.js","../utilities/entities_utilities.js":"dev/js/entities/utilities/entities_utilities.js"}],"dev/js/entities/entities.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -46552,9 +46900,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.moveEnvironment = moveEnvironment;
+exports.sortGameScene = sortGameScene;
 var _game = require("../../_game.js");
 var _noiseMap_chunk = require("../../map/chunk/noiseMap_chunk.js");
 var _entities = require("../../entities/entities.js");
+function sortGameScene() {
+  _game.gameScene.children.sort(function (a, b) {
+    return a.interactBox.y - b.interactBox.y;
+  });
+}
 function moveEnvironment(x, y) {
   (0, _noiseMap_chunk.setBgX)((0, _noiseMap_chunk.getBg)().x += x);
   (0, _noiseMap_chunk.setBgY)((0, _noiseMap_chunk.getBg)().y += y);
@@ -46568,9 +46922,7 @@ function moveEnvironment(x, y) {
       entity.aggroBox.y += y;
     }
   });
-  _game.gameScene.children.sort(function (a, b) {
-    return a.interactBox.y - b.interactBox.y;
-  });
+  sortGameScene();
 }
 },{"../../_game.js":"dev/js/_game.js","../../map/chunk/noiseMap_chunk.js":"dev/js/map/chunk/noiseMap_chunk.js","../../entities/entities.js":"dev/js/entities/entities.js"}],"dev/js/dynamics/textureSwitch/textureMovement.js":[function(require,module,exports) {
 "use strict";
@@ -46832,23 +47184,7 @@ function keysDownResetPlayer_listener() {
     };
   });
 }
-},{"../controllers/keyboard.js":"dev/js/controllers/keyboard.js","../player/player.js":"dev/js/player/player.js","./attacks/attackMelee.js":"dev/js/dynamics/attacks/attackMelee.js","./movement/playerMovement.js":"dev/js/dynamics/movement/playerMovement.js"}],"dev/js/sheets/textureSheet.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.setTextureSheet = exports.getTextureSheet = void 0;
-var textureSheet;
-var getTextureSheet = function getTextureSheet() {
-  return textureSheet;
-};
-exports.getTextureSheet = getTextureSheet;
-var setTextureSheet = function setTextureSheet(val) {
-  return textureSheet = val;
-};
-exports.setTextureSheet = setTextureSheet;
-},{}],"dev/js/ui/modules/popupMenus.js":[function(require,module,exports) {
+},{"../controllers/keyboard.js":"dev/js/controllers/keyboard.js","../player/player.js":"dev/js/player/player.js","./attacks/attackMelee.js":"dev/js/dynamics/attacks/attackMelee.js","./movement/playerMovement.js":"dev/js/dynamics/movement/playerMovement.js"}],"dev/js/ui/modules/popupMenus.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -47792,16 +48128,16 @@ exports.attackCursor = attackCursor;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.utils = exports.settings = exports.resources = exports.renderer = exports.messageGameOver = exports.mapScene = exports.map = exports.loaderResource = exports.loader = exports.getClickRegistered = exports.gameScene = exports.gameOverScene = exports.enemies = exports.app = exports.Ticker = exports.Texture = exports.Sprite = exports.Graphics = exports.Container = exports.BitmapText = exports.Application = exports.AnimatedSprite = void 0;
+exports.utils = exports.settings = exports.resources = exports.messageGameOver = exports.mapScene = exports.map = exports.loaderResource = exports.loader = exports.getClickRegistered = exports.gameScene = exports.gameOverScene = exports.enemies = exports.app = exports.Ticker = exports.Texture = exports.Sprite = exports.RenderTexture = exports.Graphics = exports.Container = exports.BitmapText = exports.Application = exports.AnimatedSprite = void 0;
 var PIXI = _interopRequireWildcard(require("pixi.js"));
 var _player = require("./player/player.js");
 var _playerData = require("./player/playerData.js");
 var _playerDynamics = require("./dynamics/playerDynamics.js");
+var _map_utilities = require("./map/utilities/map_utilities.js");
 var _playerSheets = require("./sheets/playerSheets.js");
 var _enemySheet = require("./sheets/enemySheet.js");
 var _iconSheet = require("./sheets/iconSheet.js");
 var _miscSheet = require("./sheets/miscSheet.js");
-var _textureSheet = require("./sheets/textureSheet.js");
 var _environmentSheet = require("./sheets/environmentSheet.js");
 var _entities = require("./entities/entities.js");
 var _ui_design = require("./ui/ui_design.js");
@@ -47810,6 +48146,7 @@ var _mouse = require("./controllers/mouse.js");
 var _keyboard = require("./controllers/keyboard.js");
 var _itemData = require("./items/itemData.js");
 var _noiseMap_chunk = require("./map/chunk/noiseMap_chunk.js");
+var _moveEnvironment = require("./dynamics/movement/moveEnvironment.js");
 var _noiseMap_macro = require("./map/macro/noiseMap_macro.js");
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
@@ -47838,14 +48175,14 @@ var Application = PIXI.Application,
   Graphics = PIXI.Graphics,
   Texture = PIXI.Texture,
   Ticker = PIXI.Ticker,
+  RenderTexture = PIXI.RenderTexture,
   settings = PIXI.settings,
   resources = PIXI.Loader.shared.resources,
-  renderer = PIXI.autoDetectRenderer(),
   utils = PIXI.utils;
 exports.utils = utils;
-exports.renderer = renderer;
 exports.resources = resources;
 exports.settings = settings;
+exports.RenderTexture = RenderTexture;
 exports.Ticker = Ticker;
 exports.Texture = Texture;
 exports.Graphics = Graphics;
@@ -47872,7 +48209,7 @@ var app = new Application({
 });
 exports.app = app;
 var map = new Application({
-  width: 320,
+  width: 800,
   height: 320
 });
 
@@ -47910,6 +48247,7 @@ function setup() {
   // Icon & Misc texture sheet
   (0, _iconSheet.setIconSheet)(resources['../../assets/sprites/icons/spritesheets/icons.json'].textures);
   (0, _miscSheet.setMiscSheet)(resources['../../assets/sprites/misc/spritesheets/misc.json'].textures);
+  (0, _environmentSheet.environmentSheets_setup)();
 
   // Initialize item data (execute after setIconSheet);
   (0, _itemData.itemData_init)();
@@ -47922,13 +48260,16 @@ function setup() {
 
   // initialize ui variables
   (0, _ui_design.ui_design_init)();
-  (0, _noiseMap_chunk.setBg)((0, _noiseMap_macro.noiseMap_macro)({
+  var bg = (0, _noiseMap_macro.noiseMap_macro)({
     seed: 123456789
-  }));
-  var bg = (0, _noiseMap_chunk.getBg)();
-  bg.x = -1200;
-  bg.y = -800;
+  });
+  (0, _map_utilities.generateCoordinates)();
+  bg.x = _map_utilities.coordinates.player.chunk.x;
+  bg.y = _map_utilities.coordinates.player.chunk.y;
+  (0, _noiseMap_chunk.setBg)(bg);
   app.stage.addChild(bg);
+  var BitmapTextCoordinates = (0, _map_utilities.graphicCoordinates)();
+  mapScene.addChild(BitmapTextCoordinates);
 
   // Main Game Scene
   exports.gameScene = gameScene = new Container();
@@ -47946,11 +48287,11 @@ function setup() {
   gameScene.addChild(player);
   (0, _player.createPlayerArmor)();
 
-  // Environment
-  (0, _environmentSheet.environmentSheets_setup)();
-
   // Entities
   (0, _entities.entities_setup)();
+
+  // Sort Game Scene Objects for Initial Render.
+  (0, _moveEnvironment.sortGameScene)();
 
   // UIs
   var ui = (0, _ui.ui_setup)();
@@ -47992,7 +48333,7 @@ function end() {
   gameScene.visible = false;
   gameOverScene.visible = true;
 }
-},{"pixi.js":"node_modules/pixi.js/lib/pixi.es.js","./player/player.js":"dev/js/player/player.js","./player/playerData.js":"dev/js/player/playerData.js","./dynamics/playerDynamics.js":"dev/js/dynamics/playerDynamics.js","./sheets/playerSheets.js":"dev/js/sheets/playerSheets.js","./sheets/enemySheet.js":"dev/js/sheets/enemySheet.js","./sheets/iconSheet.js":"dev/js/sheets/iconSheet.js","./sheets/miscSheet.js":"dev/js/sheets/miscSheet.js","./sheets/textureSheet.js":"dev/js/sheets/textureSheet.js","./sheets/environmentSheet.js":"dev/js/sheets/environmentSheet.js","./entities/entities.js":"dev/js/entities/entities.js","./ui/ui_design.js":"dev/js/ui/ui_design.js","./ui/ui.js":"dev/js/ui/ui.js","./controllers/mouse.js":"dev/js/controllers/mouse.js","./controllers/keyboard.js":"dev/js/controllers/keyboard.js","./items/itemData.js":"dev/js/items/itemData.js","./map/chunk/noiseMap_chunk.js":"dev/js/map/chunk/noiseMap_chunk.js","./map/macro/noiseMap_macro.js":"dev/js/map/macro/noiseMap_macro.js"}],"../../../../../opt/homebrew/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"pixi.js":"node_modules/pixi.js/lib/pixi.es.js","./player/player.js":"dev/js/player/player.js","./player/playerData.js":"dev/js/player/playerData.js","./dynamics/playerDynamics.js":"dev/js/dynamics/playerDynamics.js","./map/utilities/map_utilities.js":"dev/js/map/utilities/map_utilities.js","./sheets/playerSheets.js":"dev/js/sheets/playerSheets.js","./sheets/enemySheet.js":"dev/js/sheets/enemySheet.js","./sheets/iconSheet.js":"dev/js/sheets/iconSheet.js","./sheets/miscSheet.js":"dev/js/sheets/miscSheet.js","./sheets/environmentSheet.js":"dev/js/sheets/environmentSheet.js","./entities/entities.js":"dev/js/entities/entities.js","./ui/ui_design.js":"dev/js/ui/ui_design.js","./ui/ui.js":"dev/js/ui/ui.js","./controllers/mouse.js":"dev/js/controllers/mouse.js","./controllers/keyboard.js":"dev/js/controllers/keyboard.js","./items/itemData.js":"dev/js/items/itemData.js","./map/chunk/noiseMap_chunk.js":"dev/js/map/chunk/noiseMap_chunk.js","./dynamics/movement/moveEnvironment.js":"dev/js/dynamics/movement/moveEnvironment.js","./map/macro/noiseMap_macro.js":"dev/js/map/macro/noiseMap_macro.js"}],"../../../../../opt/homebrew/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -48017,7 +48358,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58814" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52801" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

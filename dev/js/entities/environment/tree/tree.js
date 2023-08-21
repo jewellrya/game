@@ -8,7 +8,7 @@ export function treeInstance(type, x, y) {
     let tree = new Container();
     tree.x = x;
     tree.y = y;
-    
+
     let sprite = new AnimatedSprite(environmentSheets[type]);
     sprite.scale.set(3.5);
     sprite.animationSpeed = treeAnimationSpeed;
@@ -18,13 +18,13 @@ export function treeInstance(type, x, y) {
     shadow.scale.set(3.5);
     shadow.animationSpeed = treeAnimationSpeed;
     shadow.play();
-    shadow.x = 50;
-    shadow.y = 520;
-    
+    shadow.x = 65;
+    shadow.y = 500;
+
     tree.addChild(shadow);
     tree.addChild(sprite);
 
-    interactBox({container: tree, sprite, scale: .05, complexY: 0.05, test_graphic: false});
+    interactBox({ container: tree, sprite, scale: .05, complexY: 0.05, test_graphic: false });
 
     return tree;
 }

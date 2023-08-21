@@ -1,5 +1,6 @@
 import { treeInstance } from './tree/tree.js';
 import { staticEnvironmentInstance } from './staticEnvironment/staticEnvironment.js';
+import { objectChunkDispertion } from '../utilities/entities_utilities.js';
 
 export let environment = [];
 
@@ -10,12 +11,12 @@ function pushEnvironment(createFn) {
 
 export function environment_init() {
     // Create all environment entities here.
-    pushEnvironment(treeInstance('oak1', 300, -400));
-    pushEnvironment(staticEnvironmentInstance('rock1', 800, 400));
-    pushEnvironment(staticEnvironmentInstance('rock2', 740, 450));
-    pushEnvironment(staticEnvironmentInstance('rock3', 350, 200));
-    pushEnvironment(staticEnvironmentInstance('stump1', 200, 350));
-    pushEnvironment(staticEnvironmentInstance('stump2', 150, 400));
+    objectChunkDispertion({ createEntityFn: treeInstance.bind(null, 'oak1'), pushEntityFn: pushEnvironment, entityDensity: 0.01, seed: '0000' });
+    objectChunkDispertion({ createEntityFn: staticEnvironmentInstance.bind(null, 'rock1'), pushEntityFn: pushEnvironment, entityDensity: 0.01, seed: '2222' });
+    objectChunkDispertion({ createEntityFn: staticEnvironmentInstance.bind(null, 'rock2'), pushEntityFn: pushEnvironment, entityDensity: 0.01, seed: '3333' });
+    objectChunkDispertion({ createEntityFn: staticEnvironmentInstance.bind(null, 'rock3'), pushEntityFn: pushEnvironment, entityDensity: 0.01, seed: '4444' });
+    objectChunkDispertion({ createEntityFn: staticEnvironmentInstance.bind(null, 'stump1'), pushEntityFn: pushEnvironment, entityDensity: 0.01, seed: '5555' });
+    objectChunkDispertion({ createEntityFn: staticEnvironmentInstance.bind(null, 'stump2'), pushEntityFn: pushEnvironment, entityDensity: 0.01, seed: '1111' });
 }
 
 export function environment_events() {

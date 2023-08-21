@@ -9,7 +9,8 @@ function pushContainer(createFn) {
 
 export function containers_init() {
     // Create all containers here.
-    pushContainer(lootInstance(550, 180, 'D'));
+    pushContainer(lootInstance(550, 130, 'D'));
+    pushContainer(lootInstance(1000, 100, 'U'));
 }
 
 export function containers_events() {

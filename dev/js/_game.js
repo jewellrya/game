@@ -4,13 +4,13 @@ import * as PIXI from 'pixi.js';
 import { createPlayer, createPlayerArmor } from './player/player.js';
 import { playerStats } from './player/playerData.js';
 import { playerDynamics, keysDownResetPlayer_listener } from './dynamics/playerDynamics.js';
+import { generateCoordinates, graphicCoordinates, coordinates, setChunkCoords } from './map/utilities/map_utilities.js';
 
 // Sheets
 import { getPlayerSheetsDirs, playerSheets_setup } from './sheets/playerSheets.js';
 import { getenemySheetsDirs, enemySheets_setup } from './sheets/enemySheet.js';
 import { setIconSheet } from './sheets/iconSheet.js';
 import { setMiscSheet } from './sheets/miscSheet.js';
-import { setTextureSheet } from './sheets/textureSheet.js';
 import { environmentSheets_setup } from './sheets/environmentSheet.js';
 
 // Entities
@@ -26,7 +26,8 @@ import { initiateKeyboard } from './controllers/keyboard.js';
 
 // Misc
 import { itemData_init } from './items/itemData.js';
-import { getBg, setBg } from './map/chunk/noiseMap_chunk.js';
+import { setBg } from './map/chunk/noiseMap_chunk.js';
+import { sortGameScene } from './dynamics/movement/moveEnvironment.js';
 
 // Map
 import { noiseMap_macro } from './map/macro/noiseMap_macro.js';
@@ -42,9 +43,9 @@ export let Application = PIXI.Application,
     Graphics = PIXI.Graphics,
     Texture = PIXI.Texture,
     Ticker = PIXI.Ticker,
+    RenderTexture = PIXI.RenderTexture,
     settings = PIXI.settings,
     resources = PIXI.Loader.shared.resources,
-    renderer = PIXI.autoDetectRenderer(),
     utils = PIXI.utils
 
 settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
@@ -56,11 +57,11 @@ export let getClickRegistered = () => clickRegistered;
 // Create a Pixi Application
 export let app = new Application({
     width: 800,
-    height: 500
+    height: 500,
 });
 
 export let map = new Application({
-    width: 320,
+    width: 800,
     height: 320,
 })
 
@@ -107,6 +108,7 @@ function setup() {
     // Icon & Misc texture sheet
     setIconSheet(resources['../../assets/sprites/icons/spritesheets/icons.json'].textures);
     setMiscSheet(resources['../../assets/sprites/misc/spritesheets/misc.json'].textures);
+    environmentSheets_setup();
 
     // Initialize item data (execute after setIconSheet);
     itemData_init();
@@ -120,11 +122,15 @@ function setup() {
     // initialize ui variables
     ui_design_init();
 
-    setBg(noiseMap_macro({ seed: 123456789 }));
-    let bg = getBg();
-    bg.x = -1200;
-    bg.y = -800;
+    let bg = noiseMap_macro({ seed: 123456789 });
+    generateCoordinates();
+    bg.x = coordinates.player.chunk.x;
+    bg.y = coordinates.player.chunk.y;
+    setBg(bg);
     app.stage.addChild(bg);
+
+    let BitmapTextCoordinates = graphicCoordinates();
+    mapScene.addChild(BitmapTextCoordinates);
 
     // Main Game Scene
     gameScene = new Container();
@@ -142,11 +148,11 @@ function setup() {
     gameScene.addChild(player);
     createPlayerArmor();
 
-    // Environment
-    environmentSheets_setup();
-
     // Entities
     entities_setup();
+
+    // Sort Game Scene Objects for Initial Render.
+    sortGameScene();
 
     // UIs
     let ui = ui_setup();
@@ -164,9 +170,9 @@ function setup() {
 
 // Game Loop -----------------------------------------------------------------------
 function gameLoop(delta) {
+
     // update the current game state:
     state(delta);
-
 }
 
 function play() {

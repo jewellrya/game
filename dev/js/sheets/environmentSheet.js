@@ -5,7 +5,7 @@ export let environmentSheets = {};
 
 let dir = '../../assets/sprites/environment/spritesheets/environment.json';
 
-let staticSprites = ['mushrooms', 'rock1', 'rock2', 'rock3', 'stump1', 'stump2'];
+let staticSprites = ['mushrooms', 'rock1', 'rock2', 'rock3', 'stump1', 'stump2', 'grass_texture-1', 'grass_texture-2', 'grass_texture-3'];
 let animatedSprites = ['oak1', 'oak1shadow'];
 
 function environmentSheets_generate(spriteId, animated) {

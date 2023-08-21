@@ -1,8 +1,32 @@
 {"frames": {
 
+"grass_texture-1.png":
+{
+	"frame": {"x":0,"y":0,"w":45,"h":31},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":45,"h":31},
+	"sourceSize": {"w":45,"h":31}
+},
+"grass_texture-2.png":
+{
+	"frame": {"x":45,"y":0,"w":33,"h":28},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":33,"h":28},
+	"sourceSize": {"w":33,"h":28}
+},
+"grass_texture-3.png":
+{
+	"frame": {"x":78,"y":0,"w":41,"h":27},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":41,"h":27},
+	"sourceSize": {"w":41,"h":27}
+},
 "mushrooms.png":
 {
-	"frame": {"x":60,"y":0,"w":24,"h":11},
+	"frame": {"x":119,"y":0,"w":24,"h":11},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":11},
@@ -10,39 +34,39 @@
 },
 "oak1-1.png":
 {
-	"frame": {"x":0,"y":24,"w":214,"h":213},
+	"frame": {"x":0,"y":31,"w":214,"h":208},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":214,"h":213},
-	"sourceSize": {"w":214,"h":213}
+	"spriteSourceSize": {"x":0,"y":0,"w":214,"h":208},
+	"sourceSize": {"w":214,"h":208}
 },
 "oak1-2.png":
 {
-	"frame": {"x":0,"y":237,"w":214,"h":213},
+	"frame": {"x":0,"y":239,"w":214,"h":208},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":214,"h":213},
-	"sourceSize": {"w":214,"h":213}
-},
-"oak1shadow-2.png":
-{
-	"frame": {"x":0,"y":450,"w":214,"h":64},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":214,"h":64},
-	"sourceSize": {"w":214,"h":64}
+	"spriteSourceSize": {"x":0,"y":0,"w":214,"h":208},
+	"sourceSize": {"w":214,"h":208}
 },
 "oak1shadow-1.png":
 {
-	"frame": {"x":0,"y":514,"w":214,"h":64},
+	"frame": {"x":0,"y":447,"w":208,"h":64},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":214,"h":64},
-	"sourceSize": {"w":214,"h":64}
+	"spriteSourceSize": {"x":0,"y":0,"w":208,"h":64},
+	"sourceSize": {"w":208,"h":64}
+},
+"oak1shadow-2.png":
+{
+	"frame": {"x":0,"y":511,"w":208,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":208,"h":64},
+	"sourceSize": {"w":208,"h":64}
 },
 "rock1.png":
 {
-	"frame": {"x":14,"y":0,"w":23,"h":24},
+	"frame": {"x":208,"y":511,"w":23,"h":24},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":23,"h":24},
@@ -50,7 +74,7 @@
 },
 "rock2.png":
 {
-	"frame": {"x":0,"y":0,"w":14,"h":13},
+	"frame": {"x":0,"y":575,"w":14,"h":13},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":14,"h":13},
@@ -58,7 +82,7 @@
 },
 "rock3.png":
 {
-	"frame": {"x":37,"y":0,"w":23,"h":14},
+	"frame": {"x":14,"y":575,"w":23,"h":14},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":23,"h":14},
@@ -66,7 +90,7 @@
 },
 "stump1.png":
 {
-	"frame": {"x":84,"y":0,"w":27,"h":14},
+	"frame": {"x":37,"y":575,"w":27,"h":14},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":27,"h":14},
@@ -74,23 +98,26 @@
 },
 "stump2.png":
 {
-	"frame": {"x":111,"y":0,"w":27,"h":13},
+	"frame": {"x":64,"y":575,"w":27,"h":13},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":27,"h":13},
 	"sourceSize": {"w":27,"h":13}
 }},
 "animations": {
+	"grass_texture": ["grass_texture-1.png","grass_texture-2.png","grass_texture-3.png"],
 	"oak1": ["oak1-1.png","oak1-2.png"],
-	"oak1shadow": ["oak1shadow-1.png","oak1shadow-2.png"]
+	"oak1shadow": ["oak1shadow-1.png","oak1shadow-2.png"],
+	"rock": ["rock1.png","rock2.png","rock3.png"],
+	"stump": ["stump1.png","stump2.png"]
 },
 "meta": {
 	"app": "https://www.codeandweb.com/texturepacker",
 	"version": "1.1",
 	"image": "environment.png",
 	"format": "RGBA8888",
-	"size": {"w":214,"h":578},
+	"size": {"w":231,"h":589},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:8fd307e78fcb6d42b393173a318183aa:31165ee976bb4e475b6215f6109e4b5b:7abea815e3107eecbafa95ee71efdc50$"
+	"smartupdate": "$TexturePacker:SmartUpdate:73c4262bd3105846330b67521722916d:eea42b52bf229f56ee4d5d1493734c36:7abea815e3107eecbafa95ee71efdc50$"
 }
 }

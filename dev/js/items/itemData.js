@@ -18,7 +18,7 @@ export function itemData_init() {
     itemData = {
         clothChest: {
             name: 'Burlap Robes',
-            icon: getIconSheet['iconClothChest.png'],
+            icon: getIconSheet()['iconClothChest.png'],
             type: 'armor',
             equipable: true,
             slot: 'chest',
@@ -26,7 +26,7 @@ export function itemData_init() {
         },
         clothFeet: {
             name: 'Burlap Boots',
-            icon: getIconSheet['iconClothFeet.png'],
+            icon: getIconSheet()['iconClothFeet.png'],
             type: 'armor',
             equipable: true,
             slot: 'feet',
@@ -34,7 +34,7 @@ export function itemData_init() {
         },
         clothHands: {
             name: 'Burlap Gloves',
-            icon: getIconSheet['iconClothHands.png'],
+            icon: getIconSheet()['iconClothHands.png'],
             type: 'armor',
             equipable: true,
             slot: 'hands',
@@ -42,7 +42,7 @@ export function itemData_init() {
         },
         clothHead: {
             name: 'Burlap Hood',
-            icon: getIconSheet['iconClothHead.png'],
+            icon: getIconSheet()['iconClothHead.png'],
             type: 'armor',
             equipable: true,
             slot: 'head',
@@ -50,7 +50,7 @@ export function itemData_init() {
         },
         clothLegs: {
             name: 'Burlap Trousers',
-            icon: getIconSheet['iconClothLegs.png'],
+            icon: getIconSheet()['iconClothLegs.png'],
             type: 'armor',
             equipable: true,
             slot: 'legs',
@@ -58,7 +58,7 @@ export function itemData_init() {
         },
         clothShoulders: {
             name: 'Burlap Pauldrons',
-            icon: getIconSheet['iconClothShoulders.png'],
+            icon: getIconSheet()['iconClothShoulders.png'],
             type: 'armor',
             equipable: true,
             slot: 'shoulders',
@@ -66,7 +66,7 @@ export function itemData_init() {
         },
         sword1h1: {
             name: 'Rusty Sword',
-            icon: getIconSheet['iconSword1h1.png'],
+            icon: getIconSheet()['iconSword1h1.png'],
             type: 'weapon',
             equipable: true,
             slot: 'rightHand',
@@ -75,7 +75,7 @@ export function itemData_init() {
         },
         shield1: {
             name: 'Rusty Shield',
-            icon: getIconSheet['iconShield1.png'],
+            icon: getIconSheet()['iconShield1.png'],
             type: 'shield',
             equipable: true,
             slot: 'leftHand',

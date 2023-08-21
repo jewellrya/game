@@ -2,16 +2,9 @@ body {
   margin: 0;
 }
 
-@font-face {
-  font-family: "Visitor";
-  font-style: normal;
-  font-weight: 400;
-  src: url(/90dd7e1ca999bd4c1b8a2bb03f29af4f.ttf);
-}
 #img_texture {
   transform: rotateX(-60deg) rotateY(0deg) rotateZ(-45deg);
 }
-
 
 
 

@@ -2,6 +2,12 @@ import { gameScene } from '../../_game.js';
 import { getBg, setBgX, setBgY } from '../../map/chunk/noiseMap_chunk.js';
 import { entities } from '../../entities/entities.js';
 
+export function sortGameScene() {
+    gameScene.children.sort((a, b) => {
+        return a.interactBox.y - b.interactBox.y;
+    })
+}
+
 export function moveEnvironment(x, y) {
     setBgX(getBg().x += x);
     setBgY(getBg().y += y);
@@ -17,7 +23,5 @@ export function moveEnvironment(x, y) {
         }
     })
 
-    gameScene.children.sort((a, b) => {
-        return a.interactBox.y - b.interactBox.y;
-    })
+    sortGameScene();
 }
