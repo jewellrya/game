@@ -1,4 +1,4 @@
-import { treeInstance } from './tree/tree.js';
+import { treeInstance, checkPlayerBehindTree } from './tree/tree.js';
 import { staticEnvironmentInstance } from './staticEnvironment/staticEnvironment.js';
 import { objectChunkDispertion } from '../utilities/entities_utilities.js';
 
@@ -21,4 +21,5 @@ export function environment_init() {
 
 export function environment_events() {
     // Environment events used in game loop.
+    checkPlayerBehindTree();
 }

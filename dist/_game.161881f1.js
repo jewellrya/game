@@ -46742,11 +46742,17 @@ function containers_events() {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.checkPlayerBehindTree = checkPlayerBehindTree;
 exports.treeInstance = treeInstance;
 var _game = require("../../../_game.js");
 var _environmentSheet = require("../../../sheets/environmentSheet.js");
 var _interactBox = require("../../../proximityBoxes/interactBox.js");
+var _player = require("../../../player/player.js");
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 var treeAnimationSpeed = 0.01;
+var treesArray = [];
 function treeInstance(type, x, y) {
   var tree = new _game.Container();
   tree.x = x;
@@ -46770,9 +46776,48 @@ function treeInstance(type, x, y) {
     complexY: 0.05,
     test_graphic: false
   });
+
+  // Check player's position relative to the tree.
+  function checkPlayerBehindTree() {
+    var xThreshold, yThreshold, trunkThreshold;
+
+    // Different thresholds since sprites have different paddings of alpha.
+    if (type === 'oak1') {
+      xThreshold = 100, yThreshold = 50, trunkThreshold = 200;
+    }
+
+    // Grab player's location.
+    var playerContainer = (0, _player.getPlayerContainer)();
+    var playerBase = playerContainer.children[0];
+    var playerBaseCenter = {
+      x: playerContainer.x + playerBase.x + playerBase.width / 2,
+      y: playerContainer.y + playerBase.y + playerBase.height / 2
+    };
+    if (playerBaseCenter.y > tree.y + yThreshold && playerBaseCenter.y < tree.y + tree.height - trunkThreshold && playerBaseCenter.x > tree.x + xThreshold && playerBaseCenter.x < tree.x + tree.width - xThreshold) {
+      sprite.alpha = 0.3;
+    } else {
+      sprite.alpha = 1;
+    }
+  }
+  tree.checkPlayerBehindTree = checkPlayerBehindTree;
+  treesArray.push(tree);
   return tree;
 }
-},{"../../../_game.js":"dev/js/_game.js","../../../sheets/environmentSheet.js":"dev/js/sheets/environmentSheet.js","../../../proximityBoxes/interactBox.js":"dev/js/proximityBoxes/interactBox.js"}],"dev/js/entities/environment/staticEnvironment/staticEnvironment.js":[function(require,module,exports) {
+function checkPlayerBehindTree() {
+  var _iterator = _createForOfIteratorHelper(treesArray),
+    _step;
+  try {
+    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+      var tree = _step.value;
+      tree.checkPlayerBehindTree();
+    }
+  } catch (err) {
+    _iterator.e(err);
+  } finally {
+    _iterator.f();
+  }
+}
+},{"../../../_game.js":"dev/js/_game.js","../../../sheets/environmentSheet.js":"dev/js/sheets/environmentSheet.js","../../../proximityBoxes/interactBox.js":"dev/js/proximityBoxes/interactBox.js","../../../player/player.js":"dev/js/player/player.js"}],"dev/js/entities/environment/staticEnvironment/staticEnvironment.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -46857,6 +46902,7 @@ function environment_init() {
 }
 function environment_events() {
   // Environment events used in game loop.
+  (0, _tree.checkPlayerBehindTree)();
 }
 },{"./tree/tree.js":"dev/js/entities/environment/tree/tree.js","./staticEnvironment/staticEnvironment.js":"dev/js/entities/environment/staticEnvironment/staticEnvironment.js","../utilities/entities_utilities.js":"dev/js/entities/utilities/entities_utilities.js"}],"dev/js/entities/entities.js":[function(require,module,exports) {
 "use strict";
@@ -48363,7 +48409,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52801" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49647" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
