@@ -45795,6 +45795,7 @@ exports.getPlayerStartingChunk = getPlayerStartingChunk;
 exports.getWorldCoords = void 0;
 exports.graphicCoordinates = graphicCoordinates;
 exports.normalize = normalize;
+exports.redrawCoordinates = redrawCoordinates;
 exports.setWorldCoords = exports.setChunkCoords = void 0;
 var _game = require("../../_game.js");
 var _noiseMap_chunk = require("../chunk/noiseMap_chunk");
@@ -45975,10 +45976,14 @@ var setWorldCoords = function setWorldCoords(x, y) {
   return coordinates.player.world.x = x, coordinates.player.world.y = y;
 };
 
-// MAKE A WAY TO UPDATE COORDINATES IN GAME LOOP.
-// let chunkCoordText = mapScene.children[2].children[1];
-// chunkCoordText.text = (i++).toString();
+// Used in loop. Watch when player moves.
 exports.setWorldCoords = setWorldCoords;
+function redrawCoordinates() {
+  var container = _game.mapScene.children[2];
+  // let chunkCoordText = container.children[1];
+  var playerCoordText = container.children[2];
+  playerCoordText.text = 'WORLD: ' + coordinates.player.world.x + ', ' + coordinates.player.world.y;
+}
 },{"../../_game.js":"dev/js/_game.js","../chunk/noiseMap_chunk":"dev/js/map/chunk/noiseMap_chunk.js","../macro/noiseMap_macro.js":"dev/js/map/macro/noiseMap_macro.js","../../ui/ui_design.js":"dev/js/ui/ui_design.js"}],"dev/js/map/macro/noiseMap_macro.js":[function(require,module,exports) {
 "use strict";
 

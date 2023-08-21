@@ -1,4 +1,4 @@
-import { BitmapText, Container, app } from '../../_game.js';
+import { BitmapText, Container, app, mapScene } from '../../_game.js';
 import { chunk_actual_size, tileSize } from '../chunk/noiseMap_chunk';
 import { seed } from '../macro/noiseMap_macro.js';
 import { uiStyle } from '../../ui/ui_design.js';
@@ -174,6 +174,10 @@ export let setChunkCoords = (x, y) => (coordinates.chunk.x = x, coordinates.chun
 export let getWorldCoords = () => coordinates.player.world;
 export let setWorldCoords = (x, y) => (coordinates.player.world.x = x, coordinates.player.world.y = y);
 
-// MAKE A WAY TO UPDATE COORDINATES IN GAME LOOP.
-// let chunkCoordText = mapScene.children[2].children[1];
-// chunkCoordText.text = (i++).toString();
+// Used in loop. Watch when player moves.
+export function redrawCoordinates() {
+    let container = mapScene.children[2];
+    // let chunkCoordText = container.children[1];
+    let playerCoordText = container.children[2];
+    playerCoordText.text = 'WORLD: ' + coordinates.player.world.x + ', ' + coordinates.player.world.y;
+}
