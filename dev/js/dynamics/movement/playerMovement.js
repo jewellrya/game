@@ -15,21 +15,17 @@ let player;
 export function movement_control() {
     player = getPlayer();
 
-    let diagonalSpeed = playerStats.speed() / Math.sqrt(2);
-
     if (!isAttacking) {
         // keysDown
         if (keysDown.KeyW) {
             if (keysDown.KeyA) {
                 movementPlayerTexture('UL', playerBodyTexture);
-                updateCoordinates(-diagonalSpeed, -diagonalSpeed);
             } else if (keysDown.KeyD) {
                 movementPlayerTexture('UR', playerBodyTexture);
-                updateCoordinates(diagonalSpeed, -diagonalSpeed);
             } else {
                 movementPlayerTexture('U', playerBodyTexture);
-                updateCoordinates(0, -playerStats.speed());
             }
+            updateCoordinates(0, -playerStats.speed());
             moveEnvironment(0, playerStats.speed());
             setPlayerAnimSpeed();
         }
@@ -37,14 +33,12 @@ export function movement_control() {
         if (keysDown.KeyA) {
             if (keysDown.KeyW) {
                 movementPlayerTexture('UL', playerBodyTexture);
-                updateCoordinates(-diagonalSpeed, -diagonalSpeed);
             } else if (keysDown.KeyS) {
                 movementPlayerTexture('DL', playerBodyTexture);
-                updateCoordinates(-diagonalSpeed, diagonalSpeed);
             } else {
                 movementPlayerTexture('L', playerBodyTexture);
-                updateCoordinates(-playerStats.speed(), 0);
             }
+            updateCoordinates(-playerStats.speed(), 0);
             moveEnvironment(playerStats.speed(), 0);
             setPlayerAnimSpeed();
         }
@@ -52,14 +46,12 @@ export function movement_control() {
         if (keysDown.KeyS) {
             if (keysDown.KeyA) {
                 movementPlayerTexture('DL', playerBodyTexture);
-                updateCoordinates(-diagonalSpeed, diagonalSpeed);
             } else if (keysDown.KeyD) {
                 movementPlayerTexture('DR', playerBodyTexture);
-                updateCoordinates(diagonalSpeed, diagonalSpeed);
             } else {
                 movementPlayerTexture('D', playerBodyTexture);
-                updateCoordinates(0, playerStats.speed());
             }
+            updateCoordinates(0, playerStats.speed());
             moveEnvironment(0, -playerStats.speed());
             setPlayerAnimSpeed();
         }
@@ -67,14 +59,12 @@ export function movement_control() {
         if (keysDown.KeyD) {
             if (keysDown.KeyW) {
                 movementPlayerTexture('UR', playerBodyTexture);
-                updateCoordinates(diagonalSpeed, -diagonalSpeed);
             } else if (keysDown.KeyS) {
                 movementPlayerTexture('DR', playerBodyTexture);
-                updateCoordinates(diagonalSpeed, diagonalSpeed);
             } else {
                 movementPlayerTexture('R', playerBodyTexture);
-                updateCoordinates(playerStats.speed(), 0);
             }
+            updateCoordinates(playerStats.speed(), 0);
             moveEnvironment(-playerStats.speed(), 0);
             setPlayerAnimSpeed();
         }

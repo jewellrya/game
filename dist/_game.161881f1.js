@@ -47182,62 +47182,53 @@ var _updateCoords = require("./updateCoords.js");
 var player;
 function movement_control() {
   player = (0, _player.getPlayer)();
-  var diagonalSpeed = _playerData.playerStats.speed() / Math.sqrt(2);
   if (!_attackMelee.isAttacking) {
     // keysDown
     if (_keyboard.keysDown.KeyW) {
       if (_keyboard.keysDown.KeyA) {
         (0, _textureMovement.movementPlayerTexture)('UL', _player.playerBodyTexture);
-        (0, _updateCoords.updateCoordinates)(-diagonalSpeed, -diagonalSpeed);
       } else if (_keyboard.keysDown.KeyD) {
         (0, _textureMovement.movementPlayerTexture)('UR', _player.playerBodyTexture);
-        (0, _updateCoords.updateCoordinates)(diagonalSpeed, -diagonalSpeed);
       } else {
         (0, _textureMovement.movementPlayerTexture)('U', _player.playerBodyTexture);
-        (0, _updateCoords.updateCoordinates)(0, -_playerData.playerStats.speed());
       }
+      (0, _updateCoords.updateCoordinates)(0, -_playerData.playerStats.speed());
       (0, _moveEnvironment.moveEnvironment)(0, _playerData.playerStats.speed());
       (0, _textureAnimSpeed.setPlayerAnimSpeed)();
     }
     if (_keyboard.keysDown.KeyA) {
       if (_keyboard.keysDown.KeyW) {
         (0, _textureMovement.movementPlayerTexture)('UL', _player.playerBodyTexture);
-        (0, _updateCoords.updateCoordinates)(-diagonalSpeed, -diagonalSpeed);
       } else if (_keyboard.keysDown.KeyS) {
         (0, _textureMovement.movementPlayerTexture)('DL', _player.playerBodyTexture);
-        (0, _updateCoords.updateCoordinates)(-diagonalSpeed, diagonalSpeed);
       } else {
         (0, _textureMovement.movementPlayerTexture)('L', _player.playerBodyTexture);
-        (0, _updateCoords.updateCoordinates)(-_playerData.playerStats.speed(), 0);
       }
+      (0, _updateCoords.updateCoordinates)(-_playerData.playerStats.speed(), 0);
       (0, _moveEnvironment.moveEnvironment)(_playerData.playerStats.speed(), 0);
       (0, _textureAnimSpeed.setPlayerAnimSpeed)();
     }
     if (_keyboard.keysDown.KeyS) {
       if (_keyboard.keysDown.KeyA) {
         (0, _textureMovement.movementPlayerTexture)('DL', _player.playerBodyTexture);
-        (0, _updateCoords.updateCoordinates)(-diagonalSpeed, diagonalSpeed);
       } else if (_keyboard.keysDown.KeyD) {
         (0, _textureMovement.movementPlayerTexture)('DR', _player.playerBodyTexture);
-        (0, _updateCoords.updateCoordinates)(diagonalSpeed, diagonalSpeed);
       } else {
         (0, _textureMovement.movementPlayerTexture)('D', _player.playerBodyTexture);
-        (0, _updateCoords.updateCoordinates)(0, _playerData.playerStats.speed());
       }
+      (0, _updateCoords.updateCoordinates)(0, _playerData.playerStats.speed());
       (0, _moveEnvironment.moveEnvironment)(0, -_playerData.playerStats.speed());
       (0, _textureAnimSpeed.setPlayerAnimSpeed)();
     }
     if (_keyboard.keysDown.KeyD) {
       if (_keyboard.keysDown.KeyW) {
         (0, _textureMovement.movementPlayerTexture)('UR', _player.playerBodyTexture);
-        (0, _updateCoords.updateCoordinates)(diagonalSpeed, -diagonalSpeed);
       } else if (_keyboard.keysDown.KeyS) {
         (0, _textureMovement.movementPlayerTexture)('DR', _player.playerBodyTexture);
-        (0, _updateCoords.updateCoordinates)(diagonalSpeed, diagonalSpeed);
       } else {
         (0, _textureMovement.movementPlayerTexture)('R', _player.playerBodyTexture);
-        (0, _updateCoords.updateCoordinates)(_playerData.playerStats.speed(), 0);
       }
+      (0, _updateCoords.updateCoordinates)(_playerData.playerStats.speed(), 0);
       (0, _moveEnvironment.moveEnvironment)(-_playerData.playerStats.speed(), 0);
       (0, _textureAnimSpeed.setPlayerAnimSpeed)();
     }
