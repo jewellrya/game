@@ -89,7 +89,7 @@ export function drawChunkGraphics(chunk) {
     let landscapeSprite = new Sprite(landscapeTexture);
     container.addChild(landscapeSprite);
 
-    objectChunkDispertion({ createEntityFn: createTexture, pushEntityFn: null, entityDensity: 1.2, seed: '3812', coordX: foliage.x, coordY: foliage.y });
+    objectChunkDispertion({ createEntityFn: createTexture, pushEntityFn: null, entityDensity: 1.2, objectSeed: '3812', coordX: foliage.x, coordY: foliage.y });
     let foliageTexture = RenderTexture.create(foliage.width, foliage.height);
     app.renderer.render(foliage, foliageTexture);
     let foliageSprite = new Sprite(foliageTexture);

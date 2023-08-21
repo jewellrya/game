@@ -11,12 +11,13 @@ function pushEnvironment(createFn) {
 
 export function environment_init() {
     // Create all environment entities here.
-    objectChunkDispertion({ createEntityFn: treeInstance.bind(null, 'oak1'), pushEntityFn: pushEnvironment, entityDensity: 0.01, seed: '0000' });
-    objectChunkDispertion({ createEntityFn: staticEnvironmentInstance.bind(null, 'rock1'), pushEntityFn: pushEnvironment, entityDensity: 0.01, seed: '2222' });
-    objectChunkDispertion({ createEntityFn: staticEnvironmentInstance.bind(null, 'rock2'), pushEntityFn: pushEnvironment, entityDensity: 0.01, seed: '3333' });
-    objectChunkDispertion({ createEntityFn: staticEnvironmentInstance.bind(null, 'rock3'), pushEntityFn: pushEnvironment, entityDensity: 0.01, seed: '4444' });
-    objectChunkDispertion({ createEntityFn: staticEnvironmentInstance.bind(null, 'stump1'), pushEntityFn: pushEnvironment, entityDensity: 0.01, seed: '5555' });
-    objectChunkDispertion({ createEntityFn: staticEnvironmentInstance.bind(null, 'stump2'), pushEntityFn: pushEnvironment, entityDensity: 0.01, seed: '1111' });
+    objectChunkDispertion({ createEntityFn: treeInstance.bind(null, 'oak1'), pushEntityFn: pushEnvironment, entityDensity: 0.01, objectSeed: '1' });
+    objectChunkDispertion({ createEntityFn: staticEnvironmentInstance.bind(null, 'rock1'), pushEntityFn: pushEnvironment, entityDensity: 0.01, objectSeed: '2' });
+    objectChunkDispertion({ createEntityFn: staticEnvironmentInstance.bind(null, 'rock2'), pushEntityFn: pushEnvironment, entityDensity: 0.01, objectSeed: '3' });
+    objectChunkDispertion({ createEntityFn: staticEnvironmentInstance.bind(null, 'rock3'), pushEntityFn: pushEnvironment, entityDensity: 0.01, objectSeed: '4' });
+    objectChunkDispertion({ createEntityFn: staticEnvironmentInstance.bind(null, 'stump1'), pushEntityFn: pushEnvironment, entityDensity: 0.01, objectSeed: '5' });
+    objectChunkDispertion({ createEntityFn: staticEnvironmentInstance.bind(null, 'stump2'), pushEntityFn: pushEnvironment, entityDensity: 0.01, objectSeed: '6' });
+    objectChunkDispertion({ createEntityFn: staticEnvironmentInstance.bind(null, 'mushrooms'), pushEntityFn: pushEnvironment, entityDensity: 0.01, objectSeed: '7' });
 }
 
 export function environment_events() {
