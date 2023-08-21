@@ -12,7 +12,6 @@ export function objectChunkDispertion({ createObjectFn, pushObjectFn, objectDens
     let width = chunk_actual_size;
     let height = chunk_actual_size;
     objectDensity /= 10000;
-    console.log(objectSeed);
 
     let totalSpots = width * height;
     let numObjects = Math.floor(totalSpots * objectDensity);

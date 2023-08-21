@@ -8,6 +8,7 @@ import { environmentSheets } from '../../sheets/environmentSheet';
 let bg;
 
 export let resolutionSize = 4;
+export let tileSize = resolutionSize * 8;
 let chunk_size = 1024;
 let chunk_scale = 1;
 export const chunk_actual_size = chunk_size * chunk_scale * resolutionSize;

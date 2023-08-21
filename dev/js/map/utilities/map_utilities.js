@@ -1,9 +1,19 @@
 import { BitmapText, Container, app, mapScene } from '../../_game.js';
-import { chunk_actual_size, resolutionSize } from '../chunk/noiseMap_chunk';
+import { chunk_actual_size, resolutionSize, tileSize } from '../chunk/noiseMap_chunk';
 import { seed } from '../macro/noiseMap_macro.js';
 import { uiStyle } from '../../ui/ui_design.js';
 
-export let coordinates;
+export let coordinates = {
+    chunk: null,
+    player: {
+        // This is where the player starts in the chunk.
+        chunk: {
+            x: 0,
+            y: 0,
+        },
+        world: null,
+    }
+};
 
 export function normalize(val) {
     return (val + 1) / 2;
@@ -113,36 +123,27 @@ export function getPlayerStartingChunk() {
 }
 
 export function generateCoordinates() {
-    let tileSize = resolutionSize * 4;
-
     // Coordinate of the chunk itself.
     let chunkX = getPlayerStartingChunk().x;
     let chunkY = getPlayerStartingChunk().y;
 
     // Player's coordinate in respect to the currently occupied chunk.
-    let playerToChunkX = 0;
-    let playerToChunkY = 0;
+    let playerToChunkX = coordinates.player.chunk.x;
+    let playerToChunkY = coordinates.player.chunk.y;
 
     // Player's coordinate in respect to the whole world.
     let playerX = Math.floor(((chunkX * chunk_actual_size) + playerToChunkX + app.view.width / 2) / tileSize);
     let playerY = Math.floor(((chunkY * chunk_actual_size) + playerToChunkY + app.view.height / 2) / tileSize);
 
-    // Make coordinate object:
-    coordinates = {
-        chunk: {
-            x: chunkX,
-            y: chunkY
-        },
-        player: {
-            chunk: {
-                x: playerToChunkX,
-                y: playerToChunkY
-            },
-            world: {
-                x: playerX,
-                y: playerY
-            }
-        }
+    // Add to coordinate object:
+    coordinates.chunk = {
+        x: chunkX,
+        y: chunkY
+    };
+
+    coordinates.player.world = {
+        x: playerX,
+        y: playerY
     }
 }
 
@@ -173,11 +174,15 @@ export let setChunkCoords = (x, y) => (coordinates.chunk.x = x, coordinates.chun
 
 export let getWorldCoords = () => coordinates.player.world;
 export let setWorldCoords = (x, y) => (coordinates.player.world.x = x, coordinates.player.world.y = y);
+export let setWorldCoordX = (x) => (coordinates.player.world.x = x);
+export let setWorldCoordY = (y) => (coordinates.player.world.y = y);
 
 // Used in loop. Watch when player moves.
 export function redrawCoordinates() {
     let container = mapScene.children[2];
-    // let chunkCoordText = container.children[1];
+
+    let chunkCoordText = container.children[1];
+    chunkCoordText.text = 'CHUNK: ' + coordinates.chunk.x + ', ' + coordinates.chunk.y;
     let playerCoordText = container.children[2];
     playerCoordText.text = 'WORLD: ' + coordinates.player.world.x + ', ' + coordinates.player.world.y;
 }

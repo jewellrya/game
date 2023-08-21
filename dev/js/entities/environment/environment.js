@@ -11,7 +11,7 @@ function pushEnvironment(createFn) {
 
 export function environment_init() {
     // Create all environment entities here.
-    objectChunkDispertion({ createObjectFn: treeInstance.bind(null, 'oak1'), pushObjectFn: pushEnvironment, objectDensity: 0.01, objectSeed: '1' });
+    objectChunkDispertion({ createObjectFn: treeInstance.bind(null, 'oak1'), pushObjectFn: pushEnvironment, objectDensity: 0.02, objectSeed: '1' });
     objectChunkDispertion({ createObjectFn: staticEnvironmentInstance.bind(null, 'rock1'), pushObjectFn: pushEnvironment, objectDensity: 0.01, objectSeed: '2' });
     objectChunkDispertion({ createObjectFn: staticEnvironmentInstance.bind(null, 'rock2'), pushObjectFn: pushEnvironment, objectDensity: 0.01, objectSeed: '3' });
     objectChunkDispertion({ createObjectFn: staticEnvironmentInstance.bind(null, 'rock3'), pushObjectFn: pushEnvironment, objectDensity: 0.01, objectSeed: '4' });

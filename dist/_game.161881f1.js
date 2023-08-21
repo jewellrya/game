@@ -45796,12 +45796,22 @@ exports.getWorldCoords = void 0;
 exports.graphicCoordinates = graphicCoordinates;
 exports.normalize = normalize;
 exports.redrawCoordinates = redrawCoordinates;
-exports.setWorldCoords = exports.setChunkCoords = void 0;
+exports.setWorldCoords = exports.setWorldCoordY = exports.setWorldCoordX = exports.setChunkCoords = void 0;
 var _game = require("../../_game.js");
 var _noiseMap_chunk = require("../chunk/noiseMap_chunk");
 var _noiseMap_macro = require("../macro/noiseMap_macro.js");
 var _ui_design = require("../../ui/ui_design.js");
-var coordinates;
+var coordinates = {
+  chunk: null,
+  player: {
+    // This is where the player starts in the chunk.
+    chunk: {
+      x: 0,
+      y: 0
+    },
+    world: null
+  }
+};
 exports.coordinates = coordinates;
 function normalize(val) {
   return (val + 1) / 2;
@@ -45912,36 +45922,26 @@ function getPlayerStartingChunk() {
 }
 
 function generateCoordinates() {
-  var tileSize = _noiseMap_chunk.resolutionSize * 4;
-
   // Coordinate of the chunk itself.
   var chunkX = getPlayerStartingChunk().x;
   var chunkY = getPlayerStartingChunk().y;
 
   // Player's coordinate in respect to the currently occupied chunk.
-  var playerToChunkX = 0;
-  var playerToChunkY = 0;
+  var playerToChunkX = coordinates.player.chunk.x;
+  var playerToChunkY = coordinates.player.chunk.y;
 
   // Player's coordinate in respect to the whole world.
-  var playerX = Math.floor((chunkX * _noiseMap_chunk.chunk_actual_size + playerToChunkX + _game.app.view.width / 2) / tileSize);
-  var playerY = Math.floor((chunkY * _noiseMap_chunk.chunk_actual_size + playerToChunkY + _game.app.view.height / 2) / tileSize);
+  var playerX = Math.floor((chunkX * _noiseMap_chunk.chunk_actual_size + playerToChunkX + _game.app.view.width / 2) / _noiseMap_chunk.tileSize);
+  var playerY = Math.floor((chunkY * _noiseMap_chunk.chunk_actual_size + playerToChunkY + _game.app.view.height / 2) / _noiseMap_chunk.tileSize);
 
-  // Make coordinate object:
-  exports.coordinates = coordinates = {
-    chunk: {
-      x: chunkX,
-      y: chunkY
-    },
-    player: {
-      chunk: {
-        x: playerToChunkX,
-        y: playerToChunkY
-      },
-      world: {
-        x: playerX,
-        y: playerY
-      }
-    }
+  // Add to coordinate object:
+  coordinates.chunk = {
+    x: chunkX,
+    y: chunkY
+  };
+  coordinates.player.world = {
+    x: playerX,
+    y: playerY
   };
 }
 function graphicCoordinates() {
@@ -45975,12 +45975,21 @@ exports.getWorldCoords = getWorldCoords;
 var setWorldCoords = function setWorldCoords(x, y) {
   return coordinates.player.world.x = x, coordinates.player.world.y = y;
 };
+exports.setWorldCoords = setWorldCoords;
+var setWorldCoordX = function setWorldCoordX(x) {
+  return coordinates.player.world.x = x;
+};
+exports.setWorldCoordX = setWorldCoordX;
+var setWorldCoordY = function setWorldCoordY(y) {
+  return coordinates.player.world.y = y;
+};
 
 // Used in loop. Watch when player moves.
-exports.setWorldCoords = setWorldCoords;
+exports.setWorldCoordY = setWorldCoordY;
 function redrawCoordinates() {
   var container = _game.mapScene.children[2];
-  // let chunkCoordText = container.children[1];
+  var chunkCoordText = container.children[1];
+  chunkCoordText.text = 'CHUNK: ' + coordinates.chunk.x + ', ' + coordinates.chunk.y;
   var playerCoordText = container.children[2];
   playerCoordText.text = 'WORLD: ' + coordinates.player.world.x + ', ' + coordinates.player.world.y;
 }
@@ -46102,7 +46111,6 @@ function objectChunkDispertion(_ref) {
   var width = _noiseMap_chunk.chunk_actual_size;
   var height = _noiseMap_chunk.chunk_actual_size;
   objectDensity /= 10000;
-  console.log(objectSeed);
   var totalSpots = width * height;
   var numObjects = Math.floor(totalSpots * objectDensity);
   var objects = [];
@@ -46163,7 +46171,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.chunk_actual_size = void 0;
 exports.drawChunkGraphics = drawChunkGraphics;
 exports.generateChunkFromMacro = generateChunkFromMacro;
-exports.setBgY = exports.setBgX = exports.setBg = exports.resolutionSize = exports.getBg = void 0;
+exports.tileSize = exports.setBgY = exports.setBgX = exports.setBg = exports.resolutionSize = exports.getBg = void 0;
 var _game = require("../../_game");
 var _noisejs = require("noisejs");
 var _noiseMap_macro = require("../macro/noiseMap_macro");
@@ -46173,6 +46181,8 @@ var _environmentSheet = require("../../sheets/environmentSheet");
 var bg;
 var resolutionSize = 4;
 exports.resolutionSize = resolutionSize;
+var tileSize = resolutionSize * 8;
+exports.tileSize = tileSize;
 var chunk_size = 1024;
 var chunk_scale = 1;
 var chunk_actual_size = chunk_size * chunk_scale * resolutionSize;
@@ -46869,7 +46879,7 @@ function environment_init() {
   (0, _entities_utilities.objectChunkDispertion)({
     createObjectFn: _tree.treeInstance.bind(null, 'oak1'),
     pushObjectFn: pushEnvironment,
-    objectDensity: 0.01,
+    objectDensity: 0.02,
     objectSeed: '1'
   });
   (0, _entities_utilities.objectChunkDispertion)({
@@ -47108,7 +47118,50 @@ var setSoul = function setSoul(val) {
   return resourceMeters.types.soul.inner.width = val;
 };
 exports.setSoul = setSoul;
-},{"../../_game.js":"dev/js/_game.js","../../player/playerData.js":"dev/js/player/playerData.js","../ui_design.js":"dev/js/ui/ui_design.js"}],"dev/js/dynamics/movement/playerMovement.js":[function(require,module,exports) {
+},{"../../_game.js":"dev/js/_game.js","../../player/playerData.js":"dev/js/player/playerData.js","../ui_design.js":"dev/js/ui/ui_design.js"}],"dev/js/dynamics/movement/updateCoords.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.updateCoordinates = updateCoordinates;
+var _map_utilities = require("../../map/utilities/map_utilities.js");
+var _noiseMap_chunk = require("../../map/chunk/noiseMap_chunk.js");
+var cumulativeDeltaX = 0;
+var cumulativeDeltaY = 0;
+function updateCoordinates(xSpeed, ySpeed) {
+  var worldCoords = (0, _map_utilities.getWorldCoords)();
+
+  // Update cumulative movement
+  if (xSpeed > 0) {
+    cumulativeDeltaX += xSpeed;
+    while (cumulativeDeltaX >= _noiseMap_chunk.tileSize) {
+      (0, _map_utilities.setWorldCoordX)(worldCoords.x + 1);
+      cumulativeDeltaX -= _noiseMap_chunk.tileSize;
+    }
+  } else if (xSpeed < 0) {
+    cumulativeDeltaX += xSpeed; // xSpeed is negative, so this is subtraction
+    while (cumulativeDeltaX <= -_noiseMap_chunk.tileSize) {
+      (0, _map_utilities.setWorldCoordX)(worldCoords.x - 1);
+      cumulativeDeltaX += _noiseMap_chunk.tileSize;
+    }
+  }
+  if (ySpeed > 0) {
+    cumulativeDeltaY += ySpeed;
+    while (cumulativeDeltaY >= _noiseMap_chunk.tileSize) {
+      (0, _map_utilities.setWorldCoordY)(worldCoords.y + 1);
+      cumulativeDeltaY -= _noiseMap_chunk.tileSize;
+    }
+  } else if (ySpeed < 0) {
+    cumulativeDeltaY += ySpeed; // ySpeed is negative, so this is subtraction
+    while (cumulativeDeltaY <= -_noiseMap_chunk.tileSize) {
+      (0, _map_utilities.setWorldCoordY)(worldCoords.y - 1);
+      cumulativeDeltaY += _noiseMap_chunk.tileSize;
+    }
+  }
+  (0, _map_utilities.redrawCoordinates)();
+}
+},{"../../map/utilities/map_utilities.js":"dev/js/map/utilities/map_utilities.js","../../map/chunk/noiseMap_chunk.js":"dev/js/map/chunk/noiseMap_chunk.js"}],"dev/js/dynamics/movement/playerMovement.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -47125,18 +47178,23 @@ var _textureAnimSpeed = require("../textureSwitch/textureAnimSpeed.js");
 var _equippedItemLoop = require("../textureSwitch/utilties/equippedItemLoop.js");
 var _resourceMeters = require("../../ui/modules/resourceMeters.js");
 var _keyboard = require("../../controllers/keyboard.js");
+var _updateCoords = require("./updateCoords.js");
 var player;
 function movement_control() {
   player = (0, _player.getPlayer)();
+  var diagonalSpeed = _playerData.playerStats.speed() / Math.sqrt(2);
   if (!_attackMelee.isAttacking) {
     // keysDown
     if (_keyboard.keysDown.KeyW) {
       if (_keyboard.keysDown.KeyA) {
         (0, _textureMovement.movementPlayerTexture)('UL', _player.playerBodyTexture);
+        (0, _updateCoords.updateCoordinates)(-diagonalSpeed, -diagonalSpeed);
       } else if (_keyboard.keysDown.KeyD) {
         (0, _textureMovement.movementPlayerTexture)('UR', _player.playerBodyTexture);
+        (0, _updateCoords.updateCoordinates)(diagonalSpeed, -diagonalSpeed);
       } else {
         (0, _textureMovement.movementPlayerTexture)('U', _player.playerBodyTexture);
+        (0, _updateCoords.updateCoordinates)(0, -_playerData.playerStats.speed());
       }
       (0, _moveEnvironment.moveEnvironment)(0, _playerData.playerStats.speed());
       (0, _textureAnimSpeed.setPlayerAnimSpeed)();
@@ -47144,10 +47202,13 @@ function movement_control() {
     if (_keyboard.keysDown.KeyA) {
       if (_keyboard.keysDown.KeyW) {
         (0, _textureMovement.movementPlayerTexture)('UL', _player.playerBodyTexture);
+        (0, _updateCoords.updateCoordinates)(-diagonalSpeed, -diagonalSpeed);
       } else if (_keyboard.keysDown.KeyS) {
         (0, _textureMovement.movementPlayerTexture)('DL', _player.playerBodyTexture);
+        (0, _updateCoords.updateCoordinates)(-diagonalSpeed, diagonalSpeed);
       } else {
         (0, _textureMovement.movementPlayerTexture)('L', _player.playerBodyTexture);
+        (0, _updateCoords.updateCoordinates)(-_playerData.playerStats.speed(), 0);
       }
       (0, _moveEnvironment.moveEnvironment)(_playerData.playerStats.speed(), 0);
       (0, _textureAnimSpeed.setPlayerAnimSpeed)();
@@ -47155,10 +47216,13 @@ function movement_control() {
     if (_keyboard.keysDown.KeyS) {
       if (_keyboard.keysDown.KeyA) {
         (0, _textureMovement.movementPlayerTexture)('DL', _player.playerBodyTexture);
+        (0, _updateCoords.updateCoordinates)(-diagonalSpeed, diagonalSpeed);
       } else if (_keyboard.keysDown.KeyD) {
         (0, _textureMovement.movementPlayerTexture)('DR', _player.playerBodyTexture);
+        (0, _updateCoords.updateCoordinates)(diagonalSpeed, diagonalSpeed);
       } else {
         (0, _textureMovement.movementPlayerTexture)('D', _player.playerBodyTexture);
+        (0, _updateCoords.updateCoordinates)(0, _playerData.playerStats.speed());
       }
       (0, _moveEnvironment.moveEnvironment)(0, -_playerData.playerStats.speed());
       (0, _textureAnimSpeed.setPlayerAnimSpeed)();
@@ -47166,10 +47230,13 @@ function movement_control() {
     if (_keyboard.keysDown.KeyD) {
       if (_keyboard.keysDown.KeyW) {
         (0, _textureMovement.movementPlayerTexture)('UR', _player.playerBodyTexture);
+        (0, _updateCoords.updateCoordinates)(diagonalSpeed, -diagonalSpeed);
       } else if (_keyboard.keysDown.KeyS) {
         (0, _textureMovement.movementPlayerTexture)('DR', _player.playerBodyTexture);
+        (0, _updateCoords.updateCoordinates)(diagonalSpeed, diagonalSpeed);
       } else {
         (0, _textureMovement.movementPlayerTexture)('R', _player.playerBodyTexture);
+        (0, _updateCoords.updateCoordinates)(_playerData.playerStats.speed(), 0);
       }
       (0, _moveEnvironment.moveEnvironment)(-_playerData.playerStats.speed(), 0);
       (0, _textureAnimSpeed.setPlayerAnimSpeed)();
@@ -47213,7 +47280,7 @@ function movement_control() {
     (0, _textureAnimSpeed.setPlayerAnimSpeed)();
   }
 }
-},{"../../player/player.js":"dev/js/player/player.js","../../player/playerData.js":"dev/js/player/playerData.js","../../sheets/playerSheets.js":"dev/js/sheets/playerSheets.js","./moveEnvironment.js":"dev/js/dynamics/movement/moveEnvironment.js","../attacks/attackMelee.js":"dev/js/dynamics/attacks/attackMelee.js","../textureSwitch/textureMovement.js":"dev/js/dynamics/textureSwitch/textureMovement.js","../textureSwitch/textureAnimSpeed.js":"dev/js/dynamics/textureSwitch/textureAnimSpeed.js","../textureSwitch/utilties/equippedItemLoop.js":"dev/js/dynamics/textureSwitch/utilties/equippedItemLoop.js","../../ui/modules/resourceMeters.js":"dev/js/ui/modules/resourceMeters.js","../../controllers/keyboard.js":"dev/js/controllers/keyboard.js"}],"dev/js/dynamics/playerDynamics.js":[function(require,module,exports) {
+},{"../../player/player.js":"dev/js/player/player.js","../../player/playerData.js":"dev/js/player/playerData.js","../../sheets/playerSheets.js":"dev/js/sheets/playerSheets.js","./moveEnvironment.js":"dev/js/dynamics/movement/moveEnvironment.js","../attacks/attackMelee.js":"dev/js/dynamics/attacks/attackMelee.js","../textureSwitch/textureMovement.js":"dev/js/dynamics/textureSwitch/textureMovement.js","../textureSwitch/textureAnimSpeed.js":"dev/js/dynamics/textureSwitch/textureAnimSpeed.js","../textureSwitch/utilties/equippedItemLoop.js":"dev/js/dynamics/textureSwitch/utilties/equippedItemLoop.js","../../ui/modules/resourceMeters.js":"dev/js/ui/modules/resourceMeters.js","../../controllers/keyboard.js":"dev/js/controllers/keyboard.js","./updateCoords.js":"dev/js/dynamics/movement/updateCoords.js"}],"dev/js/dynamics/playerDynamics.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
