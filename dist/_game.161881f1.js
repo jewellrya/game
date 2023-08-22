@@ -46171,6 +46171,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.chunk_actual_size = void 0;
 exports.drawChunkGraphics = drawChunkGraphics;
 exports.generateChunkFromMacro = generateChunkFromMacro;
+exports.generateNewChunk = generateNewChunk;
 exports.tileSize = exports.setBgY = exports.setBgX = exports.setBg = exports.resolutionSize = exports.getBg = void 0;
 var _game = require("../../_game");
 var _noisejs = require("noisejs");
@@ -46178,6 +46179,7 @@ var _noiseMap_macro = require("../macro/noiseMap_macro");
 var _map_utilities = require("../utilities/map_utilities");
 var _entities_utilities = require("../../entities/utilities/entities_utilities");
 var _environmentSheet = require("../../sheets/environmentSheet");
+var _player = require("../../player/player");
 var bg;
 var resolutionSize = 4;
 exports.resolutionSize = resolutionSize;
@@ -46188,9 +46190,9 @@ var chunk_scale = 1;
 var chunk_actual_size = chunk_size * chunk_scale * resolutionSize;
 exports.chunk_actual_size = chunk_actual_size;
 var chunk_detail_scale = 1;
-var seed = 12345;
 var startingChunk = (0, _map_utilities.getPlayerStartingChunk)();
-var chunkNoiseGenerator = new _noisejs.Noise(seed);
+var chunkNoiseGenerator = new _noisejs.Noise(_noiseMap_macro.seed);
+var generatedChunks = [];
 function adjustDetailToMacro(macroValue, detailValue, deviationFactor) {
   // This function takes a macro value, a detail value, and a deviation factor.
   var adjustedDetail = macroValue + (detailValue - 0.5) * 2 * deviationFactor;
@@ -46235,6 +46237,7 @@ function generateChunkFromMacro(macroX, macroY, seed) {
       chunk[i][j] = adjustDetailToMacro(macroValue, detailValue, deviationFactor);
     }
   }
+  generatedChunks.push(macroX + ' ' + macroY);
   return chunk;
 }
 function drawChunkGraphics(chunk) {
@@ -46267,7 +46270,7 @@ function drawChunkGraphics(chunk) {
     createObjectFn: createTexture,
     pushObjectFn: null,
     objectDensity: 1.2,
-    objectSeed: '3812',
+    objectSeed: '123',
     coordX: foliage.x,
     coordY: foliage.y
   });
@@ -46294,8 +46297,30 @@ exports.setBgX = setBgX;
 var setBgY = function setBgY(val) {
   return bg.y = val;
 };
+
+// Call in the game loop.
 exports.setBgY = setBgY;
-},{"../../_game":"dev/js/_game.js","noisejs":"node_modules/noisejs/index.js","../macro/noiseMap_macro":"dev/js/map/macro/noiseMap_macro.js","../utilities/map_utilities":"dev/js/map/utilities/map_utilities.js","../../entities/utilities/entities_utilities":"dev/js/entities/utilities/entities_utilities.js","../../sheets/environmentSheet":"dev/js/sheets/environmentSheet.js"}],"dev/js/proximityBoxes/aggroBox.js":[function(require,module,exports) {
+function generateNewChunk() {
+  var bg = getBg();
+  var playerContainer = (0, _player.getPlayerContainer)();
+
+  // Check if at left border.
+  if (playerContainer.x <= bg.x) {
+    // Check if next chunk is generated.
+    var nextChunkX = parseInt(_map_utilities.coordinates.chunk.x) - 1;
+    var nextChunkY = parseInt(_map_utilities.coordinates.chunk.y);
+    var nextChunkString = nextChunkX + ' ' + nextChunkY;
+    if (!generatedChunks.includes(nextChunkString)) {
+      var chunk = generateChunkFromMacro(nextChunkX, nextChunkY, _noiseMap_macro.seed);
+      var drawnChunk = drawChunkGraphics(chunk);
+      drawnChunk.x = bg.x - drawnChunk.width;
+      console.log(bg.children[1]);
+      bg.addChild(drawnChunk);
+      generatedChunks.push(nextChunkString);
+    }
+  }
+}
+},{"../../_game":"dev/js/_game.js","noisejs":"node_modules/noisejs/index.js","../macro/noiseMap_macro":"dev/js/map/macro/noiseMap_macro.js","../utilities/map_utilities":"dev/js/map/utilities/map_utilities.js","../../entities/utilities/entities_utilities":"dev/js/entities/utilities/entities_utilities.js","../../sheets/environmentSheet":"dev/js/sheets/environmentSheet.js","../../player/player":"dev/js/player/player.js"}],"dev/js/proximityBoxes/aggroBox.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -48251,7 +48276,6 @@ var PIXI = _interopRequireWildcard(require("pixi.js"));
 var _player = require("./player/player.js");
 var _playerData = require("./player/playerData.js");
 var _playerDynamics = require("./dynamics/playerDynamics.js");
-var _map_utilities = require("./map/utilities/map_utilities.js");
 var _playerSheets = require("./sheets/playerSheets.js");
 var _enemySheet = require("./sheets/enemySheet.js");
 var _iconSheet = require("./sheets/iconSheet.js");
@@ -48265,6 +48289,7 @@ var _keyboard = require("./controllers/keyboard.js");
 var _itemData = require("./items/itemData.js");
 var _noiseMap_chunk = require("./map/chunk/noiseMap_chunk.js");
 var _moveEnvironment = require("./dynamics/movement/moveEnvironment.js");
+var _map_utilities = require("./map/utilities/map_utilities.js");
 var _noiseMap_macro = require("./map/macro/noiseMap_macro.js");
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
@@ -48379,7 +48404,7 @@ function setup() {
   // initialize ui variables
   (0, _ui_design.ui_design_init)();
   var bg = (0, _noiseMap_macro.noiseMap_macro)({
-    seed: 123456789
+    seed: _noiseMap_macro.seed
   });
   (0, _map_utilities.generateCoordinates)();
   bg.x = _map_utilities.coordinates.player.chunk.x;
@@ -48438,6 +48463,9 @@ function play() {
 
   // Interaction events from entities.
   (0, _entities.entities_events)();
+
+  // Chunk Generation
+  (0, _noiseMap_chunk.generateNewChunk)();
   if (_playerData.playerStats.health <= 0) {
     state = end;
   }
@@ -48451,7 +48479,7 @@ function end() {
   gameScene.visible = false;
   gameOverScene.visible = true;
 }
-},{"pixi.js":"node_modules/pixi.js/lib/pixi.es.js","./player/player.js":"dev/js/player/player.js","./player/playerData.js":"dev/js/player/playerData.js","./dynamics/playerDynamics.js":"dev/js/dynamics/playerDynamics.js","./map/utilities/map_utilities.js":"dev/js/map/utilities/map_utilities.js","./sheets/playerSheets.js":"dev/js/sheets/playerSheets.js","./sheets/enemySheet.js":"dev/js/sheets/enemySheet.js","./sheets/iconSheet.js":"dev/js/sheets/iconSheet.js","./sheets/miscSheet.js":"dev/js/sheets/miscSheet.js","./sheets/environmentSheet.js":"dev/js/sheets/environmentSheet.js","./entities/entities.js":"dev/js/entities/entities.js","./ui/ui_design.js":"dev/js/ui/ui_design.js","./ui/ui.js":"dev/js/ui/ui.js","./controllers/mouse.js":"dev/js/controllers/mouse.js","./controllers/keyboard.js":"dev/js/controllers/keyboard.js","./items/itemData.js":"dev/js/items/itemData.js","./map/chunk/noiseMap_chunk.js":"dev/js/map/chunk/noiseMap_chunk.js","./dynamics/movement/moveEnvironment.js":"dev/js/dynamics/movement/moveEnvironment.js","./map/macro/noiseMap_macro.js":"dev/js/map/macro/noiseMap_macro.js"}],"../../../../../opt/homebrew/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"pixi.js":"node_modules/pixi.js/lib/pixi.es.js","./player/player.js":"dev/js/player/player.js","./player/playerData.js":"dev/js/player/playerData.js","./dynamics/playerDynamics.js":"dev/js/dynamics/playerDynamics.js","./sheets/playerSheets.js":"dev/js/sheets/playerSheets.js","./sheets/enemySheet.js":"dev/js/sheets/enemySheet.js","./sheets/iconSheet.js":"dev/js/sheets/iconSheet.js","./sheets/miscSheet.js":"dev/js/sheets/miscSheet.js","./sheets/environmentSheet.js":"dev/js/sheets/environmentSheet.js","./entities/entities.js":"dev/js/entities/entities.js","./ui/ui_design.js":"dev/js/ui/ui_design.js","./ui/ui.js":"dev/js/ui/ui.js","./controllers/mouse.js":"dev/js/controllers/mouse.js","./controllers/keyboard.js":"dev/js/controllers/keyboard.js","./items/itemData.js":"dev/js/items/itemData.js","./map/chunk/noiseMap_chunk.js":"dev/js/map/chunk/noiseMap_chunk.js","./dynamics/movement/moveEnvironment.js":"dev/js/dynamics/movement/moveEnvironment.js","./map/utilities/map_utilities.js":"dev/js/map/utilities/map_utilities.js","./map/macro/noiseMap_macro.js":"dev/js/map/macro/noiseMap_macro.js"}],"../../../../../opt/homebrew/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;

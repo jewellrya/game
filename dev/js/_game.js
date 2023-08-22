@@ -4,7 +4,6 @@ import * as PIXI from 'pixi.js';
 import { createPlayer, createPlayerArmor } from './player/player.js';
 import { playerStats } from './player/playerData.js';
 import { playerDynamics, keysDownResetPlayer_listener } from './dynamics/playerDynamics.js';
-import { generateCoordinates, graphicCoordinates, coordinates, setChunkCoords } from './map/utilities/map_utilities.js';
 
 // Sheets
 import { getPlayerSheetsDirs, playerSheets_setup } from './sheets/playerSheets.js';
@@ -26,11 +25,12 @@ import { initiateKeyboard } from './controllers/keyboard.js';
 
 // Misc
 import { itemData_init } from './items/itemData.js';
-import { setBg } from './map/chunk/noiseMap_chunk.js';
+import { setBg, generateNewChunk } from './map/chunk/noiseMap_chunk.js';
 import { sortGameScene } from './dynamics/movement/moveEnvironment.js';
 
 // Map
-import { noiseMap_macro } from './map/macro/noiseMap_macro.js';
+import { generateCoordinates, graphicCoordinates, coordinates } from './map/utilities/map_utilities.js';
+import { noiseMap_macro, seed } from './map/macro/noiseMap_macro.js';
 
 // Aliases
 export let Application = PIXI.Application,
@@ -122,7 +122,7 @@ function setup() {
     // initialize ui variables
     ui_design_init();
 
-    let bg = noiseMap_macro({ seed: 123456789 });
+    let bg = noiseMap_macro({ seed: seed });
     generateCoordinates();
     bg.x = coordinates.player.chunk.x;
     bg.y = coordinates.player.chunk.y;
@@ -176,12 +176,14 @@ function gameLoop(delta) {
 }
 
 function play() {
-
     // Player Movement / Controls
     playerDynamics();
 
     // Interaction events from entities.
     entities_events();
+
+    // Chunk Generation
+    generateNewChunk();
 
     if (playerStats.health <= 0) {
         state = end;

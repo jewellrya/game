@@ -1,9 +1,10 @@
-import { app, Graphics, Container, Sprite, RenderTexture, playerChunkX, playerChunkY } from '../../_game';
+import { app, Graphics, Container, Sprite, RenderTexture } from '../../_game';
 import { Noise } from 'noisejs';
-import { getCombinedNoiseValue } from '../macro/noiseMap_macro';
-import { getColorForChunk, normalize, getPlayerStartingChunk } from '../utilities/map_utilities';
+import { getCombinedNoiseValue, seed } from '../macro/noiseMap_macro';
+import { getColorForChunk, normalize, getPlayerStartingChunk, coordinates } from '../utilities/map_utilities';
 import { objectChunkDispertion, seededRandom } from '../../entities/utilities/entities_utilities';
 import { environmentSheets } from '../../sheets/environmentSheet';
+import { getPlayerContainer } from '../../player/player';
 
 let bg;
 
@@ -13,9 +14,10 @@ let chunk_size = 1024;
 let chunk_scale = 1;
 export const chunk_actual_size = chunk_size * chunk_scale * resolutionSize;
 let chunk_detail_scale = 1;
-let seed = 12345;
 let startingChunk = getPlayerStartingChunk();
 let chunkNoiseGenerator = new Noise(seed);
+
+let generatedChunks = [];
 
 function adjustDetailToMacro(macroValue, detailValue, deviationFactor) {
     // This function takes a macro value, a detail value, and a deviation factor.
@@ -57,6 +59,7 @@ export function generateChunkFromMacro(macroX, macroY, seed) {
             chunk[i][j] = adjustDetailToMacro(macroValue, detailValue, deviationFactor);
         }
     }
+    generatedChunks.push(macroX + ' ' + macroY);
     return chunk;
 }
 
@@ -90,7 +93,7 @@ export function drawChunkGraphics(chunk) {
     let landscapeSprite = new Sprite(landscapeTexture);
     container.addChild(landscapeSprite);
 
-    objectChunkDispertion({ createObjectFn: createTexture, pushObjectFn: null, objectDensity: 1.2, objectSeed: '3812', coordX: foliage.x, coordY: foliage.y });
+    objectChunkDispertion({ createObjectFn: createTexture, pushObjectFn: null, objectDensity: 1.2, objectSeed: '123', coordX: foliage.x, coordY: foliage.y });
     let foliageTexture = RenderTexture.create(foliage.width, foliage.height);
     app.renderer.render(foliage, foliageTexture);
     let foliageSprite = new Sprite(foliageTexture);
@@ -105,3 +108,26 @@ export let setBg = (val) => (bg = val);
 
 export let setBgX = (val) => (bg.x = val);
 export let setBgY = (val) => (bg.y = val);
+
+// Call in the game loop.
+export function generateNewChunk() {
+    let bg = getBg();
+    let playerContainer = getPlayerContainer();
+
+    // Check if at left border.
+    if (playerContainer.x <= bg.x) {
+
+        // Check if next chunk is generated.
+        let nextChunkX = parseInt(coordinates.chunk.x) - 1;
+        let nextChunkY = parseInt(coordinates.chunk.y);
+        let nextChunkString = nextChunkX + ' ' + nextChunkY;
+        if (!(generatedChunks.includes(nextChunkString))) {
+            let chunk = generateChunkFromMacro(nextChunkX, nextChunkY, seed);
+            let drawnChunk = drawChunkGraphics(chunk);
+            drawnChunk.x = bg.x - drawnChunk.width;
+            console.log(bg.children[1]);
+            bg.addChild(drawnChunk);
+            generatedChunks.push(nextChunkString);
+        }
+    }
+}
