@@ -5,3 +5,5 @@ Currently an Untitled Game. This project is striving to be an isometric RPG game
 ```
 npm run dev
 ```
+
+Then navigate to localhost:1234.
