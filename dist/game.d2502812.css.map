@@ -1,1 +1,0 @@
-{"version":3,"sources":["dev/sass/game.sass"],"names":[],"mappings":"AAEA;EACC;;;AAED;EACC;EACA;EACA;EACA;;AAED;EACC","file":"game.d2502812.css","sourceRoot":"..","sourcesContent":["@use 'sass:math'\n\nbody\n\tmargin: 0\n\n#img_texture\n\ttransform: rotateX(-60deg) rotateY(0deg) rotateZ(-45deg)\n"]}
