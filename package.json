@@ -15,19 +15,18 @@
   "author": "Ryan Jewell",
   "license": "ISC",
   "dependencies": {
-    "fontfaceobserver": "^2.3.0",
-    "g": "^2.0.1",
-    "jquery": "^3.5.1",
     "live-server": "^1.1.0",
     "noisejs": "^2.1.0",
-    "pixi.js": "^5.3.3",
+    "pixi.js": "^5.3.12",
     "pug": "^3.0.2",
     "sass": "^1.32.8",
-    "simplex-noise": "^2.4.0",
-    "spritesheet-js": "^1.2.8"
+    "spritesheet-js": "^1.2.8",
+    "webgl-noise": "^0.0.1"
   },
   "devDependencies": {
-    "concurrently": "^5.3.0",
+    "@parcel/transformer-glsl": "^2.9.3",
+    "glslify-deps": "^1.3.2",
+    "parcel-bundler": "^1.8.1",
     "parcel-plugin-static-files-copy": "^2.6.0"
   },
   "staticFiles": {

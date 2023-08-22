@@ -31,6 +31,7 @@ import { sortGameScene } from './dynamics/movement/moveEnvironment.js';
 // Map
 import { generateCoordinates, graphicCoordinates, coordinates } from './map/utilities/map_utilities.js';
 import { noiseMap_macro, seed } from './map/macro/noiseMap_macro.js';
+import shaderSource from '../js/shaders/shader.glsl';
 
 // Aliases
 export let Application = PIXI.Application,
@@ -43,6 +44,7 @@ export let Application = PIXI.Application,
     Graphics = PIXI.Graphics,
     Texture = PIXI.Texture,
     Ticker = PIXI.Ticker,
+    NoiseFilter = PIXI.NoiseFilter,
     RenderTexture = PIXI.RenderTexture,
     settings = PIXI.settings,
     resources = PIXI.Loader.shared.resources,
@@ -136,6 +138,33 @@ function setup() {
     gameScene = new Container();
     gameScene.render.renderWebGL;
     app.stage.addChild(gameScene);
+
+    // Create a Temporary Sprite with the shader as a filter.
+    const vertex = ` 
+        attribute vec2 aVertexPosition;
+        attribute vec2 aTextureCoord;
+        uniform mat3 projectionMatrix;
+        varying vec2 vTextureCoord;
+        void main(void) {
+            gl_Position = vec4((projectionMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);
+            vTextureCoord = aTextureCoord;
+        }
+    `;
+    const myFilter = new PIXI.Filter(vertex, shaderSource);
+    let tempSprite = new Sprite(Texture.WHITE);
+    tempSprite.filters = [myFilter];
+    
+    // Render the temporary sprite with renderTexture.
+    let renderTexture = RenderTexture.create({
+        width: 500,
+        height: 500
+    })
+
+    app.renderer.render(tempSprite, renderTexture);
+
+    // Make a new sprite that contains this rendered texture.
+    let textureSprite = new Sprite(renderTexture);
+    app.stage.addChild(textureSprite);
 
     // Secondary Game Over Scene
     gameOverScene = new Container();
