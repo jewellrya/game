@@ -125,7 +125,6 @@ export function generateNewChunk() {
             let chunk = generateChunkFromMacro(nextChunkX, nextChunkY, seed);
             let drawnChunk = drawChunkGraphics(chunk);
             drawnChunk.x = bg.x - drawnChunk.width;
-            console.log(bg.children[1]);
             bg.addChild(drawnChunk);
             generatedChunks.push(nextChunkString);
         }

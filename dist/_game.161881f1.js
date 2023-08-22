@@ -46314,7 +46314,6 @@ function generateNewChunk() {
       var chunk = generateChunkFromMacro(nextChunkX, nextChunkY, _noiseMap_macro.seed);
       var drawnChunk = drawChunkGraphics(chunk);
       drawnChunk.x = bg.x - drawnChunk.width;
-      console.log(bg.children[1]);
       bg.addChild(drawnChunk);
       generatedChunks.push(nextChunkString);
     }
@@ -48504,7 +48503,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49647" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64931" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
