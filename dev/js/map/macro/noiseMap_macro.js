@@ -1,41 +1,13 @@
 import {  Graphics, app, Point, Filter, Sprite, RenderTexture, Texture, Rectangle, Container, mapScene, map } from '../../_game.js';
-import { Noise } from 'noisejs';
-import { generateChunkFromMacro, drawChunkGraphics, resolutionSize } from '../chunk/noiseMap_chunk.js';
-import { getColorForMacro, getPlayerStartingChunk, normalize } from '../utilities/map_utilities.js';
+import { getPlayerStartingChunk } from '../utilities/map_utilities.js';
+import { objectChunkDispertion, seededRandom } from '../../entities/utilities/entities_utilities.js';
+import { environmentSheets } from '../../sheets/environmentSheet.js';
 import macroShader from '../../shaders/macroShader.glsl';
 import chunkShader from '../../shaders/chunkShader.glsl';
 
-// Larger persistence gives smoother landscapes with fewer high frequency details.
-// Lacunarity controls the gap between successive octaves: higher = more gaps, lower = smoother connected features.
-// Layering these values creates simulate a mix of both.
-
-let macroMapScale = 0.4;
 export let seed = 123456789;
 export let mapSize = 200;
-let chunkSize = 4;
-let scale = 0.025;
 let startingChunk = getPlayerStartingChunk();
-
-// export function getCombinedNoiseValue({ x, y, seed, octaves = 12, persistence = 0.4, lacunarity = 2.1, frequency = 0.5, amplitude = 1 }) {
-//     let total = 0;
-//     let maxValue = 0;  // Used for normalizing result to 0.0 - 1.0
-
-//     // Initialize noise generator with the seed.
-//     let noiseGenerator = new Noise(seed);
-
-//     for (let i = 0; i < octaves; i++) {
-//         let xOffset = x + (seed * 10);
-//         let yOffset = y + (seed * 10);
-
-//         total += noiseGenerator.simplex2(xOffset * frequency * scale, yOffset * frequency * scale) * amplitude;
-
-//         maxValue += amplitude;
-
-//         amplitude *= persistence;
-//         frequency *= lacunarity;
-//     }
-//     return total / maxValue;
-// }
 
 export function noiseMap_macro({ seed = seed }) {
     // Shader
@@ -108,11 +80,6 @@ export function noiseMap_macro({ seed = seed }) {
 
     app.renderer.render(macroTempSprite, macroRenderTexture);
     app.stage.removeChild(macroTempSprite);
-
-    // Make a new sprite that contains this rendered texture.
-    let textureSprite = new Sprite(macroRenderTexture);
-
-
     
     // LOAD CHUNK SHADER
     const chunkFilter = new Filter(vertex, chunkShader);
@@ -147,6 +114,32 @@ export function noiseMap_macro({ seed = seed }) {
     container.addChild(chunkTextureSprite);
     container.scale.set(4);
 
+    // Populate foliage textures.
+    let foliage = new Container();
+    function createFoliage(x, y, chunkSeed) {
+        let randomIndex = 1 + Math.floor(seededRandom(chunkSeed++) * 3);
+        let texture = new Sprite(environmentSheets['grass_texture-' + randomIndex]);
+        texture.scale.set(1);
+        texture.x = x;
+        texture.y = y;
+        foliage.addChild(texture);
+    }
+
+    objectChunkDispertion({ createObjectFn: createFoliage, pushObjectFn: null, objectDensity: 1.2, objectSeed: '123', coordX: foliage.x, coordY: foliage.y });
+    let foliageTexture = RenderTexture.create(foliage.width, foliage.height);
+    app.renderer.render(foliage, foliageTexture);
+    let foliageSprite = new Sprite(foliageTexture);
+    container.addChild(foliageSprite);
+
+    // Draw a red square for the chunk's position.
+    let redMarker = new Graphics();
+    let markerX = (startingChunk.x);
+    let markerY = (startingChunk.y);
+    console.log(markerX);
+    redMarker.beginFill(0xFF0000); // red color
+    redMarker.drawRect(markerX, markerY, 4, 4);
+    mapScene.addChild(redMarker);
+
     return container;
     
 
@@ -173,14 +166,7 @@ export function noiseMap_macro({ seed = seed }) {
     // let initialChunk = generateChunkFromMacro(startingChunk.x, startingChunk.y, seed);
     // let chunkGraphic = drawChunkGraphics(initialChunk);
 
-    // // Draw a red square for the chunk's position.
-    // let redMarker = new Graphics();
-    // let markerX = (startingChunk.x * 4);
-    // let markerY = (startingChunk.y * 4);
-    // console.log(markerX);
-    // redMarker.beginFill(0xFF0000); // red color
-    // redMarker.drawRect(markerX, markerY, 4, 4);
-    // app.stage.addChild(redMarker);
+    
 
     // return chunkGraphic;
 }
