@@ -25,12 +25,11 @@ import { initiateKeyboard } from './controllers/keyboard.js';
 
 // Misc
 import { itemData_init } from './items/itemData.js';
-import { setBg, generateNewChunk } from './map/chunk/noiseMap_chunk.js';
 import { sortGameScene } from './dynamics/movement/moveEnvironment.js';
 
 // Map
 import { generateCoordinates, graphicCoordinates, coordinates } from './map/utilities/map_utilities.js';
-import { noiseMap_macro, seed } from './map/macro/noiseMap_macro.js';
+import { generateInitialChunk, seed, setBg, generateNewChunk } from './map/macro/shaderMaps.js';
 
 // Aliases
 export let Application = PIXI.Application,
@@ -61,13 +60,13 @@ export let getClickRegistered = () => clickRegistered;
 export let app = new Application({
     width: 800,
     height: 500,
-    resolution: window.devicePixelRatio || 1 
+    resolution: 1
 });
 
 export let map = new Application({
     width: 800,
     height: 320,
-    resolution: window.devicePixelRatio || 1 
+    resolution: 1
 })
 
 // Set Cursor
@@ -127,7 +126,7 @@ function setup() {
     // initialize ui variables
     ui_design_init();
 
-    let bg = noiseMap_macro({ seed: seed });
+    let bg = generateInitialChunk({ seed: seed });
     generateCoordinates();
     bg.x = coordinates.player.chunk.x;
     bg.y = coordinates.player.chunk.y;
@@ -163,9 +162,6 @@ function setup() {
     let ui = ui_setup();
     app.stage.addChild(ui);
 
-    // Render the Stage
-    app.renderer.render(app.stage);
-
     // Set the game state
     state = play;
 
@@ -187,7 +183,6 @@ function play() {
     // Interaction events from entities.
     entities_events();
 
-    // Chunk Generation
     generateNewChunk();
 
     if (playerStats.health <= 0) {

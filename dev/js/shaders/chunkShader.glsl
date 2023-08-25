@@ -59,47 +59,6 @@ float cnoise(vec2 P)
   return 2.3 * n_xy;
 }
 
-// Classic Perlin noise, periodic variant
-float pnoise(vec2 P, vec2 rep)
-{
-  vec4 Pi = floor(P.xyxy) + vec4(0.0, 0.0, 1.0, 1.0);
-  vec4 Pf = fract(P.xyxy) - vec4(0.0, 0.0, 1.0, 1.0);
-  Pi = mod(Pi, rep.xyxy); // To create noise with explicit period
-  Pi = mod289(Pi);        // To avoid truncation effects in permutation
-  vec4 ix = Pi.xzxz;
-  vec4 iy = Pi.yyww;
-  vec4 fx = Pf.xzxz;
-  vec4 fy = Pf.yyww;
-
-  vec4 i = permute(permute(ix) + iy);
-
-  vec4 gx = fract(i * (1.0 / 41.0)) * 2.0 - 1.0 ;
-  vec4 gy = abs(gx) - 0.5 ;
-  vec4 tx = floor(gx + 0.5);
-  gx = gx - tx;
-
-  vec2 g00 = vec2(gx.x,gy.x);
-  vec2 g10 = vec2(gx.y,gy.y);
-  vec2 g01 = vec2(gx.z,gy.z);
-  vec2 g11 = vec2(gx.w,gy.w);
-
-  vec4 norm = taylorInvSqrt(vec4(dot(g00, g00), dot(g01, g01), dot(g10, g10), dot(g11, g11)));
-  g00 *= norm.x;  
-  g01 *= norm.y;  
-  g10 *= norm.z;  
-  g11 *= norm.w;  
-
-  float n00 = dot(g00, vec2(fx.x, fy.x));
-  float n10 = dot(g10, vec2(fx.y, fy.y));
-  float n01 = dot(g01, vec2(fx.z, fy.z));
-  float n11 = dot(g11, vec2(fx.w, fy.w));
-
-  vec2 fade_xy = fade(Pf.xy);
-  vec2 n_x = mix(vec2(n00, n01), vec2(n10, n11), fade_xy.x);
-  float n_xy = mix(n_x.x, n_x.y, fade_xy.y);
-  return 2.3 * n_xy;
-}
-
 // Imported cnoise...
 
 uniform sampler2D macroTexture;
@@ -108,6 +67,7 @@ uniform vec2 seed;
 uniform vec2 chunkCoord;
 uniform float macroSize;
 uniform float chunkSize;
+uniform float chunkSampleSize;
 
 float generateChunkNoise(vec2 position) {
     position = position;
@@ -214,8 +174,8 @@ void main() {
     vec2 chunkUv = gl_FragCoord.xy / vec2(chunkSize, chunkSize);
 
     // Translate the chunk's UV to the corresponding UV on the macro texture.
-    vec2 macroStartUv = chunkCoord * (vec2(4.0) / macroSize);
-    vec2 macroUv = macroStartUv + chunkUv * (vec2(4.0) / macroSize);
+    vec2 macroStartUv = chunkCoord * (vec2(chunkSampleSize) / macroSize);
+    vec2 macroUv = macroStartUv + chunkUv * (vec2(chunkSampleSize) / macroSize);
 
     // Scale down the UV coordinates to upscale the resolution.
     vec2 upscaledUv = floor(macroUv * chunkSize) / chunkSize;
@@ -228,7 +188,7 @@ void main() {
     
     // Generate the chunk noise for the current fragment using the original chunkUv (not the upscaled one).
     vec2 adjustedUv = vec2(chunkUv.x, chunkUv.y * 1.5);
-    float noise = generateChunkNoise(adjustedUv * 256.0); // Multiplied by 256 to ensure the noise is at 1024x1024 resolution.
+    float noise = generateChunkNoise(adjustedUv * (chunkSize / chunkSampleSize)); // Multiplied by 256 to ensure the noise is at 1024x1024 resolution.
 
     // Use the luminance as the median for the noise.
     float lowerBound = luminance - deviationFactor;

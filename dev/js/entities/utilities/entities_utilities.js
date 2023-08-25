@@ -1,6 +1,6 @@
 import { coordinates } from '../../map/utilities/map_utilities';
-import { chunk_actual_size } from '../../map/chunk/noiseMap_chunk.js';
-import { seed } from '../../map/macro/noiseMap_macro';
+import { chunkActualSize } from '../../map/macro/shaderMaps.js';
+import { seed } from '../../map/macro/shaderMaps';
 
 export function seededRandom(seed) {
     var x = Math.sin(seed++) * 10000;
@@ -9,8 +9,8 @@ export function seededRandom(seed) {
 
 export function objectChunkDispertion({ createObjectFn, pushObjectFn, objectDensity, objectSeed, coordX = coordinates.player.chunk.x, coordY = coordinates.player.chunk.y }) {
     objectSeed = (parseInt(seed) * parseInt(objectSeed)).toString();
-    let width = chunk_actual_size;
-    let height = chunk_actual_size;
+    let width = chunkActualSize;
+    let height = chunkActualSize;
     objectDensity /= 10000;
 
     let totalSpots = width * height;

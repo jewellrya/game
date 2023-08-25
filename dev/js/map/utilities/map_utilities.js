@@ -1,10 +1,14 @@
-import { BitmapText, Container, app, mapScene } from '../../_game.js';
-import { chunk_actual_size, resolutionSize, tileSize } from '../chunk/noiseMap_chunk';
-import { seed } from '../macro/noiseMap_macro.js';
+import { BitmapText, Container, app } from '../../_game.js';
+import { chunkActualSize, chunkSampleSize } from '../macro/shaderMaps.js';
+import { seed } from '../macro/shaderMaps.js';
 import { uiStyle } from '../../ui/ui_design.js';
 
 export let coordinates = {
-    chunk: null,
+    // Coordinate of the chunk itself.
+    chunk: {
+        x: 0,
+        y: 0,
+    },
     player: {
         // This is where the player starts in the chunk.
         chunk: {
@@ -118,28 +122,18 @@ export function getColorForChunk(value) {
     return 0xf4f0e9; // Mountain Peaks
 }
 
-export function getPlayerStartingChunk() {
-    return { x: 0, y: 0 } // Based on Chunk Coordinate
-}
-
 export function generateCoordinates() {
     // Coordinate of the chunk itself.
-    let chunkX = getPlayerStartingChunk().x;
-    let chunkY = getPlayerStartingChunk().y;
+    let chunkX = coordinates.chunk.x;
+    let chunkY = coordinates.chunk.y;
 
     // Player's coordinate in respect to the currently occupied chunk.
     let playerToChunkX = coordinates.player.chunk.x;
     let playerToChunkY = coordinates.player.chunk.y;
 
     // Player's coordinate in respect to the whole world.
-    let playerX = Math.floor(((chunkX * chunk_actual_size) + playerToChunkX + app.view.width / 2) / tileSize);
-    let playerY = Math.floor(((chunkY * chunk_actual_size) + playerToChunkY + app.view.height / 2) / tileSize);
-
-    // Add to coordinate object:
-    coordinates.chunk = {
-        x: chunkX,
-        y: chunkY
-    };
+    let playerX = Math.floor(((chunkX * chunkActualSize) + playerToChunkX + app.view.width / 2) / chunkSampleSize);
+    let playerY = Math.floor(((chunkY * chunkActualSize) + playerToChunkY + app.view.height / 2) / chunkSampleSize);
 
     coordinates.player.world = {
         x: playerX,
@@ -189,3 +183,4 @@ export function redrawCoordinates() {
     let playerCoordText = container.children[2];
     playerCoordText.text = 'WORLD: ' + coordinates.player.world.x + ', ' + coordinates.player.world.y;
 }
+
