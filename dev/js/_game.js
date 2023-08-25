@@ -61,11 +61,13 @@ export let getClickRegistered = () => clickRegistered;
 export let app = new Application({
     width: 800,
     height: 500,
+    resolution: window.devicePixelRatio || 1 
 });
 
 export let map = new Application({
     width: 800,
     height: 320,
+    resolution: window.devicePixelRatio || 1 
 })
 
 // Set Cursor

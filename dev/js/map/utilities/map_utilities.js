@@ -119,7 +119,7 @@ export function getColorForChunk(value) {
 }
 
 export function getPlayerStartingChunk() {
-    return { x: 40, y: 5 } // Based on Chunk Coordinate
+    return { x: 0, y: 0 } // Based on Chunk Coordinate
 }
 
 export function generateCoordinates() {

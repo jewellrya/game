@@ -109,13 +109,13 @@ uniform vec2 chunkCoord;
 uniform float macroSize;
 uniform float chunkSize;
 
-float generateChunkNoise(vec2 position, vec2 scale) {
-    position = position * scale;
+float generateChunkNoise(vec2 position) {
+    position = position;
     
     // Adjust the values for persistence, lacunarity, frequency, and amplitude as per your requirements
-    float persistence = 0.7;
+    float persistence = 0.6;
     float lacunarity = 2.0;
-    float frequency = 0.02;
+    float frequency = 0.05;
     float amplitude = 2.0;
 
     float total = 0.0;
@@ -128,7 +128,6 @@ float generateChunkNoise(vec2 position, vec2 scale) {
         weight *= persistence;
         frequency *= lacunarity;
     }
-    
     return total / maxValue;
 }
 
@@ -209,23 +208,37 @@ vec3 getColorForValue(float value) {
     return vec3(0.957, 0.941, 0.912); // Mountain Peaks
 }
 
-void main() {
-    // Get UV for the entire chunk
-    vec2 chunkUv = gl_FragCoord.xy / vec2(chunkSize, chunkSize); 
 
-    // Convert chunk coordinates into a UV position on the macro texture
-    vec2 macroUv = (chunkCoord * 4.0 + vec2(2.0, 2.0)) / macroSize;  // Add vec2(2.0, 2.0) to get the center of the 4x4 area
+void main() {
+    // Compute UV for the chunk based on fragment coordinates.
+    vec2 chunkUv = gl_FragCoord.xy / vec2(chunkSize, chunkSize);
+
+    // Translate the chunk's UV to the corresponding UV on the macro texture.
+    vec2 macroStartUv = chunkCoord * (vec2(4.0) / macroSize);
+    vec2 macroUv = macroStartUv + chunkUv * (vec2(4.0) / macroSize);
+
+    // Scale down the UV coordinates to upscale the resolution.
+    vec2 upscaledUv = floor(macroUv * chunkSize) / chunkSize;
+
+    // Directly sample the grayscale color from the macro texture using upscaled UV.
+    vec4 colorFromMacro = texture2D(macroTexture, upscaledUv);
     
-    // Sample the median value from the macro texture
-    float medianValue = texture2D(macroTexture, macroUv).r;
+    // Compute the luminance of the sampled color.
+    float luminance = 0.299 * colorFromMacro.r + 0.587 * colorFromMacro.g + 0.114 * colorFromMacro.b;
     
-    // Generate noise for the chunk
-    float chunkNoise = generateChunkNoise(chunkUv * chunkSize, vec2(1.0, 1.65)); // Adjust UV for noise generation across the chunk
-    
-    // Mix the median value and chunk noise based on deviation factor
-    float finalValue = mix(medianValue, medianValue + chunkNoise * deviationFactor, deviationFactor);
-    
-    // Convert the value to a color and set as fragment color
-    vec3 color = vec3(getColorForValue(finalValue));
-    gl_FragColor = vec4(color, 1.0);
+    // Generate the chunk noise for the current fragment using the original chunkUv (not the upscaled one).
+    vec2 adjustedUv = vec2(chunkUv.x, chunkUv.y * 1.5);
+    float noise = generateChunkNoise(adjustedUv * 256.0); // Multiplied by 256 to ensure the noise is at 1024x1024 resolution.
+
+    // Use the luminance as the median for the noise.
+    float lowerBound = luminance - deviationFactor;
+    float upperBound = luminance + deviationFactor;
+
+    // Adjust the noise so it's within the range of 0 to 1, then scale it to the deviation range.
+    noise = mix(lowerBound, upperBound, 0.5 * (noise + 1.0));
+
+    vec3 finalColor = getColorForValue(noise);
+
+    // Set the final color using the adjusted noise value.
+    gl_FragColor = vec4(finalColor, 1.0);
 }
