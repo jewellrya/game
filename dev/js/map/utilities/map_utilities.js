@@ -119,7 +119,7 @@ export function getColorForChunk(value) {
 }
 
 export function getPlayerStartingChunk() {
-    return { x: 55, y: 40 } // Based on Chunk Coordinate
+    return { x: 40, y: 5 } // Based on Chunk Coordinate
 }
 
 export function generateCoordinates() {
@@ -147,6 +147,8 @@ export function generateCoordinates() {
     }
 }
 
+let coordinatesContainer;
+
 export function graphicCoordinates() {
     let container = new Container();
     let chunkCoordString = 'CHUNK: ' + coordinates.chunk.x + ', ' + coordinates.chunk.y;
@@ -165,7 +167,8 @@ export function graphicCoordinates() {
 
     container.x = 340;
     container.y = 20;
-
+    
+    coordinatesContainer = container;
     return container;
 }
 
@@ -179,7 +182,7 @@ export let setWorldCoordY = (y) => (coordinates.player.world.y = y);
 
 // Used in loop. Watch when player moves.
 export function redrawCoordinates() {
-    let container = mapScene.children[2];
+    let container = coordinatesContainer;
 
     let chunkCoordText = container.children[1];
     chunkCoordText.text = 'CHUNK: ' + coordinates.chunk.x + ', ' + coordinates.chunk.y;

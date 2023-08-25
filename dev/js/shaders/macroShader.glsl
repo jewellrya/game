@@ -1,16 +1,4 @@
-//
-// GLSL textureless classic 2D noise "cnoise",
-// with an RSL-style periodic variant "pnoise".
-// Author:  Stefan Gustavson (stefan.gustavson@liu.se)
-// Version: 2011-08-22
-//
-// Many thanks to Ian McEwan of Ashima Arts for the
-// ideas for permutation and gradient selection.
-//
-// Copyright (c) 2011 Stefan Gustavson. All rights reserved.
-// Distributed under the MIT license. See LICENSE file.
-// https://github.com/stegu/webgl-noise
-//
+precision highp float;
 
 vec4 mod289(vec4 x)
 {
@@ -112,7 +100,61 @@ float pnoise(vec2 P, vec2 rep)
   return 2.3 * n_xy;
 }
 
+// Imported cnoise...
+
+uniform vec2 seed;
+
+// Start of unique code;
+float generateNoise(vec2 position, float persistence, float lacunarity, float frequency, float amplitude) {
+    float total = 0.0;
+    float maxValue = 0.0;  // Used for normalizing result to 0.0 - 1.0
+    float weight = 1.0;
+
+    const int OCTAVES = 12;
+    for (int i = 0; i < OCTAVES; i++) {
+        total += cnoise(position * frequency + seed) * amplitude * weight;
+        maxValue += amplitude * weight;
+        weight *= persistence;
+        frequency *= lacunarity;
+    }
+    
+    // normalize the result between 0 and 1
+    return (total / maxValue + 1.0) * 0.5;
+}
+
+vec3 getColorForValue(float value) {
+    vec3 deepLake = vec3(0.0, 0.05, 0.62);
+    vec3 lake = vec3(0.0, 0.53, 1.0);
+    vec3 shallowLake = vec3(0.52, 0.68, 0.82);
+    vec3 shoreLake = vec3(0.69, 0.88, 0.83);
+    vec3 beach = vec3(0.9, 0.89, 0.83);
+    vec3 landBeach = vec3(0.84, 0.88, 0.65);
+    vec3 land = vec3(0.6, 0.76, 0.19);
+    vec3 semiInland = vec3(0.46, 0.64, 0.13);
+    vec3 inland = vec3(0.18, 0.47, 0.0);
+    vec3 mountainousInland = vec3(0.3, 0.4, 0.23);
+    vec3 mountainous = vec3(0.57, 0.6, 0.52);
+    vec3 highMountainous = vec3(0.82, 0.82, 0.77);
+    vec3 mountainPeaks = vec3(0.96, 0.94, 0.91);
+
+    if (value < 0.3) return deepLake;
+    else if (value < 0.35) return lake;
+    else if (value < 0.38) return shallowLake;
+    else if (value < 0.39) return shoreLake;
+    else if (value < 0.4) return beach;
+    else if (value < 0.413) return landBeach;
+    else if (value < 0.54) return land;
+    else if (value < 0.65) return semiInland;
+    else if (value < 0.7) return inland;
+    else if (value < 0.76) return mountainousInland;
+    else if (value < 0.82) return mountainous;
+    else if (value < 0.85) return highMountainous;
+    else return mountainPeaks;
+}
+
 void main() {
-    float n = cnoise(vec2(0.0, 0.0));
-    gl_FragColor = vec4(vec3(n), 1.0);
+    vec2 uv = gl_FragCoord.xy / vec2(320.0, 320.0);
+    float noiseValue = generateNoise(uv, 0.3, 3.0, 3.0, 2.0);
+    vec3 color = getColorForValue(noiseValue);
+    gl_FragColor = vec4(color, 1.0);
 }

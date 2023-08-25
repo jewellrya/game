@@ -55,7 +55,7 @@ export function generateChunkFromMacro(macroX, macroY, seed) {
             detailValue = normalize(detailValue);
 
             // Adjust the detail to be around the macro value
-            let deviationFactor = 0.2;  // Change this to control how much the detail values can deviate from the macro value.
+            let deviationFactor = 0.15;  // Change this to control how much the detail values can deviate from the macro value.
             chunk[i][j] = adjustDetailToMacro(macroValue, detailValue, deviationFactor);
         }
     }
