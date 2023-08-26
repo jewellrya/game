@@ -7,13 +7,14 @@ import chunkShader from '../../shaders/chunkShader.glsl';
 import { coordinates } from '../utilities/map_utilities.js';
 import { getPlayerContainer } from '../../player/player.js';
 
-export let seed = 123456789;
+export let seed = 44444444;
 export let mapSize = 200;
 let startingChunk = coordinates.chunk;
 let macroSize = 320.0;
 let chunkSize = 1024.0;
 export let chunkSampleSize = 4.0;
 export let chunkActualSize = chunkSize * chunkSampleSize;
+export let chunkTileSize = chunkSampleSize * 8;
 
 let bg;
 let generatedChunks = [];
@@ -96,6 +97,8 @@ function generateChunk(chunkCoordX, chunkCoordY) {
     let chunkTextureSprite = new Sprite(chunkRenderTexture);
     generatedChunks.push(chunkCoordX + ' ' + chunkCoordY);
 
+    chunkTextureSprite.scale.set(4);
+
     return chunkTextureSprite;
 }
 
@@ -104,7 +107,7 @@ function generateFoliage() {
     function createFoliage(x, y, chunkSeed) {
         let randomIndex = 1 + Math.floor(seededRandom(chunkSeed++) * 3);
         let texture = new Sprite(environmentSheets['grass_texture-' + randomIndex]);
-        texture.scale.set(1);
+        texture.scale.set(3);
         texture.x = x;
         texture.y = y;
         foliage.addChild(texture);
@@ -125,7 +128,6 @@ export function generateInitialChunk({ seed = seed }) {
     let chunkSprite = generateChunk(startingChunk.x, startingChunk.y);
     chunkSprite.x = 0;
     container.addChild(chunkSprite);
-    container.scale.set(4);
 
     let foliage = generateFoliage();
     container.addChild(foliage);
@@ -150,22 +152,62 @@ export let setBgX = (val) => (bg.x = val);
 export let setBgY = (val) => (bg.y = val);
 
 // Call in the game loop.
-export function generateNewChunk() {
-    let bg = getBg();
-    let playerContainer = getPlayerContainer();
+// export function generateNewChunk() {
+//     let bg = getBg();
+//     let landscape = bg.children[0];
+//     let playerContainer = getPlayerContainer();
+//     let nextChunkX, nextChunkY, nextChunkString;
 
-    // Check if at left border.
-    if (playerContainer.x <= bg.x) {
+//     if (playerContainer.x <= bg.x) {  // Left border
+//         nextChunkX = parseInt(coordinates.chunk.x) - 1;
+//         nextChunkY = parseInt(coordinates.chunk.y);
+//     }
+//     else if (playerContainer.x + playerContainer.width >= bg.x + bg.width) {  // Right border
+//         nextChunkX = parseInt(coordinates.chunk.x) + 1;
+//         nextChunkY = parseInt(coordinates.chunk.y);
+//     }
+//     else if (playerContainer.y <= bg.y) {  // Top border
+//         nextChunkX = parseInt(coordinates.chunk.x);
+//         nextChunkY = parseInt(coordinates.chunk.y) - 1;
+//     }
+//     else if (playerContainer.y + playerContainer.height >= bg.y + bg.height) {  // Bottom border
+//         nextChunkX = parseInt(coordinates.chunk.x);
+//         nextChunkY = parseInt(coordinates.chunk.y) + 1;
+//     }
+//     else {
+//         return;  // Not at any border, so return
+//     }
 
-        // Check if next chunk is generated.
-        let nextChunkX = parseInt(coordinates.chunk.x) - 1;
-        let nextChunkY = parseInt(coordinates.chunk.y);
-        let nextChunkString = nextChunkX + ' ' + nextChunkY;
-        if (!(generatedChunks.includes(nextChunkString))) {
-            let nextChunk = generateChunk(nextChunkX, nextChunkY);
-            nextChunk.x = bg.x - nextChunk.width;
-            bg.addChild(nextChunk);
-            generatedChunks.push(nextChunkString);
-        }
-    }
+//     nextChunkString = nextChunkX + ' ' + nextChunkY;
+
+//     if (!(generatedChunks.includes(nextChunkString))) {
+//         let nextChunk = generateChunk(nextChunkX, nextChunkY);
+//         console.log(nextChunk);
+
+//         switch (nextChunkString) {
+//             case (parseInt(coordinates.chunk.x) - 1) + ' ' + parseInt(coordinates.chunk.y):
+//                 nextChunk.x = landscape.x - nextChunk.width;
+//                 break;
+//             case (parseInt(coordinates.chunk.x) + 1) + ' ' + parseInt(coordinates.chunk.y): 
+//                 nextChunk.x = landscape.x + landscape.width;
+//                 break;
+//             case parseInt(coordinates.chunk.x) + ' ' + (parseInt(coordinates.chunk.y) - 1): 
+//                 nextChunk.y = landscape.y - nextChunk.height; 
+//                 break;
+//             case parseInt(coordinates.chunk.x) + ' ' + (parseInt(coordinates.chunk.y) + 1): 
+//                 nextChunk.y = landscape.y + landscape.height; 
+//                 break;
+//         }
+
+//         bg.addChild(nextChunk);
+//         generatedChunks.push(nextChunkString);
+//     }
+// }
+
+// Determine Player's Position relative to the current chunk.
+// Check for Player to Chunk coordinate conditions.
+// Generate and Position new Chunk(s)
+
+function checkAndGenerateChunks() {
+
 }

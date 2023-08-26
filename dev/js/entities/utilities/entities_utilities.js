@@ -24,8 +24,8 @@ export function objectChunkDispertion({ createObjectFn, pushObjectFn, objectDens
         if (!usedPositions.has(potentialPosition)) {
             usedPositions.add(potentialPosition);
 
-            let x = potentialPosition % width + coordX;
-            let y = Math.floor(potentialPosition / width) + coordY;
+            let x = Math.floor(potentialPosition % width) - coordX;
+            let y = Math.floor(potentialPosition / width) - coordY;
 
             let object = createObjectFn(x, y, objectSeed);
             if (pushObjectFn) {

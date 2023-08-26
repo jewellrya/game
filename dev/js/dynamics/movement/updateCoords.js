@@ -1,40 +1,46 @@
-import { getWorldCoords, setWorldCoordX, setWorldCoordY, redrawCoordinates } from '../../map/utilities/map_utilities.js';
-import { chunkSampleSize } from '../../map/macro/shaderMaps.js';
+import { getWorldCoords, setWorldCoordX, setWorldCoordY, getPlayerChunkCoords, setPlayerChunkCoordX, setPlayerChunkCoordY, redrawCoordinates, checkPlayerChunk } from '../../map/utilities/map_utilities.js';
+import { chunkTileSize } from '../../map/macro/shaderMaps.js';
 
 let cumulativeDeltaX = 0;
 let cumulativeDeltaY = 0;
 
 export function updateCoordinates(xSpeed, ySpeed) {
     let worldCoords = getWorldCoords();
+    let playerChunkCoords = getPlayerChunkCoords();
 
     // Update cumulative movement
     if (xSpeed > 0) {
         cumulativeDeltaX += xSpeed;
-        while (cumulativeDeltaX >= chunkSampleSize) {
+        while (cumulativeDeltaX >= chunkTileSize) {
             setWorldCoordX(worldCoords.x + 1);
-            cumulativeDeltaX -= chunkSampleSize;
+            setPlayerChunkCoordX(playerChunkCoords.x + 1);
+            cumulativeDeltaX -= chunkTileSize;
         }
     } else if (xSpeed < 0) {
         cumulativeDeltaX += xSpeed;  // xSpeed is negative, so this is subtraction
-        while (cumulativeDeltaX <= -chunkSampleSize) {
+        while (cumulativeDeltaX <= -chunkTileSize) {
             setWorldCoordX(worldCoords.x - 1);
-            cumulativeDeltaX += chunkSampleSize;
+            setPlayerChunkCoordX(playerChunkCoords.x - 1);
+            cumulativeDeltaX += chunkTileSize;
         }
     }
 
     if (ySpeed > 0) {
         cumulativeDeltaY += ySpeed;
-        while (cumulativeDeltaY >= chunkSampleSize) {
+        while (cumulativeDeltaY >= chunkTileSize) {
             setWorldCoordY(worldCoords.y + 1);
-            cumulativeDeltaY -= chunkSampleSize;
+            setPlayerChunkCoordY(playerChunkCoords.y + 1);
+            cumulativeDeltaY -= chunkTileSize;
         }
     } else if (ySpeed < 0) {
         cumulativeDeltaY += ySpeed;  // ySpeed is negative, so this is subtraction
-        while (cumulativeDeltaY <= -chunkSampleSize) {
+        while (cumulativeDeltaY <= -chunkTileSize) {
             setWorldCoordY(worldCoords.y - 1);
-            cumulativeDeltaY += chunkSampleSize;
+            setPlayerChunkCoordY(playerChunkCoords.y - 1);
+            cumulativeDeltaY += chunkTileSize;
         }
     }
 
+    checkPlayerChunk();
     redrawCoordinates();
 }

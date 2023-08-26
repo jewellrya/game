@@ -28,8 +28,8 @@ import { itemData_init } from './items/itemData.js';
 import { sortGameScene } from './dynamics/movement/moveEnvironment.js';
 
 // Map
-import { generateCoordinates, graphicCoordinates, coordinates } from './map/utilities/map_utilities.js';
-import { generateInitialChunk, seed, setBg, generateNewChunk } from './map/macro/shaderMaps.js';
+import { generateCoordinates, graphicCoordinates, coordinates, checkPlayerChunk } from './map/utilities/map_utilities.js';
+import { generateInitialChunk, seed, setBg } from './map/macro/shaderMaps.js';
 
 // Aliases
 export let Application = PIXI.Application,
@@ -128,8 +128,8 @@ function setup() {
 
     let bg = generateInitialChunk({ seed: seed });
     generateCoordinates();
-    bg.x = coordinates.player.chunk.x;
-    bg.y = coordinates.player.chunk.y;
+    bg.x = -coordinates.player.chunk.x;
+    bg.y = -coordinates.player.chunk.y;
     setBg(bg);
     app.stage.addChild(bg);
 
@@ -182,8 +182,6 @@ function play() {
 
     // Interaction events from entities.
     entities_events();
-
-    generateNewChunk();
 
     if (playerStats.health <= 0) {
         state = end;
