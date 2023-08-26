@@ -5,7 +5,6 @@ import macroShader_noiseGradient from '../../shaders/macroShader_noiseGradient.g
 import macroShader_color from '../../shaders/macroShader_colors.glsl';
 import chunkShader from '../../shaders/chunkShader.glsl';
 import { coordinates } from '../utilities/map_utilities.js';
-import { getPlayerContainer } from '../../player/player.js';
 
 export let seed = 44444444;
 export let mapSize = 200;
@@ -15,6 +14,7 @@ let chunkSize = 1024.0;
 export let chunkSampleSize = 4.0;
 export let chunkActualSize = chunkSize * chunkSampleSize;
 export let chunkTileSize = chunkSampleSize * 8;
+export let redMarker;
 
 let bg;
 let generatedChunks = [];
@@ -133,13 +133,14 @@ export function generateInitialChunk({ seed = seed }) {
     container.addChild(foliage);
 
     // Draw a red square for the chunk's position.
-    let redMarker = new Graphics();
+    redMarker = new Graphics();
     let markerSize = 12;
     let markerX = (startingChunk.x * chunkSampleSize) - (markerSize - chunkSampleSize) / 2;
     let markerY = (startingChunk.y * chunkSampleSize) - (markerSize - chunkSampleSize) / 2;
     redMarker.beginFill(0xFF0000, 1);
     redMarker.drawRect(markerX, markerY, markerSize, markerSize);
     mapScene.addChild(redMarker);
+
 
     return container;
 }

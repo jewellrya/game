@@ -1,5 +1,5 @@
 import { BitmapText, Container, app } from '../../_game.js';
-import { chunkActualSize, chunkTileSize } from '../macro/shaderMaps.js';
+import { chunkActualSize, chunkSampleSize, chunkTileSize, redMarker } from '../macro/shaderMaps.js';
 import { seed } from '../macro/shaderMaps.js';
 import { uiStyle } from '../../ui/ui_design.js';
 
@@ -18,14 +18,6 @@ export let coordinates = {
         world: null,
     }
 };
-
-export function normalize(val) {
-    return (val + 1) / 2;
-}
-
-export function denormalize(val) {
-    return (val * 2) - 1;
-}
 
 export function generateCoordinates() {
     // Coordinate of the chunk itself.
@@ -123,5 +115,7 @@ export function checkPlayerChunk() {
 
         coordinates.player.chunk.x = coordinates.player.world.x % chunkTotalTiles;
         coordinates.player.chunk.y = coordinates.player.world.y % chunkTotalTiles;
+        redMarker.x += (actualChunkX - currentChunkX) * chunkSampleSize;
+        redMarker.y += (actualChunkY - currentChunkY) * chunkSampleSize;
     }
 }
