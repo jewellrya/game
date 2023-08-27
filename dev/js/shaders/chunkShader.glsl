@@ -69,28 +69,6 @@ uniform float macroSize;
 uniform float chunkSize;
 uniform float chunkSampleSize;
 
-float generateChunkNoise(vec2 position) {
-    position = position;
-    
-    // Adjust the values for persistence, lacunarity, frequency, and amplitude as per your requirements
-    float persistence = 0.6;
-    float lacunarity = 2.0;
-    float frequency = 0.05;
-    float amplitude = 2.0;
-
-    float total = 0.0;
-    float maxValue = 0.0;
-    float weight = 1.0;
-    const int OCTAVES = 5;
-    for (int i = 0; i < OCTAVES; i++) {
-        total += cnoise(position * frequency + seed) * amplitude * weight;
-        maxValue += amplitude * weight;
-        weight *= persistence;
-        frequency *= lacunarity;
-    }
-    return total / maxValue;
-}
-
 vec3 getColorForValue(float value) {
     if (value < 0.0) return vec3(0.0, 0.0, 0.0);
 
@@ -168,6 +146,27 @@ vec3 getColorForValue(float value) {
     return vec3(0.957, 0.941, 0.912); // Mountain Peaks
 }
 
+float generateChunkNoise(vec2 position) {
+    position = position;
+    
+    // Adjust the values for persistence, lacunarity, frequency, and amplitude as per your requirements
+    float persistence = 0.65;
+    float lacunarity = 2.1;
+    float frequency = 0.005;
+    float amplitude = 2.0;
+
+    float total = 0.0;
+    float maxValue = 0.0;
+    float weight = 1.0;
+    const int OCTAVES = 5;
+    for (int i = 0; i < OCTAVES; i++) {
+        total += cnoise(position * frequency + seed) * amplitude * weight;
+        maxValue += amplitude * weight;
+        weight *= persistence;
+        frequency *= lacunarity;
+    }
+    return total / maxValue;
+}
 
 void main() {
     // Compute UV for the chunk based on fragment coordinates.
@@ -187,8 +186,9 @@ void main() {
     float luminance = 0.299 * colorFromMacro.r + 0.587 * colorFromMacro.g + 0.114 * colorFromMacro.b;
     
     // Generate the chunk noise for the current fragment using the original chunkUv (not the upscaled one).
-    vec2 adjustedUv = vec2(chunkUv.x, chunkUv.y * 1.5);
-    float noise = generateChunkNoise(adjustedUv * (chunkSize / chunkSampleSize)); // Multiplied by 256 to ensure the noise is at 1024x1024 resolution.
+    vec2 globalPosition = chunkCoord * chunkSize + chunkUv * chunkSize;
+    globalPosition.y *= 1.6;
+    float noise = generateChunkNoise(globalPosition); 
 
     // Use the luminance as the median for the noise.
     float lowerBound = luminance - deviationFactor;

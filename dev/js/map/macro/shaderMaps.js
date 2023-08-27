@@ -92,7 +92,7 @@ function generateChunk(chunkCoordX, chunkCoordY) {
     chunkTempSprite.filters = [chunkFilter];
     chunkFilter.uniforms.macroTexture = macroRenderTexture;
     chunkFilter.uniforms.deviationFactor = .2;
-    chunkFilter.uniforms.seed = [hashedSeed.x * (chunkCoordX + 1), hashedSeed.y * (chunkCoordY + 1)];
+    chunkFilter.uniforms.seed = [hashedSeed.x, hashedSeed.y];
     chunkFilter.uniforms.chunkCoord = [chunkCoordX, chunkCoordY];
     chunkFilter.uniforms.macroSize = macroSize;
     chunkFilter.uniforms.chunkSize = chunkSize;
@@ -224,8 +224,8 @@ function generateIfMissing(x, y) {
 
     let deltaX = x - coordinates.chunk.x;
     let deltaY = y - coordinates.chunk.y;
-    newChunk.x = currentChunk.x + (deltaX * chunkActualSize);
-    newChunk.y = currentChunk.y + (deltaY * chunkActualSize);
+    newChunk.x = currentChunk.x + (deltaX * (chunkActualSize));
+    newChunk.y = currentChunk.y + (deltaY * (chunkActualSize));
 
     bg.addChild(newChunk);
     console.log('Generated Chunk', chunkIdentifier);
