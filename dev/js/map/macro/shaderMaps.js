@@ -66,12 +66,21 @@ function generateMacroTexture(shader, app, scene) {
     return renderTexture;
 }
 
-function generateChunk(chunkCoordX, chunkCoordY) {
-    generateMacroTexture(macroShader_color, map, mapScene);
-    let macroVisual = new Sprite(generateMacroTexture(macroShader_color, map, mapScene));
-    mapScene.addChild(macroVisual);
+let macroGenerated = false;
+let macroVisual;
+let macroRenderTexture;
 
-    let macroRenderTexture = generateMacroTexture(macroShader_noiseGradient, app, app.stage);
+function generateChunk(chunkCoordX, chunkCoordY) {
+    
+    if (!macroGenerated) {
+        generateMacroTexture(macroShader_color, map, mapScene);
+        macroVisual = new Sprite(generateMacroTexture(macroShader_color, map, mapScene));
+        mapScene.addChild(macroVisual);
+        macroRenderTexture = generateMacroTexture(macroShader_noiseGradient, app, app.stage);
+
+        macroGenerated = true;
+    }
+
     const chunkFilter = new Filter(vertex, chunkShader);
     let chunkTempSprite = new Sprite(Texture.WHITE);
     chunkTempSprite.width = chunkSize;
