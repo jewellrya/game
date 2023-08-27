@@ -18,6 +18,9 @@ export let redMarker;
 
 let bg;
 let generatedChunks = [];
+let currentChunk;
+export let setCurrentChunk = (val) => currentChunk = val;
+export let chunkSprites = {};
 
 // Shader
 const vertex = ` 
@@ -95,9 +98,11 @@ function generateChunk(chunkCoordX, chunkCoordY) {
 
     // Make a new sprite that contains this chunk rendered texture.
     let chunkTextureSprite = new Sprite(chunkRenderTexture);
-    generatedChunks.push(chunkCoordX + ' ' + chunkCoordY);
-
     chunkTextureSprite.scale.set(4);
+
+    let chunkIdentifier = chunkCoordX + ' ' + chunkCoordY;
+    generatedChunks.push(chunkIdentifier);
+    chunkSprites[chunkIdentifier] = chunkTextureSprite;
 
     return chunkTextureSprite;
 }
@@ -127,6 +132,7 @@ export function generateInitialChunk({ seed = seed }) {
     // Generate Initial Chunk:
     let chunkSprite = generateChunk(startingChunk.x, startingChunk.y);
     chunkSprite.x = 0;
+    currentChunk = chunkSprite;
     container.addChild(chunkSprite);
 
     let foliage = generateFoliage();
@@ -152,63 +158,66 @@ export let setBg = (val) => (bg = val);
 export let setBgX = (val) => (bg.x = val);
 export let setBgY = (val) => (bg.y = val);
 
-// Call in the game loop.
-// export function generateNewChunk() {
-//     let bg = getBg();
-//     let landscape = bg.children[0];
-//     let playerContainer = getPlayerContainer();
-//     let nextChunkX, nextChunkY, nextChunkString;
+// Track Chunk Coordinates
+// Determine Neighboring Chunks.
+// Check and Generate the missing chunk.
 
-//     if (playerContainer.x <= bg.x) {  // Left border
-//         nextChunkX = parseInt(coordinates.chunk.x) - 1;
-//         nextChunkY = parseInt(coordinates.chunk.y);
-//     }
-//     else if (playerContainer.x + playerContainer.width >= bg.x + bg.width) {  // Right border
-//         nextChunkX = parseInt(coordinates.chunk.x) + 1;
-//         nextChunkY = parseInt(coordinates.chunk.y);
-//     }
-//     else if (playerContainer.y <= bg.y) {  // Top border
-//         nextChunkX = parseInt(coordinates.chunk.x);
-//         nextChunkY = parseInt(coordinates.chunk.y) - 1;
-//     }
-//     else if (playerContainer.y + playerContainer.height >= bg.y + bg.height) {  // Bottom border
-//         nextChunkX = parseInt(coordinates.chunk.x);
-//         nextChunkY = parseInt(coordinates.chunk.y) + 1;
-//     }
-//     else {
-//         return;  // Not at any border, so return
-//     }
+let borderThreshold = 40;
 
-//     nextChunkString = nextChunkX + ' ' + nextChunkY;
+export function checkAndGenerateChunks() {
+    let currentChunkX = coordinates.chunk.x;
+    let currentChunkY = coordinates.chunk.y;
+    let chunkTotalTiles = chunkActualSize / chunkTileSize;
+    let playerCoordinateWithinChunk = coordinates.player.chunk;
 
-//     if (!(generatedChunks.includes(nextChunkString))) {
-//         let nextChunk = generateChunk(nextChunkX, nextChunkY);
-//         console.log(nextChunk);
+    let chunkBorder = {
+        left: 0 + borderThreshold,
+        right: chunkTotalTiles - borderThreshold,
+        top: 0 + borderThreshold,
+        bottom: chunkTotalTiles - borderThreshold,
+    }
 
-//         switch (nextChunkString) {
-//             case (parseInt(coordinates.chunk.x) - 1) + ' ' + parseInt(coordinates.chunk.y):
-//                 nextChunk.x = landscape.x - nextChunk.width;
-//                 break;
-//             case (parseInt(coordinates.chunk.x) + 1) + ' ' + parseInt(coordinates.chunk.y): 
-//                 nextChunk.x = landscape.x + landscape.width;
-//                 break;
-//             case parseInt(coordinates.chunk.x) + ' ' + (parseInt(coordinates.chunk.y) - 1): 
-//                 nextChunk.y = landscape.y - nextChunk.height; 
-//                 break;
-//             case parseInt(coordinates.chunk.x) + ' ' + (parseInt(coordinates.chunk.y) + 1): 
-//                 nextChunk.y = landscape.y + landscape.height; 
-//                 break;
-//         }
+    // Check the player's position within the chunk against the borders
+    if (playerCoordinateWithinChunk.x <= chunkBorder.left) {
+        generateIfMissing(currentChunkX - 1, currentChunkY);
+    }
+    if (playerCoordinateWithinChunk.x >= chunkBorder.right) {
+        generateIfMissing(currentChunkX + 1, currentChunkY);
+    }
+    if (playerCoordinateWithinChunk.y <= chunkBorder.top) {
+        generateIfMissing(currentChunkX, currentChunkY - 1);
+    }
+    if (playerCoordinateWithinChunk.y >= chunkBorder.bottom) {
+        generateIfMissing(currentChunkX, currentChunkY + 1);
+    }
 
-//         bg.addChild(nextChunk);
-//         generatedChunks.push(nextChunkString);
-//     }
-// }
+    // Check diagonals
+    if (playerCoordinateWithinChunk.x <= chunkBorder.left && playerCoordinateWithinChunk.y <= chunkBorder.top) {
+        generateIfMissing(currentChunkX - 1, currentChunkY - 1); // Top-left
+    }
+    if (playerCoordinateWithinChunk.x >= chunkBorder.right && playerCoordinateWithinChunk.y <= chunkBorder.top) {
+        generateIfMissing(currentChunkX + 1, currentChunkY - 1); // Top-right
+    }
+    if (playerCoordinateWithinChunk.x <= chunkBorder.left && playerCoordinateWithinChunk.y >= chunkBorder.bottom) {
+        generateIfMissing(currentChunkX - 1, currentChunkY + 1); // Bottom-left
+    }
+    if (playerCoordinateWithinChunk.x >= chunkBorder.right && playerCoordinateWithinChunk.y >= chunkBorder.bottom) {
+        generateIfMissing(currentChunkX + 1, currentChunkY + 1); // Bottom-right
+    }
+}
 
-// Determine Player's Position relative to the current chunk.
-// Check for Player to Chunk coordinate conditions.
-// Generate and Position new Chunk(s)
+function generateIfMissing(x, y) {
+    let chunkIdentifier = `${x} ${y}`;
+    if (generatedChunks.includes(chunkIdentifier)) {
+        return;
+    }
+    let newChunk = generateChunk(x, y);
 
-function checkAndGenerateChunks() {
+    let deltaX = x - coordinates.chunk.x;
+    let deltaY = y - coordinates.chunk.y;
+    newChunk.x = currentChunk.x + (deltaX * chunkActualSize);
+    newChunk.y = currentChunk.y + (deltaY * chunkActualSize);
 
+    bg.addChild(newChunk);
+    console.log('Generated Chunk', chunkIdentifier);
 }

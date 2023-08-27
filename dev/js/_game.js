@@ -28,8 +28,8 @@ import { itemData_init } from './items/itemData.js';
 import { sortGameScene } from './dynamics/movement/moveEnvironment.js';
 
 // Map
-import { generateCoordinates, graphicCoordinates, coordinates, checkPlayerChunk } from './map/utilities/map_utilities.js';
-import { generateInitialChunk, seed, setBg } from './map/macro/shaderMaps.js';
+import { generateCoordinates, graphicCoordinates, coordinates } from './map/utilities/map_utilities.js';
+import { generateInitialChunk, seed, setBg, checkAndGenerateChunks } from './map/macro/shaderMaps.js';
 
 // Aliases
 export let Application = PIXI.Application,
@@ -179,6 +179,8 @@ function gameLoop(delta) {
 function play() {
     // Player Movement / Controls
     playerDynamics();
+
+    checkAndGenerateChunks();
 
     // Interaction events from entities.
     entities_events();

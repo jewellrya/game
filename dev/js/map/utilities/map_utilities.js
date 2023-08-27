@@ -1,5 +1,5 @@
 import { BitmapText, Container, app } from '../../_game.js';
-import { chunkActualSize, chunkSampleSize, chunkTileSize, redMarker } from '../macro/shaderMaps.js';
+import { chunkActualSize, chunkSampleSize, chunkTileSize, redMarker, setCurrentChunk, chunkSprites } from '../macro/shaderMaps.js';
 import { seed } from '../macro/shaderMaps.js';
 import { uiStyle } from '../../ui/ui_design.js';
 
@@ -112,6 +112,8 @@ export function checkPlayerChunk() {
     if (currentChunkX !== actualChunkX || currentChunkY !== actualChunkY) {
         coordinates.chunk.x = actualChunkX;
         coordinates.chunk.y = actualChunkY;
+        let newCurrentChunkSprite = chunkSprites[coordinates.chunk.x + ' ' + coordinates.chunk.y];
+        setCurrentChunk(newCurrentChunkSprite);
 
         coordinates.player.chunk.x = coordinates.player.world.x % chunkTotalTiles;
         coordinates.player.chunk.y = coordinates.player.world.y % chunkTotalTiles;
