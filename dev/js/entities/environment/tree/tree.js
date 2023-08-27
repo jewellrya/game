@@ -8,8 +8,6 @@ let treesArray = [];
 
 export function treeInstance(type, x, y) {
     let tree = new Container();
-    tree.x = x;
-    tree.y = y;
 
     let sprite = new AnimatedSprite(environmentSheets[type]);
     sprite.scale.set(3.5);
@@ -26,6 +24,9 @@ export function treeInstance(type, x, y) {
     tree.addChild(shadow);
     tree.addChild(sprite);
 
+    tree.x = x;
+    tree.y = y - tree.height;
+
     interactBox({ container: tree, sprite, scale: .05, complexY: 0.05, test_graphic: false });
 
     // Check player's position relative to the tree.
@@ -34,7 +35,7 @@ export function treeInstance(type, x, y) {
 
         // Different thresholds since sprites have different paddings of alpha.
         if (type === 'oak1') {
-            xThreshold = 100, yThreshold = 50, trunkThreshold = 200;
+            xThreshold = 30, yThreshold = 30, trunkThreshold = 200;
         }
 
         // Grab player's location.

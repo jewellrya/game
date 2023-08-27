@@ -187,7 +187,7 @@ void main() {
     
     // Generate the chunk noise for the current fragment using the original chunkUv (not the upscaled one).
     vec2 globalPosition = chunkCoord * chunkSize + chunkUv * chunkSize;
-    globalPosition.y *= 1.6;
+    globalPosition.y *= 1.7;
     float noise = generateChunkNoise(globalPosition); 
 
     // Use the luminance as the median for the noise.
