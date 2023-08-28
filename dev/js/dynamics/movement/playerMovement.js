@@ -91,10 +91,10 @@ export function movement_control() {
         if (playerStats.fatigue > 0) {
             playerStats.fatigue -= (playerStats.fatigueCost + playerStats.fatigueRegen);
         }
-        setFatigue(playerStats.fatigue * 2 - getResourceMeters().innerOffset * 2);
+        setFatigue(playerStats.fatigue - getResourceMeters().innerOffset);
     }
 
-    if (playerStats.fatigue < playerStats.endurance) {
+    if (playerStats.fatigue < 10 + playerStats.endurance * 0.2) {
         if (playerStats.fatigue <= playerStats.fatigueRegen) {
             setTimeout(function () {
                 playerStats.fatigue += playerStats.fatigueRegen;
@@ -102,7 +102,7 @@ export function movement_control() {
         } else {
             playerStats.fatigue += playerStats.fatigueRegen;
         }
-        setFatigue(playerStats.fatigue * 2 - getResourceMeters().innerOffset * 2);
+        setFatigue(playerStats.fatigue - getResourceMeters().innerOffset);
     }
 
     if (playerStats.fatigue <= 0) {

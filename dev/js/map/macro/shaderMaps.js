@@ -1,10 +1,13 @@
-import { app, map, mapScene, Container, Graphics, Filter, Sprite, RenderTexture, Texture, Rectangle, Point } from '../../_game.js';
+import { app, map, mapScene, Container, Graphics, Filter, Sprite, RenderTexture, Texture, Rectangle, Point, gameScene } from '../../_game.js';
 import { objectChunkDispertion, seededRandom } from '../../entities/utilities/entities_utilities.js';
 import { environmentSheets } from '../../sheets/environmentSheet.js';
+import { coordinates } from '../utilities/map_utilities.js';
+
+// Imported Shaders
 import macroShader_noiseGradient from '../../shaders/macroShader_noiseGradient.glsl';
 import macroShader_color from '../../shaders/macroShader_colors.glsl';
+import sunShader from '../../shaders/sunShader.glsl';
 import chunkShader from '../../shaders/chunkShader.glsl';
-import { coordinates } from '../utilities/map_utilities.js';
 
 export let seed = 44444444;
 export let mapSize = 200;
@@ -229,4 +232,9 @@ function generateIfMissing(x, y) {
 
     bg.addChild(newChunk);
     console.log('Generated Chunk', chunkIdentifier);
+}
+
+export function generateShaders() {
+    let warmSun = new Filter(null, sunShader);
+    gameScene.filters = [warmSun];
 }

@@ -63,10 +63,12 @@ export function resourceMeters_setup() {
         resourceMeters.types[type].inner.x = calcResourceX(resourceMeters.types[type].inner.width);
     });
 
+    console.log(resourceMeters.types.health.inner.width);
+
     return resourceMetersContainer;
 };
 
 export let getResourceMeters = () => resourceMeters;
-export let setFatigue = (val) => (resourceMeters.types.fatigue.inner.width = val);
-export let setHealth = (val) => (resourceMeters.types.health.inner.width = val);
-export let setSoul = (val) => (resourceMeters.types.soul.inner.width = val);
+export let setFatigue = (val) => (resourceMeters.types.fatigue.inner.width = val * 2);
+export let setHealth = (val) => (resourceMeters.types.health.inner.width = val * 2);
+export let setSoul = (val) => (resourceMeters.types.soul.inner.width = val * 2);

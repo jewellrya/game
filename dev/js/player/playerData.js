@@ -16,12 +16,12 @@ export let playerStats = {
 }
 
 // Secondary Stats (Ones Based on Primary)
-playerStats.health = playerStats.vitality;
-playerStats.fatigue = playerStats.endurance;
-playerStats.soul = playerStats.wisdom;
+playerStats.health = 10 + (playerStats.vitality * 0.2 );
+playerStats.fatigue = 10 + (playerStats.endurance * 0.2);
+playerStats.soul = 10 + (playerStats.wisdom * 0.2);
 
 playerStats.fatigueCost = .05;
-playerStats.fatigueRegen = playerStats.dexterity / 300;
+playerStats.fatigueRegen = playerStats.dexterity / 150;
 playerStats.speed = function () {
     if (keysDown.ShiftLeft && playerStats.fatigue > 0) {
         return (1 + playerStats.dexterity / 7);

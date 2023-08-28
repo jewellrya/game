@@ -16,7 +16,7 @@ import { environmentSheets_setup } from './sheets/environmentSheet.js';
 import { entities_setup, entities_events } from './entities/entities.js';
 
 // UI
-import { ui_design_init } from './ui/ui_design.js';
+import { ui_design_init, uiStyle } from './ui/ui_design.js';
 import { ui_setup } from './ui/ui.js';
 
 // Controls
@@ -29,7 +29,7 @@ import { sortGameScene } from './dynamics/movement/moveEnvironment.js';
 
 // Map
 import { generateCoordinates, graphicCoordinates, coordinates } from './map/utilities/map_utilities.js';
-import { generateInitialChunk, seed, setBg, checkAndGenerateChunks } from './map/macro/shaderMaps.js';
+import { generateInitialChunk, seed, setBg, checkAndGenerateChunks, generateShaders } from './map/macro/shaderMaps.js';
 
 // Aliases
 export let Application = PIXI.Application,
@@ -97,7 +97,7 @@ function loadProgressHandler(loader) {
 }
 
 // Define variables in more than one function
-export let gameScene, gameOverScene, messageGameOver, mapScene;
+export let gameState, gameScene, mapScene;
 let state;
 
 export let enemies = [];
@@ -141,10 +141,8 @@ function setup() {
     gameScene.render.renderWebGL;
     app.stage.addChild(gameScene);
 
-    // Secondary Game Over Scene
-    gameOverScene = new Container();
-    gameOverScene.visible = false;
-    app.stage.addChild(gameOverScene);
+    // Shaders
+    generateShaders();
 
     // Player
     keysDownResetPlayer_listener();
@@ -186,17 +184,25 @@ function play() {
     entities_events();
 
     if (playerStats.health <= 0) {
+        gameScene.destroy();
+        gameState = 'end';
         state = end;
     }
 }
 
 function end() {
     // Game Over Scene
-    messageGameOver = new BitmapText("You died.", uiStyle.text);
+    let gameOverScene = new Container();
+
+    let gameOverBlack = new Graphics();
+    gameOverBlack.beginFill(0x000000);
+    gameOverBlack.drawRect(0, 0, app.view.width, app.view.height);
+    gameOverScene.addChild(gameOverBlack);
+
+    let messageGameOver = new BitmapText("You died.", uiStyle.text);
     messageGameOver.x = app.view.width / 2 - messageGameOver.width / 2;
     messageGameOver.y = app.view.height / 2 - messageGameOver.height / 2;
     gameOverScene.addChild(messageGameOver);
 
-    gameScene.visible = false;
-    gameOverScene.visible = true;
+    app.stage.addChild(gameOverScene);
 }
