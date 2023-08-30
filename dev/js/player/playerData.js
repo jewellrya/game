@@ -21,7 +21,7 @@ playerStats.fatigue = 10 + (playerStats.endurance * 0.2);
 playerStats.soul = 10 + (playerStats.wisdom * 0.2);
 
 playerStats.fatigueCost = .05;
-playerStats.fatigueRegen = playerStats.dexterity / 150;
+playerStats.fatigueRegen = playerStats.dexterity / 600;
 playerStats.speed = function () {
     if (keysDown.ShiftLeft && playerStats.fatigue > 0) {
         return (1 + playerStats.dexterity / 7);

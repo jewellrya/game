@@ -86,23 +86,23 @@ export function movement_control() {
     // After running out and letting it fill without hitting shift.
     // Move to its own file and test.
 
+    let totalFatigue = 10 + (playerStats.endurance * 0.2);
+    let regenState = true;
+
     // Running Reduce Fatigue
     if (keysDown.ShiftLeft) {
+        regenState = false;
         if (playerStats.fatigue > 0) {
-            playerStats.fatigue -= (playerStats.fatigueCost + playerStats.fatigueRegen);
+            playerStats.fatigue -= (playerStats.fatigueCost);
+            setFatigue(playerStats.fatigue);
         }
-        setFatigue(playerStats.fatigue - getResourceMeters().innerOffset);
+    } else {
+        regenState = true;
     }
-
-    if (playerStats.fatigue < 10 + playerStats.endurance * 0.2) {
-        if (playerStats.fatigue <= playerStats.fatigueRegen) {
-            setTimeout(function () {
-                playerStats.fatigue += playerStats.fatigueRegen;
-            }, 4000);
-        } else {
-            playerStats.fatigue += playerStats.fatigueRegen;
-        }
-        setFatigue(playerStats.fatigue - getResourceMeters().innerOffset);
+    
+    if (playerStats.fatigue <= totalFatigue && regenState) {
+        playerStats.fatigue += playerStats.fatigueRegen;
+        setFatigue(playerStats.fatigue);
     }
 
     if (playerStats.fatigue <= 0) {
