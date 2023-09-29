@@ -89,6 +89,7 @@ vec3 getColorForValue(float value) {
     vec3 beach = vec3(0.9, 0.89, 0.83);
     vec3 landBeach = vec3(0.84, 0.88, 0.65);
     vec3 land = vec3(0.6, 0.76, 0.19);
+    vec3 cliffEdge = vec3(0.55, 0.27, 0.07);
     vec3 semiInland = vec3(0.46, 0.64, 0.13);
     vec3 inland = vec3(0.18, 0.47, 0.0);
     vec3 mountainousInland = vec3(0.3, 0.4, 0.23);
